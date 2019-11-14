@@ -12,7 +12,10 @@ const test = require('./routes/test')
 
 // error handler
 onerror(app)
-
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', '*');
+  await next();
+ });
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
