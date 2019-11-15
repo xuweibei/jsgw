@@ -3,11 +3,10 @@ import React from 'react';
 
 export default class Test extends React.Component {
   state = {
-    obj: {}
+    obj: null
   }
 
   componentDidMount() {
-
     this.test()
   }
   test = () => {
@@ -15,7 +14,7 @@ export default class Test extends React.Component {
     .then(res => res.json())
     .then(response => {
       this.setState({
-        obj: response[0]
+        obj: response.data
       })
     })
   }
@@ -25,8 +24,13 @@ export default class Test extends React.Component {
     return (
       <div>
           {/* <button onClick={this.test}>测试</button> */}
-          <div style={{color: "#000"}}>{obj.name}</div>
-          <div style={{color: "#000"}}>{obj.age}</div>
+          <div style={{color: "#000"}}>
+            {
+              obj && obj.map(item => (
+              <div style={{color: "#000"}} key={item.name}>{item.name} ---------------------- {item.age}</div>
+              ))
+            }
+          </div>
       </div>
     )
   }

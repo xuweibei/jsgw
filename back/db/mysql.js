@@ -1,27 +1,36 @@
 const mysql = require('mysql');
-
+const {COMMENT, POSTS} = require('../model/createTables');
 const {MYSQL_CONF} = require('../conf/index');
 
-// 简历链接
-const connect = mysql.createConnection(MYSQL_CONF);
+// 创建mysql链接
+// const connect = mysql.createConnection(MYSQL_CONF);
+const pool = mysql.createPool(MYSQL_CONF);
 
+// connect.connect();
 
-connect.connect();
-
-// 定义方法处理sql语句f
+// 创建连接池
 function exec(sql) {
     return new Promise((resolve, reject) => {
-        connect.query(sql, (err, result) => {
+        pool.getConnection((err, connection) => {
             if (err) {
-                reject(err);
-                return;
+                return reject(err)
             }
-            // 成功返回数据
-            resolve(result);
+            connection.query(sql, (err, result) => {
+                connection.release();
+                if (err) {
+                    reject(err)
+                }
+                resolve(result)
+            })
         })
     })
+} 
+// 新建数据库表方法
+const createTable = async (sql) => {
+    return await exec(sql,[])
 }
-
+createTable(COMMENT);
+createTable(POSTS);
 module.exports = {
     exec
 }
