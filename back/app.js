@@ -15,7 +15,7 @@ onerror(app)
 app.use(async (ctx, next) => {
   ctx.set('Access-Control-Allow-Origin', '*');
   await next();
- });
+});
 // middlewares
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
@@ -24,6 +24,7 @@ app.use(json())
 app.use(logger())
 app.use(require('koa-static')(__dirname + '/public'))
 
+// ejs模板渲染引擎
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }))

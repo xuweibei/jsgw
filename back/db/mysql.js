@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const {COMMENT, POSTS} = require('../model/createTables');
+const sqls = require('../model/createTables');
 const {MYSQL_CONF} = require('../conf/index');
 
 // 创建mysql链接
@@ -26,11 +26,12 @@ function exec(sql) {
     })
 } 
 // 新建数据库表方法
-const createTable = async (sql) => {
-    return await exec(sql,[])
+const createTable = async (sqls) => {
+    for (let key in sqls) {
+        await exec(sqls[key],[])
+    }
 }
-createTable(COMMENT);
-createTable(POSTS);
+createTable(sqls);
 module.exports = {
     exec
 }

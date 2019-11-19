@@ -1,8 +1,15 @@
 const router = require('koa-router')()
-
+const {test} = require('../controller/test') 
 router.get('/', async (ctx, next) => {
+  const data = await test()
   await ctx.render('index', {
-    title: 'Hello Koa 2!'
+    title: data
+  })
+})
+
+router.get('/cart', async (ctx, next) => {
+  await ctx.render('cart', {
+    title: 'hello 购物车'
   })
 })
 

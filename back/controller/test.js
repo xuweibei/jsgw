@@ -2,7 +2,7 @@
 const {exec} = require('../db/mysql');
 
 const test = async () => {
-    const sql = 'select * from test where 1=1'
+    const sql = 'select * from test where 1=1';
     return await exec(sql);
 }
 
