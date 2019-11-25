@@ -4,6 +4,15 @@
 node全栈开发企业网站，前台页面服务端渲染
 
 
+mysql下载: https://dev.mysql.com/downloads/mysql/
+mysql安装: https://www.cnblogs.com/laumians-notes/p/9069498.html   (CUFZbveO5+J
+可视化工具 https://blog.csdn.net/qq_35055724/article/details/84570582
+node.js链接mysql: https://www.runoob.com/nodejs/nodejs-mysql.html
+koa教程 https://www.cnblogs.com/weijiutao/p/10691481.html
+koa2: https://github.com/chenshenhai/koa2-note
+
+
+
 
 ## 目录结构
 ```

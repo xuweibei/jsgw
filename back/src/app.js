@@ -1,18 +1,17 @@
-const Koa = require('koa')
-// const path = require('path');
-const app = new Koa()
-// ! less插件
-const koaMinify = require('@chuchur/koa-minify')
-const views = require('koa-views')
-const json = require('koa-json')
-const onerror = require('koa-onerror')
-const bodyparser = require('koa-bodyparser')
-const logger = require('koa-logger')
+const Koa = require('koa');
+const views = require('koa-views');
+const json = require('koa-json');
+const onerror = require('koa-onerror');
+const bodyparser = require('koa-bodyparser');
+const logger = require('koa-logger');
+const koaMinify = require('@chuchur/koa-minify');
 
-// 路由
-const index = require('./routes/index')
-const users = require('./routes/users')
-const test = require('./routes/test')
+const index = require('./routes/index');
+const users = require('./routes/users');
+const test = require('./routes/test');
+
+// 创建应用
+const app = new Koa();
 
 // error handler
 onerror(app)
@@ -36,11 +35,6 @@ koaMinify(__dirname + '/public',
 )
 app.use(require('koa-static')(__dirname, '/public'))
 
-// ejs模板渲染引擎
-app.use(views(__dirname + '/views', {
-  extension: 'ejs'
-}))
-
 // logger
 app.use(async (ctx, next) => {
   const start = new Date()
@@ -48,6 +42,15 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+
+/**
+ * views
+ * Must be used before any router is used
+ */
+// handlebars 模板参数设置
+const viewsParam = require('./views/index');
+app.use(views(__dirname + '/views', viewsParam));
 
 // routes
 app.use(index.routes(), index.allowedMethods())
@@ -59,4 +62,4 @@ app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)
 });
 
-module.exports = app
+module.exports = app;
