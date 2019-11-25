@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "ejs": "~2.3.3",
+    "@chuchur/koa-minify": "^1.0.2",
     "handlebars": "^4.5.3",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
