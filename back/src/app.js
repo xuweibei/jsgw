@@ -1,6 +1,7 @@
 const Koa = require('koa')
 // const path = require('path');
 const app = new Koa()
+// ! less插件
 const koaMinify = require('@chuchur/koa-minify')
 const views = require('koa-views')
 const json = require('koa-json')
@@ -26,6 +27,7 @@ app.use(bodyparser({
 app.use(json())
 app.use(logger())
 
+// !less转css插件配置
 koaMinify(__dirname + '/public',
   {
     entry: __dirname + '/public/less/index.less',
