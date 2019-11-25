@@ -1,11 +1,14 @@
 const Koa = require('koa')
+// const path = require('path');
 const app = new Koa()
+const koaMinify = require('@chuchur/koa-minify')
 const views = require('koa-views')
 const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 
+// 路由
 const index = require('./routes/index')
 const users = require('./routes/users')
 const test = require('./routes/test')
@@ -22,7 +25,14 @@ app.use(bodyparser({
 }))
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+
+koaMinify(__dirname + '/public',
+  {
+    entry: __dirname + '/public/less/index.less',
+    output: __dirname + '/public/css/index.css'
+  }
+)
+app.use(require('koa-static')(__dirname, '/public'))
 
 // ejs模板渲染引擎
 app.use(views(__dirname + '/views', {
