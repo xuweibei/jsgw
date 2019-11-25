@@ -1,3 +1,4 @@
+const path = require('path')
 const Koa = require('koa');
 const views = require('koa-views');
 const json = require('koa-json');
@@ -49,8 +50,11 @@ app.use(async (ctx, next) => {
  * Must be used before any router is used
  */
 // handlebars 模板参数设置
-const viewsParam = require('./views/index');
-app.use(views(__dirname + '/views', viewsParam));
+// const viewsParam = require('./views/index');
+// app.use(views(__dirname + '/views', viewsParam));
+app.use(views(path.join(__dirname, './views'), {
+  extension: 'hbs'
+}))
 
 // routes
 app.use(index.routes(), index.allowedMethods())
