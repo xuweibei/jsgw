@@ -1,4 +1,3 @@
-
 const Koa = require('koa');
 const views = require('koa-views');
 const json = require('koa-json');
@@ -7,14 +6,9 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const koaMinify = require('@chuchur/koa-minify');
 
-// const index = require('./routes/index');
-// const users = require('./routes/users');
-// const test = require('./routes/test');
 const router = require('./routes/index')
-
 // 创建应用
 const app = new Koa();
-
 // error handler
 onerror(app)
 app.use(async (ctx, next) => {
@@ -55,9 +49,6 @@ const viewsParam = require('./views/index');
 app.use(views(__dirname + '/views', viewsParam));
 
 // routes
-// app.use(index.routes(), index.allowedMethods())
-// app.use(users.routes(), users.allowedMethods())
-// app.use(test.routes(), test.allowedMethods())
 app.use(router.routes())
    .use(router.allowedMethods())
 
