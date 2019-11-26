@@ -1,4 +1,3 @@
-const path = require('path')
 const Koa = require('koa');
 const views = require('koa-views');
 const json = require('koa-json');
@@ -7,13 +6,9 @@ const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 const koaMinify = require('@chuchur/koa-minify');
 
-const index = require('./routes/index');
-const users = require('./routes/users');
-const test = require('./routes/test');
-
+const router = require('./routes/index')
 // 创建应用
 const app = new Koa();
-
 // error handler
 onerror(app)
 app.use(async (ctx, next) => {
@@ -28,13 +23,13 @@ app.use(json())
 app.use(logger())
 
 // !less转css插件配置
-koaMinify(__dirname + '/public',
+koaMinify(__dirname + '/assets',
   {
-    entry: __dirname + '/public/less/index.less',
-    output: __dirname + '/public/css/index.css'
+    entry: __dirname + '/assets/less/index.less',
+    output: __dirname + '/assets/css/index.css'
   }
 )
-app.use(require('koa-static')(__dirname, '/public'))
+app.use(require('koa-static')(__dirname, '/assets'))
 
 // logger
 app.use(async (ctx, next) => {
@@ -50,16 +45,12 @@ app.use(async (ctx, next) => {
  * Must be used before any router is used
  */
 // handlebars 模板参数设置
-// const viewsParam = require('./views/index');
-// app.use(views(__dirname + '/views', viewsParam));
-app.use(views(path.join(__dirname, './views'), {
-  extension: 'hbs'
-}))
+const viewsParam = require('./views/index');
+app.use(views(__dirname + '/views', viewsParam));
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(test.routes(), test.allowedMethods())
+app.use(router.routes())
+   .use(router.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {
