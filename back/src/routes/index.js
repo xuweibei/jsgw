@@ -1,19 +1,11 @@
 const router = require('koa-router')()
-router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'hbs'
-  })
-})
-
-
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
-
-router.get('/json', async (ctx, next) => {
-  ctx.body = {
-    title: 'koa2 json'
-  }
-})
-
+const public = require('./public')
+const home = require('./home')
+router.get('/', public.root)
+      .get('/test', public.test)
+      .get('/test1', public.test1)
+      .get('/test2', public.test2)
+      .get('/test3', public.test3)
+      .get('/home', home.home)
+      .get('/login', home.login)
 module.exports = router
