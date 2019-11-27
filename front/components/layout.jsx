@@ -1,5 +1,4 @@
 //创建公共组件的第二种方式：布局组件
-import Link from 'next/link';
 import Head from 'next/head';
 import Header from './header';
 import Footer from './footer';
