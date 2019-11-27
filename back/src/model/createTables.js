@@ -24,7 +24,15 @@ const POSTS =
      avator VARCHAR(100) NOT NULL COMMENT '用户头像',
      PRIMARY KEY(id)
     );`
+
+const USER = 
+    `create table if not exists users(
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(100) NOT NULL COMMENT'用户名',
+    password VARCHAR(100) NOT NULL COMMENT'密码'
+    )`
 module.exports = {
     COMMENT,
-    POSTS
+    POSTS,
+    USER
 }

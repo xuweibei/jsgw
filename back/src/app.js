@@ -1,11 +1,15 @@
 const Koa = require('koa');
+// 解决less文件栈溢出
+require('events').EventEmitter.defaultMaxListeners = 0
+// 模板插件
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
+// 解析body传输数据
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
-const koaMinify = require('@chuchur/koa-minify');
 
+const {createCss} = require('./utils/utils')
 
 // 创建应用
 const app = new Koa();
@@ -23,12 +27,7 @@ app.use(json())
 app.use(logger())
 
 // !less转css插件配置
-koaMinify(__dirname + '/assets',
-  {
-    entry: __dirname + '/assets/less/index.less',
-    output: __dirname + '/assets/css/index.css'
-  }
-)
+createCss()
 app.use(require('koa-static')(__dirname, '/assets'))
 
 // logger
