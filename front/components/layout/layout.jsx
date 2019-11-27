@@ -2,7 +2,7 @@
 import Head from 'next/head';
 import Header from './header';
 import Footer from './footer';
-import '../static/style/styles.less';
+import '../../static/style/styles.less';
 
 export default ({ children, title = 'This is the default title' }) => (
     <>
