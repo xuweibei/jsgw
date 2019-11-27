@@ -1,12 +1,15 @@
 const Koa = require('koa');
+// 模板插件
+require('events').EventEmitter.defaultMaxListeners = 0
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
+// 解析body传输数据
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
-const koaMinify = require('@chuchur/koa-minify');
 
 const router = require('./routes/index')
+const {createCss} = require('./utils/utils')
 // 创建应用
 const app = new Koa();
 // error handler
@@ -23,12 +26,7 @@ app.use(json())
 app.use(logger())
 
 // !less转css插件配置
-koaMinify(__dirname + '/assets',
-  {
-    entry: __dirname + '/assets/less/index.less',
-    output: __dirname + '/assets/css/index.css'
-  }
-)
+createCss()
 app.use(require('koa-static')(__dirname, '/assets'))
 
 // logger

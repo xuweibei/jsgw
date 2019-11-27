@@ -7,5 +7,5 @@ router.get('/', public.root)
       .get('/test2', public.test2)
       .get('/test3', public.test3)
       .get('/home', home.home)
-      .get('/login', home.login)
+      .post('/login', home.login)
 module.exports = router
