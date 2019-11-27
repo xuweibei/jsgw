@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path')
-// const glob = require('glob')
 const koaMinify = require('@chuchur/koa-minify');
+
 const less = path.join(__dirname, '../', '/assets', '/less', '/')
 const css = path.join(__dirname, '../', '/assets', 'css', '/')
 const assets = path.join(__dirname, '../', 'assets')
@@ -15,7 +15,7 @@ function createCss() {
                 output: css + cssName
             }
         )   
-})
+    })
     // glob(less + '*.less', (err, file) => {
     //     file.forEach(item => {
     //         const sp = item.split('/')
@@ -30,7 +30,6 @@ function createCss() {
     //     })
     // })
 }
-// createCss()
 module.exports = {
     createCss
 }

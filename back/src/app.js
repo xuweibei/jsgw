@@ -1,6 +1,7 @@
 const Koa = require('koa');
-// 模板插件
+// 解决less文件栈溢出
 require('events').EventEmitter.defaultMaxListeners = 0
+// 模板插件
 const views = require('koa-views');
 const json = require('koa-json');
 const onerror = require('koa-onerror');
@@ -8,8 +9,6 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 
-
-const router = require('./routes/index')
 const {createCss} = require('./utils/utils')
 
 // 创建应用

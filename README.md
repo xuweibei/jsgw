@@ -11,7 +11,19 @@ node.js链接mysql: https://www.runoob.com/nodejs/nodejs-mysql.html
 koa教程 https://www.cnblogs.com/weijiutao/p/10691481.html
 koa2: https://github.com/chenshenhai/koa2-note
 
-
+## 后台目录结构
+```
+   src  ---------------开发源码目录
+    ｜———— assets       // 静态资源————样式，图片
+    ｜———— conf         // mysql基础配置文件
+    ｜———— controller   // 业务代码文件夹
+    ｜———— db           // 数据库连接
+    ｜———— model        // 数据模型定义
+    ｜———— routes       // 路由文件
+    ｜———— utils        // 一些工具函数
+    ｜———— views        // 视图
+    ｜———— app.ejs      // 应用入口js文件
+```
 
 
 ## 目录结构
