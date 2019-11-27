@@ -6,7 +6,7 @@ const styles = {
     a: { color: "blue" },
     b: { color: "red", marginTop: 20 }
 };
-const Header = () => (
+export default () => (
     <header>
         <ul>
             <h3>静态路径</h3>
@@ -40,4 +40,3 @@ const Header = () => (
     </header>
 );
 
-export default Header;
