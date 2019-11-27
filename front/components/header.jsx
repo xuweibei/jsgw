@@ -1,8 +1,6 @@
 //创建公共组件的第一种方式：页头组件
 
 import Link from "next/link";
-import Head from "next/head"; //内置组件，封装了<head/>
-import "./styles.less";
 
 const styles = {
     a: { color: "blue" },
@@ -10,10 +8,6 @@ const styles = {
 };
 const Header = () => (
     <header>
-        <Head>
-            <title>NEXT页面</title>
-            <link rel="icon" href="/favicon.png" />
-        </Head>
         <ul>
             <h3>静态路径</h3>
             <li>

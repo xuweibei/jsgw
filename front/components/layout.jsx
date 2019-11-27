@@ -1,6 +1,27 @@
 //创建公共组件的第二种方式：布局组件
-import "./styles.less";
+import Link from 'next/link';
+import Head from 'next/head';
+import Footer from './footer';
+import '../static/style/styles.less';
 
-const Layout = props => <div className="layout">{props.children}</div>;
+export default ({ children, title = 'This is the default title' }) => (
+    <>
+        <Head>
+            <title>{ title }</title>
+            <meta charSet='utf-8' />
+            <meta name='viewport' content='initial-scale=1.0, width=device-width' />
+            <link rel="icon" href="/favicon.png" />
+        </Head>
+        <header className="layout">
+            <nav>
+                <Link href='/'><a>Home</a></Link> |
+                <Link href='/about'><a>About</a></Link> |
+                <Link href='/contact'><a>Contact</a></Link>
+            </nav>
+        </header>
 
-export default Layout;
+        { children }
+
+        <Footer/>
+    </>
+)
