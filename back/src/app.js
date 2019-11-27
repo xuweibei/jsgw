@@ -8,8 +8,10 @@ const onerror = require('koa-onerror');
 const bodyparser = require('koa-bodyparser');
 const logger = require('koa-logger');
 
+
 const router = require('./routes/index')
 const {createCss} = require('./utils/utils')
+
 // 创建应用
 const app = new Koa();
 // error handler
@@ -47,8 +49,9 @@ const viewsParam = require('./views/index');
 app.use(views(__dirname + '/views', viewsParam));
 
 // routes
+const router = require('./routes/index');
 app.use(router.routes())
-   .use(router.allowedMethods())
+   .use(router.allowedMethods());
 
 // error-handling
 app.on('error', (err, ctx) => {
