@@ -2,10 +2,6 @@
 
 import Link from "next/link";
 
-const styles = {
-    a: { color: "blue" },
-    b: { color: "red", marginTop: 20 }
-};
 export default () => (
     <header>
         <ul>
@@ -17,12 +13,12 @@ export default () => (
             </li>
             <li>
                 <Link href="/about">
-                    <a style={styles.a}>关于</a>
+                    <a>关于</a>
                 </Link>
             </li>
             <li>
                 <Link href="/image">
-                    <button style={styles.b}>点击发车</button>
+                    <button>点击发车</button>
                 </Link>
             </li>
             <h3>动态路径</h3>
@@ -39,4 +35,3 @@ export default () => (
         </ul>
     </header>
 );
-
