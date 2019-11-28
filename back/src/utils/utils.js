@@ -1,10 +1,10 @@
 const fs = require('fs');
-const path = require('path')
+const path = require('path');
 const koaMinify = require('@chuchur/koa-minify');
 
 const less = path.join(__dirname, '../', '/assets', '/less', '/')
 const css = path.join(__dirname, '../', '/assets', 'css', '/')
-const assets = path.join(__dirname, '../', 'assets')
+const assets = path.join(__dirname, '../', 'assets', 'less')
 function createCss() {
         const res = fs.readdirSync(less)
         res.forEach(item => {
