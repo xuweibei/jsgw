@@ -15,7 +15,8 @@ koa2: https://github.com/chenshenhai/koa2-note
 ```
    src  ---------------开发源码目录
     ｜———— assets       // 静态资源————样式，图片
-    ｜———— conf         // mysql基础配置文件
+        —— styles       // 三方css文件
+    ｜———— config       // 项目基础配置
     ｜———— controller   // 业务代码文件夹
     ｜———— db           // 数据库连接
     ｜———— model        // 数据模型定义

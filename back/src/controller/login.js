@@ -1,4 +1,4 @@
-const {exec} = require('../db/mysql');
+const {exec} = require('../db/db');
 
 const login = async (username, password) => {
     const sql = `SELECT * FROM users WHERE username='${username}' and password='${password}'`
