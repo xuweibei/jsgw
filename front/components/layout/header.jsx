@@ -1,19 +1,9 @@
 //创建公共组件的第一种方式：页头组件
 
 import Link from "next/link";
-import Head from "next/head"; //内置组件，封装了<head/>
-import "./styles.less";
 
-const styles = {
-    a: { color: "blue" },
-    b: { color: "red", marginTop: 20 }
-};
-const Header = () => (
+export default () => (
     <header>
-        <Head>
-            <title>NEXT页面</title>
-            <link rel="icon" href="/favicon.png" />
-        </Head>
         <ul>
             <h3>静态路径</h3>
             <li>
@@ -23,12 +13,12 @@ const Header = () => (
             </li>
             <li>
                 <Link href="/about">
-                    <a style={styles.a}>关于</a>
+                    <a>关于</a>
                 </Link>
             </li>
             <li>
                 <Link href="/image">
-                    <button style={styles.b}>点击发车</button>
+                    <button>点击发车</button>
                 </Link>
             </li>
             <h3>动态路径</h3>
@@ -45,5 +35,3 @@ const Header = () => (
         </ul>
     </header>
 );
-
-export default Header;

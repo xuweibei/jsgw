@@ -1,10 +1,7 @@
-import Header from '../components/header'
+import Layout from "../components/layout/layout";
 
-const image = () => (
-    <>
-        <Header />
+export default () => (
+    <Layout>
         <img src="/8.jpg" alt="image" />
-    </>
-)
-
-export default image
+    </Layout>
+);
