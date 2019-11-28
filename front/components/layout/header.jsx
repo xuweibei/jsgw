@@ -1,37 +1,35 @@
 //创建公共组件的第一种方式：页头组件
-
+import React from "react";
 import Link from "next/link";
 
+const links = [
+    { href: "/", label: "首页", as: "/home" },
+    { href: "/about", label: "关于我们" },
+    { href: "/product", label: "产品服务" },
+    { href: "/group", label: "机构了解" },
+    { href: "/join", label: "人才招聘", as: "/join-us" }
+].map(link => {
+    link.key = `nav-link-${link.href}-${link.label}`;
+    return link;
+});
+
 export default () => (
-    <header>
-        <ul>
-            <h3>静态路径</h3>
-            <li>
-                <Link href="/">
-                    <a className="home">首页</a>
-                </Link>
-            </li>
-            <li>
-                <Link href="/about">
-                    <a>关于</a>
-                </Link>
-            </li>
-            <li>
-                <Link href="/image">
-                    <button>点击发车</button>
-                </Link>
-            </li>
-            <h3>动态路径</h3>
-            <li>
-                <Link href="/post/[id]" as="/post/123">
-                    <a>first</a>
-                </Link>
-            </li>
-            <li>
-                <Link href="/post/[id]" as="/post/abc">
-                    <a>second</a>
-                </Link>
-            </li>
-        </ul>
-    </header>
+    <div style={{ borderBottom: "10px solid #000 ", height: 50 }}>
+        <div style={{ display: "flex", float: "left", marginRight: 200 }}>
+            <h1>LOGO</h1>
+        </div>
+        <div style={{ marginTop: 20 }}>
+            <nav>
+                <ul style={{ display: "flex", justifyContent: "space-around" }}>
+                    {links.map(({ href, label, key, as }) => (
+                        <li>
+                            <Link href={href} as={as}>
+                                <a key={key}>{label}</a>
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
+            </nav>
+        </div>
+    </div>
 );

@@ -1,7 +1,7 @@
 import Layout from "../components/layout/layout";
 
 export default () => (
-    <Layout>
-        <img src="/8.jpg" alt="image" />
+    <Layout title="人才招聘">
+        <h1>人才招聘</h1>
     </Layout>
 );

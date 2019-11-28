@@ -4,7 +4,7 @@ import Header from "./header";
 import Footer from "./footer";
 import "../../static/style/styles.less";
 
-export default ({ children, title = "This is the default title" }) => (
+export default ({ children, title = "公司官网" }) => (
     <>
         <Head>
             <title>{title}</title>
@@ -15,9 +15,10 @@ export default ({ children, title = "This is the default title" }) => (
             />
             <link rel="icon" href="/favicon.png" />
         </Head>
+
         <Header />
 
-        {children}
+        <div style={{ height: 500 }}>{children}</div>
 
         <Footer />
     </>
