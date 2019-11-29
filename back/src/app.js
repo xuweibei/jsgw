@@ -6,9 +6,9 @@ const views = require('koa-views');
 // json格式处理中间件
 const json = require('koa-json');
 // 处理koa程序错误
-const onerror = require('koa-onerror');
+const onerror = require('koa-onerror'); 
 // 解析body传输数据
-const bodyparser = require('koa-bodyparser');
+const koaBody = require('koa-body');
 
 // 跨域中间件
 const cors = require('koa2-cors');
@@ -17,7 +17,6 @@ const cors = require('koa2-cors');
 const logger = require('koa-logger');
 // 自定义方法动态生成css
 const {createCss} = require('./utils/utils')
-
 // 创建应用
 const app = new Koa();
 // error handler
@@ -58,7 +57,12 @@ app.use(cors({
 }))
 
 // 解析post请求body携带内容 解析成key:value形式
-app.use(bodyparser())
+app.use(koaBody({
+  multipart: true,
+  formidable: {
+      maxFileSize: 200*1024*1024    // 设置上传文件大小最大限制，默认2M
+  }
+}));
 app.use(json())
 app.use(logger())
 
