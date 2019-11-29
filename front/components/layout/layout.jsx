@@ -18,7 +18,7 @@ export default ({ children, title = "公司官网" }) => (
 
         <Header />
 
-        <div style={{ height: 500 }}>{children}</div>
+        <div style={{ height: "100vh" }}>{children}</div>
 
         <Footer />
     </>

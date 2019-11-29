@@ -12,6 +12,11 @@
         "isomorphic-unfetch": "^3.0.0",
         "less": "^3.10.3",
         "next": "9.1.4",
+        "rc-banner-anim": "^2.4.2",
+        "rc-queue-anim": "^1.8.3",
+        "rc-scroll-anim": "^2.7.4",
+        "rc-texty": "^0.2.0",
+        "rc-tween-one": "^2.6.5",
         "react": "^16.8.6",
         "react-dom": "^16.8.6"
     }
