@@ -30,6 +30,25 @@ function createCss() {
     //     })
     // })
 }
+
+// 同步数据库
+// function syncModel() {
+// const modelPath = path.join(__dirname, '../','model')
+// const files = fs.readdirSync(modelPath);
+// const modelFiles = files.filter((f)=>{
+//     return f.endsWith('.js');
+// }, files);
+// // console.log(modelFiles);
+// // // module.exports = {};
+// // for (let file of modelFiles) {
+// //     const name = file.substring(0, file.length - 3);
+// //     // console.log(name, '了就撒克雷登斯')
+// //     // module.exports[name] = require(__dirname + '/model/' + f);
+// // }
+// sequelize.sync();
+// }
+
 module.exports = {
-    createCss
+    createCss,
+    // syncModel
 }

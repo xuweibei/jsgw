@@ -1,38 +1,82 @@
-// 初始化表
-const COMMENT =
-    `create table if not exists comment(
-     id INT NOT NULL AUTO_INCREMENT,
-     name VARCHAR(100) NOT NULL COMMENT '用户名称',
-     content TEXT(0) NOT NULL COMMENT '评论内容',
-     moment VARCHAR(40) NOT NULL COMMENT '评论时间',
-     postid VARCHAR(40) NOT NULL COMMENT '文章id',
-     avator VARCHAR(100) NOT NULL COMMENT '用户头像',
-     PRIMARY KEY(id) 
-    );`
+const Sequelize = require('sequelize');
+const db = require('../db/db')
+exports.three = db.defineModel('project_master', {
+    p_id: {
+        type: Sequelize.BIGINT(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    p_name: Sequelize.STRING(100),
+    p_academy: Sequelize.STRING(100),
+    p_start_date: Sequelize.STRING(10),
+    p_end_date: Sequelize.STRING(10),
+    p_days: Sequelize.DECIMAL(10, 1),
+    p_place: Sequelize.STRING(20),
+    p_owner: Sequelize.STRING(10),
+    p_operator: Sequelize.STRING(10),
+    p_is_fee: Sequelize.BIGINT(1),
+    p_state: Sequelize.BIGINT(2),  // 开启，关闭
+    p_bz: Sequelize.STRING(255),
+});
 
-const POSTS =
-    `create table if not exists posts(
-     id INT NOT NULL AUTO_INCREMENT,
-     name VARCHAR(100) NOT NULL COMMENT '文章作者',
-     title TEXT(0) NOT NULL COMMENT '评论题目',
-     content TEXT(0) NOT NULL COMMENT '评论内容',
-     md TEXT(0) NOT NULL COMMENT 'markdown',
-     uid VARCHAR(40) NOT NULL COMMENT '用户id',
-     moment VARCHAR(100) NOT NULL COMMENT '发表时间',
-     comments VARCHAR(200) NOT NULL DEFAULT '0' COMMENT '文章评论数',
-     pv VARCHAR(40) NOT NULL DEFAULT '0' COMMENT '浏览量',
-     avator VARCHAR(100) NOT NULL COMMENT '用户头像',
-     PRIMARY KEY(id)
-    );`
+exports.one = db.defineModel('one', {
+    p_id: {
+        type: Sequelize.BIGINT(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    p_name: Sequelize.STRING(100),
+    p_academy: Sequelize.STRING(100),
+    p_start_date: Sequelize.STRING(10),
+    p_end_date: Sequelize.STRING(10),
+    p_days: Sequelize.DECIMAL(10, 1),
+    p_place: Sequelize.STRING(20),
+    p_owner: Sequelize.STRING(10),
+    p_operator: Sequelize.STRING(10),
+    p_is_fee: Sequelize.BIGINT(1),
+    p_state: Sequelize.BIGINT(2),  // 开启，关闭
+    p_bz: Sequelize.STRING(255),
+});
 
-const USER = 
-    `create table if not exists users(
-    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(100) NOT NULL COMMENT'用户名',
-    password VARCHAR(100) NOT NULL COMMENT'密码'
-    )`
-module.exports = {
-    COMMENT,
-    POSTS,
-    USER
-}
+exports.two = db.defineModel('two', {
+    p_id: {
+        type: Sequelize.BIGINT(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    p_name: Sequelize.STRING(100),
+    p_academy: Sequelize.STRING(100),
+    p_start_date: Sequelize.STRING(10),
+    p_end_date: Sequelize.STRING(10),
+    p_days: Sequelize.DECIMAL(10, 1),
+    p_place: Sequelize.STRING(20),
+    p_owner: Sequelize.STRING(10),
+    p_operator: Sequelize.STRING(10),
+    p_is_fee: Sequelize.BIGINT(1),
+    p_state: Sequelize.BIGINT(2),  // 开启，关闭
+    p_bz: Sequelize.STRING(255),
+});
+
+exports.testData = db.defineModel('test', {
+    id: {
+        type: Sequelize.BIGINT(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    fruit: Sequelize.STRING(100),
+    price: Sequelize.STRING(100)
+});
+exports.userData = db.defineModel('user', {
+    id: {
+        type: Sequelize.BIGINT(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    username: Sequelize.STRING(100),
+    password: Sequelize.STRING(100)
+});

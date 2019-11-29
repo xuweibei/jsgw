@@ -1,4 +1,4 @@
-const {SuccessModel} = require('../model/model');
+const {SuccessModel} = require('../config/model');
 const {test} = require('../controller/test')
 
 module.exports = {

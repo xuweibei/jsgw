@@ -8,4 +8,5 @@ router.get('/', public.root)
       .get('/test3', public.test3)
       .get('/home', home.home)
       .post('/login', home.login)
+      .post('/upload', home.upload)
 module.exports = router
