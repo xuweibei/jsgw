@@ -1,43 +1,99 @@
-.home {
-    height:100vh;
+*{
+    text-decoration: none !important;
+}
+.home-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
     padding: 0 !important;
-    .menu-left {
-        width: 15%;
-        height: 100%;
-        overflow: hidden;
-        position: relative;
-        .inner-content {
-            overflow-x:hidden;
-            overflow-y:scroll;
-            position: absolute;
-            top:0;
-            bottom:0; 
-            left: 0;
-            right:-17px;
+    .body-content{
+        background-color: #F9F9F9;
+        .header-container{
+            height: 80px;
+            line-height: 80px;
+            background-color: #fff;
         }
-        .title-container{
-            .title {
-                height: 135px;
-                line-height: 135px;
+        .mid-content{
+            margin-left: 24px;
+            margin-top: 24px;
+            margin-right: 24px;
+            background-color: #fff;
+            .store-delivery-container{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                
+                .card{
+                    width: 100%;
+                    .card-body{
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 28px 24px;
+                        align-items: center;
+                        .card-body-title{
+                            font-size: 24px;
+                            font-weight: 600;
+                            letter-spacing: 100;
+                        }
+                        .card-body-btn{
+                            .btn{
+                                width: 128px;
+                                height: 32px;
+                                font-size: 14px;
+                            }
+                            .btn:nth-child(1){
+                                color: #0AAFDE;
+                            }
+                        }
+                    }
+                }
             }
         }
     }
-    .menu-right {
-        width: 85%;
-        height: 100%;
-        background: #fff;
-        .menu-righ-header {
-            height: 100px;
+    
+    .sider-bar{
+        width: 200px;
+        height: fit-content;
+        .sider-top{
+            background-color: #12181A;
+            height: 80px;
+            line-height: 80px;
+            text-align: center;
+            img{
+                width: 60%;
+                margin: auto;
+            }
         }
-        .menu-right-footer {
-            height: 100px;
-        }
-        .right-container{
-            padding: 100px 0;
+        .sider-bottom{
+            .card{
+                border: 0;
+                border-radius: 0 !important;
+                .card-header{
+                    background-color: #12181A;
+                    border-radius: 0;
+                    .btn-link.focus, .btn-link:focus{
+                        text-decoration: none;
+                    }
+                }
+                .collapse,.collapsing{
+                    background-color: #EAEDF1;
+                    .list-group-item{
+                        border: 0;
+                        background-color: #3B4458;
+                        color: #8F9EB2;
+                        font-size: 14px;
+                        border-radius: 0;
+                    }
+                    .list-group-item.active{
+                        background-color: #EAEDF1;
+                        color: #0AAFDE !important;
+                        border-left: 4px solid #0AAFDE;
+                    }
+                }
+            }
         }
     }
-}
-
-h2{
-    margin-bottom: 0 !important;
+    .body-content{
+        flex: 1;
+    }
 }

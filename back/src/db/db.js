@@ -57,24 +57,24 @@ if (env === 'production') {
 //     }
 // }
 // createTable(sqls);
-const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
-    host: sqlConfig.host,
-    dialect: 'mysql',
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-})
-sequelize
-.authenticate()
-  .then(() => {
-    console.log('链接成功');
-  })
-  .catch(err => {
-    console.error('链接数据库失败:', err);
-});
+// const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
+//     host: sqlConfig.host,
+//     dialect: 'mysql',
+//     pool: {
+//         max: 5,
+//         min: 0,
+//         acquire: 30000,
+//         idle: 10000
+//     }
+// })
+// sequelize
+// .authenticate()
+//   .then(() => {
+//     console.log('链接成功');
+//   })
+//   .catch(err => {
+//     console.error('链接数据库失败:', err);
+// });
 
 // exports.sequelize = sequelize;
 const defineModel = function (name, attributes) {
@@ -103,12 +103,12 @@ const defineModel = function (name, attributes) {
     //     type: Sequelize.STRING,
     //     allowNull: false
     // };
-    return sequelize.define(name, attrs, {
-        tableName: name,
-        timestamps: true,
-        paranoid: true, 
-        charset: 'utf8mb4', 
-        collate: 'utf8mb4_general_ci',
+    // return sequelize.define(name, attrs, {
+    //     tableName: name,
+    //     timestamps: true,
+    //     paranoid: true, 
+    //     charset: 'utf8mb4', 
+    //     collate: 'utf8mb4_general_ci',
         // hooks: {
         //     beforeBulkCreate: function(obj){
         //         obj.version = 0 ;
@@ -123,10 +123,10 @@ const defineModel = function (name, attributes) {
         //         }
         //     }
         // }
-    });
+    // });
 };
 module.exports = {
     // exec
     defineModel,
-    sequelize
+    // sequelize
 }

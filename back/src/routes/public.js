@@ -17,5 +17,11 @@ module.exports = {
     },
     'test3': async (ctx, next) => {
         ctx.body = 'test3'
-    }
+    },
+    'index': async (ctx, next) => {
+        // ctx.render('index')
+    },
+    'delivery/store-delivery': async () => {//网店发货
+        ctx.body = 'delivery/store-delivery'
+    },
 }

@@ -5,7 +5,10 @@ const {SuccessModel, ErrorModel} = require('../config/model')
 const jwt = require('jsonwebtoken')
 module.exports = {
     'home': async (ctx, next) => {
-        await ctx.render('login')
+        await ctx.render('index')
+     },
+     'storeDelivery': async (ctx, next) => {
+        await ctx.render('storeDelivery')
      },
     'login': async ctx => {
         const {username, password} = ctx.request.body

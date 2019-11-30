@@ -1,7 +1,7 @@
 // // 同步数据库
 const fs = require('fs');
 const path = require('path')
-const {sequelize} = require('./db')
+// const {sequelize} = require('./db')
 const modelPath = path.join(__dirname, '../', 'model')
 console.log(modelPath)
 const files = fs.readdirSync(modelPath);
