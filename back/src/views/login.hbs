@@ -6,76 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="微信小程序后台管理系统">
     <meta name="keyword" content="微信, 小程序, node, 后台管理系统">
-    <!-- <link rel="shortcut icon" href="assets/ico/favicon.png"> -->
     <title>H5start后台管理系统</title>
     <link rel="stylesheet" href="../assets//styles//bootstrap.min.css">
-    {{!-- <link href="../../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../../css/simple-line-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="/libs/bootstrap/css/bootstrap.min.css"/>
-    <link href="../../css/style.css" rel="stylesheet"> --}}
 </head>
-
-<body class="app flex-row align-items-center">
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card-group">
-                <div class="card p-4">
-                    <div class="card-body">
-                        <h1>Login</h1>
-                        <p class="text-muted">Sign In to your account</p>
-                        <div class="input-group mb-3">
-                            <span class="input-group-addon"><i class="icon-user"></i></span>
-                            <input id="userName" type="text" class="form-control" placeholder="Username">
-                        </div>
-                        <div class="input-group mb-4">
-                            <span class="input-group-addon"><i class="icon-lock"></i></span>
-                            <input id="pwd" type="password" class="form-control" placeholder="Password">
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <button id="login" onclick="login()" type="button" class="btn btn-primary px-4">Login</button>
-                            </div>
-                            <div class="col-6 text-right">
-                                <button type="button" class="btn btn-primary">啊啊啊</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script src="../utils//jquery-3.4.1.min.js"></script>
-<script>
-    // const submit = document.querySelector('#login')
-    const submit = $('#login')
-    //const userBtn = document.querySelector('#userName')
-    const username = $('#userName')
-    const password = $('#pwd')
-    let user = ''
-    let pwd = ''
-    username.bind('input propertychange',function() {
-         user = $(this).val()
-    })
-    password.bind('input propertychange',function() {
-        pwd = $(this).val()
-    })
-    function login() {  
-        $.ajax({
-            type: "POST",
-            url: 'http://localhost:8000/login',
-            data:{username:user, password: pwd},
-            success: function(res){
-                if (res.status === 0) {
-                    alert('登陸成功!')
-                } else {
-                    alert('登陸失敗!')
-                }
-            }
-        })
-    }
-</script>
+<body >
 </body>
 </html>
