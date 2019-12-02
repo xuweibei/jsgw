@@ -1,9 +1,5 @@
-const path = require('path')
-const fs = require('fs')
-const {login, uploadImg} = require('../controller/login')
-const {SuccessModel, ErrorModel} = require('../config/model')
-const jwt = require('jsonwebtoken')
 module.exports = {
+<<<<<<< HEAD
     'home': async (ctx, next) => {
         await ctx.render('index')
      },
@@ -38,5 +34,9 @@ module.exports = {
         ctx.body = {
             errno: 0
         }
+=======
+    "home": async ctx => {
+        await ctx.render('login')
+>>>>>>> a111b88a19f89c87742e2cbf6181d537a403f6cb
     }
 }
