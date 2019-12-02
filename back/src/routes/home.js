@@ -10,6 +10,9 @@ module.exports = {
      'storeDelivery': async (ctx, next) => {
         await ctx.render('storeDelivery')
      },
+     'departmentStructur': async (ctx, next) => {
+         await ctx.render('departmentStructur')
+     },
     'login': async ctx => {
         const {username, password} = ctx.request.body
         const result = await login(username, password)

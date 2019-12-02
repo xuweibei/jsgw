@@ -24,4 +24,7 @@ module.exports = {
     'delivery/store-delivery': async () => {//网店发货
         ctx.body = 'delivery/store-delivery'
     },
+    'delivery/department-structur': async () => {//
+        ctx.body = 'delivery/department-structur'
+    },
 }

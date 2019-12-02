@@ -10,5 +10,6 @@ router.get('/', public.root)
       .get('/home', home.home)
       .post('/login', home.login)
       .post('/upload', home.upload)
-      .get('/devlivery/store-delivery', home.storeDelivery)
+      .get('/delivery/store-delivery', home.storeDelivery)
+      .get('/delivery/department-structur', home.departmentStructur)
 module.exports = router

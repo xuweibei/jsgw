@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chuchur/koa-minify": "^1.0.2",
+    "bootstrap-table": "^1.15.5",
     "handlebars": "^4.5.3",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",

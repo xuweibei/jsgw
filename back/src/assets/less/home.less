@@ -7,6 +7,7 @@
     align-items: flex-start;
     padding: 0 !important;
     .body-content{
+        flex: 1;
         background-color: #F9F9F9;
         .header-container{
             height: 80px;
@@ -18,12 +19,11 @@
             margin-top: 24px;
             margin-right: 24px;
             background-color: #fff;
+            //网店发货样式
             .store-delivery-container{
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                
                 .card{
+                    border: 0;
+                    border-bottom: 1px solid #EEE;
                     width: 100%;
                     .card-body{
                         display: flex;
@@ -33,7 +33,7 @@
                         .card-body-title{
                             font-size: 24px;
                             font-weight: 600;
-                            letter-spacing: 100;
+                            letter-spacing: 3px;
                         }
                         .card-body-btn{
                             .btn{
@@ -47,10 +47,49 @@
                         }
                     }
                 }
+                .table-container{
+                    padding-left: 24px;
+                    padding-right: 24px;
+                    // thead> tr{
+                    //     height: 56px;
+                    //     line-height: 56px;
+                    // }
+                    //行样式
+                    tbody tr{
+                        height: 81px;
+                        td.last-column{}
+                    }
+                    //表头样式
+                    .bg-blue{
+                        background-color: #0AAFDE;
+                        color: #fff;
+                        font-weight: normal !important;
+                        font-size: 14px;
+                    }
+                    .opt{
+                        font-size: 14px;
+                        color: #0AAFDE;
+                        margin: 20px;
+                    }
+                    .opt.remove{
+                       color: #FF9C39;
+                    }
+                    .table-striped tbody tr:nth-of-type(odd){
+                        background-color: #F7FDFF;
+                    }
+                    .fixed-table-pagination{
+                        height: 140px;
+                        line-height: 140px;
+                        .float-right{
+                            height: 140px;
+                            line-height: 140px;
+                        }
+                    }
+                }
             }
         }
     }
-    
+    //侧边栏样式
     .sider-bar{
         width: 200px;
         height: fit-content;
@@ -62,6 +101,9 @@
             img{
                 width: 60%;
                 margin: auto;
+                position: relative;
+                top: 50%;
+                transform: translateY(-50%);
             }
         }
         .sider-bottom{
@@ -92,8 +134,5 @@
                 }
             }
         }
-    }
-    .body-content{
-        flex: 1;
     }
 }
