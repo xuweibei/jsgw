@@ -65,7 +65,8 @@ const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.pa
         min: 0,
         acquire: 30000,
         idle: 10000
-    }
+    },
+    timezone: '+08:00' //东八时区
 })
 sequelize
 .authenticate()
@@ -107,22 +108,24 @@ const defineModel = function (name, attributes) {
         tableName: name,
         timestamps: true,
         paranoid: true, 
+        createdAt: "CreatedAt",  //自定义时间戳
+        updatedAt: "UpdatedAt", // 自定义时间戳
         charset: 'utf8mb4', 
         collate: 'utf8mb4_general_ci',
-        // hooks: {
-        //     beforeBulkCreate: function(obj){
-        //         obj.version = 0 ;
-        //     },
-        //     beforeValidate: function(obj){
-        //         if(obj.isNewRecord){
-        //             console.log('first');
-        //             obj.version = 0 ; 
-        //         }else{
-        //             console.log('not first');
-        //             obj.version = obj.version + 1 ;
-        //         }
-        //     }
-        // }
+        hooks: {
+            beforeBulkCreate: function(obj){
+                obj.version = 0 ;
+            },
+            beforeValidate: function(obj){
+                if(obj.isNewRecord){
+                    console.log('first');
+                    obj.version = 0 ; 
+                }else{
+                    console.log('not first');
+                    obj.version = obj.version + 1 ;
+                }
+            }
+        }
     });
 };
 module.exports = {

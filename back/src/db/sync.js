@@ -3,12 +3,12 @@ const fs = require('fs');
 const path = require('path')
 const {sequelize} = require('./db')
 const modelPath = path.join(__dirname, '../', 'model')
-console.log(modelPath)
+// console.log(modelPath)
 const files = fs.readdirSync(modelPath);
 const modelFile = files.filter((f)=>{
     return f.endsWith('.js');
 }, files);
-console.log(modelFile);
+// console.log(modelFile);
 module.exports = {};
 for (const f of modelFile) {
     const name = f.substring(0, f.length - 3);

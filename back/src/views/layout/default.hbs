@@ -7,30 +7,27 @@
     <meta name="description" content="微信小程序后台管理系统">
     <meta name="keyword" content="微信, 小程序, node, 后台管理系统">
     <title>H5start后台管理系统</title>
-    <link href="../../css/font-awesome.min.css" rel="stylesheet">
-    <link href="../../css/simple-line-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="/css/style.css"/>
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
-    <script src="libs/popper.min.js"></script>
-    <script src="libs/bootstrap/js/bootstrap.min.js"></script>
-    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <link rel="stylesheet" href="../../assets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/css/home.css">
+    <link rel="stylesheet" href="../../assets/styles/bootstrap-table.min.css">
+    <script src="../../utils/jquery-3.4.1.min.js"></script>
+    <script src="../../utils/bootstrap.min.js"></script>
+    <script src="../../utils/bootstrap-table.min.js"></script>
 </head>
 <body>
-<div class="app header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden">
+<div class="container-fluid home-container">
     {{! each view gets inserted here }}
-    {{> header }}
-    <div class="app-body">
-        {{> sidebar }}
-        <main class="main">
-            {{> breadcrumb }}
-            <div class="container-fluid">
-                <div id="ui-view">
-                    {{> @partial-block }}
-                </div>
-            </div>
-        </main>
+    <div class="sider-bar">
+       {{> sidebar }} 
     </div>
-    {{> footer }}
+    <div class="body-content">
+       {{> header }} 
+       <div class="mid-content">
+            {{> @partial-block }}
+            {{> footer }}
+       </div>
+       
+    </div>
 </div>
 </body>
 </html>
