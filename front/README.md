@@ -14,13 +14,22 @@ front
 ```
 安装
 yarn
+or
+npm i
 启动一个热加载的Web服务器（开发模式）
 yarn dev
+or
+npm run dev
 自定义启动端口
 yarn dev -- -p <your port here>
+or
+npm run dev -- -p <your port here>
 打包
 yarn build
+or
+npm run build
 启动一个热加载的Web服务器（生产模式），需要先build
 yarn start
-
+or
+npm run start
 ```

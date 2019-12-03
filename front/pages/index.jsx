@@ -1,5 +1,4 @@
 // import fetch from "isomorphic-unfetch";
-import React from "react";
 import Texty from "rc-texty";
 import BannerAnim, { Element } from "rc-banner-anim";
 import TweenOne from "rc-tween-one";
@@ -9,6 +8,7 @@ import Layout from "../components/layout/layout";
 
 const BgElement = Element.BgElement;
 const ScrollOverPack = ScrollAnim.OverPack;
+
 const Home = () => (
     <Layout>
         <div style={{ margin: 30 }}>
@@ -38,13 +38,19 @@ const Home = () => (
                         blur: "20px"
                     }}
                 >
-                    Ant Motion Banner
+                    Banner1
                 </TweenOne>
                 <TweenOne
                     className="banner-user-text"
                     animation={{ y: 30, opacity: 0, type: "from", delay: 100 }}
                 >
-                    The Fast Way Use Animation In React
+                    中战科技
+                </TweenOne>
+                <TweenOne
+                    className="banner-user-text"
+                    animation={{ y: 30, opacity: 0, type: "from", delay: 100 }}
+                >
+                    专注 科技 创新
                 </TweenOne>
             </Element>
             <Element prefixCls="banner-user-elem" key="1">

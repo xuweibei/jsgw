@@ -5,9 +5,9 @@ import Link from "next/link";
 const links = [
     { href: "/", label: "首页", as: "/home" },
     { href: "/about", label: "关于我们" },
-    { href: "/product", label: "产品服务" },
-    { href: "/group", label: "机构了解" },
-    { href: "/join", label: "人才招聘", as: "/join-us" }
+    { href: "/product", label: "产品资讯" },
+    { href: "/join", label: "人才管理", as: "/join-us" },
+    { href: "/group", label: "机构了解" }
 ].map(link => {
     link.key = `nav-link-${link.href}-${link.label}`;
     return link;
@@ -16,7 +16,7 @@ const links = [
 export default () => (
     <div style={{ borderBottom: "10px solid #000 ", height: 50 }}>
         <div style={{ display: "flex", float: "left", marginRight: 200 }}>
-            <h1>LOGO</h1>
+            <h1>中战科技</h1>
         </div>
         <div style={{ marginTop: 20 }}>
             <nav>
