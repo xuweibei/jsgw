@@ -1,0 +1,67 @@
+{{#>default}}
+<div class="job-class-container company-talk-container">
+  <div class="job-class-top">
+    <span>公司交流</span>
+    <button type="button" class="btn">新增</button>
+  </div>
+  <div>
+    
+  </div>
+  <div class="table-container">
+    <table
+      id="table"
+      class="text-center table table-striped table-borderless"
+      data-pagination="true">
+      {{!-- <thead>
+        <tr>
+          <th data-field="id">ID</th>
+          <th data-field="name">Item Name</th>
+          <th data-field="price">Item Price</th>
+        </tr>
+      </thead> --}}
+    </table>
+    <script>
+      var $table = $('#table')
+        $(function() {
+          $table.bootstrapTable({
+            toolbar: '.toolbar',
+            columns: [{
+              title: '展示模块',
+              field: 'name'
+            }, {
+              title: '位置排序(数值越小排的越前)',
+              field: 'sort'
+            }, {
+              title: '状态',
+              field: 'opt'
+            }],
+            data: [{
+              name: '最新动态',
+              sort: 1,
+              opt: operateFormatter()
+            },{
+              name: '最新动态',
+              sort: 1,
+              opt: operateFormatter()
+            },{
+              name: '最新动态',
+              sort: 1,
+              opt: operateFormatter()
+            },{
+              name: '最新动态',
+              sort: 1,
+              opt: operateFormatter()
+            }],
+          })
+          function operateFormatter(value, row, index) {
+            return [
+              '<a class="like opt" href="javascript:void(0)" title="Like">编辑</a>',
+              '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>',
+              '<a class="like opt" href="javascript:void(0)" title="Remove">启用</a>'
+            ].join('')
+          }
+        })
+    </script>
+  </div>
+</div>
+{{/default}}
