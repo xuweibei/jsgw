@@ -5,29 +5,29 @@ const Sequelize = require('sequelize');
 // const {MYSQL_CONF} = require('../config/index');
 
 let sqlConfig = {
-    host: 'localhost',
+    host: '101.132.180.228',
     user: 'root',
-    password: 'root',
+    password: 'abc123456',
     port: '3306',
-    database: 'jsgw'
+    database: 'zzkj'
 }
 if (env === 'dev') {
     sqlConfig = {
-        host: 'localhost',
+        host: '101.132.180.228',
         user: 'root',
-        password: 'root',
+        password: 'abc123456',
         port: '3306',
-        database: 'jsgw'
+        database: 'zzkj'
     }
 }
 
 if (env === 'production') {
     sqlConfig = {
-        host: 'localhost',
+        host: '101.132.180.228',
         user: 'root',
-        password: 'root',
+        password: 'abc123456',
         port: '3306',
-        database: 'jsgw'
+        database: 'zzkj'
     }
 }
 // 创建mysql链接
