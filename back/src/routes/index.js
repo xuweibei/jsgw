@@ -7,4 +7,6 @@ router.get('/', home.home)
       .get('/index-manage', home.indexManage)
       .get('/companyTalk', home.companyTalk)
       .get('/productsCenter', home.productsCenter)
+      .get('/infoCenter', home.infoCenter)
+      .get('/turnManage', home.turnManage)
 module.exports = router

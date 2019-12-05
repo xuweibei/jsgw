@@ -19,5 +19,11 @@ module.exports = {
     },
     'productsCenter': async (ctx, next) => {
         await ctx.render('productsCenter')
+    },
+    'infoCenter': async (ctx, next) => {
+        await ctx.render('infoCenter')
+    },
+    'turnManage': async (ctx, next) =>{
+        await ctx.render('turnManage')
     }
 }
