@@ -1,183 +1,221 @@
+<style>
+  #select {
+    width: 100px;
+    display: inline-block;
+  }
 
+  #table {
+    border: 0;
+  }
+</style>
 {{#>default}}
-  <div class="store-delivery-container">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-body-title">
-          招聘信息管理
-        </div>
-        <div class="card-body-btn">
-          <button type="button" class="btn">展示在首页</button>
-          <button type="button" class="btn">新增</button>
-        </div>
+<div class="store-delivery-container">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-body-title">
+        招聘信息管理
+      </div>
+      <div class="card-body-btn">
+        <button type="button" class="btn">展示在首页</button>
+
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+          新增
+        </button>
       </div>
     </div>
-    <div class="table-container">
-      <div class="toolbar">
-        <select id="select" class="form-control" name="filterAlgorithm">
-          <option value="and" selected>and</option>
-          <option value="or">or</option>
-        </select>
-        {{!-- <select id="select-place" class="form-control" name="filterAlgorithm">
+  </div>
+  <div class="table-container">
+    <div class="toolbar">
+      <select id="select" class="form-control" name="filterAlgorithm">
+        <option value="and" selected>and</option>
+        <option value="or">or</option>
+      </select>
+      {{!-- <select id="select-place" class="form-control" name="filterAlgorithm">
           <option value="and" selected>and</option>
           <option value="or">or</option>
         </select> --}}
-        <button class="btn btn-secondary" id="filterBy">搜索</button>
-      </div>
+      <button class="btn btn-secondary" id="filterBy">搜索</button>
+    </div>
 
-      <table id="table"
-        class="text-center table table-striped table-borderless"
-        {{!-- data-show-pagination-switch="true" --}}
-        data-pagination="true"
-        {{!-- data-page-list="[3, 5, 8, 100, all]" --}}
-        {{!-- data-show-footer="true" --}}
-        {{!-- data-side-pagination="server"> --}}
-      >
-      </table>
-      <script>
-        var $table = $('#table')
-        $(function() {
-          $table.bootstrapTable({
-            toolbar: '.toolbar',
-            columns: [{
-              title: '职位名称',
-              field: 'id'
-            }, {
-              title: '职位分类',
-              field: 'name'
-            }, {
-              title: '工作地点',
-              field: 'price'
-            },{
-              title: '发布时间',
-              field: 'time'
-            },{
-              title: '操作',
-              field: 'opt',
-              class: 'last-column'
-            }],
-            data: [{
-              id: 1,
-              name: '职位名称',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 2,
-              name: '职位分类',
-              price: '$2',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 3,
-              name: '工作地点',
-              price: '$3',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 4,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 5,
-              name: '操作',
-              price: '$6',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 4,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 5,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 5,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 6,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 7,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 8,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 9,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            },
-            {
-              id: 10,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
-              opt: operateFormatter()
-            }]
-          })
-          //表头添加类名设置背景色
+    <table id="table" class="text-center table table-striped table-borderless"
+      {{!-- data-show-pagination-switch="true" --}} data-pagination="true"
+      {{!-- data-page-list="[3, 5, 8, 100, all]" --}} {{!-- data-show-footer="true" --}}
+      {{!-- data-side-pagination="server"> --}}>
+    </table>
+    <script>
+      var $table = $('#table')
+      $(function () {
+        $table.bootstrapTable({
+          toolbar: '.toolbar',
+          columns: [{
+            title: '职位名称',
+            field: 'id'
+          }, {
+            title: '职位分类',
+            field: 'name'
+          }, {
+            title: '工作地点',
+            field: 'price'
+          }, {
+            title: '发布时间',
+            field: 'time'
+          }, {
+            title: '操作',
+            field: 'opt',
+            class: 'last-column'
+          }],
+          data: [{
+            id: 1,
+            name: '职位名称',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 2,
+            name: '职位分类',
+            price: '$2',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 3,
+            name: '工作地点',
+            price: '$3',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 4,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 5,
+            name: '操作',
+            price: '$6',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 4,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 5,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 5,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 6,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 7,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 8,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 9,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          },
+          {
+            id: 10,
+            name: '发布时间',
+            price: '$1',
+            time: '2019-12-2',
+            opt: operateFormatter()
+          }]
+        })
+        //表头添加类名设置背景色
+        $table.bootstrapTable('refreshOptions', {
+          theadClasses: 'bg-blue'
+        })
+        //操作列表
+        function operateFormatter(value, row, index) {
+          return [
+            '<a class="like opt" href="javascript:void(0)" title="Like">编辑</a>',
+            '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>',
+            '<a class="like opt" href="javascript:void(0)" title="Remove">启用</a>',
+            '<a class="like opt" href="javascript:void(0)" title="Remove">预览</a>'
+          ].join('')
+        }
+
+        $('#filterBy').click(function () {
+          console.log($('[name="filterAlgorithm"]'))
+          var filterAlgorithm = $('[name="filterAlgorithm"]').val()
           $table.bootstrapTable('refreshOptions', {
-            theadClasses: 'bg-blue'
+            filterOptions: {
+              filterAlgorithm: filterAlgorithm
+            }
           })
-          //操作列表
-          function operateFormatter(value, row, index) {
-            return [
-              '<a class="like opt" href="javascript:void(0)" title="Like">编辑</a>',
-              '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>',
-              '<a class="like opt" href="javascript:void(0)" title="Remove">启用</a>',
-              '<a class="like opt" href="javascript:void(0)" title="Remove">预览</a>'
-            ].join('')
-          }
-
-          $('#filterBy').click(function () {
-            console.log($('[name="filterAlgorithm"]'))
-            var filterAlgorithm = $('[name="filterAlgorithm"]').val()
-            $table.bootstrapTable('refreshOptions', {
-              filterOptions: {
-                filterAlgorithm: filterAlgorithm
-              }
-            })
-            console.log($table.bootstrapTable)
-            $table.bootstrapTable('filterBy', {
-              id: 3,
-              price: '$1'
-            })
+          console.log($table.bootstrapTable)
+          $table.bootstrapTable('filterBy', {
+            id: 3,
+            price: '$1'
           })
         })
-      </script>
+      })
+    </script>
+  </div>
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">新增</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-row">
+              <div class="col row">
+                <label for="" class="col-3">姓名</label>
+                <input type="text" class="form-control col-8" placeholder="First name">
+              </div>
+              <div class="col row">
+                <label for="" class="col-3">密码</label>
+                <input type="text" class="form-control col-8" placeholder="Last name">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal">保存</button>
+          <button type="button" class="btn btn-info">取消</button>
+        </div>
+      </div>
     </div>
   </div>
   {{!-- 模態框 --}}

@@ -1,0 +1,18 @@
+{{#>default}}
+<link rel="stylesheet" href="../assets/css/richText.css">
+<div class="rich-text">
+    <div class="edit-title border-bottom font-weight-bolder">
+        公司简介
+    </div>
+    <div id="editor">
+        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+    </div>
+</div>
+<script src="../assets/js/wangEditor.min.js"></script>
+<script type="text/javascript">
+    var E = window.wangEditor
+    var editor = new E('#editor')
+    // 或者 var editor = new E( document.getElementById('editor') )
+    editor.create()
+</script>
+{{/default}}
