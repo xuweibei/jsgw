@@ -7,16 +7,16 @@ const Sequelize = require('sequelize');
 let sqlConfig = {
     host: '101.132.180.228',
     user: 'root',
-    password: 'abc123456',
-    port: '3306',
+    password: '!12_@Gjsk78!',
+    port: '8083',
     database: 'zzkj'
 }
 if (env === 'dev') {
     sqlConfig = {
         host: '101.132.180.228',
         user: 'root',
-        password: 'abc123456',
-        port: '3306',
+        password: '!12_@Gjsk78!',
+        port: '8083',
         database: 'zzkj'
     }
 }
@@ -25,8 +25,8 @@ if (env === 'production') {
     sqlConfig = {
         host: '101.132.180.228',
         user: 'root',
-        password: 'abc123456',
-        port: '3306',
+        password: '!12_@Gjsk78!',
+        port: '8083',
         database: 'zzkj'
     }
 }
@@ -59,6 +59,7 @@ if (env === 'production') {
 // createTable(sqls);
 const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.password, {
     host: sqlConfig.host,
+    port: sqlConfig.port,
     dialect: 'mysql',
     pool: {
         max: 5,
