@@ -1,23 +1,29 @@
 // const {exec} = require('../db/db');
-const {userData} = require('../model/createTables')
-const login = async (username, password) => {
+const {Users} = require('../model/createTables')
+const login = async (account, password) => {
     // const sql = `SELECT * FROM users WHERE username='${username}' and password='${password}'`
-    const rows = await userData.findAll({
+    const rows = await Users.findAll({
+        attributes: ['account', 'status'],
         where: {
-            username,
+            account,
+            password
+        }
+    });
+    return rows[0] || {}
+}
+const register = async (account, password) => {
+    // const sql = `SELECT * FROM users WHERE username='${username}' and password='${password}'`
+    const rows = await Users.findAll({
+        attributes: ['account', 'status'],
+        where: {
+            account,
             password
         }
     });
     return rows[0] || {}
 }
 
-const uploadImg = async (url) => {
-    console.log(url)
-    const sql = `insert into image (url) values (${url})`
-    return await exec(sql)[0]
-}
-
 module.exports = {
     login,
-    uploadImg
+    register
 }

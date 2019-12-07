@@ -8,4 +8,10 @@ module.exports = {
      'departmentStructur': async (ctx, next) => {
          await ctx.render('departmentStructur')
      },
+     "intro": async (ctx, next) => {
+        await ctx.render('intro')
+    },
+    "edit": async (ctx, next) => {
+        await ctx.render('richText')
+    },
 }

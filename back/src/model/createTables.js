@@ -1,36 +1,44 @@
 const Sequelize = require('sequelize');
 const db = require('../db/db')
-exports.Users = db.defineModel('gw_users', {
-    user_id: {
+const Users = db.defineModel('gw_users', {
+    id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
         allowNull: false,
         autoIncrement: true
     },
-    user_name: Sequelize.STRING(100),
-    pwd: Sequelize.STRING(100),
-});
+    account : {type: Sequelize.STRING(50),unique: true},
+    password: Sequelize.STRING(50),
+    identity_id: Sequelize.BOOLEAN(4),
+    status: Sequelize.BOOLEAN(4)
+})
 
-
-exports.Roles = db.defineModel('gw_role', {
-    role_id: {
+const Department = db.defineModel('gw_department', {
+    id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
         allowNull: false,
         autoIncrement: true
     },
-    role_name: Sequelize.STRING(100)
-});
+    department: Sequelize.STRING(30)
+})
 
-exports.Group = db.defineModel('gw_group', {
-    group_id: {
+const Employe = db.defineModel('gw_employe', {
+    id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
         allowNull: false,
         autoIncrement: true
     },
-    group_name: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-    }
-});
+    name : {type: Sequelize.STRING(30), unique: true},
+    phone: {type: Sequelize.STRING(11), unique: true},
+    status: Sequelize.BOOLEAN(4),
+    dep_id: Sequelize.INTEGER(11),
+    account_id: Sequelize.INTEGER(11)
+})
+
+module.exports = {
+    Users,
+    Department,
+    Employe
+}

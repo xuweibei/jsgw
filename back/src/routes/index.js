@@ -1,6 +1,11 @@
 const router = require('koa-router')()
+const Logincheck = require('../middleware/checkLogin')
 const home = require('./home')
+const api = require('./api')
 router.get('/', home.home)
       .get('/delivery/store-delivery', home.storeDelivery)
       .get('/delivery/department-structur', home.departmentStructur)
+      .get('/delivery/intro', home.intro)
+      .get('/delivery/edit', Logincheck, home.edit)
+      .post('/api/login', api.login)
 module.exports = router

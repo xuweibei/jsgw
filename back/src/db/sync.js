@@ -14,4 +14,4 @@ for (const f of modelFile) {
     const name = f.substring(0, f.length - 3);
     module.exports[name] = require('../model/' + f);
 } 
-sequelize.sync();
+sequelize.sync({ alter: true });
