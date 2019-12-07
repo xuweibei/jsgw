@@ -1,7 +1,28 @@
+
 {{#>default}}
 <div class="department-structur-container">
-  <div>
-
+  <div class="department-structur-left">
+    <div class="left-title">部门结构</div>
+    <div class="left-content">
+      <div class="item">
+        <span>全部</span><span>24人</span>
+      </div>
+      <div class="item">
+        <span>前端</span><span>6人</span>
+      </div>
+      <div class="item">
+        <span>后端</span><span>10人</span>
+      </div>
+      <div class="item">
+        <span>产品</span><span>8人</span>
+      </div>
+      <div class="item">
+        <span>行政</span><span>6人</span>
+      </div>
+    </div>
+    <div class="left-footer">
+      <img src="../assets/img/add.png" alt=""><span>添加分组</span>
+    </div>
   </div>
   <div class="department-structur-right">
     <div class="table-container">
@@ -32,125 +53,140 @@
           $table.bootstrapTable({
             toolbar: '.toolbar',
             columns: [{
-              title: '职位名称',
-              field: 'id'
+              title: '部门',
+              field: 'department'
             }, {
-              title: '职位分类',
+              title: '姓名',
               field: 'name'
             }, {
-              title: '工作地点',
-              field: 'price'
+              title: '手机号',
+              field: 'tel'
             },{
-              title: '发布时间',
-              field: 'time'
+              title: '身份',
+              field: 'card'
+            },{
+              title: '状态',
+              field: 'status'
             },{
               title: '操作',
               field: 'opt',
               class: 'last-column'
             }],
             data: [{
-              id: 1,
-              name: '职位名称',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 2,
-              name: '职位分类',
-              price: '$2',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 3,
-              name: '工作地点',
-              price: '$3',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 4,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 5,
-              name: '操作',
-              price: '$6',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 4,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 5,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 5,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 6,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 7,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 8,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 9,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             },
             {
-              id: 10,
-              name: '发布时间',
-              price: '$1',
-              time: '2019-12-2',
+              department: '产品',
+              name: '庄漂亮',
+              tel: '1339658910',
+              card: '超级管理员',
+              status: '使用中',
               opt: operateFormatter()
             }]
           })
           //表头添加类名设置背景色
-          $table.bootstrapTable('refreshOptions', {
+          /*$table.bootstrapTable('refreshOptions', {
             theadClasses: 'bg-blue'
-          })
+          })*/
           //操作列表
           function operateFormatter(value, row, index) {
             return [
-              '<a class="like opt" href="javascript:void(0)" title="Like">编辑</a>',
-              '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>',
               '<a class="like opt" href="javascript:void(0)" title="Remove">启用</a>',
-              '<a class="like opt" href="javascript:void(0)" title="Remove">预览</a>'
+              '<a class="like opt" href="javascript:void(0)" title="Like">编辑</a>',
+              '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>'
             ].join('')
           }
 
