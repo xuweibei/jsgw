@@ -5,29 +5,29 @@ const Sequelize = require('sequelize');
 // const {MYSQL_CONF} = require('../config/index');
 
 let sqlConfig = {
-    host: 'localhost',
+    host: '101.132.180.228',
     user: 'root',
-    password: 'root',
+    password: 'abcd123456',
     port: '3306',
-    database: 'jsgw'
+    database: 'zzkj'
 }
 if (env === 'dev') {
     sqlConfig = {
-        host: 'localhost',
+        host: '101.132.180.228',
         user: 'root',
-        password: 'root',
+        password: 'abcd123456',
         port: '3306',
-        database: 'jsgw'
+        database: 'zzkj'
     }
 }
 
 if (env === 'production') {
     sqlConfig = {
-        host: 'localhost',
+        host: '101.132.180.228',
         user: 'root',
-        password: 'root',
+        password: 'abcd123456',
         port: '3306',
-        database: 'jsgw'
+        database: 'zzkj'
     }
 }
 // 创建mysql链接
@@ -49,7 +49,7 @@ if (env === 'production') {
 //             })
 //         })
 //     })
-// } 
+// }
 // // 新建数据库表方法
 // const createTable = async (sqls) => {
 //     for (let key in sqls) {
@@ -107,10 +107,10 @@ const defineModel = function (name, attributes) {
     return sequelize.define(name, attrs, {
         tableName: name,
         timestamps: true,
-        paranoid: true, 
+        paranoid: true,
         createdAt: "CreatedAt",  //自定义时间戳
         updatedAt: "UpdatedAt", // 自定义时间戳
-        charset: 'utf8mb4', 
+        charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
         hooks: {
             beforeBulkCreate: function(obj){
@@ -119,7 +119,7 @@ const defineModel = function (name, attributes) {
             beforeValidate: function(obj){
                 if(obj.isNewRecord){
                     console.log('first');
-                    obj.version = 0 ; 
+                    obj.version = 0 ;
                 }else{
                     console.log('not first');
                     obj.version = obj.version + 1 ;
