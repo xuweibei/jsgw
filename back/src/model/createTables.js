@@ -24,30 +24,16 @@ exports.Roles = db.defineModel('gw_role', {
     department: Sequelize.STRING(30)
 })
 
-const Employe = db.defineModel('gw_employe', {
-    id: {
-        type: Sequelize.INTEGER(11),
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true
-    },
-    name : {type: Sequelize.STRING(30), unique: true},
-    phone: {type: Sequelize.STRING(11), unique: true},
-    status: Sequelize.BOOLEAN(4),
-    dep_id: Sequelize.INTEGER(11),
-    account_id: Sequelize.INTEGER(11)
-})
-
 module.exports = {
     Users,
     Department,
-    Employe
+    employee,
+    account,
+    identity,
+    department,
+    first_broad,
+    second_broad
 }
-    group_name: {
-        type: Sequelize.STRING(100),
-        allowNull: false,
-    }
-});
 
 //账户表
 exports.account = db.defineModel('gw_account', {
@@ -138,13 +124,9 @@ exports.employee = db.defineModel('gw_employee', {
         autoIncrement: true
     },
     //员工姓名
-    name: {
-        type: Sequelize.STRING(50)
-    },
+    name : {type: Sequelize.STRING(30), unique: true},
     //联系电话
-    phone:{
-        type: Sequelize.STRING(11)
-    },
+    phone: {type: Sequelize.STRING(11), unique: true},
     //状态：1使用中，0禁用中
     status:{
         type: Sequelize.STRING(1)
