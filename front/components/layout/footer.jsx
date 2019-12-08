@@ -1,5 +1,5 @@
 export default () => (
-    <footer style={{ borderTop: "10px solid #000", justifyContent: "center" }}>
-        这是一家正经的公司
+    <footer className="footer">
+        版权所有 © 2019 zzjs. 福州中战科技网络有限公司
     </footer>
 );
