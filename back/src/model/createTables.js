@@ -24,16 +24,16 @@ exports.Roles = db.defineModel('gw_role', {
     department: Sequelize.STRING(30)
 })
 
-module.exports = {
-    Users,
-    Department,
-    employee,
-    account,
-    identity,
-    department,
-    first_broad,
-    second_broad
-}
+// module.exports = {
+//     Users,
+    // Department,
+//     employee,
+//     account,
+//     identity,
+//     department,
+//     first_broad,
+//     second_broad
+// }
 
 //账户表
 exports.account = db.defineModel('gw_account', {
