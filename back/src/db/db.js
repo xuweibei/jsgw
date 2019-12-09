@@ -49,7 +49,7 @@ if (env === 'production') {
 //             })
 //         })
 //     })
-// } 
+// }
 // // 新建数据库表方法
 // const createTable = async (sqls) => {
 //     for (let key in sqls) {
@@ -70,13 +70,13 @@ const sequelize = new Sequelize(sqlConfig.database, sqlConfig.user, sqlConfig.pa
     timezone: '+08:00' //东八时区
 })
 sequelize
-.authenticate()
-  .then(() => {
-    console.log('链接成功');
-  })
-  .catch(err => {
-    console.error('链接数据库失败:', err);
-});
+    .authenticate()
+    .then(() => {
+        console.log('链接成功');
+    })
+    .catch(err => {
+        console.error('链接数据库失败:', err);
+    });
 
 // exports.sequelize = sequelize;
 const defineModel = function (name, attributes) {
@@ -108,10 +108,10 @@ const defineModel = function (name, attributes) {
     return sequelize.define(name, attrs, {
         tableName: name,
         timestamps: true,
-        paranoid: true, 
+        paranoid: true,
         createdAt: "CreatedAt",  //自定义时间戳
         updatedAt: "UpdatedAt", // 自定义时间戳
-        charset: 'utf8mb4', 
+        charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
         hooks: {
             beforeBulkCreate: function(obj){
@@ -120,7 +120,7 @@ const defineModel = function (name, attributes) {
             beforeValidate: function(obj){
                 if(obj.isNewRecord){
                     console.log('first');
-                    obj.version = 0 ; 
+                    obj.version = 0 ;
                 }else{
                     console.log('not first');
                     obj.version = obj.version + 1 ;

@@ -15,12 +15,16 @@
             height: 80px;
             line-height: 80px;
             background-color: #fff;
+            position: fixed;
+            width: 100%;
+            z-index: 5;
         }
         .mid-content{
             margin-left: 24px;
             margin-top: 24px;
             margin-right: 24px;
             background-color: #fff;
+            margin-top: 104px;
             //筛选模块样式
             #select {
                 width: 100px;
@@ -234,6 +238,19 @@
                     }
                 }
             }
+            //弹窗样式
+            .modal-form{
+                .modal-dialog{
+                    width: 940px;
+                    max-width: unset;
+                }
+                .form-input-item{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    font-size: 14px;
+                }
+            }
             //轮播管理样式
             .turn-manage-container{
                 .turn-manage-top{
@@ -317,43 +334,52 @@
     .sider-bar{
         width: 200px;
         height: fit-content;
-        .sider-top{
+        .side-bar-cont{
+            overflow: auto;
+            position: fixed;
+            margin-left: 0;
+            width: 200px;
+            z-index: 10;
             background-color: #12181A;
-            height: 80px;
-            line-height: 80px;
-            text-align: center;
-            img{
-                width: 60%;
-                margin: auto;
-                position: relative;
-                top: 50%;
-                transform: translateY(-50%);
-            }
-        }
-        .sider-bottom{
-            .card{
-                border: 0;
-                border-radius: 0 !important;
-                .card-header{
-                    background-color: #12181A;
-                    border-radius: 0;
-                    .btn-link.focus, .btn-link:focus{
-                        text-decoration: none;
-                    }
+            height: 100vh;
+            .sider-top{
+                background-color: #12181A;
+                height: 80px;
+                line-height: 80px;
+                text-align: center;
+                img{
+                    width: 60%;
+                    margin: auto;
+                    // position: relative;
+                    // top: 50%;
+                    // transform: translateY(-50%);
                 }
-                .collapse,.collapsing{
-                    background-color: #EAEDF1;
-                    .list-group-item{
-                        border: 0;
-                        background-color: #3B4458;
-                        color: #8F9EB2;
-                        font-size: 14px;
+            }
+            .sider-bottom{
+                .card{
+                    border: 0;
+                    border-radius: 0 !important;
+                    .card-header{
+                        background-color: #12181A;
                         border-radius: 0;
+                        .btn-link.focus, .btn-link:focus{
+                            text-decoration: none;
+                        }
                     }
-                    .list-group-item.active{
+                    .collapse,.collapsing{
                         background-color: #EAEDF1;
-                        color: #0AAFDE !important;
-                        border-left: 4px solid #0AAFDE;
+                        .list-group-item{
+                            border: 0;
+                            background-color: #3B4458;
+                            color: #8F9EB2;
+                            font-size: 14px;
+                            border-radius: 0;
+                        }
+                        .list-group-item.active{
+                            background-color: #EAEDF1;
+                            color: #0AAFDE !important;
+                            border-left: 4px solid #0AAFDE;
+                        }
                     }
                 }
             }
