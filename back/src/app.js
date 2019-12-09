@@ -24,18 +24,15 @@ onerror(app)
 app.keys = ['zzkj_@123'];
 
 const CONFIG = {
-  key: 'koa:sess', /** (string) cookie key (default is koa:sess) */
-  /** (number || 'session') maxAge in ms (default is 1 days) */
-  /** 'session' will result in a cookie that expires when session/browser is closed */
-  /** Warning: If a session cookie is stolen, this cookie will never expire */
-  maxAge: 86400000,
-  autoCommit: true, /** (boolean) automatically commit headers (default true) */
+  key: 'koa:sess', // 加密key
+  maxAge: 86400000, // 这个是确定cookie的有效期，默认是一天。
+  autoCommit: true, /** (boolean 自定义提交头 */
   overwrite: true, /** (boolean) can overwrite or not (default true) */
-  httpOnly: true, /** (boolean) httpOnly or not (default true) */
+  httpOnly: true, // 表示是否可以通过javascript来修改，设成true会更加安全
   signed: true, /** (boolean) signed or not (default true) */
-  rolling: false, /** (boolean) Force a session identifier cookie to be set on every response. The expiration is reset to the original maxAge, resetting the expiration countdown. (default is false) */
-  renew: false, /** (boolean) renew session when session is nearly expired, so we can always keep user logged in. (default is false)*/
-};
+  rolling: false, // (boolean) 强制在每个响应上设置会话标识符cookie。过期将重置为原始maxAge，重新设置过期倒计时
+  renew: false, // (boolean) 当会话快过期时续订会话，这样我们可以始终保持用户登录
+}
 // 解决跨域
 // app.use(async (ctx, next) => {
 //   ctx.set('Access-Control-Allow-Origin', '*');
