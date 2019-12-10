@@ -14,29 +14,19 @@ const Users = db.defineModel('gw_users', {
 })
 
 
-exports.Roles = db.defineModel('gw_role', {
+const Roles = db.defineModel('gw_role', {
     role_id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
         allowNull: false,
         autoIncrement: true
     },
-    department: Sequelize.STRING(30)
+    department: Sequelize.STRING(30),
+    
 })
 
-// module.exports = {
-//     Users,
-    // Department,
-//     employee,
-//     account,
-//     identity,
-//     department,
-//     first_broad,
-//     second_broad
-// }
-
 //账户表
-exports.account = db.defineModel('gw_account', {
+const Account = db.defineModel('gw_account', {
      id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -60,7 +50,7 @@ exports.account = db.defineModel('gw_account', {
 });
 
 //身份表
-exports.identity = db.defineModel('gw_identity', {
+const Identity = db.defineModel('gw_identity', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -73,7 +63,7 @@ exports.identity = db.defineModel('gw_identity', {
     }
 });
 //部门表
-exports.department = db.defineModel('gw_department', {
+const Department = db.defineModel('gw_department', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -83,10 +73,15 @@ exports.department = db.defineModel('gw_department', {
     //部门：列：前端、后端、产品、行政......
     department: {
         type: Sequelize.STRING(50)
+    },
+    dep_status: {
+        type: Sequelize.STRING(2),
+        allowNull: false,
+        defaultValue: '1'
     }
 });
 //侧边栏一级导航表
-exports.first_broad = db.defineModel('gw_first_broad', {
+const First_broad = db.defineModel('gw_first_broad', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -99,7 +94,7 @@ exports.first_broad = db.defineModel('gw_first_broad', {
     }
 });
 //侧边栏二级导航表
-exports.second_broad = db.defineModel('gw_second_broad', {
+const Second_broad = db.defineModel('gw_second_broad', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -116,7 +111,7 @@ exports.second_broad = db.defineModel('gw_second_broad', {
     }
 });
 //员工表
-exports.employee = db.defineModel('gw_employee', {
+const Employee = db.defineModel('gw_employee', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -140,5 +135,13 @@ exports.employee = db.defineModel('gw_employee', {
         type: Sequelize.INTEGER(11)
     }
 });
-
-
+module.exports = {
+    Users,
+    Department,
+    First_broad,
+    Second_broad,
+    Employee,
+    Identity,
+    Account,
+    Roles
+}

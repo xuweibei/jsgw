@@ -14,4 +14,8 @@ router.get('/', home.home)
       .get('/products-center', home.productsCenter)
       .get('/info-center', home.infoCenter)
       .get('/turn-manage', home.turnManage)
+      .post('/api/add_dep', api["add-dep"])
+      .post('/api/del_dep', api["del_dep"])
+      .post('/api/edit_dep', api["edit_dep"])
+      .post('/api/insert_stf', api["insert_stf"])
 module.exports = router

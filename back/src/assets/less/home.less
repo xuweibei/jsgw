@@ -114,6 +114,89 @@
                 padding-right: 24px;
                 display: flex;
                 justify-content: space-between;
+                .svg-img {
+                    img{
+                        width: 15px;
+                        height: 15px;
+                        opacity: 0;
+                        transition: all 1s linear;
+                    }
+                }
+                .item:hover img {
+                    opacity: 1;
+                }
+                .job-modal-footer {
+                    margin-bottom: 64px;
+                    .btn {
+                        width: 128px;
+                        height: 32px;
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                    .btn-left {
+                        border: 1px solid #0AAFDE;
+                        background: #fff;
+                        color: #0AAFDE;
+                        margin-right: 20px;
+                    }
+                    .btn-right {
+                        background: #0AAFDE;
+                        color: #fff;
+                    }
+                }
+                .job-form {
+                    margin: 0 auto !important;
+                    // height: 343px;
+                    padding: 40px 40px 0 40px;
+                    box-sizing: border-box;
+                    .job-form-label{
+                        color: #999;
+                        font-size: 14px;
+                    }
+                    .job-form-input{
+                        height: 32px;
+                        background: #F3F6FA !important;
+                        border: none !important;
+                    }
+                    input::-webkit-input-placeholder {
+                        /* 修改字体颜色 */
+                        color: #A0AAB6;
+                        /* 修改字号，默认继承input */
+                        font-size: 12px;
+                    }
+                }
+                input::-webkit-input-placeholder {
+                    /* 修改字体颜色 */
+                    color: #A0AAB6;
+                   /* 修改字号，默认继承input */
+                   font-size: 12px;
+                //    border: none !important;
+               }
+               .form-control {
+                   border: none !important;
+                   background: #F3F6FA;
+               }
+               .col-form-label {
+                   color:#A0AAB6;
+                   font-size: 14px;
+               }
+                .dep-footer{
+                    .btn {
+                        width: 128px;
+                        height: 32px;
+                        line-height: 20px;
+                    }
+                    .btn-left {
+                        border: 1px solid #0AAFDE;
+                        font-size: 14px;
+                        color: #0AAFDE;
+                    }
+                    .btn-right {
+                        background: #0AAFDE;
+                        font-size: 14px;
+                        color: #fff;
+                    }
+                }
                 .department-structur-left{
                     color: #333333;
                     width: 230px;
@@ -148,6 +231,7 @@
                       font-size: 14px;
                       color: #0AAFDE;
                       margin-top: 30px;
+                      cursor: pointer;
                       img{
                           width: 14px;
                           margin-right: 10px;
@@ -188,6 +272,46 @@
                             background-color: #0AAFDE;
                             color: #fff;
                         }
+                    }
+                }
+                .job-modal-footer {
+                    margin-bottom: 64px;
+                    .btn {
+                        width: 128px;
+                        height: 32px;
+                        font-size: 14px;
+                        line-height: 20px;
+                    }
+                    .btn-left {
+                        border: 1px solid #0AAFDE;
+                        background: #fff;
+                        color: #0AAFDE;
+                        margin-right: 20px;
+                    }
+                    .btn-right {
+                        background: #0AAFDE;
+                        color: #fff;
+                    }
+                }
+                .job-form {
+                    margin: 0 auto;
+                    // height: 343px;
+                    padding: 40px 40px 0 40px;
+                    box-sizing: border-box;
+                    .job-form-label{
+                        color: #999;
+                        font-size: 14px;
+                    }
+                    .job-form-input{
+                        height: 32px;
+                        background: #F3F6FA !important;
+                        border: none !important;
+                    }
+                    input::-webkit-input-placeholder {
+                        /* 修改字体颜色 */
+                        color: #A0AAB6;
+                        /* 修改字号，默认继承input */
+                        font-size: 12px;
                     }
                 }
             }

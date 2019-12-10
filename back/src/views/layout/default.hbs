@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -8,26 +9,31 @@
     <meta name="keyword" content="微信, 小程序, node, 后台管理系统">
     <title>H5start后台管理系统</title>
     <link rel="stylesheet" href="../../assets/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="../../assets/styles/bootstrapValidator.min.css">
     <link rel="stylesheet" href="../../assets/css/home.css">
     <link rel="stylesheet" href="../../assets/styles/bootstrap-table.min.css">
     <script src="../../assets/js/jquery-3.4.1.min.js"></script>
     <script src="../../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/bootstrapValidator.min.js"></script>
     <script src="../../assets/js/bootstrap-table.min.js"></script>
+    <script src="../../utils//constant.js"></script>
 </head>
+
 <body>
-<div class="container-fluid home-container">
-    {{! each view gets inserted here }}
-    <div class="sider-bar">
-       {{> sidebar }} 
+    <div class="container-fluid home-container">
+        {{! each view gets inserted here }}
+        <div class="sider-bar">
+            {{> sidebar }}
+        </div>
+        <div class="body-content">
+            {{> header }}
+            <div class="mid-content">
+                {{> @partial-block }}
+                {{> footer }}
+            </div>
+
+        </div>
     </div>
-    <div class="body-content">
-       {{> header }} 
-       <div class="mid-content">
-            {{> @partial-block }}
-            {{> footer }}
-       </div>
-       
-    </div>
-</div>
 </body>
+
 </html>

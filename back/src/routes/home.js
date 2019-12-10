@@ -1,3 +1,5 @@
+const {findDep} = require('../controller/depControllor')
+
 module.exports = {
     'home': async ctx => {
         await ctx.render('login')
@@ -6,7 +8,15 @@ module.exports = {
         await ctx.render('storeDelivery')
      },
      'departmentStructur': async (ctx, next) => {
-         await ctx.render('departmentStructur')
+         const ret = await findDep()
+         console.log(ret, '新的')
+         const dep = []
+         ret.forEach(item => {
+             if (item.dep_status === '1') {
+                 dep.push(item)
+             }
+         })
+         await ctx.render('departmentStructur', {dep})
      },
      "intro": async (ctx, next) => {
         await ctx.render('intro')

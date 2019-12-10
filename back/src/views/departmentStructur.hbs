@@ -3,24 +3,56 @@
   <div class="department-structur-left">
     <div class="left-title">部门结构</div>
     <div class="left-content">
-      <div class="item">
-        <span>全部</span><span>24人</span>
+      <div class="item d-flex justify-content-around p-0">
+        <span>全部</span><span>6人</span>
       </div>
-      <div class="item">
-        <span>前端</span><span>6人</span>
+      {{#if dep.length}}
+      {{#each dep}}
+      <div class="item d-flex justify-content-around">
+        <span>{{this.department}}</span><span>6人</span>
+        <div class="svg-img pr-2">
+          <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.id}})">
+          <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.id}})">
+        </div>
       </div>
-      <div class="item">
-        <span>后端</span><span>10人</span>
-      </div>
-      <div class="item">
-        <span>产品</span><span>8人</span>
-      </div>
-      <div class="item">
-        <span>行政</span><span>6人</span>
-      </div>
+      {{/each}}
+      {{/if}}
     </div>
-    <div class="left-footer">
+    <div class="left-footer" data-toggle="modal" data-target="#dep-modal">
       <img src="../assets/img/add.png" alt=""><span>添加分组</span>
+    </div>
+    <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+      <div class="toast-body"></div>
+    </div>
+  </div>
+  <div class="modal fade" id="dep-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0 justify-content-center ">
+          <h5 class="modal-title  font-weight-bolder" id="exampleModalCenterTitle">新增</h5>
+        </div>
+        <form class="w-75 job-form" method="post">
+          <div class="form-group row">
+            <label for="colFormLabel" class="col-sm-3 col-form-label job-form-label">名称:</label>
+            <div class="col-sm-9">
+              <input type="text" class="form-control job-form-input job-form-name" maxlength="10" id="colFormLabel"
+                placeholder="请输入" name="name">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="colFormLabel" class="col-sm-3 col-form-label job-form-label">排序:</label>
+            <div class="col-sm-9">
+              <input type="email" class="form-control job-form-input" maxlength="10" id="colFormLabel"
+                placeholder="请输入">
+            </div>
+          </div>
+          <div class="modal-footer border-top-0 job-modal-footer justify-content-center">
+            <button type="button" class="btn btn-secondary btn-left" data-dismiss="modal">返回</button>
+            <button type="submit" class="btn btn-primary btn-right dep-btn" name="submit">保存</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
   <div class="department-structur-right">
@@ -30,11 +62,13 @@
           <div class="form-group mx-sm-3 mb-2">
             <input type="text" class="form-control" id="inputPassword2" placeholder="请输入用户名或手机号">
           </div>
-          <button type="submit" class="btn btn-primary mb-2" style="width: 64px; height: 32px; font-size: 14px; background: #fff; color:#0AAFDE;">搜索</button>
+          <button type="submit" class="btn btn-primary mb-2"
+            style="width: 64px; height: 32px; font-size: 14px; background: #fff; color:#0AAFDE;">搜索</button>
         </form>
       </div>
       <button class="btn btn-primary float-right mt-2" data-toggle="modal" id="filterBy"
-        data-target="#exampleModalCenter" style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;">新增</button>
+        data-target="#exampleModalCenter"
+        style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;">新增</button>
       <table id="table" class="text-center table table-striped table-borderless" data-pagination="true">
       </table>
 
@@ -42,65 +76,175 @@
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title " id="exampleModalCenterTitle">新增</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title font-weight-bolder" id="exampleModalCenterTitle">新增</h5>
             </div>
             <div class="modal-body">
-              <form class="d-flex justify-content-center">
+              <form class="d-flex justify-content-center department-structur-container">
                 <div>
                   <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-4 col-form-label" >员工姓名:</label>
+                    <label for="inputPassword" class="col-sm-4 col-form-label">员工姓名:</label>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="请输入">
+                      <input type="text" class="form-control dep-input" maxlength="5" id="inputPassword"
+                        placeholder="请输入" name="name">
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-4 col-form-label" >手机号:</label>
+                    <label for="inputPassword" class="col-sm-4 col-form-label">手机号:</label>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="请输入">
+                      <input type="text" class="form-control" id="inputPassword" placeholder="请输入" maxlength="11"
+                        name="phone">
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-4 col-form-label" >登录账户:</label>
+                    <label for="inputPassword" class="col-sm-4 col-form-label">登录账户:</label>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="请输入">
+                      <input type="text" maxlength="13" class="form-control" id="inputPassword" name="account"
+                        placeholder="请输入">
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-4 col-form-label" >登录密码:</label>
+                    <label for="inputPassword" class="col-sm-4 col-form-label">登录密码:</label>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="请输入">
+                      <input type="password" class="form-control" id="inputPassword" name="password" placeholder="请输入"
+                        maxlength="13">
                     </div>
                   </div>
                   <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-4 col-form-label" >所属部门:</label>
+                    <label for="inputPassword" class="col-sm-4 col-form-label">所属部门:</label>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="请输入">
+                      <select class="form-control">
+                        {{#if dep.length}}
+                        {{#each dep}}
+                        <option>{{this.department}}</option>
+                        {{/each}}
+                        {{/if}}
+                      </select>
                     </div>
                   </div>
-                  <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-4 col-form-label" >授权管理:</label>
+                  <div class="form-group row ">
+                    <label for="inputPassword" class="col-sm-4 col-form-label">授权管理:</label>
                     <div class="col-sm-8">
-                      <input type="password" class="form-control" id="inputPassword" placeholder="请输入">
+                      <input type="text" class="form-control" id="inputPassword" name="author" placeholder="请输入"
+                        maxlength="5">
                     </div>
+                  </div>
+                  <div class="modal-footer border-top-0 dep-footer justify-content-center">
+                    <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
+                    <button type="submit" class="btn btn-right" name="submint">保存</button>
                   </div>
                 </div>
-
               </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
+
           </div>
         </div>
       </div>
       <script>
+        // 删除分组
+        function deleteDep(id) {
+          $.post(url.delDep, { id }, function (res) {
+            if (res) {
+              $('.toast').toast('show')
+              $('.toast-body').text(res.message)
+              location.reload()
+            }
+          })
+        }
+        // 编辑分组
+        function editDep(id) {
+          $('#dep-modal').modal('toggle')
+          $('#exampleModalCenterTitle').text('编辑')
+          $('.dep-btn').on('click', function (e) {
+            e.preventDefault()
+            var form = $('.job-form')
+            var bootstrapValidator = form.data('bootstrapValidator');
+            bootstrapValidator.validate();
+            if (bootstrapValidator.isValid()) {
+              var jobName = $('.job-form-name').val()
+              $.post(url.editDep, { name: jobName, id }, function (res) {
+                if (res) {
+                  location.reload()
+                }
+              })
+            }
+          })
+        }
         var $table = $('#table')
         $(function () {
+          // 删除分组信息
+          $('form').bootstrapValidator({
+            fields: {
+              phone: {
+                message: '手机号验证失败',
+                validators: {
+                  notEmpty: {
+                    message: '手机号不能为空'
+                  },
+                  regexp: {
+                    regexp: /^[1](([3][0-9])|([4][5-9])|([5][0-3,5-9])|([6][5,6])|([7][0-8])|([8][0-9])|([9][1,8,9]))[0-9]{8}$/,
+                    message: '请输入正确的手机号'
+                  }
+                }
+              },
+              name: {
+                validators: {
+                  notEmpty: {
+                    message: '用户姓名不能为空'
+                  },
+                  stringLength: {
+                    min: 2,
+                    max: 5,
+                    message: '用户姓名长度必须在2到5位之间'
+                  },
+                }
+              }
+            }
+          }).on('success.form.bv', function (e) {
+            e.preventDefault();
+            var $form = $(e.target);
+            const bv = $form.data('bootstrapValidator');
+            $.post(url.insertStf, $form.serialize(), function(res) {
+              console.log(res)
+            })
+          });
+
+          // 分组表单
+          $('.job-form').bootstrapValidator({
+            fields: {
+              name: {
+                validators: {
+                  notEmpty: {
+                    message: '用户姓名不能为空'
+                  },
+                  stringLength: {
+                    min: 2,
+                    max: 10,
+                    message: '用户姓名长度必须在2到10位之间'
+                  },
+                }
+              }
+            }
+          })
+            .on('success.form.bv', function (e) {
+              // Prevent form submission
+              e.preventDefault();
+              // Get the form instance
+              var $form = $(e.target);
+              // Get the BootstrapValidator instance
+              const bv = $form.data('bootstrapValidator');
+              if ($('#exampleModalCenterTitle').text() === '编辑') {
+                return;
+              }
+              $.post(url.addDep, $form.serialize(), function (res) {
+                if (res) {
+                  $('#dep-modal').modal('toggle')
+                  $('.toast').toast('show')
+                  $('.toast-body').text(res.message)
+                  location.reload()
+                }
+              });
+            });
           $table.bootstrapTable({
             toolbar: '.toolbar',
             columns: [{
