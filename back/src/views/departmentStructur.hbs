@@ -211,7 +211,9 @@
             var $form = $(e.target);
             const bv = $form.data('bootstrapValidator');
             $.post(url.insertStf, $form.serialize(), function (res) {
-              console.log(res)
+              if (res) {
+                location.reload()
+              }
             })
           });
 
@@ -256,15 +258,22 @@
             method: "post",
             url: 'http://localhost:8000/api/get_tab',
             responseHandler: function (res) {
-              console.log(res.data)
-              return res.data
+              const arr = []
+              res.data.forEach(item => {
+                arr.push({
+                  department: item.department,
+                  name: item.name,
+                  tel: item.phone,
+                  card: item.identity,
+                  status: item.status ? "开启" : "关闭中",
+                  opt: operateFormatter()
+                })
+              })
+              return arr
             },
             columns: [{
               title: '部门',
               field: 'department',
-              formatter: function(value,row,index) {
-                console.log(value, row, index)
-              }
             }, {
               title: '姓名',
               field: 'name'

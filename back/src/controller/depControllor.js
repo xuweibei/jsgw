@@ -127,14 +127,16 @@ const insertEmployee = async (obj) => {
 
 // 获取员工
 const getEmployee = async () => {
-    const ret = await Employee.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
-    let employee = []
-    ret.forEach(item => {
-        employee.push(item.dataValues)
-    })
-    return employee
-    // const ret = await sequelize.query("select * from gw_employee where dep_id=(select id from gw_department)")
-    // console.log(ret)
+    // const ret = await Employee.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
+    // let employee = []
+    // ret.forEach(item => {
+    //     employee.push(item.dataValues)
+    // })
+    // return employee
+    const sql = "select e.name, e.phone, d.department, i.identity,e.status from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
+    const ret = await sequelize.query(sql)
+    console.log(ret)
+    return ret[0]
 }
 module.exports = {
     addDep,
