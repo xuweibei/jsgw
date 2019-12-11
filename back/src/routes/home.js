@@ -1,4 +1,4 @@
-const {findDep} = require('../controller/depControllor')
+const {findDep, findIdentity} = require('../controller/depControllor')
 
 module.exports = {
     'home': async ctx => {
@@ -9,14 +9,14 @@ module.exports = {
      },
      'departmentStructur': async (ctx, next) => {
          const ret = await findDep()
-         console.log(ret, '新的')
+         const identity = await findIdentity()
          const dep = []
          ret.forEach(item => {
              if (item.dep_status === '1') {
                  dep.push(item)
              }
          })
-         await ctx.render('departmentStructur', {dep})
+         await ctx.render('departmentStructur', {dep, identity})
      },
      "intro": async (ctx, next) => {
         await ctx.render('intro')

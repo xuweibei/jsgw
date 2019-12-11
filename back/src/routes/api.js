@@ -1,5 +1,5 @@
 const {login} = require('../controller/login')
-const {addDep, delDep, updateDep} = require('../controller/depControllor')
+const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep} = require('../controller/depControllor')
 const {SuccessModel, ErrorModel} = require('../config/model')
 
 module.exports = {
@@ -42,7 +42,18 @@ module.exports = {
         ctx.body = new ErrorModel('分组名已存在')
     },
     "insert_stf": async ctx => {
-        console.log(ctx.request.body)
-        ctx.body = {a: 1}
+        const ret = await insertEmployee(ctx.request.body)
+        if (ret) {
+            return ctx.body = new SuccessModel('新增成功')
+        }
+        ctx.body = new SuccessModel('新增失败')
+    },
+    "get_tab": async ctx => {
+        const ret = await getEmployee()
+        if (ret) {
+            ctx.body = new SuccessModel(ret, "获取列表成功")
+            return;
+        }
+        ctx.body = new ErrorModel('获取列表失败')
     }
 }

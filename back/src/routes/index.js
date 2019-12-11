@@ -18,4 +18,5 @@ router.get('/', home.home)
       .post('/api/del_dep', api["del_dep"])
       .post('/api/edit_dep', api["edit_dep"])
       .post('/api/insert_stf', api["insert_stf"])
+      .post('/api/get_tab', api["get_tab"])
 module.exports = router

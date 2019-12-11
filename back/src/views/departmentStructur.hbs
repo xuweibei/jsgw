@@ -58,18 +58,19 @@
   <div class="department-structur-right">
     <div class="table-container">
       <div class="toolbar">
-        <form class="form-inline">
+        {{!-- <form class="form-inline">
           <div class="form-group mx-sm-3 mb-2">
             <input type="text" class="form-control" id="inputPassword2" placeholder="请输入用户名或手机号">
           </div>
           <button type="submit" class="btn btn-primary mb-2"
             style="width: 64px; height: 32px; font-size: 14px; background: #fff; color:#0AAFDE;">搜索</button>
-        </form>
+        </form> --}}
       </div>
       <button class="btn btn-primary float-right mt-2" data-toggle="modal" id="filterBy"
         data-target="#exampleModalCenter"
         style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;">新增</button>
-      <table id="table" class="text-center table table-striped table-borderless" data-pagination="true">
+      <table id="table" class="text-center table table-striped table-borderless" data-pagination="true"
+        data-search="true" data-search-align="left">
       </table>
 
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
@@ -113,7 +114,7 @@
                   <div class="form-group row">
                     <label for="inputPassword" class="col-sm-4 col-form-label">所属部门:</label>
                     <div class="col-sm-8">
-                      <select class="form-control">
+                      <select class="form-control" name="department">
                         {{#if dep.length}}
                         {{#each dep}}
                         <option>{{this.department}}</option>
@@ -125,8 +126,13 @@
                   <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">授权管理:</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control" id="inputPassword" name="author" placeholder="请输入"
-                        maxlength="5">
+                      <select class="form-control" name="author">
+                        {{#if identity.length}}
+                        {{#each identity}}
+                        <option>{{this.identity}}</option>
+                        {{/each}}
+                        {{/if}}
+                      </select>
                     </div>
                   </div>
                   <div class="modal-footer border-top-0 dep-footer justify-content-center">
@@ -204,7 +210,7 @@
             e.preventDefault();
             var $form = $(e.target);
             const bv = $form.data('bootstrapValidator');
-            $.post(url.insertStf, $form.serialize(), function(res) {
+            $.post(url.insertStf, $form.serialize(), function (res) {
               console.log(res)
             })
           });
@@ -247,9 +253,18 @@
             });
           $table.bootstrapTable({
             toolbar: '.toolbar',
+            method: "post",
+            url: 'http://localhost:8000/api/get_tab',
+            responseHandler: function (res) {
+              console.log(res.data)
+              return res.data
+            },
             columns: [{
               title: '部门',
-              field: 'department'
+              field: 'department',
+              formatter: function(value,row,index) {
+                console.log(value, row, index)
+              }
             }, {
               title: '姓名',
               field: 'name'
@@ -267,115 +282,7 @@
               field: 'opt',
               class: 'last-column'
             }],
-            data: [{
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            },
-            {
-              department: '产品',
-              name: '庄漂亮',
-              tel: '1339658910',
-              card: '超级管理员',
-              status: '使用中',
-              opt: operateFormatter()
-            }]
           })
-          //表头添加类名设置背景色
-          /*$table.bootstrapTable('refreshOptions', {
-            theadClasses: 'bg-blue'
-          })*/
           //操作列表
           function operateFormatter(value, row, index) {
             return [
@@ -386,14 +293,12 @@
           }
 
           $('#filterBy').click(function () {
-            console.log($('[name="filterAlgorithm"]'))
             var filterAlgorithm = $('[name="filterAlgorithm"]').val()
             $table.bootstrapTable('refreshOptions', {
               filterOptions: {
                 filterAlgorithm: filterAlgorithm
               }
             })
-            console.log($table.bootstrapTable)
             $table.bootstrapTable('filterBy', {
               id: 3,
               price: '$1'

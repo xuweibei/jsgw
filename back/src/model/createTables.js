@@ -14,16 +14,16 @@ const Users = db.defineModel('gw_users', {
 })
 
 
-const Roles = db.defineModel('gw_role', {
-    role_id: {
-        type: Sequelize.INTEGER(11),
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true
-    },
-    department: Sequelize.STRING(30),
+// const Roles = db.defineModel('gw_role', {
+//     role_id: {
+//         type: Sequelize.INTEGER(11),
+//         primaryKey: true,
+//         allowNull: false,
+//         autoIncrement: true
+//     },
+//     department: Sequelize.STRING(30),
     
-})
+// })
 
 //账户表
 const Account = db.defineModel('gw_account', {
@@ -58,10 +58,12 @@ const Identity = db.defineModel('gw_identity', {
         autoIncrement: true
     },
     //身份：超级管理员，普通管理员，普通员工
-    identity: {
+    identity: { 
         type: Sequelize.STRING(50)
     }
-});
+})
+// .bulkCreate([{id: 1,identity: '超级管理员'}, {id: 2,identity: '管理员'}, {id: 3,identity: '员工'}], [{updateOnDuplicate:true}]) 
+   
 //部门表
 const Department = db.defineModel('gw_department', {
     id: {
@@ -121,18 +123,21 @@ const Employee = db.defineModel('gw_employee', {
     //员工姓名
     name : {type: Sequelize.STRING(30), unique: true},
     //联系电话
-    phone: {type: Sequelize.STRING(11), unique: true},
+    phone: {type: Sequelize.STRING(11)},
     //状态：1使用中，0禁用中
     status:{
-        type: Sequelize.STRING(1)
+        type: Sequelize.STRING(1),
+        defaultValue: '0'
     },
+    ident_id: Sequelize.STRING(3),
     //部门id,对应部门表department的主键
     dep_id: {
         type: Sequelize.INTEGER(11)
     },
     //账号id,对应账号表account的主键
     account_id: {
-        type: Sequelize.INTEGER(11)
+        type: Sequelize.INTEGER(11),
+        allowNull: true
     }
 });
 module.exports = {
@@ -143,5 +148,5 @@ module.exports = {
     Employee,
     Identity,
     Account,
-    Roles
+    // Roles
 }

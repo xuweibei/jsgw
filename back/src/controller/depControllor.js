@@ -1,7 +1,11 @@
+const {sequelize} = require('../db/db');
 const {
-    Department
+    Department,
+    Identity,
+    Employee
 } = require('../model/createTables')
 
+// 添加分组
 const addDep = async (dep) => {
     const add = await Department.findOne({
         where: {
@@ -30,14 +34,16 @@ const addDep = async (dep) => {
     }
 
 }
+// 查找分组信息
 const findDep = async () => {
-    const ret = await Department.findAll()
+    const ret = await Department.findAll({ attributes: { exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt'] } })
     const arr = []
     ret.forEach(item => {
         arr.push(item.dataValues)
     })
     return arr || []
 }
+// 删除分组
 const delDep = async (id) => {
     const ret = await Department.findOne({
         where: {
@@ -56,6 +62,7 @@ const delDep = async (id) => {
     }
 }
 
+// 更新分组名称
 const updateDep = async (name, id) => {
     const ret = await Department.findAll({
         where: {department: name}
@@ -72,9 +79,69 @@ const updateDep = async (name, id) => {
     })
     return update[0]
 }
+// 获取身份信息
+const findIdentity = async () => {
+    const ret = await Identity.findAll()
+    let ident = [] 
+    ret.forEach(item => {
+        ident.push(item.dataValues)
+    })
+    return ident
+}
+// 插入员工信息
+const insertEmployee = async (obj) => {
+    // 查找部门id
+    const findDepID = await Department.findOne({
+        where: {department: obj.department}
+    })
+    const dep_id = findDepID.id
+    const findIndetId = await Identity.findOne({
+        where: {Identity: obj.author}
+    })
+    const ident_id = findIndetId.id
+    const ret = await Employee.findOne({
+        where: {
+            name: obj.name
+        }
+    })
+    if (ret) {
+        const update = await Employee.update({
+            name: obj.name,
+            phone: obj.phone,
+            ident_id,
+            dep_id
+        },{
+            where: {name: obj.name}
+        })
+        return ret && ret[0]
+    } else {
+        const insert = await Employee.create({
+            name: obj.name,
+            phone: obj.phone,
+            ident_id,
+            dep_id
+        })
+        return insert && insert.dataValues
+    }
+}
+
+// 获取员工
+const getEmployee = async () => {
+    const ret = await Employee.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
+    let employee = []
+    ret.forEach(item => {
+        employee.push(item.dataValues)
+    })
+    return employee
+    // const ret = await sequelize.query("select * from gw_employee where dep_id=(select id from gw_department)")
+    // console.log(ret)
+}
 module.exports = {
     addDep,
     findDep,
     delDep,
-    updateDep
+    updateDep,
+    findIdentity,
+    insertEmployee,
+    getEmployee
 }
