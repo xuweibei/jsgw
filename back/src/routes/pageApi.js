@@ -9,7 +9,6 @@ module.exports = {
      },
      'departmentStructur': async (ctx, next) => {
          const depObj = await findDep()
-         console.log(depObj)
          const identity = await findIdentity()
          await ctx.render('departmentStructur', {depObj, identity})
      },

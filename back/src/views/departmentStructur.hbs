@@ -15,8 +15,8 @@
       <div class="item d-flex justify-content-around">
         <span>{{this.department}}</span><span>{{this.num}}</span>
         <div class="svg-img pr-2">
-          <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.id}})">
-          <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.id}})">
+          <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.dep_id}})">
+          <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.dep_id}})">
         </div>
       </div>
       {{/each}}
@@ -85,7 +85,7 @@
               <h5 class="modal-title font-weight-bolder" id="exampleModalCenterTitle">新增</h5>
             </div>
             <div class="modal-body">
-              <form class="d-flex justify-content-center department-structur-container">
+              <form class="d-flex justify-content-center department-structur-container stf-form">
                 <div>
                   <div class="form-group row">
                     <label for="inputPassword" class="col-sm-4 col-form-label">员工姓名:</label>
@@ -153,7 +153,6 @@
       <script>
         // 删除分组
         function deleteDep(id) {
-          console.log(id)
           $.post(url.delDep, { id }, function (res) {
             if (res) {
               $('.toast').toast('show')
@@ -184,7 +183,7 @@
         var $table = $('#table')
         $(function () {
           // 删除分组信息
-          $('form').bootstrapValidator({
+          $('.stf-form').bootstrapValidator({
             fields: {
               phone: {
                 message: '手机号验证失败',
