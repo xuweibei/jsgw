@@ -36,14 +36,22 @@ const addDep = async (dep) => {
 }
 // 查找分组信息
 const findDep = async () => {
-    const sql1 = 'SELECT d.department,COUNT(e.dep_id) as num FROM gw_employee e, gw_department d WHERE e.dep_id=d.id and d.dep_status = 1 GROUP BY(d.department)'
-    // const sql1 = 'select e.dep_id,d.department,count(dep_id) as num from gw_employee as e LEFT JOIN  gw_department as d on e.dep_id=d.id where d.dep_status=1 group by dep_id,department'
+    // const sql1 = 'SELECT d.department,COUNT(e.dep_id) as num FROM gw_employee e, gw_department d WHERE e.dep_id=d.id and d.dep_status = 1 GROUP BY(d.department)'
+    const sql1 = 'select e.dep_id,d.department,count(dep_id) as num from gw_employee as e LEFT JOIN  gw_department as d on e.dep_id=d.id where d.dep_status=1 group by dep_id,department'
+    // const sql1 = 'select e.dep_id,d.department,count(dep_id) as num from gw_employee as e LEFT JOIN  gw_department as d on d.dep_status=1 group by dep_id,department'
     const ret = await sequelize.query(sql1)
+    console.log(ret[0], '佳世客德哈卡就是导航')
     // const group = await sequelize.query('select id, department from gw_department')
     // console.log(group[0])
-    console.log(ret[0])
+    // const dep = await Department.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
+    // let arr = []
+    // dep.forEach(item => {
+    //     item.dataValues.num = 0
+    //     arr.push(item.dataValues)
+    // })
     const sql = 'select COUNT(1) as num from gw_employee'
     const count = await sequelize.query(sql)
+    // let deps = ret[0].length > 0 ? ret[0] : arr
     const obj = {
         dep: ret[0],
         allDep: count[0]
