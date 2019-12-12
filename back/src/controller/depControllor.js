@@ -135,7 +135,6 @@ const getEmployee = async () => {
     // return employee
     const sql = "select e.name, e.phone, d.department, i.identity,e.status from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
     const ret = await sequelize.query(sql)
-    console.log(ret)
     return ret[0]
 }
 module.exports = {
