@@ -59,14 +59,28 @@ const findDep = async () => {
     const ret = await sequelize.query(sql1)
     // const group = await sequelize.query('select id, department from gw_department')
     // console.log(group[0])
-    console.log(ret[0])
+    // const dep = await Department.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
+    // let arr = []
+    // dep.forEach(item => {
+    //     item.dataValues.num = 0
+    //     arr.push(item.dataValues)
+    // })
     const sql = 'select COUNT(1) as num from gw_employee'
     const count = await sequelize.query(sql)
+    // let deps = ret[0].length > 0 ? ret[0] : arr
     const obj = {
         dep: ret[0],
         allDep: count[0]
     }
     return obj || {}
+}
+const readDep = async () => {
+    const ret = await Department.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
+    let arr = []
+    ret.forEach(item => {
+        arr.push(item.dataValues)
+    })
+    return arr || []
 }
 // 删除分组
 const delDep = async (id) => {
@@ -169,5 +183,6 @@ module.exports = {
     updateDep,
     findIdentity,
     insertEmployee,
-    getEmployee
+    getEmployee,
+    readDep
 }

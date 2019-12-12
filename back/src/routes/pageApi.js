@@ -1,4 +1,4 @@
-const {findDep, findIdentity} = require('../controller/depControllor')
+const {findDep, findIdentity, readDep} = require('../controller/depControllor')
 
 module.exports = {
     'home': async ctx => {
@@ -10,7 +10,8 @@ module.exports = {
      'departmentStructur': async (ctx, next) => {
          const depObj = await findDep()
          const identity = await findIdentity()
-         await ctx.render('departmentStructur', {depObj, identity})
+         const dep = await readDep()
+         await ctx.render('departmentStructur', {depObj, identity, dep})
      },
      "intro": async (ctx, next) => {
         await ctx.render('intro')

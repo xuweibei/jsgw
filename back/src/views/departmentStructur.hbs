@@ -15,8 +15,8 @@
       <div class="item d-flex justify-content-around">
         <span>{{this.department}}</span><span>{{this.num}}</span>
         <div class="svg-img pr-2">
-          <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.dep_id}})">
-          <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.dep_id}})">
+          <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.id}})">
+          <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.id}})">
         </div>
       </div>
       {{/each}}
@@ -119,8 +119,8 @@
                     <label for="inputPassword" class="col-sm-4 col-form-label">所属部门:</label>
                     <div class="col-sm-8">
                       <select class="form-control" name="department">
-                        {{#if depObj.dep.length}}
-                        {{#each depObj.dep}}
+                        {{#if dep.length}}
+                        {{#each dep}}
                         <option>{{this.department}}</option>
                         {{/each}}
                         {{/if}}
