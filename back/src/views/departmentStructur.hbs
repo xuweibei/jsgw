@@ -3,13 +3,17 @@
   <div class="department-structur-left">
     <div class="left-title">部门结构</div>
     <div class="left-content">
-      <div class="item d-flex justify-content-around p-0">
-        <span>全部</span><span>6人</span>
-      </div>
-      {{#if dep.length}}
-      {{#each dep}}
+        {{#if depObj.allDep.length}}
+        {{#each depObj.allDep}}
+        <div class="item d-flex justify-content-around">
+          <span>全部</span><span>{{this.num}}人</span>
+        </div>
+        {{/each}}
+        {{/if}}
+      {{#if depObj.dep.length}}
+      {{#each depObj.dep}}
       <div class="item d-flex justify-content-around">
-        <span>{{this.department}}</span><span>6人</span>
+        <span>{{this.department}}</span><span>{{this.num}}</span>
         <div class="svg-img pr-2">
           <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.id}})">
           <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.id}})">
@@ -115,8 +119,8 @@
                     <label for="inputPassword" class="col-sm-4 col-form-label">所属部门:</label>
                     <div class="col-sm-8">
                       <select class="form-control" name="department">
-                        {{#if dep.length}}
-                        {{#each dep}}
+                        {{#if depObj.dep.length}}
+                        {{#each depObj.dep}}
                         <option>{{this.department}}</option>
                         {{/each}}
                         {{/if}}
@@ -149,6 +153,7 @@
       <script>
         // 删除分组
         function deleteDep(id) {
+          console.log(id)
           $.post(url.delDep, { id }, function (res) {
             if (res) {
               $('.toast').toast('show')

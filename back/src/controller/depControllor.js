@@ -36,12 +36,15 @@ const addDep = async (dep) => {
 }
 // 查找分组信息
 const findDep = async () => {
-    const ret = await Department.findAll({ attributes: { exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt'] } })
-    const arr = []
-    ret.forEach(item => {
-        arr.push(item.dataValues)
-    })
-    return arr || []
+    const sql1 = 'SELECT d.department,COUNT(e.dep_id) as num FROM gw_employee e, gw_department d WHERE e.dep_id=d.id and d.dep_status = 1 GROUP BY(d.department)'
+    const ret = await sequelize.query(sql1)
+    const sql = 'select COUNT(*) as num from gw_employee'
+    const count = await sequelize.query(sql)
+    const obj = {
+        dep: ret[0],
+        allDep: count[0]
+    }
+    return obj || {}
 }
 // 删除分组
 const delDep = async (id) => {

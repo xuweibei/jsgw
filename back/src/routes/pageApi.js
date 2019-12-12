@@ -8,15 +8,10 @@ module.exports = {
         await ctx.render('storeDelivery')
      },
      'departmentStructur': async (ctx, next) => {
-         const ret = await findDep()
+         const depObj = await findDep()
+         console.log(depObj)
          const identity = await findIdentity()
-         const dep = []
-         ret.forEach(item => {
-             if (item.dep_status === '1') {
-                 dep.push(item)
-             }
-         })
-         await ctx.render('departmentStructur', {dep, identity})
+         await ctx.render('departmentStructur', {depObj, identity})
      },
      "intro": async (ctx, next) => {
         await ctx.render('intro')
