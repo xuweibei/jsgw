@@ -1,17 +1,12 @@
-const {login} = require('../controller/login')
-const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep} = require('../controller/depControllor')
+//员工接口
+const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep,editEmp, readDep, findIdentity, delEmp, changeStatus} = require('../controller/depControllor')
 const {SuccessModel, ErrorModel} = require('../config/model')
-
 module.exports = {
-    "login": async ctx => {
-        const {account, password} = ctx.request.body;
-        const data = await login(account, password)
-        if (data.hasOwnProperty('dataValues')) {
-            ctx.session.account = data.account
-            ctx.body = new SuccessModel(data)
-        } else {
-            ctx.body = new ErrorModel('账号或者密码错误')
-        }
+    'departmentStructur': async (ctx, next) => {
+        const depObj = await findDep()
+        const identity = await findIdentity()
+        const dep = await readDep()
+        await ctx.render('departmentStructur', {depObj, identity, dep})
     },
     "add-dep": async ctx => {
         const {name} = ctx.request.body;
@@ -54,5 +49,33 @@ module.exports = {
             return;
         }
         ctx.body = new ErrorModel('获取列表失败')
+    },
+    "edit_emp":async ctx => {
+        const {id} = ctx.request.body
+        console.log(ctx.request.body, '实打实抠脚大汉三块就')
+        const ret = await editEmp(ctx.request.body)
+        if (ret) {
+             ctx.body = new SuccessModel('更新成功')
+             return;
+        }
+       ctx.body = new ErrorModel('更新失败')
+    },
+    "del_emp": async ctx => {
+        const {id} = ctx.request.body
+        const ret = await delEmp(id)
+        if (ret) {
+            ctx.body = new SuccessModel('刪除员工成功')
+            return
+        }
+        ctx.body = new ErrorModel('刪除员工失败')
+    },
+    "change_status": async ctx => {
+        const {id} = ctx.request.body
+        const ret = await changeStatus(id)
+        if (ret) {
+            ctx.body = new SuccessModel('状态修改成功')
+            return
+        }
+        ctx.body = new ErrorModel('状态修改失败')
     }
 }

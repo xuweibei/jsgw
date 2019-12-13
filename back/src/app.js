@@ -1,25 +1,21 @@
+/*
+* 后台程序入口文件 // 18760660507
+* */
 const Koa = require('koa');
-// 解决less文件栈溢出
-require('events').EventEmitter.defaultMaxListeners = 0
-// 模板插件
-const views = require('koa-views');
-// json格式处理中间件
-const json = require('koa-json');
-// 处理koa程序错误
-const onerror = require('koa-onerror'); 
-// 解析body传输数据
-const koaBody = require('koa-body');
+const views = require('koa-views'); // 模板插件
+const json = require('koa-json'); // json格式处理中间件
+const onerror = require('koa-onerror'); // 处理koa程序错误
+const koaBody = require('koa-body'); // 解析body传输数据
 const session = require('koa-session')
-// 跨域中间件
-const cors = require('koa2-cors');
+const cors = require('koa2-cors'); // 跨域中间件
+const logger = require('koa-logger'); // 日志生成中间件
 
-// 日志生成中间件
-const logger = require('koa-logger');
-// 自定义方法动态生成css
-const {createCss} = require('./utils/utils')
+const {createCss} = require('./utils/utils'); // 自定义方法动态生成css
+
 // 创建应用
 const app = new Koa();
 // error handler
+require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
 onerror(app)
 app.keys = ['zzkj_@123'];
 
@@ -47,7 +43,7 @@ const CONFIG = {
 //   ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
 //   ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 //   if (ctx.method == 'OPTIONS') {
-//     ctx.body = 200; 
+//     ctx.body = 200;
 //   } else {
 //     await next();
 //   }
@@ -85,9 +81,9 @@ app.use(require('koa-static')(__dirname, '/assets'))
 
 // logger
 app.use(async (ctx, next) => {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
+  const start = new Date();
+  await next();
+  const ms = new Date() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 

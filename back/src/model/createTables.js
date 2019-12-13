@@ -1,3 +1,4 @@
+// 生成表
 const Sequelize = require('sequelize');
 const db = require('../db/db')
 const Users = db.defineModel('gw_users', {
@@ -126,6 +127,10 @@ const Employee = db.defineModel('gw_employee', {
     phone: {type: Sequelize.STRING(11)},
     //状态：1使用中，0禁用中
     status:{
+        type: Sequelize.STRING(1),
+        defaultValue: '1'
+    },
+    active: {
         type: Sequelize.STRING(1),
         defaultValue: '0'
     },

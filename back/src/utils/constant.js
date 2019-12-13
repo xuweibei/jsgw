@@ -6,5 +6,8 @@ const url = {
     addDep: base + 'api/add_dep', //添加部门分组
     editDep: base + 'api/edit_dep', // 编辑分组
     insertStf: base + 'api/insert_stf',
-    getTable:base + 'api/get_tab'
+    getTable:base + 'api/get_tab', // 获取员工
+    editEmp: base + 'api/edit_emp', //编辑员工
+    delEmp: base + 'api/del_emp', //编辑员工
+    changeStatus: base + 'api/change_status', //编辑员工
 }

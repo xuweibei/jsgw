@@ -1,3 +1,4 @@
+// 
 const {sequelize} = require('../db/db');
 const {
     Department,
@@ -36,39 +37,12 @@ const addDep = async (dep) => {
 }
 // 查找分组信息
 const findDep = async () => {
-    // const sql1 = 'SELECT d.department,  num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
-    // const ret = await sequelize.query(sql1)
-    // const sql1 = 'SELECT d.department,COUNT(e.dep_id) as num FROM gw_employee e, gw_department d WHERE e.dep_id=d.id and d.dep_status = 1 GROUP BY(d.department)'
-    // const sql1 = 'select e.dep_id,d.department,count(dep_id) as num from gw_employee as e LEFT JOIN  gw_department as d on e.dep_id=d.id where d.dep_status=1 group by dep_id,department'
-   const sql1 = 'SELECT d.department,  num.dep_id as dep_id, IFNULL(num.count,0) as sum from  gw_department d ' +
-       'LEFT JOIN ' +
-       '( ' +
-       'select ' +
-       'e.dep_id as dep_id,' +
-       'count(e.dep_id) as count ' +
-       'from ' +
-       'gw_employee as e ' +
-       'LEFT JOIN ' +
-       'gw_department as d ' +
-       'on ' +
-       'e.dep_id=d.id ' +
-       'where ' +
-       'd.dep_status=1 ' +
-       'group by ' +
-       'e.dep_id,' +
-       'd.department) as num ' +
-       'on d.id=num.dep_id'
+    // const sql1 = 'SELECT d.department, d.id, num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
+    const sql1 = 'select d.department, e.dep_id, d.id,count(dep_id) as num from gw_department as d LEFT JOIN gw_employee as e on e.dep_id=d.id where d.dep_status=1 group by dep_id,d.id, department'
     const ret = await sequelize.query(sql1)
-    // const group = await sequelize.query('select id, department from gw_department')
-    // console.log(group[0])
-    // const dep = await Department.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
-    // let arr = []
-    // dep.forEach(item => {
-    //     item.dataValues.num = 0
-    //     arr.push(item.dataValues)
-    // })
     const sql = 'select COUNT(1) as num from gw_employee'
     const count = await sequelize.query(sql)
+    // console.log(ret[0])
     const obj = {
         dep: ret[0],
         allDep: count[0]
@@ -153,7 +127,7 @@ const insertEmployee = async (obj) => {
         },{
             where: {name: obj.name}
         })
-        return ret && ret[0]
+        return update && update[0]
     } else {
         const insert = await Employee.create({
             name: obj.name,
@@ -167,15 +141,46 @@ const insertEmployee = async (obj) => {
 
 // 获取员工
 const getEmployee = async () => {
-    // const ret = await Employee.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
-    // let employee = []
-    // ret.forEach(item => {
-    //     employee.push(item.dataValues)
-    // })
-    // return employee
-    const sql = "select e.name, e.phone, d.department, i.identity,e.status from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
+    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
     const ret = await sequelize.query(sql)
     return ret[0]
+}
+
+// 编辑员工
+const editEmp = async (parms) => {
+    const findEmp = await Employee.findOne({where: {id: parms.id}})
+    const department = await Department.findOne({attributes: ['id']}, {where:{department: parms.department}})
+    const identity = await Identity.findOne({attributes: ['id']}, {where: {identity: parms.author}})
+    if (findEmp) {
+        const updateEmp = await Employee.update({
+            name: parms.name,
+            phone: parms.phone,
+            ident_id: identity.dataValues.id,
+            dep_id: department.dataValues.id
+        }, {where: {id: parms.id}})
+        return updateEmp && updateEmp[0]
+    }
+}
+// 删除员工
+const delEmp = async (id) => {
+    const emp = await Employee.findOne({where: {id}})
+    if (emp) {
+        const del = await Employee.update({status: "0"}, {where: {id}})
+        return del && del[0]
+    }
+} 
+const changeStatus = async (id) => {
+    const emp = await Employee.findOne({where: {id}})
+    const empData = emp.dataValues;
+    console.log(empData)
+    if (emp) {
+        if (empData.active === "0") {
+            const change = await Employee.update({active: '1'}, {where: {id}})
+            return change && change[0]
+        }
+            const change = await Employee.update({active: '1'}, {where: {id}})
+            return change && change[0]
+    }
 }
 module.exports = {
     addDep,
@@ -185,5 +190,8 @@ module.exports = {
     findIdentity,
     insertEmployee,
     getEmployee,
-    readDep
+    readDep,
+    editEmp,
+    delEmp,
+    changeStatus
 }
