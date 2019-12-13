@@ -1,3 +1,4 @@
+// 生成表
 const Sequelize = require('sequelize');
 const db = require('../db/db')
 const Users = db.defineModel('gw_users', {

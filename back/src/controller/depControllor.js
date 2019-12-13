@@ -1,3 +1,4 @@
+// 
 const {sequelize} = require('../db/db');
 const {
     Department,
@@ -36,42 +37,12 @@ const addDep = async (dep) => {
 }
 // 查找分组信息
 const findDep = async () => {
-<<<<<<< HEAD
-    const sql1 = 'SELECT d.department,  num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
+    // const sql1 = 'SELECT d.department, d.id, num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
+    const sql1 = 'select d.department, e.dep_id, d.id,count(dep_id) as num from gw_department as d LEFT JOIN gw_employee as e on e.dep_id=d.id where d.dep_status=1 group by dep_id,d.id, department'
     const ret = await sequelize.query(sql1)
-=======
-    // const sql1 = 'SELECT d.department,COUNT(e.dep_id) as num FROM gw_employee e, gw_department d WHERE e.dep_id=d.id and d.dep_status = 1 GROUP BY(d.department)'
-    // const sql1 = 'select e.dep_id,d.department,count(dep_id) as num from gw_employee as e LEFT JOIN  gw_department as d on e.dep_id=d.id where d.dep_status=1 group by dep_id,department'
-   const sql1 = 'SELECT d.department,  num.dep_id as dep_id, IFNULL(num.count,0) as sum from  gw_department d' +
-       'LEFT JOIN ' +
-       '(' +
-       'select' +
-       'e.dep_id as dep_id,' +
-       'count(e.dep_id) as count' +
-       'from' +
-       'gw_employee as e' +
-       'LEFT JOIN' +
-       'gw_department as d' +
-       'on' +
-       'e.dep_id=d.id' +
-       'where' +
-       'd.dep_status=1' +
-       'group by' +
-       'e.dep_id,' +
-       'd.department) as num' +
-       'on d.id=num.dep_id'
-    const ret = await sequelize.query(sql1)
-    // const group = await sequelize.query('select id, department from gw_department')
-    // console.log(group[0])
-    // const dep = await Department.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
-    // let arr = []
-    // dep.forEach(item => {
-    //     item.dataValues.num = 0
-    //     arr.push(item.dataValues)
-    // })
->>>>>>> bdcd0d369e8c59bb6393467a33f6848eb21d4565
     const sql = 'select COUNT(1) as num from gw_employee'
     const count = await sequelize.query(sql)
+    console.log(ret[0])
     const obj = {
         dep: ret[0],
         allDep: count[0]
@@ -170,15 +141,14 @@ const insertEmployee = async (obj) => {
 
 // 获取员工
 const getEmployee = async () => {
-    // const ret = await Employee.findAll({attributes:{exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']}})
-    // let employee = []
-    // ret.forEach(item => {
-    //     employee.push(item.dataValues)
-    // })
-    // return employee
-    const sql = "select e.name, e.phone, d.department, i.identity,e.status from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
+    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.status from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
     const ret = await sequelize.query(sql)
     return ret[0]
+}
+
+// 编辑员工
+const editEmp = async (id) => {
+
 }
 module.exports = {
     addDep,
@@ -188,5 +158,6 @@ module.exports = {
     findIdentity,
     insertEmployee,
     getEmployee,
-    readDep
+    readDep,
+    editEmp
 }
