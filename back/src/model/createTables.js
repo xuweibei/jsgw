@@ -128,6 +128,10 @@ const Employee = db.defineModel('gw_employee', {
     //状态：1使用中，0禁用中
     status:{
         type: Sequelize.STRING(1),
+        defaultValue: '1'
+    },
+    active: {
+        type: Sequelize.STRING(1),
         defaultValue: '0'
     },
     ident_id: Sequelize.STRING(3),
