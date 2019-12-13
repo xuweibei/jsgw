@@ -23,7 +23,7 @@ const Users = db.defineModel('gw_users', {
 //         autoIncrement: true
 //     },
 //     department: Sequelize.STRING(30),
-    
+
 // })
 
 //账户表
@@ -59,12 +59,12 @@ const Identity = db.defineModel('gw_identity', {
         autoIncrement: true
     },
     //身份：超级管理员，普通管理员，普通员工
-    identity: { 
+    identity: {
         type: Sequelize.STRING(50)
     }
 })
-// .bulkCreate([{id: 1,identity: '超级管理员'}, {id: 2,identity: '管理员'}, {id: 3,identity: '员工'}], [{updateOnDuplicate:true}]) 
-   
+// .bulkCreate([{id: 1,identity: '超级管理员'}, {id: 2,identity: '管理员'}, {id: 3,identity: '员工'}], [{updateOnDuplicate:true}])
+
 //部门表
 const Department = db.defineModel('gw_department', {
     id: {
@@ -141,6 +141,35 @@ const Employee = db.defineModel('gw_employee', {
         allowNull: true
     }
 });
+//职位表
+const Post = db.defineModel('gw_post', {
+        id: {
+            type: Sequelize.INTEGER(11),
+            primaryKey: true,
+            allowNull: false,
+            autoIncrement: true
+        },
+        //职位分类（对应部门表的主键）
+        dep_id: {
+            type: Sequelize.INTEGER(11)
+        },
+        //职位名称
+        post_name: {
+            type: Sequelize.STRING(30)
+        },
+        //排序
+        sort: {
+            type: Sequelize.INTEGER(11)
+        },
+        //最低薪水
+        low_salary: {
+            type: Sequelize.INTEGER(11)
+        },
+       // 最高薪水
+       top_salary: {
+           type: Sequelize.INTEGER(11)
+        }
+    })
 module.exports = {
     Users,
     Department,
@@ -149,5 +178,6 @@ module.exports = {
     Employee,
     Identity,
     Account,
+    Post
     // Roles
 }
