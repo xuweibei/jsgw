@@ -6,14 +6,14 @@
         {{#if depObj.allDep.length}}
         {{#each depObj.allDep}}
         <div class="item d-flex justify-content-around">
-          <span>全部</span><span>{{this.num}}人</span>
+          <span>全部</span><span>{{this.sum}}人</span>
         </div>
         {{/each}}
         {{/if}}
       {{#if depObj.dep.length}}
       {{#each depObj.dep}}
       <div class="item d-flex justify-content-around">
-        <span>{{this.department}}</span><span>{{this.num}}</span>
+        <span>{{this.department}}</span><span>{{this.sum}}</span>
         <div class="svg-img pr-2">
           <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.id}})">
           <img src="../assets/img/delete.svg" alt="" onclick="deleteDep({{this.id}})">
