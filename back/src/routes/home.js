@@ -1,4 +1,5 @@
 module.exports = {
+<<<<<<< HEAD
     'home': async ctx => {
         await ctx.render('login')
     },
@@ -24,3 +25,9 @@ module.exports = {
         await ctx.render('productsCenter')
     }
 }
+=======
+    'indexManage': async (ctx, next) => {
+        await ctx.render('indexManage')
+    },
+}
+>>>>>>> 7f81036a4f218d572ca2c305cea6ffc9d5204c59

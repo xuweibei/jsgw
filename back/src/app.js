@@ -1,26 +1,34 @@
+/*
+* 后台程序入口文件 // 18760660507
+* */
 const Koa = require('koa');
-// 解决less文件栈溢出
-require('events').EventEmitter.defaultMaxListeners = 0
-// 模板插件
-const views = require('koa-views');
-// json格式处理中间件
-const json = require('koa-json');
-// 处理koa程序错误
-const onerror = require('koa-onerror'); 
-// 解析body传输数据
-const koaBody = require('koa-body');
+const views = require('koa-views'); // 模板插件
+const json = require('koa-json'); // json格式处理中间件
+const onerror = require('koa-onerror'); // 处理koa程序错误
+const koaBody = require('koa-body'); // 解析body传输数据
+const session = require('koa-session')
+const cors = require('koa2-cors'); // 跨域中间件
+const logger = require('koa-logger'); // 日志生成中间件
 
-// 跨域中间件
-const cors = require('koa2-cors');
+const {createCss} = require('./utils/utils'); // 自定义方法动态生成css
 
-// 日志生成中间件
-const logger = require('koa-logger');
-// 自定义方法动态生成css
-const {createCss} = require('./utils/utils')
 // 创建应用
 const app = new Koa();
 // error handler
+require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
 onerror(app)
+app.keys = ['zzkj_@123'];
+
+const CONFIG = {
+  key: 'koa:sess', // 加密key
+  maxAge: 86400000, // 这个是确定cookie的有效期，默认是一天。
+  autoCommit: true, /** (boolean 自定义提交头 */
+  overwrite: true, /** (boolean) can overwrite or not (default true) */
+  httpOnly: true, // 表示是否可以通过javascript来修改，设成true会更加安全
+  signed: true, /** (boolean) signed or not (default true) */
+  rolling: false, // (boolean) 强制在每个响应上设置会话标识符cookie。过期将重置为原始maxAge，重新设置过期倒计时
+  renew: false, // (boolean) 当会话快过期时续订会话，这样我们可以始终保持用户登录
+}
 // 解决跨域
 // app.use(async (ctx, next) => {
 //   ctx.set('Access-Control-Allow-Origin', '*');
@@ -35,12 +43,13 @@ onerror(app)
 //   ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
 //   ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
 //   if (ctx.method == 'OPTIONS') {
-//     ctx.body = 200; 
+//     ctx.body = 200;
 //   } else {
 //     await next();
 //   }
 // });
-
+// 解析session
+app.use(session(CONFIG, app));
 //设置跨域请求
 app.use(cors({
   origin: function(ctx) {
@@ -72,9 +81,9 @@ app.use(require('koa-static')(__dirname, '/assets'))
 
 // logger
 app.use(async (ctx, next) => {
-  const start = new Date()
-  await next()
-  const ms = new Date() - start
+  const start = new Date();
+  await next();
+  const ms = new Date() - start;
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
 

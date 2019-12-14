@@ -47,8 +47,6 @@ function createCss() {
 // // }
 // sequelize.sync();
 // }
-
 module.exports = {
-    createCss,
-    // syncModel
+    createCss
 }
