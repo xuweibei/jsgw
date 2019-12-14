@@ -84,7 +84,7 @@ const Department = db.defineModel('gw_department', {
     }
 });
 //职位分类
-const Post_classify = db.defineModel('gw_', {
+const Post_classify = db.defineModel('gw_post_classify', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -191,7 +191,19 @@ const Post = db.defineModel('gw_post', {
         type: Sequelize.STRING(1)
     }
 })
-
+//地址表（市）
+const city = db.defineModel('gw_city', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //市
+    city: {
+        type: Sequelize.STRING(30)
+    }
+})
 //招聘信息表（加入我们）
 const Invite_info = db.defineModel('gw_invite_info', {
     id: {
@@ -204,8 +216,8 @@ const Invite_info = db.defineModel('gw_invite_info', {
     post_name: {
         type: Sequelize.STRING(50)
     },
-    //所在地id (市，对应地址表的id)
-    address_id: {
+    //所在地id (市，对应城市表的id)
+    city_id: {
         type: Sequelize.STRING(30)
     },
     //详细地址
@@ -315,6 +327,7 @@ module.exports = {
     Invite_info,
     Company,
     Product,
-    Post_classify
+    Post_classify,
+    city
     // Roles
 }
