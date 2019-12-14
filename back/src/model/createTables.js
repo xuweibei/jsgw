@@ -83,6 +83,23 @@ const Department = db.defineModel('gw_department', {
         defaultValue: '1'
     }
 });
+//职位分类
+const Post_classify = db.defineModel('gw_post_classify', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //分类：研发类.......
+    classify: {
+        type: Sequelize.STRING(50)
+    },
+    //排序
+    sort: {
+        type: Sequelize.INTEGER(11)
+    }
+});
 //侧边栏一级导航表
 const First_broad = db.defineModel('gw_first_broad', {
     id: {
@@ -149,31 +166,64 @@ const Employee = db.defineModel('gw_employee', {
         allowNull: true
     }
 });
-
 //职位表
 const Post = db.defineModel('gw_post', {
-        id: {
-            type: Sequelize.INTEGER(11),
-            primaryKey: true,
-            allowNull: false,
-            autoIncrement: true
-        },
-        //部门id（职位分类,对应部门表的主键）
-        dep_id: {
-            type: Sequelize.INTEGER(11)
-        },
-        //所在地id (市，对应地址表的id)
-       address_id: {
-          type: Sequelize.STRING(10)
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //职位名称(通过此字段和职位表关联)
+    post_name: {
+        type: Sequelize.STRING(50)
+    },
+    //部门id（职位分类,对应部门表的主键）
+    dep_id: {
+        type: Sequelize.INTEGER(11)
+    },
+    //职位分类id (对应职位分类表的主键)
+    sort_id: {
+        type: Sequelize.INTEGER(11)
+    },
+    //转态  1.启用  2.禁用
+    use_status: {
+        type: Sequelize.STRING(1)
+    }
+})
+//地址表（市）
+const city = db.defineModel('gw_city', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //市
+    city: {
+        type: Sequelize.STRING(30)
+    }
+})
+//招聘信息表（加入我们）
+const Invite_info = db.defineModel('gw_invite_info', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //职位名称(通过此字段和职位表关联)
+    post_name: {
+        type: Sequelize.STRING(50)
+    },
+    //所在地id (市，对应城市表的id)
+    city_id: {
+        type: Sequelize.STRING(30)
+    },
+    //详细地址
+      detail_address: {
+          type: Sequelize.STRING(255)
       },
-       //职位名称
-        post_name: {
-            type: Sequelize.STRING(30)
-        },
-        //排序
-        sort: {
-            type: Sequelize.INTEGER(11)
-        },
         //最低薪水
         low_salary: {
             type: Sequelize.INTEGER(11)
@@ -182,11 +232,89 @@ const Post = db.defineModel('gw_post', {
        top_salary: {
            type: Sequelize.INTEGER(11)
         },
-      //转态  1.启用  2.禁用
-       use_status: {
-           type: Sequelize.STRING(1)
-       }
+       //工作职责
+       work_content: {
+           type: Sequelize.TEXT
+       },
+      //任职要求
+        post_job: {
+            type: Sequelize.TEXT
+        },
+       //招聘人数
+        require_num: {
+            type: Sequelize.INTEGER(11)
+        },
+      //联系电话
+       phone: {
+          type: Sequelize.STRING(30)
+       },
+     //邮箱
+      email: {
+        type: Sequelize.STRING(50)
+      }
     })
+//公司表
+const Company = db.defineModel('gw_company', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //公司名称
+    comp_name: {
+        type: Sequelize.STRING(50)
+    },
+    //公司简介
+    intro: {
+        type: Sequelize.TEXT
+    },
+    //电话（联系方式）
+    link_phone: {
+        type: Sequelize.STRING(30)
+    },
+    //联系地址
+    address: {
+        type: Sequelize.STRING(255)
+    },
+    //页面名称
+    page_name: {
+        type: Sequelize.STRING(255)
+    },
+    // 跳转链接
+    page_link: {
+        type: Sequelize.STRING(255)
+    },
+    //友情页面
+    friend_page: {
+        type: Sequelize.STRING(255)
+    },
+    //友情链接
+    friend_link: {
+        type: Sequelize.STRING(255)
+    },
+    //图片地址
+    pic_rul: {
+        type: Sequelize.STRING(255)
+    }
+})
+//产品表
+const Product = db.defineModel('gw_product', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //编号
+    serial_number: {
+        type: Sequelize.STRING(50)
+    },
+    //产品名称
+    pro_name: {
+        type: Sequelize.STRING(50)
+    }
+})
 module.exports = {
     Users,
     Department,
@@ -195,6 +323,11 @@ module.exports = {
     Employee,
     Identity,
     Account,
-    Post
+    Post,
+    Invite_info,
+    Company,
+    Product,
+    Post_classify,
+    city
     // Roles
 }
