@@ -7,25 +7,27 @@ const ScrollOverPack = ScrollAnim.OverPack;
 
 const Home = () => (
     <Layout>
-        <div className="banner">
+        <div className="banner ">
             <div className="join">Join us</div>
             <div className="join-one">加入我们</div>
         </div>
-        <div className="list distance">
-            <Form.Row>
-                <Form.Group controlId="formGridCity">
-                    <Form.Label>City</Form.Label>
-                    <Form.Control placeholder="请输入职位关键字" />
-                </Form.Group>
-
-                <Form.Group controlId="formGridState">
-                    <Form.Label>State</Form.Label>
-                    <Form.Control as="select">
-                        <option>Choose...</option>
-                        <option>...</option>
-                    </Form.Control>
-                </Form.Group>
-            </Form.Row>
+        <div className="each">
+            <div className="datum">
+                <div className="position">
+                    <div>UI/UE 设计师</div>
+                    <div>6k-7k</div>
+                </div>
+                <div className="specification">
+                    <div>研发</div>
+                    <div>辅助</div>
+                    <div>3人</div>
+                </div>
+                <div className="time">
+                    <div>2019-11-11</div>
+                    <div>12:11:11</div>
+                </div>
+            </div>
+            <div className="details">查看详细<img src={"/arrows.png"} alt=""/></div>
         </div>
     </Layout>
 );
