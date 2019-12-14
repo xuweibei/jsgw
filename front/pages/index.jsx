@@ -1,36 +1,81 @@
 import ScrollAnim from "rc-scroll-anim"; //滚动动画
 import QueueAnim from "rc-queue-anim"; //进出场动画
 import Layout from "../components/layout/layout";
+import {Input, Select, DatePicker, Button, Pagination} from 'antd';
+const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
 import "../static/style/page/index.less";
+const { Option } = Select;
 
-const ScrollOverPack = ScrollAnim.OverPack;
+class Home extends  React.PureComponent{
+    render(){
+        return(
+            <Layout>
+                {/*banner图*/}
+                <div className="banner ">
+                    <div className="join">Join us</div>
+                    <div className="join-one">加入我们</div>
+                </div>
+                {/*表单搜索栏*/}
+                <div className="sizer distance">
+                    <div className="screen">
+                        <Input className="fill" placeholder="Basic usage" />
+                        <Select
+                            placeholder="-请选择职位分类-"
+                            optionFilterProp="children"
+                        >
+                            <Option value="jack">UI</Option>
+                            <Option value="front">前端</Option>
+                            <Option value="after">后端</Option>
+                        </Select>
+                        <Select
+                            placeholder="-请选择工作地点-"
+                            optionFilterProp="children"
+                        >
+                            <Option value="fuZhou">福州</Option>
+                            <Option value="sanMing">三明</Option>
+                        </Select>
+                        <RangePicker />
+                    </div>
+                    <div className="search">
+                        <span className="empty">清空筛选条件</span>
+                        <Button type="primary">搜索</Button>
+                    </div>
+                </div>
+                {/*每项数据内容*/}
+                <div>
+                    <div className="each">
+                        <div className="datum">
+                            <div className="position">
+                                <div>UI/UE 设计师</div>
+                                <div>6k-7k</div>
+                            </div>
+                            <div className="specification">
+                                <div>研发</div>
+                                <div>辅助</div>
+                                <div>3人</div>
+                            </div>
+                            <div className="time">
+                                <div>2019-11-11</div>
+                                <div>12:11:11</div>
+                            </div>
+                        </div>
+                        <div className="details">查看详细<img src={"/arrows.png"} alt=""/></div>
+                    </div>
+                    <div className="distance">
+                        <Pagination
+                            showSizeChanger
+                            showQuickJumper
+                            onShowSizeChange={this.onShowSizeChange}
+                            defaultCurrent={3}
+                            total={500}
+                        />
+                    </div>
+                </div>
+            </Layout>
+        )
+    }
+}
 
-const Home = () => (
-    <Layout>
-        <div className="banner ">
-            <div className="join">Join us</div>
-            <div className="join-one">加入我们</div>
-        </div>
-        <div className="each">
-            <div className="datum">
-                <div className="position">
-                    <div>UI/UE 设计师</div>
-                    <div>6k-7k</div>
-                </div>
-                <div className="specification">
-                    <div>研发</div>
-                    <div>辅助</div>
-                    <div>3人</div>
-                </div>
-                <div className="time">
-                    <div>2019-11-11</div>
-                    <div>12:11:11</div>
-                </div>
-            </div>
-            <div className="details">查看详细<img src={"/arrows.png"} alt=""/></div>
-        </div>
-    </Layout>
-);
 
 // Home.getInitialProps = async () => {
 //     const res = await fetch("https://api.github.com/repos/zeit/next.js");

@@ -3,6 +3,7 @@ import Head from "next/head";
 import Header from "./header";
 import Footer from "./footer";
 import "../../static/style/styles.less";
+import 'antd/dist/antd.less';
 
 export default ({ children, title = "公司官网" }) => (
     <div className="layout">
