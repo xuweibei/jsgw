@@ -14,7 +14,7 @@ const carousel = require('./carousel')
 router.get('/', login.home)
       .post('/api/login', login.login)
       // 员工部门
-      .get('/delivery/department-structur', Logincheck, department['departmentStructur'])
+      .get('/delivery/department-structur', department['departmentStructur'])
       .post('/api/add_dep', department["add-dep"])
       .post('/api/del_dep', department["del_dep"])
       .post('/api/edit_dep', department["edit_dep"])

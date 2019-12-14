@@ -13,6 +13,7 @@ const addDep = async (dep) => {
             department: dep
         }
     })
+    console.log(add, "asljkdhaksdhjkahsd")
     if (add && add.dataValues) {
         if (add.dataValues.dep_status === '0') {
             const update = await Department.update({
@@ -22,6 +23,7 @@ const addDep = async (dep) => {
                     department: dep
                 }
             })
+            console.log(update, "接口好圣诞节卡实打实")
             return update[0]
         }
         return false
@@ -31,6 +33,7 @@ const addDep = async (dep) => {
                 department: dep
             }
         })
+        console.log(ret, "驾驶舱电信卡接收到哈迪斯")
         return ret && ret[1]
     }
 
@@ -143,6 +146,7 @@ const insertEmployee = async (obj) => {
 const getEmployee = async () => {
     const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
     const ret = await sequelize.query(sql)
+    console.log(ret, '撒即可的哈时间肯定')
     return ret[0]
 }
 
