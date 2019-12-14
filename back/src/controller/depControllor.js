@@ -42,7 +42,7 @@ const findDep = async () => {
     const ret = await sequelize.query(sql1)
     const sql = 'select COUNT(1) as num from gw_employee'
     const count = await sequelize.query(sql)
-    console.log(ret[0])
+    // console.log(ret[0])
     const obj = {
         dep: ret[0],
         allDep: count[0]
@@ -127,7 +127,7 @@ const insertEmployee = async (obj) => {
         },{
             where: {name: obj.name}
         })
-        return ret && ret[0]
+        return update && update[0]
     } else {
         const insert = await Employee.create({
             name: obj.name,
@@ -141,14 +141,46 @@ const insertEmployee = async (obj) => {
 
 // 获取员工
 const getEmployee = async () => {
-    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.status from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
+    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
     const ret = await sequelize.query(sql)
     return ret[0]
 }
 
 // 编辑员工
-const editEmp = async (id) => {
-
+const editEmp = async (parms) => {
+    const findEmp = await Employee.findOne({where: {id: parms.id}})
+    const department = await Department.findOne({attributes: ['id']}, {where:{department: parms.department}})
+    const identity = await Identity.findOne({attributes: ['id']}, {where: {identity: parms.author}})
+    if (findEmp) {
+        const updateEmp = await Employee.update({
+            name: parms.name,
+            phone: parms.phone,
+            ident_id: identity.dataValues.id,
+            dep_id: department.dataValues.id
+        }, {where: {id: parms.id}})
+        return updateEmp && updateEmp[0]
+    }
+}
+// 删除员工
+const delEmp = async (id) => {
+    const emp = await Employee.findOne({where: {id}})
+    if (emp) {
+        const del = await Employee.update({status: "0"}, {where: {id}})
+        return del && del[0]
+    }
+} 
+const changeStatus = async (id) => {
+    const emp = await Employee.findOne({where: {id}})
+    const empData = emp.dataValues;
+    console.log(empData)
+    if (emp) {
+        if (empData.active === "0") {
+            const change = await Employee.update({active: '1'}, {where: {id}})
+            return change && change[0]
+        }
+            const change = await Employee.update({active: '1'}, {where: {id}})
+            return change && change[0]
+    }
 }
 module.exports = {
     addDep,
@@ -159,5 +191,7 @@ module.exports = {
     insertEmployee,
     getEmployee,
     readDep,
-    editEmp
+    editEmp,
+    delEmp,
+    changeStatus
 }

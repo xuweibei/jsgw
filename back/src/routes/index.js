@@ -21,6 +21,8 @@ router.get('/', login.home)
       .post('/api/insert_stf', department["insert_stf"])
       .post('/api/get_tab', department["get_tab"])
       .post('/api/edit_emp', department["edit_emp"])
+      .post('/api/del_emp', department["del_emp"])
+      .post('/api/change_status', department["change_status"])
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介
@@ -39,4 +41,6 @@ router.get('/', login.home)
       .get('/delivery/consult', consult['infoCenter'])
       // 轮播管理
       .get('/delivery/carousel', carousel['turnManage'])
+      //职业分类
+      .get('/delivery/postSort', postApi['postSort'])
 module.exports = router

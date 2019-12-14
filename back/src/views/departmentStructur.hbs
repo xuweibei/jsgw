@@ -71,8 +71,8 @@
         </form> --}}
       </div>
       <button class="btn btn-primary float-right mt-2" data-toggle="modal" id="filterBy"
-        data-target="#exampleModalCenter"
-        style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;" onclick="openStfModal()">新增</button>
+        data-target="#exampleModalCenter" style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;"
+        onclick="openStfModal()">新增</button>
       <table id="table" class="text-center table table-striped table-borderless" data-pagination="true"
         data-search="true" data-search-align="left">
       </table>
@@ -97,8 +97,8 @@
                   <div class="form-group row">
                     <label for="inputPassword" class="col-sm-4 col-form-label">手机号:</label>
                     <div class="col-sm-8">
-                      <input type="text" class="form-control stf-phone" id="inputPassword" placeholder="请输入" maxlength="11"
-                        name="phone">
+                      <input type="text" class="form-control stf-phone" id="inputPassword" placeholder="请输入"
+                        maxlength="11" name="phone">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -111,8 +111,8 @@
                   <div class="form-group row">
                     <label for="inputPassword" class="col-sm-4 col-form-label">登录密码:</label>
                     <div class="col-sm-8">
-                      <input type="password" disabled class="form-control" id="inputPassword" name="password" placeholder="禁用"
-                        maxlength="13">
+                      <input type="password" disabled class="form-control" id="inputPassword" name="password"
+                        placeholder="禁用" maxlength="13">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -130,7 +130,7 @@
                   <div class="form-group row ">
                     <label for="inputPassword" class="col-sm-4 col-form-label">授权管理:</label>
                     <div class="col-sm-8">
-                      <select class="form-control str-card" name="author">
+                      <select class="form-control stf-card" name="author">
                         {{#if identity.length}}
                         {{#each identity}}
                         <option>{{this.identity}}</option>
@@ -141,7 +141,7 @@
                   </div>
                   <div class="modal-footer border-top-0 dep-footer justify-content-center">
                     <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
-                    <button type="submit" class="btn btn-right" name="submint">保存</button>
+                    <button type="submit" class="btn btn-right" onclick="addEmp()">保存</button>
                   </div>
                 </div>
               </form>
@@ -150,9 +150,10 @@
         </div>
       </div>
       <script>
+        // 定义变量保存编辑员工id
+        let empId;
         // 删除分组
         function deleteDep(id) {
-          console.log(id)
           $.post(url.delDep, { id }, function (res) {
             if (res) {
               $('.toast').toast('show')
@@ -184,6 +185,36 @@
         // 開啓员工弹窗
         function openStfModal() {
           $('#stf-title').text('新增');
+          $('.stf-name').val('');
+          $('.stf-phone').val('');
+          $('.stf-select').val();
+          $('.stf-card').val();
+        }
+
+        // 新增成员
+        function addEmp() {
+          const form = $('.stf-form')
+          const bootstrapValidator = form.data('bootstrapValidator');
+          form.data('bootstrapValidator',null);
+          bootstrapValidator.validate();
+          if (bootstrapValidator.isValid()) {
+            const data = {
+              name: $('.stf-name').val(),
+              phone: $('.stf-phone').val(),
+              department: $('.stf-select').val(),
+              author: $('.stf-card').val()
+            }
+            if (empId) {  
+              $.post(url.changeStatus, data, function(res) {
+                console.log(res)
+              })
+            }
+            $.post(url.insertStf, data, function (res) {
+              if (res && res.status === 0) {
+                location.reload()
+              }
+            })
+          }
         }
 
         var $table = $('#table')
@@ -215,18 +246,7 @@
                 }
               }
             }
-          }).on('success.form.bv', function (e) {
-            e.preventDefault();
-            var $form = $(e.target);
-            const bv = $form.data('bootstrapValidator');
-            if ($('#stf-title').text() === "编辑") return;
-            $.post(url.insertStf, $form.serialize(), function (res) {
-              if (res) {
-                location.reload()
-              }
-            })
-          });
-
+          })
           // 分组表单
           $('.job-form').bootstrapValidator({
             fields: {
@@ -278,11 +298,12 @@
               res.data.forEach(item => {
                 arr.push({
                   id: item.id,
+                  active: item.active,
                   department: item.department,
                   name: item.name,
                   tel: item.phone,
                   card: item.identity,
-                  status: item.status ? "开启" : "关闭中",
+                  status: Number(item.active) ? "开启" : "关闭中",
                   opt: operateFormatter()
                 })
               })
@@ -310,24 +331,28 @@
               formatter: operateFormatter,
               events: operateEvent = {
                 "click #table-edit": function (e, value, row, index) {
-                 e.preventDefault();
+                  e.preventDefault();
                   $('#exampleModalCenter').modal('show')
                   $('#stf-title').text('编辑');
                   $('.stf-name').val(row.name);
                   $('.stf-phone').val(row.tel);
                   $('.stf-select').val(row.department);
                   $('.stf-card').val(row.card);
-                  const form = $('.stf-form')
-                  const bootstrapValidator = form.data('bootstrapValidator');
-                  bootstrapValidator.validate();
-                  if (bootstrapValidator.isValid()) {
-                    $.post(url.editEmp, form.serialize(), function (res) {
-                      
-                    })
-                  }
+                  id = row.id
                 },
                 "click #table-del": function (e, value, row, index) {
-
+                  $.post(url.delEmp, { id: row.id }, function (res) {
+                    if (res && res.status === 0) {
+                      location.reload()
+                    }
+                  })
+                },
+                "click #table-active": function (e, value, row, index) {
+                  $.post(url.changeStatus, { id: row.id }, function (res) {
+                    if (res && res.status === 0) {
+                      location.reload()
+                    }
+                  })
                 }
               }
             }],
@@ -335,9 +360,9 @@
           //操作列表
           function operateFormatter(value, row, index) {
             return [
-              '<a class="like opt"  href="javascript:void(0)" title="Remove">启用</a>',
+              '<a class="like opt" id="table-active" href="javascript:void(0)" title="Remove">启用</a>',
               '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
-              '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove" onclick="delEmp()">删除</a>'
+              '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
             ].join('')
           }
         })

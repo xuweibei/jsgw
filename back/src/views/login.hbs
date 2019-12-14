@@ -101,7 +101,7 @@
             // Use Ajax to submit form data
             $.post($form.attr('action'), $form.serialize(), function(res) {
                 if (res && res.status === 0) {
-                    window.location.href = '/delivery/store-delivery'
+                    window.location.href = '/delivery/home'
                 }
             });
         });
