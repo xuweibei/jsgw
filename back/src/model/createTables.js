@@ -244,6 +244,14 @@ const Invite_info = db.defineModel('gw_invite_info', {
         require_num: {
             type: Sequelize.INTEGER(11)
         },
+        //发布开始时间
+      start_time: {
+           type: Sequelize.DATE
+      },
+    //发布结束时间
+      end_time: {
+          type: Sequelize.DATE
+      },
       //联系电话
        phone: {
           type: Sequelize.STRING(30)

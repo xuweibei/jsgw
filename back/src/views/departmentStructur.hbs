@@ -74,8 +74,8 @@
         data-target="#exampleModalCenter" style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;"
         onclick="openStfModal()">新增</button>
       <table id="table" class="text-center table table-striped table-borderless" data-pagination="true"
-        data-search="true" data-search-align="left">
-      </table>
+                       data-search="true" data-search-align="left">
+    </table>
 
       <div class="modal fade emp-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -210,9 +210,14 @@
               author: $('.stf-card').val()
             }
             if (empId) {
+<<<<<<< HEAD
               data.id = empId;
               $.post(url.editEmp, data, function(res) {
                 location.reload()
+=======
+              $.post(url.changeStatus, data, function(res) {
+                console.log(res)
+>>>>>>> 6ea2245319e5a6b786b788d4ec9ddd77efbcaaef
               })
             }
             $.post(url.insertStf, data, function(res) {
