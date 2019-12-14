@@ -139,12 +139,17 @@ const Employee = db.defineModel('gw_employee', {
     dep_id: {
         type: Sequelize.INTEGER(11)
     },
+    //职位id,对应职位表的主键
+    post_id: {
+        type: Sequelize.INTEGER(11)
+    },
     //账号id,对应账号表account的主键
     account_id: {
         type: Sequelize.INTEGER(11),
         allowNull: true
     }
 });
+
 //职位表
 const Post = db.defineModel('gw_post', {
         id: {
@@ -153,11 +158,15 @@ const Post = db.defineModel('gw_post', {
             allowNull: false,
             autoIncrement: true
         },
-        //职位分类（对应部门表的主键）
+        //部门id（职位分类,对应部门表的主键）
         dep_id: {
             type: Sequelize.INTEGER(11)
         },
-        //职位名称
+        //所在地id (市，对应地址表的id)
+       address_id: {
+          type: Sequelize.STRING(10)
+      },
+       //职位名称
         post_name: {
             type: Sequelize.STRING(30)
         },
@@ -172,7 +181,11 @@ const Post = db.defineModel('gw_post', {
        // 最高薪水
        top_salary: {
            type: Sequelize.INTEGER(11)
-        }
+        },
+      //转态  1.启用  2.禁用
+       use_status: {
+           type: Sequelize.STRING(1)
+       }
     })
 module.exports = {
     Users,
