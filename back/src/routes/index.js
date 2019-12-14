@@ -11,6 +11,7 @@ const exchange = require('./exchange')
 const consult = require('./consult')
 const product = require('./product')
 const carousel = require('./carousel')
+const postApi  = require('./postApi')
 router.get('/', login.home)
       .post('/api/login', login.login)
       // 员工部门

@@ -45,117 +45,7 @@
     <script>
       var $table = $('#table')
       $(function () {
-        $table.bootstrapTable({
-          toolbar: '.toolbar',
-          columns: [{
-            title: '职位名称',
-            field: 'id'
-          }, {
-            title: '职位分类',
-            field: 'name'
-          }, {
-            title: '工作地点',
-            field: 'price'
-          }, {
-            title: '发布时间',
-            field: 'time'
-          }, {
-            title: '操作',
-            field: 'opt',
-            class: 'last-column'
-          }],
-          data: [{
-            id: 1,
-            name: '职位名称',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 2,
-            name: '职位分类',
-            price: '$2',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 3,
-            name: '工作地点',
-            price: '$3',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 4,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 5,
-            name: '操作',
-            price: '$6',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 4,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 5,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 5,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 6,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 7,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 8,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 9,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          },
-          {
-            id: 10,
-            name: '发布时间',
-            price: '$1',
-            time: '2019-12-2',
-            opt: operateFormatter()
-          }]
-        })
+       
         //表头添加类名设置背景色
         $table.bootstrapTable('refreshOptions', {
           theadClasses: 'bg-blue'
@@ -185,8 +75,167 @@
           })
         })
       })
+      $table.bootstrapTable({
+            toolbar: '.toolbar',
+            method: "post",
+            url: url.getTable,
+            pageNumber: 1,
+            pagination: true,
+            sortable: true,
+            sortOrder: "asc",
+            pageSize: 5,
+            pageList: [10, 25],
+            responseHandler: function (res) {
+              const arr = []
+              res.data.forEach(item => {
+                arr.push({
+                  id: item.id,
+                  active: item.active,
+                  department: item.department,
+                  name: item.name,
+                  tel: item.phone,
+                  card: item.identity,
+                  status: Number(item.active) ? "开启" : "关闭中",
+                  opt: operateFormatter()
+                })
+              })
+              return arr
+            },
+            columns: [{
+                title: '职位名称',
+                field: 'id'
+              }, {
+                title: '职位分类',
+                field: 'name'
+              }, {
+                title: '工作地点',
+                field: 'price'
+              }, {
+                title: '发布时间',
+                field: 'time'
+              }, {
+                title: '操作',
+                field: 'opt',
+                class: 'last-column'
+              }],
+              data: [{
+                id: 1,
+                name: '职位名称',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 2,
+                name: '职位分类',
+                price: '$2',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 3,
+                name: '工作地点',
+                price: '$3',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 4,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 5,
+                name: '操作',
+                price: '$6',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 4,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 5,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 5,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 6,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 7,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 8,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 9,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              },
+              {
+                id: 10,
+                name: '发布时间',
+                price: '$1',
+                time: '2019-12-2',
+                opt: operateFormatter()
+              }],
+          })
+          //操作列表
+          function operateFormatter(value, row, index) {
+            return [
+              '<a class="like opt" id="table-active" href="javascript:void(0)" title="Remove">启用</a>',
+              '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
+              '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
+            ].join('')
+          }
     </script>
   </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">

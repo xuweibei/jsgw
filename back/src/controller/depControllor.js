@@ -150,6 +150,13 @@ const getEmployee = async () => {
     return ret[0]
 }
 
+// 获取招聘信息
+const getRecruitInfo = async () => {
+    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
+    const ret = await sequelize.query(sql)
+    console.log(ret, '撒即可的哈时间肯定')
+    return ret[0]
+}
 // 编辑员工
 const editEmp = async (parms) => {
     const findEmp = await Employee.findOne({where: {id: parms.id}})
