@@ -11,10 +11,11 @@ const exchange = require('./exchange')
 const consult = require('./consult')
 const product = require('./product')
 const carousel = require('./carousel')
+const postApi = require('./postApi')
 router.get('/', login.home)
       .post('/api/login', login.login)
       // 员工部门
-      .get('/delivery/department-structur', Logincheck, department['departmentStructur'])
+      .get('/delivery/department-structur', department['departmentStructur'])
       .post('/api/add_dep', department["add-dep"])
       .post('/api/del_dep', department["del_dep"])
       .post('/api/edit_dep', department["edit_dep"])
@@ -42,5 +43,5 @@ router.get('/', login.home)
       // 轮播管理
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类
-      .get('/delivery/postSort', postApi['postSort'])
+      .get('/delivery/postClassify', postApi['postClassify'])
 module.exports = router

@@ -1,9 +1,8 @@
 
 
 module.exports = {
-
-    'postSort' : async ctx =>{
-        await ctx.render('postSort')
+    'postClassify' : async ctx =>{
+        await ctx.render('postClassify')
     }
 
 }
