@@ -41,4 +41,6 @@ router.get('/', login.home)
       .get('/delivery/consult', consult['infoCenter'])
       // 轮播管理
       .get('/delivery/carousel', carousel['turnManage'])
+      //职业分类
+      .get('/delivery/postSort', postApi['postSort'])
 module.exports = router
