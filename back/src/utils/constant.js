@@ -8,6 +8,6 @@ const url = {
     insertStf: base + 'api/insert_stf',
     getTable:base + 'api/get_tab', // 获取员工
     editEmp: base + 'api/edit_emp', //编辑员工
-    delEmp: base + 'api/del_emp', //编辑员工
-    changeStatus: base + 'api/change_status', //编辑员工
+    delEmp: base + 'api/del_emp', //删除员工
+    changeStatus: base + 'api/change_status', //编辑员工状态
 }
