@@ -210,14 +210,9 @@
               author: $('.stf-card').val()
             }
             if (empId) {
-<<<<<<< HEAD
               data.id = empId;
               $.post(url.editEmp, data, function(res) {
                 location.reload()
-=======
-              $.post(url.changeStatus, data, function(res) {
-                console.log(res)
->>>>>>> 6ea2245319e5a6b786b788d4ec9ddd77efbcaaef
               })
             }
             $.post(url.insertStf, data, function(res) {

@@ -43,9 +43,5 @@ router.get('/', login.home)
       // 轮播管理
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类
-<<<<<<< HEAD
-      // .get('/delivery/postSort', postApi['postSort'])
-=======
       .get('/delivery/postClassify', postApi['postClassify'])
->>>>>>> 6ea2245319e5a6b786b788d4ec9ddd77efbcaaef
 module.exports = router
