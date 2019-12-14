@@ -141,7 +141,7 @@
                   </div>
                   <div class="modal-footer border-top-0 dep-footer justify-content-center">
                     <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
-                    <button type="submit" class="btn btn-right" name="submint">保存</button>
+                    <button type="submit" class="btn btn-right" onclick="addEmp()">保存</button>
                   </div>
                 </div>
               </form>
@@ -150,9 +150,10 @@
         </div>
       </div>
       <script>
+        // 定义变量保存编辑员工id
+        let empId;
         // 删除分组
         function deleteDep(id) {
-          console.log(id)
           $.post(url.delDep, { id }, function (res) {
             if (res) {
               $('.toast').toast('show')
@@ -190,6 +191,32 @@
           $('.stf-card').val();
         }
 
+        // 新增成员
+        function addEmp() {
+          const form = $('.stf-form')
+          const bootstrapValidator = form.data('bootstrapValidator');
+          form.data('bootstrapValidator',null);
+          bootstrapValidator.validate();
+          if (bootstrapValidator.isValid()) {
+            const data = {
+              name: $('.stf-name').val(),
+              phone: $('.stf-phone').val(),
+              department: $('.stf-select').val(),
+              author: $('.stf-card').val()
+            }
+            if (empId) {  
+              $.post(url.changeStatus, data, function(res) {
+                console.log(res)
+              })
+            }
+            $.post(url.insertStf, data, function (res) {
+              if (res && res.status === 0) {
+                location.reload()
+              }
+            })
+          }
+        }
+
         var $table = $('#table')
         $(function () {
           $('.stf-form').bootstrapValidator({
@@ -219,18 +246,7 @@
                 }
               }
             }
-          }).on('success.form.bv', function (e) {
-            e.preventDefault();
-            var $form = $(e.target);
-            const bv = $form.data('bootstrapValidator');
-            if ($('#stf-title').text() === "编辑") return;
-            $.post(url.insertStf, $form.serialize(), function (res) {
-              if (res) {
-                location.reload()
-              }
-            })
-          });
-
+          })
           // 分组表单
           $('.job-form').bootstrapValidator({
             fields: {
@@ -312,7 +328,7 @@
               title: '操作',
               field: 'opt',
               class: 'last-column',
-              {{!-- formatter: operateFormatter, --}}
+              formatter: operateFormatter,
               events: operateEvent = {
                 "click #table-edit": function (e, value, row, index) {
                   e.preventDefault();
@@ -322,18 +338,7 @@
                   $('.stf-phone').val(row.tel);
                   $('.stf-select').val(row.department);
                   $('.stf-card').val(row.card);
-                  const form = $('.stf-form')
-                  const bootstrapValidator = form.data('bootstrapValidator');
-                  bootstrapValidator.validate();
-                  if (bootstrapValidator.isValid()) {
-                    const data = {
-                      id: row.id,
-                      name: $('.stf-name').val(),
-                      phone: $('.stf-phone').val(),
-                      department: $('.stf-select').val(),
-                      author: $('.stf-card').val()
-                    }
-                  }
+                  id = row.id
                 },
                 "click #table-del": function (e, value, row, index) {
                   $.post(url.delEmp, { id: row.id }, function (res) {
