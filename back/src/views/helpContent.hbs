@@ -1,0 +1,96 @@
+{{#>default}}
+    <div class="department-help-content">
+        <div class="help-content-top">底部栏</div>
+        <div class="help-content-bottom">
+            <div class="content-bottom-left">
+                <div class="text-wrap">
+                    <div class="text-wrap-top">联络我们</div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">公司简称：</div>
+                        <input id="companyName" class="title-input" type="text" placeholder="请输入">
+                    </div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">联络方式：</div>
+                        <input id="contactInfo" class="title-input" type="number" placeholder="请输入">
+                    </div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">联络地址：</div>
+                        <input id="contactAddress" class="title-input" type="text" placeholder="请输入">
+                    </div>
+                </div>
+
+                <div class="text-wrap">
+                    <div class="text-wrap-top">联络我们</div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">页面名称：</div>
+                        <input id="myPageName" class="title-input" type="text" placeholder="请输入">
+                    </div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">跳转链接：</div>
+                        <input id="mySkipJoin" class="title-input" type="text" placeholder="请输入(http|ftp|https)开头">
+                    </div>
+                </div>
+
+                <div class="text-wrap">
+                    <div class="text-wrap-top">友情链接</div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">页面名称：</div>
+                        <input id="friendPageName" class="title-input" type="text" placeholder="请输入">
+                    </div>
+                    <div class="text-wrap-wrap">
+                        <div class="title-name">跳转链接：</div>
+                        <input id="friendSkipJoin" class="title-input" type="text" placeholder="请输入(http|ftp|https)开头">
+                    </div>
+                </div>
+                <button id="sumbit">提交</button>
+            </div>
+            <div class="content-bottom-right">
+                <img class="bottom-right-img" src="../assets/img/login-bg.png" alt="">
+            </div>
+        </div>
+        <script src="../assets/js/jquery-3.4.1.min.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script>
+            $(function() {
+                //定义变量
+                let state = {
+                    companyName: '', //公司名称
+                    contactInfo: '', //联络方式
+                    contactAddress: '', //联络地址
+                    myPageName: '', //联系我们 页面名称
+                    mySkipJoin: '', //联系我们 跳转链接
+                    friendPageName: '', //友情链接 页面名称
+                    friendSkipJoin: '', //友情链接 跳转链接
+                };
+
+                //获取input内容
+                $('input').bind('input propertychange', function(e){
+                    const name = e.currentTarget.id; //获取input id名称
+                    state[name] = $(`#${name}`).val();   //赋值input 内容
+                });
+
+                //提交
+                $("#sumbit").bind('click', function () {
+                    const {companyName, contactInfo, contactAddress, myPageName, mySkipJoin, friendPageName, friendSkipJoin} = state;
+                    if (!(/^([\u2E80-\u9FFF]+){6}$/.test(companyName))) {
+                        alert('公司名称最少为6个中文字')
+                    } else if (!(/^1[34578]\d{9}$/.test(contactInfo))) {
+                        alert('联络方式有误')
+                    } else if (!(/^([\u2E80-\u9FFF]+){4}$/.test(contactAddress))) {
+                        alert('联络地址最少为4个字')
+                    } else if (!myPageName) {
+                        alert('联系我们 页面名称不能为空')
+                    } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(mySkipJoin))) {
+                        alert('联系我们 跳转链接格式错误')
+                    } else if (!friendPageName) {
+                        alert('友情链接 页面名称不能为空')
+                    } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(friendSkipJoin))) {
+                        alert('友情链接 跳转链接格式错误')
+                    } else {
+                        alert('成功执行');
+                    }
+                })
+            })
+        </script>
+    </div>
+{{/default}}

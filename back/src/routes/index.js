@@ -1,6 +1,5 @@
 const router = require('koa-router')()
 const Logincheck = require('../middleware/checkLogin')
-const postApi =require('./postApi')
 const login = require('./login')
 const department = require('./department')
 const intro = require('./intro')
