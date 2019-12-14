@@ -74,8 +74,8 @@
         data-target="#exampleModalCenter" style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;"
         onclick="openStfModal()">新增</button>
       <table id="table" class="text-center table table-striped table-borderless" data-pagination="true"
-        data-search="true" data-search-align="left">
-      </table>
+                       data-search="true" data-search-align="left">
+    </table>
 
       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -204,7 +204,7 @@
               department: $('.stf-select').val(),
               author: $('.stf-card').val()
             }
-            if (empId) {  
+            if (empId) {
               $.post(url.changeStatus, data, function(res) {
                 console.log(res)
               })
