@@ -84,7 +84,7 @@ const Department = db.defineModel('gw_department', {
     }
 });
 //职位分类
-const Post_sort = db.defineModel('gw_', {
+const Post_classify = db.defineModel('gw_', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -92,8 +92,12 @@ const Post_sort = db.defineModel('gw_', {
         autoIncrement: true
     },
     //分类：研发类.......
-    sort: {
+    classify: {
         type: Sequelize.STRING(50)
+    },
+    //排序
+    sort: {
+        type: Sequelize.INTEGER(11)
     }
 });
 //侧边栏一级导航表
@@ -208,10 +212,6 @@ const Invite_info = db.defineModel('gw_invite_info', {
       detail_address: {
           type: Sequelize.STRING(255)
       },
-        //排序
-        sort: {
-            type: Sequelize.INTEGER(11)
-        },
         //最低薪水
         low_salary: {
             type: Sequelize.INTEGER(11)
@@ -314,6 +314,7 @@ module.exports = {
     Post,
     Invite_info,
     Company,
-    Product
+    Product,
+    Post_classify
     // Roles
 }
