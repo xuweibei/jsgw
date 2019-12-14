@@ -10,4 +10,5 @@ const url = {
     editEmp: base + 'api/edit_emp', //编辑员工
     delEmp: base + 'api/del_emp', //删除员工
     changeStatus: base + 'api/change_status', //编辑员工状态
+    addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
 }

@@ -1,9 +1,10 @@
-// 
+//
 const {sequelize} = require('../db/db');
 const {
     Department,
     Identity,
-    Employee
+    Employee,
+    Company
 } = require('../model/createTables')
 
 // 添加分组
@@ -169,7 +170,7 @@ const delEmp = async (id) => {
         const del = await Employee.update({status: "0"}, {where: {id}})
         return del && del[0]
     }
-} 
+}
 const changeStatus = async (id) => {
     const emp = await Employee.findOne({where: {id}})
     const empData = emp.dataValues;
@@ -183,6 +184,25 @@ const changeStatus = async (id) => {
             return change && change[0]
     }
 }
+//产品中心（存储[志强]）
+const saveCententTitle = async (obj) => {
+    console.log(JSON.stringify(obj));
+    let insert = obj
+    if (obj) {
+        insert = await Company.create({
+            comp_name: obj.comp_name,
+            intro: obj.intro,
+            link_phone: obj.link_phone,
+            address: obj.address,
+            page_name: obj.page_name,
+            page_link: obj.page_link,
+            friend_page: obj.friend_page,
+            friend_link: obj.friend_link,
+            pic_rul: 'https/www/baidu.jpg',
+        })
+    }
+    return insert
+}
 module.exports = {
     addDep,
     findDep,
@@ -194,5 +214,6 @@ module.exports = {
     readDep,
     editEmp,
     delEmp,
-    changeStatus
+    changeStatus,
+    saveCententTitle
 }
