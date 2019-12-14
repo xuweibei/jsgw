@@ -157,9 +157,9 @@ const Employee = db.defineModel('gw_employee', {
         type: Sequelize.INTEGER(11)
     },
     //职位id,对应职位表的主键
-    post_id: {
-        type: Sequelize.INTEGER(11)
-    },
+    // post_id: {
+    //     type: Sequelize.INTEGER(11)
+    // },
     //账号id,对应账号表account的主键
     account_id: {
         type: Sequelize.INTEGER(11),
@@ -244,6 +244,14 @@ const Invite_info = db.defineModel('gw_invite_info', {
         require_num: {
             type: Sequelize.INTEGER(11)
         },
+        //发布开始时间
+      start_time: {
+           type: Sequelize.DATE
+      },
+    //发布结束时间
+      end_time: {
+          type: Sequelize.DATE
+      },
       //联系电话
        phone: {
           type: Sequelize.STRING(30)

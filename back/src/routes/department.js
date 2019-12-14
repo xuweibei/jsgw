@@ -51,8 +51,6 @@ module.exports = {
         ctx.body = new ErrorModel('获取列表失败')
     },
     "edit_emp":async ctx => {
-        const {id} = ctx.request.body
-        console.log(ctx.request.body, '实打实抠脚大汉三块就')
         const ret = await editEmp(ctx.request.body)
         if (ret) {
              ctx.body = new SuccessModel('更新成功')

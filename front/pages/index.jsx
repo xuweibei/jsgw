@@ -2,7 +2,7 @@ import ScrollAnim from "rc-scroll-anim"; //滚动动画
 import QueueAnim from "rc-queue-anim"; //进出场动画
 import Layout from "../components/layout/layout";
 import "../static/style/page/index.less";
-import {Form} from 'react-bootstrap';
+
 const ScrollOverPack = ScrollAnim.OverPack;
 
 const Home = () => (
