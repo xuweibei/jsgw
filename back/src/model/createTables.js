@@ -311,6 +311,9 @@ module.exports = {
     Employee,
     Identity,
     Account,
-    Post
+    Post,
+    Invite_info,
+    Company,
+    Product
     // Roles
 }
