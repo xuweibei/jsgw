@@ -27,6 +27,10 @@ router.get('/', login.home)
       .post('/api/change_status', department["change_status"])
       .post('/api/get_classify', postApi["get_classify"])
       .post('/api/add_centent_title', department["add_centent_title"])
+      .post('/api/add_classify',postApi['add_classify'])   //新增职业分类
+      .post('/api/edit_classify',postApi['edit_classify'])   //新增职业分类
+      .post('/api/del_classify',postApi['del_classify'])   //删除职业分类
+      .post('/api/change_classify_status',postApi['change_status'])   //禁用职业分类
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介

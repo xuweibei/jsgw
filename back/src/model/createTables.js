@@ -98,6 +98,10 @@ const Post_classify = db.defineModel('gw_post_classify', {
     //排序
     sort: {
         type: Sequelize.INTEGER(11)
+    },
+    //状态：禁用0或启用1
+    status: {
+        type: Sequelize.STRING(1)
     }
 });
 //侧边栏一级导航表
