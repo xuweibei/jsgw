@@ -24,6 +24,7 @@ router.get('/', login.home)
       .post('/api/edit_emp', department["edit_emp"])
       .post('/api/del_emp', department["del_emp"])
       .post('/api/change_status', department["change_status"])
+      .post('/api/get_classify', postApi["get_classify"])
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介

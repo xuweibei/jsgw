@@ -6,14 +6,227 @@
    <div class="top-content">
        <div class="post-sort-title">职位分类</div>
        <div class="button-content">
-           <button type="button" class="btn">新增</button>
+           <button type="button" class="btn" onclick="openStfModal()">新增</button>
        </div>
    </div>
 <!-- 表格-->
- <div class="main-content">
+ <div class="table-container">
      <table id="table" class="text-center table table-striped table-borderless" data-pagination="true">
      </table>
  </div>
+<!--    新增弹框-->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header justify-content-center">
+                    <h5 class="modal-title font-weight-bolder" id="stf-title" >新增</h5>
+                </div>
+                <div class="modal-body">
+                    <form class="d-flex justify-content-center department-structur-container stf-form">
+                        <div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-4 col-form-label">名称:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control dep-input stf-name" maxlength="5" id="inputPassword"
+                                           placeholder="请输入" name="name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="inputPassword" class="col-sm-4 col-form-label">排序:</label>
+                                <div class="col-sm-8">
+                                    <input type="text" class="form-control stf-sort" id="inputPassword" placeholder="请输入"
+                                           maxlength="11" name="sort">
+                                </div>
+                            </div>
+                            <div class="modal-footer border-top-0 dep-footer justify-content-center">
+                                <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
+                                <button type="submit" class="btn btn-right" onclick="addEmp()">保存</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    // 新增职业分类
+    function openStfModal() {
+        $('#exampleModalCenter').modal('show')
+        $("#stf-form").data('bootstrapValidator').destroy();
+        $('#stf-form').data('bootstrapValidator', null);
+        formValidator();
+        $('.stf-name').val('');
+        $('.stf-sort').val('');
+    }
+    // 新增成员
+    function addEmp() {
+        const form = $('.stf-form')
+        console.log(form);
+        const bootstrapValidator = form.data('bootstrapValidator');
+        console.log(bootstrapValidator);
+        form.data('bootstrapValidator',null);
+        bootstrapValidator.validate();
+        if (bootstrapValidator.isValid()) {
+            const data = {
+                name: $('.stf-name').val(),
+                phone: $('.stf-phone').val(),
+                department: $('.stf-select').val(),
+                author: $('.stf-card').val()
+            }
+            if (empId) {
+                $.post(url.changeStatus, data, function(res) {
+                    console.log(res)
+                })
+            }
+            $.post(url.insertStf, data, function (res) {
+                if (res && res.status === 0) {
+                    location.reload()
+                }
+            })
+        }
+    }
 
+    var $table = $('#table')
+    $(function () {
+        $table.bootstrapTable({
+            method: "post",
+            url: url.getClassify,
+            pageNumber: 1,
+            pagination: true,
+            sortable: true,
+            pageSize: 3,
+            pageList: [10, 25],
+            responseHandler: function (res) {
+                const arr = []
+                res.data.forEach(item => {
+                    arr.push({
+                        classify_name: item.classify,
+                        sort: item.sort,
+                        opt: operateFormatter()
+                    })
+                })
+                return arr
+            },
+            columns: [{
+                title: '分类名称',
+                field: 'classify_name',
+            }, {
+                title: '排序',
+                field: 'sort'
+            }, {
+                title: '操作',
+                field: 'opt',
+                class: 'last-column',
+                formatter: operateFormatter,
+                events: operateEvent = {
+                    "click #table-edit": function (e, value, row, index) {
+                        e.preventDefault();
+                        $('#exampleModalCenter').modal('show')
+                        $('#stf-title').text('编辑');
+                        $('.stf-name').val(row.name);
+                        $('.stf-phone').val(row.tel);
+                        $('.stf-select').val(row.department);
+                        $('.stf-card').val(row.card);
+                        id = row.id
+                    },
+                    "click #table-del": function (e, value, row, index) {
+                        $.post(url.delEmp, { id: row.id }, function (res) {
+                            if (res && res.status === 0) {
+                                location.reload()
+                            }
+                        })
+                    },
+                    "click #table-active": function (e, value, row, index) {
+                        $.post(url.changeStatus, { id: row.id }, function (res) {
+                            if (res && res.status === 0) {
+                                location.reload()
+                            }
+                        })
+                    }
+                }
+            }]
+        })
+        //操作列表
+        function operateFormatter(value, row, index) {
+            return [
+                '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Remove">编辑</a>',
+                '<a class="like opt" id="table-del" href="javascript:void(0)" title="Like">删除</a>',
+                '<a class="remove opt" id="table-active" href="javascript:void(0)" title="Remove">禁用</a>'
+            ].join('')
+        }
+    })
+    //表单校验规则
+    $(function () {
+        $('.stf-form').bootstrapValidator({
+            fields: {
+                name: {
+                    message: '职业分类验证失败',
+                    validators: {
+                        notEmpty: {
+                            message: '手机号不能为空'
+                        }
+                    }
+                },
+                sort: {
+                    validators: {
+                        notEmpty: {
+                            message: '排序不能为空'
+                        },
+                        regexp: {
+                            regexp: /^[0-9]*$/,
+                            message: '请输入数字'
+                        }
+                    }
+                }
+            }
+        })
+        // 分组表单
+        $('.job-form').bootstrapValidator({
+            fields: {
+                name: {
+                    validators: {
+                        notEmpty: {
+                            message: '用户姓名不能为空'
+                        },
+                        stringLength: {
+                            min: 2,
+                            max: 10,
+                            message: '用户姓名长度必须在2到10位之间'
+                        },
+                    }
+                }
+            }
+        })
+                .on('success.form.bv', function (e) {
+                    // Prevent form submission
+                    e.preventDefault();
+                    // Get the form instance
+                    var $form = $(e.target);
+                    // Get the BootstrapValidator instance
+                    const bv = $form.data('bootstrapValidator');
+                    if ($('#exampleModalCenterTitle').text() === '编辑') {
+                        return;
+                    }
+                    $.post(url.addDep, $form.serialize(), function (res) {
+                        if (res) {
+                            $('#dep-modal').modal('toggle')
+                            $('.toast').toast('show')
+                            $('.toast-body').text(res.message)
+                            location.reload()
+                        }
+                    });
+                });
+        //操作列表
+        function operateFormatter(value, row, index) {
+            return [
+                '<a class="like opt" id="table-active" href="javascript:void(0)" title="Remove">启用</a>',
+                '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
+                '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
+            ].join('')
+        }
+    })
+
+</script>
 {{/default}}
