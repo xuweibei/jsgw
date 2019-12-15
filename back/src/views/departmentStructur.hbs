@@ -77,7 +77,7 @@
                        data-search="true" data-search-align="left">
     </table>
 
-      <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+      <div class="modal fade emp-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
           <div class="modal-content">
@@ -150,7 +150,7 @@
         </div>
       </div>
       <script>
-        // 定义变量保存编辑员工id
+        // 定义全局变量保存编辑员工id
         let empId;
         // 删除分组
         function deleteDep(id) {
@@ -191,11 +191,16 @@
           $('.stf-card').val();
         }
 
-        // 新增成员
+        // 模态框关闭事件
+        $('.emp-modal').on('hidden.bs.modal', function () {
+          // 刷新页面 重置表单校验
+          location.reload()
+        })
+
+        // 添加员工
         function addEmp() {
-          const form = $('.stf-form')
-          const bootstrapValidator = form.data('bootstrapValidator');
-          form.data('bootstrapValidator',null);
+          var form = $('.stf-form');
+          var bootstrapValidator = form.data('bootstrapValidator');
           bootstrapValidator.validate();
           if (bootstrapValidator.isValid()) {
             const data = {
@@ -205,14 +210,13 @@
               author: $('.stf-card').val()
             }
             if (empId) {
-              $.post(url.changeStatus, data, function(res) {
-                console.log(res)
+              data.id = empId;
+              $.post(url.editEmp, data, function(res) {
+                location.reload()
               })
             }
-            $.post(url.insertStf, data, function (res) {
-              if (res && res.status === 0) {
-                location.reload()
-              }
+            $.post(url.insertStf, data, function(res) {
+              location.reload()
             })
           }
         }
@@ -338,7 +342,7 @@
                   $('.stf-phone').val(row.tel);
                   $('.stf-select').val(row.department);
                   $('.stf-card').val(row.card);
-                  id = row.id
+                  empId = row.id
                 },
                 "click #table-del": function (e, value, row, index) {
                   $.post(url.delEmp, { id: row.id }, function (res) {

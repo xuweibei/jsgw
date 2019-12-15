@@ -12,6 +12,7 @@ const consult = require('./consult')
 const product = require('./product')
 const carousel = require('./carousel')
 const postApi = require('./postApi')
+const helpContent = require('./helpContent')
 router.get('/', login.home)
       .post('/api/login', login.login)
       // 员工部门
@@ -25,6 +26,7 @@ router.get('/', login.home)
       .post('/api/del_emp', department["del_emp"])
       .post('/api/change_status', department["change_status"])
       .post('/api/get_classify', postApi["get_classify"])
+      .post('/api/add_centent_title', department["add_centent_title"])
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介
@@ -45,4 +47,6 @@ router.get('/', login.home)
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类
       .get('/delivery/postClassify', postApi['postClassify'])
+      //产品中心[志强]
+      .get('/delivery/helpContent', helpContent['helpContent'])
 module.exports = router
