@@ -41,7 +41,7 @@
                             </div>
                             <div class="modal-footer border-top-0 dep-footer justify-content-center">
                                 <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
-                                <button type="submit" class="btn btn-right" onclick="addEmp()">保存</button>
+                                <button type="submit" class="btn btn-right" onclick="addClassify()">保存</button>
                             </div>
                         </div>
                     </form>
@@ -60,12 +60,10 @@
         $('.stf-name').val('');
         $('.stf-sort').val('');
     }
-    // 新增成员
-    function addEmp() {
+    // 新增职业分类
+    function addClassify() {
         const form = $('.stf-form')
-        console.log(form);
         const bootstrapValidator = form.data('bootstrapValidator');
-        console.log(bootstrapValidator);
         form.data('bootstrapValidator',null);
         bootstrapValidator.validate();
         if (bootstrapValidator.isValid()) {
@@ -105,8 +103,9 @@
                         id: item.id,
                         classify_name: item.classify,
                         sort: item.sort,
+                        ori_status: item.status,
                         status:  Number(item.status) ? "启用" : "关闭",
-                        opt: operateFormatter()
+                        opt: operateFormatter(item)
                     })
                 })
                 return arr
@@ -125,10 +124,8 @@
                 title: '操作',
                 field: 'opt',
                 class: 'last-column',
-                formatter: operateFormatter,
                 events: operateEvent = {
                     "click #table-edit": function (e, value, row, index) {
-                        console.log(row)
                         e.preventDefault();
                         $('#exampleModalCenter').modal('show')
                         $('#stf-title').text('编辑');
@@ -146,7 +143,9 @@
                         })
                     },
                     "click #table-active": function (e, value, row, index) {
-                        $.post(url.changeClassifyStatus, { id: row.id }, function (res) {
+                        console.log('禁用', row);
+                        const status = row.ori_status == '1'? '0': '1';
+                        $.post(url.changeClassifyStatus, { id: row.id, status}, function (res) {
                             if (res && res.status === 0) {
                                 location.reload()
                             }
@@ -156,11 +155,12 @@
             }]
         })
         //操作列表
-        function operateFormatter(value, row, index) {
+        function operateFormatter(row) {
+            const status = row['status'] == '0'? '启用': '禁用';
             return [
                 '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Edit">编辑</a>',
                 '<a class="like opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>',
-                '<a class="remove opt" id="table-active" href="javascript:void(0)" title="Remove">禁用</a>'
+                '<a class="remove opt" id="table-active" href="javascript:void(0)" title="Remove">'+status+'</a>'
             ].join('')
         }
     })

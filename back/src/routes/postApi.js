@@ -1,5 +1,5 @@
 // 职业分类接口
-const {getClassify, addClassify, editClassify, delClassify, changeStatus} =  require('../controller/postController');
+const {getClassify, addClassify, editClassify, delClassify, changeClassifyStatus} =  require('../controller/postController');
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     //职业分类页面
@@ -43,9 +43,8 @@ module.exports = {
     },
     //禁用职业分类
     'change_status': async ctx => {
-        console.log('禁用职业分类');
-        const {id} = ctx.request.body;
-        const ret = await changeStatus(id);
+        const {id, status} = ctx.request.body;
+        const ret = await changeClassifyStatus(id, status);
         if (ret) {
             ctx.body = new SuccessModel('状态修改成功')
             return

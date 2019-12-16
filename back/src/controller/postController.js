@@ -15,9 +15,9 @@ const addClassify = async (obj) => {
     if (obj) {
         insert = await Post_classify.create({
             classify: obj.classify,
-            sort: obj.sort
+            sort: obj.sort,
+            status: 1
         })
-        console.log(insert);
         return insert
     }
 
@@ -37,13 +37,11 @@ const editClassify = async (parms) => {
 const delClassify = async (id) => {
     const sql = 'delete from gw_post_classify where id=' + id;
     const ret = await sequelize.query(sql);
-    console.log(ret);
-
     return ret && ret[0]
 }
 // 删除职业分类
-const changeStatus = async (id) => {
-    const del = await Post_classify.update({status: "0"}, {where: {id}})
+const changeClassifyStatus = async (id, status) => {
+    const del = await Post_classify.update({status}, {where: {id}})
     return del && del[0]
 }
 module.exports = {
@@ -51,5 +49,5 @@ module.exports = {
     addClassify,
     editClassify,
     delClassify,
-    changeStatus
+    changeClassifyStatus
 }
