@@ -8,6 +8,12 @@ const url = {
     insertStf: base + 'api/insert_stf',
     getTable:base + 'api/get_tab', // 获取员工
     editEmp: base + 'api/edit_emp', //编辑员工
-    delEmp: base + 'api/del_emp', //删除员工
-    changeStatus: base + 'api/change_status', //编辑员工状态
+    delEmp: base + 'api/del_emp', //编辑员工
+    addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
+    changeStatus: base + 'api/change_status', //编辑员工
+    getClassify: base + 'api/get_classify', //获取职业分类
+    addClassify: base + 'api/add_classify', //新增职业分类
+    editClassify: base + 'api/edit_classify',//编辑职业分类
+    delClassify:  base + 'api/del_classify',//删除职业分类
+    changeClassifyStatus:  base + 'api/change_classify_status',//禁用职业分类
 }

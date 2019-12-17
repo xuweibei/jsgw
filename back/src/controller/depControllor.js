@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 // 
 const {
     sequelize
 } = require('../db/db');
+=======
+//
+const {sequelize} = require('../db/db');
+>>>>>>> 4fa0d731937bfe857fa3de0834516f5fae50f97c
 const {
     Department,
     Identity,
     Employee,
+<<<<<<< HEAD
     Account
+=======
+    Company
+>>>>>>> 4fa0d731937bfe857fa3de0834516f5fae50f97c
 } = require('../model/createTables')
 // 生成随机密码
 function randomn(n) {
@@ -285,6 +294,25 @@ const changeStatus = async (id) => {
         return change && change[0]
     }
 }
+//产品中心（存储[志强]）
+const saveCententTitle = async (obj) => {
+    console.log(JSON.stringify(obj));
+    let insert = obj
+    if (obj) {
+        insert = await Company.create({
+            comp_name: obj.comp_name,
+            intro: obj.intro,
+            link_phone: obj.link_phone,
+            address: obj.address,
+            page_name: obj.page_name,
+            page_link: obj.page_link,
+            friend_page: obj.friend_page,
+            friend_link: obj.friend_link,
+            pic_rul: 'https/www/baidu.jpg',
+        })
+    }
+    return insert
+}
 module.exports = {
     addDep,
     findDep,
@@ -296,5 +324,6 @@ module.exports = {
     readDep,
     editEmp,
     delEmp,
-    changeStatus
+    changeStatus,
+    saveCententTitle
 }
