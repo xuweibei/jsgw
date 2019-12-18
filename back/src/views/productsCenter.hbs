@@ -1,12 +1,14 @@
 {{#>default}}
+{{!-- <link rel="stylesheet" href="../assets/styles/fileinput.min.css">
+<script src="../assets/js/fileinput.min.js"></script> --}}
 <div class="job-class-container products-center-container">
   <div class="job-class-top">
     <div class="card-body-title">
-          招聘信息管理
+          产品中心
     </div>
     <div class="card-body-btn">
       <button type="button" class="btn">展示在首页</button>
-      <button type="button" class="btn">新增</button>
+      <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">新增</button>
     </div>
   </div>
   <div>
@@ -16,14 +18,16 @@
     <table
       id="table"
       class="text-center table table-striped table-borderless"
-      data-pagination="true">
-      {{!-- <thead>
+      data-pagination="true"
+      data-url="json"
+    >
+      <thead>
         <tr>
-          <th data-field="id">ID</th>
-          <th data-field="name">Item Name</th>
-          <th data-field="price">Item Price</th>
+          {{!-- <th data-field="id">ID</th> --}}
+          <th data-field="serial_number">Item Name</th>
+          <th data-field="pro_name">Item Price</th>
         </tr>
-      </thead> --}}
+      </thead>
     </table>
     <script>
       var $table = $('#table')
@@ -31,42 +35,119 @@
           $table.bootstrapTable({
             toolbar: '.toolbar',
             columns: [{
-              title: '展示模块',
+              title: '编号',
               field: 'name'
             }, {
-              title: '位置排序(数值越小排的越前)',
+              title: '产品名称',
               field: 'sort'
             }, {
-              title: '状态',
+              title: '操作',
               field: 'opt'
             }],
             data: [{
-              name: '最新动态',
-              sort: 1,
+              name: '垃圾程序员',
+              sort: 'bug一大堆',
               opt: operateFormatter()
             },{
-              name: '最新动态',
-              sort: 1,
+             name: '垃圾程序员',
+              sort: 'bug一大堆',
               opt: operateFormatter()
             },{
-              name: '最新动态',
-              sort: 1,
+              name: '垃圾程序员',
+              sort: 'bug一大堆',
               opt: operateFormatter()
             },{
-              name: '最新动态',
-              sort: 1,
+              name: '垃圾程序员',
+              sort: 'bug一大堆',
               opt: operateFormatter()
             }],
           })
           function operateFormatter(value, row, index) {
             return [
-              '<a class="like opt" href="javascript:void(0)" title="Like">编辑</a>',
+              '<a class="like opt" href="javascript:void(0)" title="Like">修改 </a>',
               '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>',
-              '<a class="like opt" href="javascript:void(0)" title="Remove">启用</a>'
+              '<a class=" opt" href="javascript:void(0)" title="Remove">预览 </a>',
+              '<a class="like opt" href="javascript:void(0)" title="Remove">展示 </a>'
             ].join('')
           }
+          //删除行
+          $('.remove').click(function(value, row, index) {
+            $table.bootstrapTable('remove', {
+              field: 'name'
+            })
+          })
         })
     </script>
   </div>
 </div>
+{{!-- 新增弹出框 --}}
+{{!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> --}}
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{!-- <h5 class="modal-title" id="exampleModalLabel">New message</h5> --}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group d-flex justify-content-start">
+            <label for="recipient-name" class="col-form-label">产品名称：</label>
+            <div>
+              <input type="text" placeholder="中卖网" class="form-control" id="recipient-name"/>
+            </div>
+          </div>
+          <div class="form-group d-flex justify-content-start">
+            <label for="message-text" class="col-form-label">简介：</label>
+            <div>
+              <textarea class="form-control" placeholder="优质商品，快乐选购" id="message-text"></textarea>
+            </div>
+          </div>
+          <div class="form-group product-logo d-flex justify-content-start align-items-center">
+            <label class="control-label">产品logo：</label>
+            <div class="product-logo-container">
+              <input id="dawnload-logo" type="file"/>
+            </div>
+          </div>
+          <div class="form-group product-code d-flex justify-content-start align-items-center">
+            <label class="control-label">下载方式：</label>
+            <div class="product-code-container">
+              <input type="file"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer text-center">
+        {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
+        <button type="button" class="btn btn-primary">发布</button>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+  .form-group label{
+    width: 120px;
+    text-align: right;
+  }
+  .modal-footer .btn{
+    margin: auto;
+  }
+  .form-group>div{
+    width: 300px;
+  }
+  .product-logo-container input,.product-code-container input{
+    width: 200px;
+    height: 200px;
+    border: 1px solid #eee;
+    opacity: 0;
+  }
+  .form-group .product-logo-container,.form-group .product-code-container{
+    border: 1px solid #eee;
+    width: 200px;
+    height: 200px;
+  }
+</style>
 {{/default}}

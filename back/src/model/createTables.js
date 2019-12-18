@@ -8,7 +8,7 @@ const Users = db.defineModel('gw_users', {
         allowNull: false,
         autoIncrement: true
     },
-    account : {type: Sequelize.STRING(50),unique: true},
+    account : {type: Sequelize.STRING(50),unique: 'column'},
     password: Sequelize.STRING(50),
     identity_id: Sequelize.BOOLEAN(4),
     status: Sequelize.BOOLEAN(4)
@@ -143,7 +143,7 @@ const Employee = db.defineModel('gw_employee', {
         autoIncrement: true
     },
     //员工姓名
-    name : {type: Sequelize.STRING(30), unique: true},
+    name : {type: Sequelize.STRING(30), unique: 'column'},
     //联系电话
     phone: {type: Sequelize.STRING(11)},
     //状态：1使用中，0禁用中
@@ -325,7 +325,12 @@ const Product = db.defineModel('gw_product', {
     //产品名称
     pro_name: {
         type: Sequelize.STRING(50)
-    }
+    },
+    //是否启用
+    status:{
+        type: Sequelize.STRING(1),
+        defaultValue: '1'
+    },
 })
 module.exports = {
     Users,

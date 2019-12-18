@@ -5,14 +5,14 @@
     <div class="left-content">
       {{#if depObj.allDep.length}}
       {{#each depObj.allDep}}
-      <div class="item d-flex justify-content-around">
+      <div class="item d-flex flex-start">
         <span>全部</span><span>{{this.num}}人</span>
       </div>
       {{/each}}
       {{/if}}
       {{#if depObj.dep.length}}
       {{#each depObj.dep}}
-      <div class="item d-flex justify-content-around">
+      <div class="item d-flex flex-start">
         <span>{{this.department}}</span><span>{{this.num}}</span>
         <div class="svg-img pr-2">
           <img src="../assets/img/edit.svg" alt="" onclick="editDep({{this.id}})">
