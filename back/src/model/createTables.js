@@ -329,7 +329,12 @@ const Product = db.defineModel('gw_product', {
     //产品名称
     pro_name: {
         type: Sequelize.STRING(50)
-    }
+    },
+    //是否启用
+    status:{
+        type: Sequelize.STRING(1),
+        defaultValue: '1'
+    },
 })
 module.exports = {
     Users,
