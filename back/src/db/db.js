@@ -109,6 +109,7 @@ const defineModel = function (name, attributes) {
         tableName: name,
         timestamps: true,
         paranoid: true,
+        timestamps: true,
         createdAt: "CreatedAt",  //自定义时间戳
         updatedAt: "UpdatedAt", // 自定义时间戳
         charset: 'utf8mb4',

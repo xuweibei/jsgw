@@ -76,7 +76,7 @@
                         alert('公司名称最少为6个中文字')
                     } else if (!(/^1[34578]\d{9}$/.test(contactInfo))) {
                         alert('联络方式有误')
-                    } else if (!(/^([\u2E80-\u9FFF]+){4}$/.test(contactAddress))) {
+                    } else if (contactAddress.length <= 4) {
                         alert('联络地址最少为4个字')
                     } else if (!myPageName) {
                         alert('联系我们 页面名称不能为空')
@@ -87,7 +87,19 @@
                     } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(friendSkipJoin))) {
                         alert('友情链接 跳转链接格式错误')
                     } else {
-                        alert('成功执行');
+                        const data = {
+                            comp_name: companyName,
+                            intro: '您好!',
+                            link_phone: contactInfo,
+                            address: contactAddress,
+                            page_name: myPageName,
+                            page_link: mySkipJoin,
+                            friend_page: friendPageName,
+                            friend_link: friendSkipJoin,
+                        }
+                        $.post(url.addCententTitle, data, function(res) {
+                            console.log(JSON.stringify(res));
+                        })
                     }
                 })
             })

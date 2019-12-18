@@ -13,3 +13,84 @@
         font-size: 32px;
     }
 }
+
+.sizer {
+    margin-bottom: 40px;
+    .screen {
+        display: flex;
+        margin-bottom: 24px;
+        .fill, .ant-select-enabled {
+            flex: 1;
+            margin-right: 20px;
+            width: auto;
+        }
+        .ant-calendar-picker {
+            width: 280px;
+        }
+    }
+    .search {
+        text-align: right;
+        .empty {
+            font-size: 14px;
+            color: #999;
+            margin-right: 24px;
+        }
+    }
+}
+
+.each {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    padding: 0 270px;
+    .datum {
+        .position {
+            display: flex;
+            font-size: 16px;
+            div:nth-child(1) {
+                color: #25608D;
+                margin-right: 24px;
+            }
+            div:nth-child(2) {
+                color: #F4B43C;
+            }
+        }
+        .specification {
+            font-size: 14px;
+            color: #999;
+            margin: 14px 0;
+            display: flex;
+            div {
+                padding: 0 10px;
+                border-right: 1px solid #999;
+            }
+            div:nth-child(1) {
+                padding-left: 0;
+            }
+            div:last-child {
+                border-right: none;
+            }
+        }
+        .time {
+            display: flex;
+            font-size: 12px;
+            color: #999;
+            div {
+                margin-right: 15px;
+            }
+        }
+    }
+    .details {
+        line-height: 90px;
+        font-size: 14px;
+        color: #4FCAFF;
+        img {
+            margin-left: 13px;
+        }
+    }
+}
+
+.ant-pagination {
+    margin: 60px 0 80px 0;
+    text-align: right;
+}

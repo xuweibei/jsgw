@@ -13,6 +13,7 @@ const consult = require('./consult')
 const product = require('./product')
 const carousel = require('./carousel')
 const postApi = require('./postApi')
+const helpContent = require('./helpContent')
 router.get('/', login.home)
       .post('/api/login', login.login)
       // 员工部门
@@ -27,6 +28,12 @@ router.get('/', login.home)
       .post('/api/change_status', department["change_status"])
       .post('/api/get_recruit', resuirc["get_recruit"]) //获取招聘信息
       .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
+      .post('/api/get_classify', postApi["get_classify"])
+      .post('/api/add_centent_title', department["add_centent_title"])
+      .post('/api/add_classify',postApi['add_classify'])   //新增职业分类
+      .post('/api/edit_classify',postApi['edit_classify'])   //新增职业分类
+      .post('/api/del_classify',postApi['del_classify'])   //删除职业分类
+      .post('/api/change_classify_status',postApi['change_status'])   //禁用职业分类
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介
@@ -47,4 +54,6 @@ router.get('/', login.home)
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类
       .get('/delivery/postClassify', postApi['postClassify'])
+      //产品中心[志强]
+      .get('/delivery/helpContent', helpContent['helpContent'])
 module.exports = router
