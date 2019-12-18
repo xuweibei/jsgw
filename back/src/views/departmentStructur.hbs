@@ -1,5 +1,19 @@
 {{#>default}}
 <div class="department-structur-container">
+  <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center"
+    style="min-height: 200px;">
+    <!-- Then put toasts within -->
+    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true"
+      style="left: 50%; z-index: 1000; transform: translateX(-50%);">
+      <div class="toast-header">
+        <strong class="mr-auto">提示</strong>
+      </div>
+      <div class="toast-body"></div>
+    </div>
+  </div>
+  <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center"
+    style="min-height: 200px;">
+  </div>
   <div class="department-structur-left">
     <div class="left-title">部门结构</div>
     <div class="left-content">
@@ -25,9 +39,9 @@
     <div class="left-footer" data-toggle="modal" data-target="#dep-modal">
       <img src="../assets/img/add.png" alt=""><span>添加分组</span>
     </div>
-    <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
+    {{!-- <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
       <div class="toast-body"></div>
-    </div>
+    </div> --}}
   </div>
   <div class="modal fade" id="dep-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -44,13 +58,13 @@
                 placeholder="请输入" name="name">
             </div>
           </div>
-          <div class="form-group row">
+          {{!-- <div class="form-group row">
             <label for="colFormLabel" class="col-sm-3 col-form-label job-form-label">排序:</label>
             <div class="col-sm-9">
               <input type="email" class="form-control job-form-input" maxlength="10" id="colFormLabel"
                 placeholder="请输入">
             </div>
-          </div>
+          </div> --}}
           <div class="modal-footer border-top-0 job-modal-footer justify-content-center">
             <button type="button" class="btn btn-secondary btn-left" data-dismiss="modal">返回</button>
             <button type="submit" class="btn btn-primary btn-right dep-btn" name="submit">保存</button>
@@ -62,20 +76,19 @@
   <div class="department-structur-right">
     <div class="table-container">
       <div class="toolbar">
-        {{!-- <form class="form-inline">
+        <form class="form-inline">
           <div class="form-group mx-sm-3 mb-2">
             <input type="text" class="form-control" id="inputPassword2" placeholder="请输入用户名或手机号">
           </div>
           <button type="submit" class="btn btn-primary mb-2"
             style="width: 64px; height: 32px; font-size: 14px; background: #fff; color:#0AAFDE;">搜索</button>
-        </form> --}}
+        </form>
       </div>
       <button class="btn btn-primary float-right mt-2" data-toggle="modal" id="filterBy"
         data-target="#exampleModalCenter" style="width: 128px; height: 32px; font-size: 14px; background: #0AAFDE;"
         onclick="openStfModal()">新增</button>
-      <table id="table" class="text-center table table-striped table-borderless" data-pagination="true"
-                       data-search="true" data-search-align="left">
-    </table>
+      <table id="table" class="text-center table table-striped table-borderless">
+      </table>
 
       <div class="modal fade emp-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -104,15 +117,15 @@
                   <div class="form-group row">
                     <label for="inputPassword" class="col-sm-4 col-form-label">登录账户:</label>
                     <div class="col-sm-8">
-                      <input type="text" maxlength="13" disabled class="form-control" id="inputPassword" name="account"
-                        placeholder="禁用">
+                      <input type="text" maxlength="12" class="form-control stf-account" id="inputPassword"
+                        name="account" placeholder="请输入登录账户">
                     </div>
                   </div>
                   <div class="form-group row">
                     <label for="inputPassword" class="col-sm-4 col-form-label">登录密码:</label>
                     <div class="col-sm-8">
-                      <input type="password" disabled class="form-control" id="inputPassword" name="password"
-                        placeholder="禁用" maxlength="13">
+                      <input type="password" class="form-control stf-password" id="inputPassword" name="password"
+                        placeholder="请输入登录密码" maxlength="12">
                     </div>
                   </div>
                   <div class="form-group row">
@@ -152,13 +165,19 @@
       <script>
         // 定义全局变量保存编辑员工id
         let empId;
+        // 关闭提示框
+        function toast(message) {
+          $('.toast').toast("show")
+          $('.toast-body').text(message);
+          $('.toast').on('hidden.bs.toast', function () {
+            location.reload()
+          })
+        }
         // 删除分组
         function deleteDep(id) {
           $.post(url.delDep, { id }, function (res) {
             if (res) {
-              $('.toast').toast('show')
-              $('.toast-body').text(res.message)
-              location.reload()
+              toast(res.message)
             }
           })
         }
@@ -175,7 +194,7 @@
               var jobName = $('.job-form-name').val()
               $.post(url.editDep, { name: jobName, id }, function (res) {
                 if (res) {
-                  location.reload()
+                  toast(res.message)
                 }
               })
             }
@@ -191,7 +210,7 @@
           $('.stf-card').val();
         }
 
-        // 模态框关闭事件
+        // 模态框关闭事件 清空检验规则
         $('.emp-modal').on('hidden.bs.modal', function () {
           // 刷新页面 重置表单校验
           location.reload()
@@ -207,20 +226,21 @@
               name: $('.stf-name').val(),
               phone: $('.stf-phone').val(),
               department: $('.stf-select').val(),
-              author: $('.stf-card').val()
+              author: $('.stf-card').val(),
+              account: $('.stf-account').val(),
+              password: $('.stf-password').val()
             }
             if (empId) {
               data.id = empId;
-              $.post(url.editEmp, data, function(res) {
-                location.reload()
+              $.post(url.editEmp, data, function (res) {
+                toast(res.message)
               })
             }
-            $.post(url.insertStf, data, function(res) {
-              location.reload()
+            $.post(url.insertStf, data, function (res) {
+              toast(res.message)
             })
           }
         }
-
         var $table = $('#table')
         $(function () {
           $('.stf-form').bootstrapValidator({
@@ -247,6 +267,47 @@
                     max: 5,
                     message: '用户姓名长度必须在2到5位之间'
                   },
+                  regexp: {
+                    regexp: /^(?:[\u4e00-\u9fa5·]{2,16})$/,
+                    message: "请输入中文姓名"
+                  }
+                }
+              },
+              account: {
+                validators: {
+                  notEmpty: {
+                    message: '登录用户名不能为空'
+                  },
+                  stringLength: {
+                    min: 6,
+                    max: 12,
+                    message: '用户姓名长度必须在6到12位之间'
+                  },
+                  regexp: {
+                    regexp: /^[A-Za-z0-9]+$/,
+                    message: '登录用户名由数字和字母组成'
+                  }
+                }
+              },
+              password: {
+                stringLength: {
+                  min: 6,
+                  max: 12,
+                  message: '密码长度必须在6到12位之间'
+                },
+              },
+              department:{
+                validators:{
+                  notEmpty: {
+                    message: '所属部门不能为空'
+                  }
+                }
+              },
+              author:{
+                validators:{
+                  notEmpty: {
+                    message: '权限不能为空'
+                  }
                 }
               }
             }
@@ -281,9 +342,7 @@
               $.post(url.addDep, $form.serialize(), function (res) {
                 if (res) {
                   $('#dep-modal').modal('toggle')
-                  $('.toast').toast('show')
-                  $('.toast-body').text(res.message)
-                  location.reload()
+                  toast(res.message)
                 }
               });
             });
@@ -295,8 +354,14 @@
             pagination: true,
             sortable: true,
             sortOrder: "asc",
+            queryParams: { a: 1 },
             pageSize: 5,
-            pageList: [10, 25],
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            pageList: [5, 10, 15, 20, 25], //记录数可选列表 
+            formatLoadingMessage: function () {
+              return "请稍等，正在加载中...";
+            },
             responseHandler: function (res) {
               const arr = []
               res.data.forEach(item => {
@@ -307,8 +372,7 @@
                   name: item.name,
                   tel: item.phone,
                   card: item.identity,
-                  status: Number(item.active) ? "开启" : "关闭中",
-                  opt: operateFormatter()
+                  status: Number(item.active) ? "使用中" : "关闭中",
                 })
               })
               return arr
@@ -347,14 +411,14 @@
                 "click #table-del": function (e, value, row, index) {
                   $.post(url.delEmp, { id: row.id }, function (res) {
                     if (res && res.status === 0) {
-                      location.reload()
+                      toast(res.message)
                     }
                   })
                 },
                 "click #table-active": function (e, value, row, index) {
                   $.post(url.changeStatus, { id: row.id }, function (res) {
                     if (res && res.status === 0) {
-                      location.reload()
+                      toast(res.message)
                     }
                   })
                 }
@@ -363,8 +427,9 @@
           })
           //操作列表
           function operateFormatter(value, row, index) {
+            let start = row.active === "1" ? "禁用" : "启用"
             return [
-              '<a class="like opt" id="table-active" href="javascript:void(0)" title="Remove">启用</a>',
+              '<a class="like opt" id="table-active" href="javascript:void(0)" title="Remove">' + start + '</a>',
               '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
               '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
             ].join('')
