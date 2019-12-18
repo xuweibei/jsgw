@@ -13,20 +13,17 @@ const links = [
 });
 
 export default () => (
-    <div className="header">
-        <div className="header-logo">
-            <span>中战科技</span>
+    <div className="header distance">
+        <img className="header-logo" src="/zzha.png" alt=""/>
+        <div className="header-tab">
+            {links.map(({ href, label, key, as }) => (
+                <div>
+                    <Link href={href} as={as}>
+                        <a key={key}>{label}</a>
+                    </Link>
+                </div>
+            ))}
         </div>
-        <div className="header-nav">
-            <ul>
-                {links.map(({ href, label, key, as }) => (
-                    <li>
-                        <Link href={href} as={as}>
-                            <a key={key}>{label}</a>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <div className="staff">员工登陆</div>
     </div>
 );

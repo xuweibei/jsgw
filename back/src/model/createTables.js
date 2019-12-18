@@ -84,7 +84,7 @@ const Department = db.defineModel('gw_department', {
     }
 });
 //职位分类
-const Post_classify = db.defineModel('gw_', {
+const Post_classify = db.defineModel('gw_post_classify', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -157,9 +157,9 @@ const Employee = db.defineModel('gw_employee', {
         type: Sequelize.INTEGER(11)
     },
     //职位id,对应职位表的主键
-    post_id: {
-        type: Sequelize.INTEGER(11)
-    },
+    // post_id: {
+    //     type: Sequelize.INTEGER(11)
+    // },
     //账号id,对应账号表account的主键
     account_id: {
         type: Sequelize.INTEGER(11),
@@ -191,9 +191,21 @@ const Post = db.defineModel('gw_post', {
         type: Sequelize.STRING(1)
     }
 })
-
+//地址表（市）
+const city = db.defineModel('gw_city', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //市
+    city: {
+        type: Sequelize.STRING(30)
+    }
+})
 //招聘信息表（加入我们）
-const Invite_info = db.defineModel('gw_invite_info', {
+const Invite = db.defineModel('gw_invite_info', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -204,8 +216,8 @@ const Invite_info = db.defineModel('gw_invite_info', {
     post_name: {
         type: Sequelize.STRING(50)
     },
-    //所在地id (市，对应地址表的id)
-    address_id: {
+    //所在地id (市，对应城市表的id)
+    city_id: {
         type: Sequelize.STRING(30)
     },
     //详细地址
@@ -232,6 +244,14 @@ const Invite_info = db.defineModel('gw_invite_info', {
         require_num: {
             type: Sequelize.INTEGER(11)
         },
+        //发布开始时间
+      start_time: {
+           type: Sequelize.DATE
+      },
+    //发布结束时间
+      end_time: {
+          type: Sequelize.DATE
+      },
       //联系电话
        phone: {
           type: Sequelize.STRING(30)
@@ -239,6 +259,10 @@ const Invite_info = db.defineModel('gw_invite_info', {
      //邮箱
       email: {
         type: Sequelize.STRING(50)
+      },
+      //职位类型
+      job_class:{
+          type:Sequelize.STRING(10)
       }
     })
 //公司表
@@ -312,9 +336,10 @@ module.exports = {
     Identity,
     Account,
     Post,
-    Invite_info,
+    Invite,
     Company,
     Product,
-    Post_classify
+    Post_classify,
+    city
     // Roles
 }

@@ -144,17 +144,9 @@ const insertEmployee = async (obj) => {
 
 // 获取员工
 const getEmployee = async () => {
-    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
+    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id)"
     const ret = await sequelize.query(sql)
-    console.log(ret, '撒即可的哈时间肯定')
-    return ret[0]
-}
-
-// 获取招聘信息
-const getRecruitInfo = async () => {
-    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
-    const ret = await sequelize.query(sql)
-    console.log(ret, '撒即可的哈时间肯定')
+    console.log(ret, " 考虑是大法官")
     return ret[0]
 }
 // 编辑员工

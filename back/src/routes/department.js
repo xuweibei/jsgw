@@ -1,5 +1,5 @@
 //员工接口
-const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep,editEmp, readDep, findIdentity, delEmp, changeStatus,getRecruitInfo} = require('../controller/depControllor')
+const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep,editEmp, readDep, findIdentity, delEmp, changeStatus} = require('../controller/depControllor')
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     'departmentStructur': async (ctx, next) => {
@@ -51,8 +51,6 @@ module.exports = {
         ctx.body = new ErrorModel('获取列表失败')
     },
     "edit_emp":async ctx => {
-        const {id} = ctx.request.body
-        console.log(ctx.request.body, '实打实抠脚大汉三块就')
         const ret = await editEmp(ctx.request.body)
         if (ret) {
              ctx.body = new SuccessModel('更新成功')
@@ -77,15 +75,5 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('状态修改失败')
-    },
-    "get_recruit": async ctx => {
-        // const {id} = ctx.request.body
-        const ret = await getRecruitInfo();
-        console.log(ret,'的快乐十分个')
-        if (ret) {
-            ctx.body = new SuccessModel('获取成功')
-            return
-        }
-        ctx.body = new ErrorModel('获取失败')
     }
 }

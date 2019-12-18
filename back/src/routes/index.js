@@ -2,6 +2,7 @@ const router = require('koa-router')()
 const Logincheck = require('../middleware/checkLogin')
 const login = require('./login')
 const department = require('./department')
+const resuirc = require('./methods/recruit')
 const intro = require('./intro')
 const invite = require('./invite')
 const edit = require('./edit')
@@ -11,7 +12,7 @@ const exchange = require('./exchange')
 const consult = require('./consult')
 const product = require('./product')
 const carousel = require('./carousel')
-const postApi  = require('./postApi')
+const postApi = require('./postApi')
 router.get('/', login.home)
       .post('/api/login', login.login)
       // 员工部门
@@ -24,6 +25,8 @@ router.get('/', login.home)
       .post('/api/edit_emp', department["edit_emp"])
       .post('/api/del_emp', department["del_emp"])
       .post('/api/change_status', department["change_status"])
+      .post('/api/get_recruit', resuirc["get_recruit"]) //获取招聘信息
+      .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介
@@ -43,5 +46,5 @@ router.get('/', login.home)
       // 轮播管理
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类
-      .get('/delivery/postSort', postApi['postSort'])
+      .get('/delivery/postClassify', postApi['postClassify'])
 module.exports = router

@@ -1,20 +1,32 @@
-// import fetch from "isomorphic-unfetch";
 import ScrollAnim from "rc-scroll-anim"; //滚动动画
 import QueueAnim from "rc-queue-anim"; //进出场动画
 import Layout from "../components/layout/layout";
-import Banner from "../components/banner/banner";
+import "../static/style/page/index.less";
+import {Form} from 'react-bootstrap';
 const ScrollOverPack = ScrollAnim.OverPack;
 
 const Home = () => (
     <Layout>
-        <Banner />
-        <ScrollOverPack hideProps={{ tweenOne: { reverse: true } }}>
-            <QueueAnim key="queueAnim">
-                <div key="a">依次进入</div>
-                <div key="b">依次进入</div>
-                <div key="b">依次进入</div>
-            </QueueAnim>
-        </ScrollOverPack>
+        <div className="banner">
+            <div className="join">Join us</div>
+            <div className="join-one">加入我们</div>
+        </div>
+        <div className="list distance">
+            <Form.Row>
+                <Form.Group controlId="formGridCity">
+                    <Form.Label>City</Form.Label>
+                    <Form.Control placeholder="请输入职位关键字" />
+                </Form.Group>
+
+                <Form.Group controlId="formGridState">
+                    <Form.Label>State</Form.Label>
+                    <Form.Control as="select">
+                        <option>Choose...</option>
+                        <option>...</option>
+                    </Form.Control>
+                </Form.Group>
+            </Form.Row>
+        </div>
     </Layout>
 );
 

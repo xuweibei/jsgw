@@ -11,4 +11,7 @@ const url = {
     delEmp: base + 'api/del_emp', //编辑员工
     changeStatus: base + 'api/change_status', //编辑员工
     getRecreuit: base + 'api/get_recruit', //获取招聘信息
+    addMen: base + 'api/add_recruiter', //获取招聘信息
+    delEmp: base + 'api/del_emp', //删除员工
+    changeStatus: base + 'api/change_status', //编辑员工状态
 }
