@@ -188,6 +188,10 @@
           $table.bootstrapTable('refreshOptions', {
             theadClasses: 'bg-blue'
           })
+          $.post(url.getClassify, {}, function(res) {
+            console.log(res,'的回复柔荑花')
+            {{!-- location.reload() --}}
+          })
           //操作列表
           function operateFormatter(value, row, index) {
             return [
