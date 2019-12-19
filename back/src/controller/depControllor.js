@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 // 
 const {
     sequelize
 } = require('../db/db');
+=======
+//
+const {sequelize} = require('../db/db');
+>>>>>>> d8f75d3b4687be27676ac4774460a9324b3ec404
 const {
     Department,
     Identity,
     Employee,
+<<<<<<< HEAD
     Account
+=======
+    Company
+>>>>>>> d8f75d3b4687be27676ac4774460a9324b3ec404
 } = require('../model/createTables')
 // 生成随机密码
 function randomn(n) {

@@ -29,8 +29,10 @@ router.get('/', login.home)
       .post('/api/add_centent_title', department["add_centent_title"])
       .post('/api/add_classify',postApi['add_classify'])   //新增职业分类
       .post('/api/edit_classify',postApi['edit_classify'])   //新增职业分类
-      .post('/api/del_classify',postApi['del_classify'])   //删除职业分类
+      .post('/api/del_classify',postApi['del_classify'])   //删除职·业分类
       .post('/api/change_classify_status',postApi['change_status'])   //禁用职业分类
+      .post('/api/del_product',product['del_product']) //删除产品
+      .post('/api/show_item',product['show_item']) //设置产品是否展示
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介
@@ -57,4 +59,5 @@ router.get('/', login.home)
       .get('/delivery/postClassify', postApi['postClassify'])
       //产品中心[志强]
       .get('/delivery/helpContent', helpContent['helpContent'])
+      .get('/api/get_products',product['get_products']) //获取产品信息
 module.exports = router

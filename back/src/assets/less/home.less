@@ -26,6 +26,10 @@
             background-color: #fff;
             // background: #0AAFDE;
             margin-top: 104px;
+            //分页左侧提示文字隐藏
+            .pagination-detail{
+                display: none;
+            }
             //筛选模块样式
             #select {
                 width: 100px;
@@ -221,6 +225,7 @@
                         font-weight: 500;
                       span{
                           margin-right: 40px;
+                          width: 35px;
                       }
                     }
                     .item:nth-child(1){
@@ -452,6 +457,12 @@
                             height: 100%;
                             background-color: #F5F7FA;
                             border: 1px dashed #DEE1E7;
+                            text-align: center;
+                            p{
+                                position: relative;
+                                top: 50%;
+                                transform: translateY(-50%);
+                            }
                         }
                     }
                 }
