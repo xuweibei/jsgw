@@ -9,7 +9,11 @@
   }
 </style>
 {{#>default}}
-<link rel="stylesheet" href="../assets/css/recruic.css"/>
+    {{!-- <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>  
+    <link rel="stylesheet" href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"/>  
+    <script type="text/javascript" src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>  
+<link rel="stylesheet" href="../assets/css/recruic.css"/> --}}
+<link rel="stylesheet" href="../assets/css/recruic.css"/> 
 <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <div class="store-delivery-container">
   <div class="card">
@@ -34,10 +38,12 @@
             <input type="text" class="form-control" placeholder="请输入职位关键字" name="searchWork">
           </div>
           <div class="col">
-            <input type="text" class="form-control" placeholder="Last name">
+            <select class="form-control" id="job_class">
+              <option value="">请选择职位分类</option>
+            </select>
           </div>
           <div class="col">
-            <select class="form-control">
+            <select class="form-control" id="work_place">
               <option>请选择工作地点</option>
             </select>
           </div>
@@ -58,6 +64,7 @@
             </div>
           </div>
         </div>
+
       </form>
       <button class="btn btn-primary" id="filterBy">搜索</button>
 		</div>
@@ -68,6 +75,32 @@
       {{!-- data-side-pagination="server"> --}}>
     </table>
     <script>
+      var city = '';//省;
+      var county = '';//县级
+      //列表移入
+      function workList(name){
+        const workPlaceList = $(`.${name}`);
+        for(let i = 0;i<workPlaceList.length;i++){
+          workPlaceList[i].onmousemove =  function(){
+            for(let j = 0;j<workPlaceList.length;j++){
+              workPlaceList[j].classList.remove('active_background');
+            }
+            this.classList.add('active_background')
+          }
+          workPlaceList[i].onmouseout =  function(){
+            for(let j = 0;j<workPlaceList.length;j++){
+              workPlaceList[j].classList.remove('active_background');
+            }
+          }
+          workPlaceList[i].onclick =  function(){
+            for(let j = 0;j<workPlaceList.length;j++){
+              workPlaceList[j].classList.remove('active_background_two');
+            }
+            this.classList.add('active_background_two')
+          }
+        }
+      }
+      workList('work_place_list li');
       var $table = $('#table')
       //点击新建信息
       function addRecruit(){
@@ -99,11 +132,9 @@
           locale: moment.locale('zh-cn')
       });
       $(function () {
-        $('#form1').hide();
 				var picker1 = $('#datetimepicker1').datetimepicker({
 					format: 'YYYY-MM-DD',
-					locale: moment.locale('zh-cn'),
-					//minDate: '2016-7-1'
+					locale: moment.locale('zh-cn')
 				});
 				var picker2 = $('#datetimepicker2').datetimepicker({
 					format: 'YYYY-MM-DD',
@@ -118,7 +149,7 @@
 				picker2.on('dp.change', function(e) {
 					picker1.data('DateTimePicker').maxDate(e.date);
 				});
-
+        //表单验证
           $('.rec-from').bootstrapValidator({
             fields: {
               recJob: {
@@ -188,10 +219,65 @@
           $table.bootstrapTable('refreshOptions', {
             theadClasses: 'bg-blue'
           })
+          //获取职位分类数据
           $.post(url.getClassify, {}, function(res) {
-            console.log(res,'的回复柔荑花')
-            {{!-- location.reload() --}}
+            res.data.forEach(item=>{
+                const str = document.createElement('option');
+                str.value = item.id;
+                str.innerHTML = item.classify;
+                $('#job_class').append(str)
+            })
           })
+          //获取省
+          $.post(url.getPcatBak, {level:1}, function(res) {
+            res.data.rows.forEach(item=>{
+                const str = document.createElement('li');
+                str.id = item.id;
+                str.innerHTML = item.name;
+                str.addEventListener('click',(ev)=>getCounty(item,ev))
+                $('.edit_work_place_list').append(str)
+            })
+            workList('edit_work_place_list li')
+          })
+          //点击省份，然后请求下面的地区
+          function getCounty(data,ev){
+            const cityPlace = document.getElementsByClassName('city_place')[0];
+            const cityContent = document.getElementsByClassName('city_content')[0];
+            cityContent.innerHTML = '';
+              $.post(url.getPcatBak, {parentId:data.code}, function(res) {
+                console.log(res,'风格的风格')
+                $.post(url.getPcatBak, {parentId:res.data.rows[0].code}, function(res) {
+                  console.log(res,'发过火法国红酒')
+                  cityPlace.style.display = 'block';
+                  res.data.rows.forEach(item=>{
+                    const lis = document.createElement('li');
+                    lis.innerHTML = item.name;
+                    lis.addEventListener('click',(ev)=>getCity(data,item,ev))
+                    $('.city_content').append(lis)
+                  })
+                  workList('city_content li')
+                })
+              })
+            ev.stopPropagation();
+          }
+          var editSelect =  document.getElementsByClassName('edit_select')[0]
+          function getCity(value,data){
+            console.log(value,data,'得咯')
+            city = value;
+            county = value;
+            editSelect.innerHTML = value.name + '-' +data.name;
+          }
+          document.addEventListener('click',function(){
+              const scrollWork = document.getElementsByClassName('scroll_work')[0];
+              const cityPlace = document.getElementsByClassName('city_place')[0];
+              scrollWork.style.display = cityPlace.style.display = 'none';
+          })
+          //编辑或添加的时候地址的点击
+          editSelect.onclick = function(e){
+            const scrollWork = document.getElementsByClassName('scroll_work')[0];
+            scrollWork.style.display = 'block';
+            e.stopPropagation();
+          }
           //操作列表
           function operateFormatter(value, row, index) {
             return [
@@ -242,11 +328,15 @@
                   res.data.rows.forEach(item => {
                     arr.push({
                       post_name: item.post_name,
-                      name: item.name,
                       detail_address: item.detail_address,
                       start_time: item.start_time,
                       opt: operateFormatter()
                     })
+                    //获取工作地点
+                    const str = document.createElement('option');
+                    str.value = item.id;
+                    str.innerHTML = item.detail_address;
+                    $('#work_place').append(str)
                   })
               }
               return arr
@@ -335,7 +425,23 @@
               <div class="form-row">
                   <div class="form-group">
                       <label>工作地点：</label>
-                      <input type="text" class="form-control" placeholder="-请选择地点-" name="recCity" />
+                      {{!-- <input type="text" class="form-control" placeholder="-请选择地点-" name="recCity" /> --}}
+                      {{!-- <select class="form-control edit_select">
+                        <option>请选择工作地点</option>
+                      </select> --}}
+                      <div class="edit_select"></div>
+                      <div class="scroll_work">
+                        <div class="scroll_wrap">
+                          <ul class="edit_work_place_list">
+                          </ul>
+                        </div>
+                      </div>
+                      <div class="city_place">
+                        <div class="city_wrap">
+                          <ul class="city_content">
+                          </ul>
+                        </div>
+                      </div>
                   </div>
                   <div class="form-group">
                       <label>排序：</label>

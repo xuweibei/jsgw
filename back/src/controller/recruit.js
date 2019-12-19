@@ -1,7 +1,8 @@
 
 
 const {
-    Invite
+    Invite,
+    PcatBak
 } = require('../model/createTables')
 
 const Sequelize = require('sequelize');
@@ -10,9 +11,9 @@ const Op = Sequelize.Op;
 // 获取招聘信息
 const getRecruitInfo = async (data) => {
     let ret = '';
-    console.log(data,'从VB模块了')
+    // console.log(data,'从VB模块了')
     if(data.post_name || data.job_class || data.detail_address || data.start_time || data.end_time){
-        console.log(data,'这里');
+        // console.log(data,'这里');
         const obj = {};
         for(let i in data){//模糊查询
             obj[i] = { [Op.like]: '%' + data[i] + '%'}
@@ -21,10 +22,10 @@ const getRecruitInfo = async (data) => {
             where:obj
         });
     } else {
-        console.log('那里')
+        // console.log('那里')
         ret = await Invite.findAndCountAll()
     }
-    console.log(ret,'东方国际考虑')
+    // console.log(ret,'东方国际考虑')
     return ret
 }
 
@@ -50,7 +51,16 @@ const addRecruitMen = async (data) => {
     return res;
 }
 
+const getPcatBak = async (data) => {
+    console.log(data,'才下班不诚信 ')
+    const res = await PcatBak.findAndCountAll({
+        where:data
+    })
+    console.log(res,'扣篮大赛');
+    return res;
+}
 module.exports = {
     getRecruitInfo,
-    addRecruitMen
+    addRecruitMen,
+    getPcatBak
 }

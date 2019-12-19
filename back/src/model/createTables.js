@@ -208,6 +208,29 @@ const city = db.defineModel('gw_city', {
         type: Sequelize.STRING(30)
     }
 })
+//省市
+const PcatBak = db.defineModel('gw_pcat_bak', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    code:{
+        type: Sequelize.STRING(20)
+    },
+    parentId:{
+        type: Sequelize.STRING(20)
+    },
+    //名称
+    name: {
+        type: Sequelize.STRING(50)
+    },
+    //等级
+    level: {
+        type: Sequelize.STRING(5)
+    }
+})
 //招聘信息表（加入我们）
 const Invite = db.defineModel('gw_invite_info', {
     id: {
@@ -349,6 +372,7 @@ module.exports = {
     Company,
     Product,
     Post_classify,
-    city
+    city,
+    PcatBak
     // Roles
 }

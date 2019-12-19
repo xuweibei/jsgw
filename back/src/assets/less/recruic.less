@@ -50,3 +50,81 @@
         }
     }
 }
+
+.work_place_list{
+    list-style: none;
+    border:1px solid #ccc;
+    li{
+        padding-left:10px;
+    }
+}
+
+.active_background{
+    background:rgb(124, 124, 214);
+    color:#fff;
+}
+
+.active_background_two{
+    background:rgb(72, 72, 231);
+    color:#fff;
+}
+
+.edit_select{
+    position: relative;
+    height:40px;
+    width:220px;
+    border-radius: 2px;
+    border:1px solid #ccc;
+    line-height: 40px;
+    text-align: center;
+}
+.scroll_work{
+    width:200px;
+    position: absolute;
+    top:42px;
+    left:62px;
+    z-index: 2;
+    height:200px;
+    overflow: hidden;
+    background:#fff;
+    border:1px solid #ccc;
+    .scroll_wrap{
+        width:260px;
+        height:200px;
+        overflow-y:scroll;
+        .edit_work_place_list{
+            list-style: none;
+            width:220px;
+            li{
+                padding-left:10px;
+                position: relative;
+            }
+        }
+    }
+}
+
+
+.city_place{
+    display: none;
+    width:200px;
+    position: absolute;
+    top:42px;
+    left:270px;
+    z-index: 2;
+    height:200px;
+    overflow: hidden;
+    background:#fff;
+    border:1px solid #ccc;
+    .city_wrap{
+        width:260px;
+        height:200px;
+        overflow-y:scroll;
+        .city_content{
+            list-style: none;
+            width:220px;
+            li{
+                padding-left:10px;
+            }
+        }
+    }
+}
