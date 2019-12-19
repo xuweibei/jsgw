@@ -9,6 +9,12 @@ const url = {
     getTable:base + 'api/get_tab', // 获取员工
     editEmp: base + 'api/edit_emp', //编辑员工
     delEmp: base + 'api/del_emp', //编辑员工
+    changeStatus: base + 'api/change_status', //编辑员工
+    getRecreuit: base + 'api/get_recruit', //获取招聘信息
+    addMen: base + 'api/add_recruiter', //获取招聘信息
+    getPcatBak: base + 'api/pcat_bak', //获取获取省市
+    delEmp: base + 'api/del_emp', //删除员工
+    changeStatus: base + 'api/change_status', //编辑员工状态
     addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
     changeStatus: base + 'api/change_status', //编辑员工
     getClassify: base + 'api/get_classify', //获取职业分类

@@ -342,7 +342,13 @@
               $.post(url.addDep, $form.serialize(), function (res) {
                 if (res) {
                   $('#dep-modal').modal('toggle')
+<<<<<<< HEAD
+                  $('.toast').toast('show')
+                  $('.toast-body').text(res.message)
+                  {{!-- location.reload() --}}
+=======
                   toast(res.message)
+>>>>>>> 052902d1354b094461a729401f0c835f692eabee
                 }
               });
             });

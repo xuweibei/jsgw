@@ -26,6 +26,7 @@ const addDep = async (dep) => {
             department: dep
         }
     })
+    console.log(add, "asljkdhaksdhjkahsd")
     if (add && add.dataValues) {
         if (add.dataValues.dep_status === '0') {
             const update = await Department.update({
@@ -35,6 +36,7 @@ const addDep = async (dep) => {
                     department: dep
                 }
             })
+            console.log(update, "接口好圣诞节卡实打实")
             return update[0]
         }
         return false
@@ -44,6 +46,7 @@ const addDep = async (dep) => {
                 department: dep
             }
         })
+        console.log(ret, "驾驶舱电信卡接收到哈迪斯")
         return ret && ret[1]
     }
 
@@ -207,7 +210,6 @@ const getEmployee = async () => {
     // console.log(ret, "dsjkhskjdhsd ")
     return ret[0]
 }
-
 // 编辑员工
 const editEmp = async (parms) => {
     const findEmp = await Employee.findOne({
