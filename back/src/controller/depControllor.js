@@ -68,7 +68,7 @@ const findDep = async () => {
 const readDep = async () => {
     const ret = await Department.findAll({
         attributes: {
-            exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
+            // exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
         }
     })
     let arr = []

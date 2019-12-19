@@ -107,7 +107,7 @@ const defineModel = function (name, attributes) {
     // };
     return sequelize.define(name, attrs, {
         tableName: name,
-        timestamps: true,
+        
         paranoid: true,
         timestamps: true,
         createdAt: "CreatedAt",  //自定义时间戳

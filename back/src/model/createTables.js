@@ -326,6 +326,22 @@ const Product = db.defineModel('gw_product', {
     pro_name: {
         type: Sequelize.STRING(50)
     },
+    //简介
+    product_desc: {
+        type: Sequelize.STRING(255)
+    },
+    //logo
+    product_desc: {
+        type: Sequelize.STRING(128)
+    },
+    //下载地址
+    link: {
+        type: Sequelize.STRING(128)
+    },
+    //下载二维码
+    link_code: {
+        type: Sequelize.STRING(128)
+    },
     //是否启用
     status:{
         type: Sequelize.STRING(1),

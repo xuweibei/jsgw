@@ -250,10 +250,13 @@
     }
     return url ;
   }
+  //封装的图片预览方法
   function getImg(selector, container) {
     $(selector).on('change', function(e){
       const newImg = e.target.files[0]
+      console.log(newImg, 'fgdgfdgfdh')
       const imgUrl = getObjectURL(newImg)
+      console.log(imgUrl, 'dsfddghghgf')
       const imgName = newImg.name
       $(container).css({
         'background': `url(${getObjectURL(e.target.files[0])})`,
