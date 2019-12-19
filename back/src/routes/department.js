@@ -4,6 +4,7 @@ const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     'departmentStructur': async (ctx, next) => {
         const depObj = await findDep()
+        console.log(depObj)
         const identity = await findIdentity()
         const dep = await readDep()
         await ctx.render('departmentStructur', {depObj, identity, dep})

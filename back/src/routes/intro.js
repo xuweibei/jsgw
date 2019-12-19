@@ -1,13 +1,16 @@
 const path = require('path');
 const fs = require('fs');
-const {SuccessModel} = require('../config/model')
+const {insertIntro, getHtml} = require('../controller/introControllor')
+const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "intro": async (ctx, next) => {
+        const ret = await getHtml()
+        const html = ret ? ret.dataValues.content : ''
         await ctx.render('intro')
     },
-    "richText": async (ctx, next) => {
-        await ctx.render('richText')
-    },
+    // "richText": async (ctx, next) => {
+    //     await ctx.render('richText')
+    // },
     "get_rich": async (ctx, next) => {
         // 获取上传文件key
         const keys = Object.keys(ctx.request.files);
@@ -28,5 +31,24 @@ module.exports = {
             arr.push(redPath)
         })
         ctx.body = new SuccessModel(arr, "存储成功")
+    },
+    "insert_intro": async ctx => {
+        const {html} = ctx.request.body;
+        const ret = await insertIntro(html);
+        if (ret) {
+            ctx.body = new SuccessModel("新建成功")
+        } else {
+            ctx.body = new ErrorModel("新建失败")
+        }
+        
+    },
+    "render_html": async ctx => {
+        const ret = await getHtml()
+        const html = ret ? ret.dataValues.content : ''
+        if (html) {
+            ctx.body = new SuccessModel({html}, "获取成功")
+            return
+        }
+        ctx.body = new ErrorModel('获取失败')
     }
 }

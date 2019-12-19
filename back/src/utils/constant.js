@@ -25,5 +25,7 @@ const url = {
     getProducts: base + 'api/get_products', //获取产品信息
     delProduct: base + 'api/del_product', //删除产品
     showItem: base + 'api/show_item', //设置产品是否显示
-    submitIntro: base + 'api/get_rich' // 富文本上传图片
+    submitIntro: base + 'api/get_rich', // 富文本上传图片
+    insertIntro: base + 'api/insert_intro', // 插入富文本
+    renderHtml: base + 'api/render_html', // 获取html
 }

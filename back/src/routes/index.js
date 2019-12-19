@@ -41,8 +41,10 @@ router.get('/', login.home)
       .get('/delivery/invite', invite['invite'])
       // 公司简介
       .get('/delivery/intro', intro['intro'])
-      .get('/delivery/richText', intro['richText'])
+      // .get('/delivery/richText', intro['richText'])
       .post('/api/get_rich', intro['get_rich'])
+      .post('/api/insert_intro', intro['insert_intro'])
+      .post('/api/render_html', intro['render_html'])
       // 富文本
       .get('/delivery/edit', Logincheck, edit['edit'])
       // 职位分类

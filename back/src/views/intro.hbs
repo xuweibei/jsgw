@@ -9,13 +9,14 @@
         </div>
     </div>
     <div class="intro-desc">
-        <div class="intro-desc">
+        {{!-- <div class="intro-desc">
             这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
             这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
-        </div>
-        <div class="intro-img-container text-center">
+        </div> --}}
+        {{!-- <div class="intro-img-container text-center">
             <img src="../assets/img/login-bg.png" alt="">
-        </div>
+        </div> --}}
+        <div id="ht"></div>
     </div>
     <div class="editor position-fixed">
         <div id="editor" style="width: 1200px;">
@@ -31,22 +32,6 @@
     var editor = document.getElementsByClassName('editor')[0];
     var E = window.wangEditor;
     var editor = new E('#editor');
-    // 当富文本编辑器内容发生改变就会触发 返回页面内容
-    editor.customConfig.onchange = function (html) {
-        // html 即变化之后的内容
-        console.log('html改')
-    };
-    // 插入网络图片时的回调
-    editor.customConfig.linkImgCallback = function (url) {
-        console.log(url, "插入网络图片") // url 即插入图片的地址
-    }
-    // 插入网络图片校验
-    editor.customConfig.linkImgCheck = function (src) {
-        console.log(src) // 图片的链接
-
-        return true // 返回 true 表示校验成功
-        // return '验证失败' // 返回字符串，即校验失败的提示信息
-    }
     editor.customConfig = {
         uploadImgMaxSize: 2 * 1024 * 1024,
         uploadFileName: 'mypic',
@@ -59,7 +44,6 @@
         for (var i = 0; i < files.length; i++) {
             formData.append("files[" + i + "]", files[i], files[i].name);
         }
-        console.log(formData, "撒即可到哈萨克的")
         $.ajax({
             url: url.submitIntro,
             type: "POST",
@@ -89,8 +73,20 @@
     function saveHtml() {
         var html = editor.txt.html();
         var filterHtml = filterXSS(html);
-        console.log(html);
+        $.post(url.insertIntro, {html}, function(res) {
+            if (res && res.status === 0) {
+                location.reload()
+            }
+        })
     }
-
+    // 获取页面渲染元素
+    function getHtml() {
+        $.post(url.renderHtml, function(res) {
+            if (res && res.status === 0) {
+                $('#ht').html(res.data.html);
+            }
+        })
+    }
+    getHtml();
 </script>
 {{/default}}

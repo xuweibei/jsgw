@@ -26,7 +26,6 @@ const addDep = async (dep) => {
             department: dep
         }
     })
-    console.log(add, "asljkdhaksdhjkahsd")
     if (add && add.dataValues) {
         if (add.dataValues.dep_status === '0') {
             const update = await Department.update({
@@ -36,7 +35,6 @@ const addDep = async (dep) => {
                     department: dep
                 }
             })
-            console.log(update, "接口好圣诞节卡实打实")
             return update[0]
         }
         return false
@@ -46,7 +44,6 @@ const addDep = async (dep) => {
                 department: dep
             }
         })
-        console.log(ret, "驾驶舱电信卡接收到哈迪斯")
         return ret && ret[1]
     }
 
@@ -62,17 +59,18 @@ const findDep = async () => {
     const count = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     // console.log(ret[0])
     const obj = {
-        dep: ret[0],
-        allDep: count[0]
+        dep: ret,
+        allDep: count
     }
+    console.log(obj, "卡萨接电话sad")
     return obj || {}
 }
 // 获取分组信息
 const readDep = async () => {
     const ret = await Department.findAll({
-        attributes: {
-            exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
-        }
+        // attributes: {
+        //     // exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
+        // }
     })
     let arr = []
     ret.forEach(item => {
@@ -208,7 +206,7 @@ const getEmployee = async () => {
     const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
     const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     // console.log(ret, "dsjkhskjdhsd ")
-    return ret[0]
+    return ret
 }
 // 编辑员工
 const editEmp = async (parms) => {

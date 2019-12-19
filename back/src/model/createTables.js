@@ -359,6 +359,16 @@ const Product = db.defineModel('gw_product', {
         defaultValue: '1'
     },
 })
+
+const Intro = db.defineModel('gw_intro',  {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    content: Sequelize.TEXT
+})
 module.exports = {
     Users,
     Department,
@@ -373,6 +383,7 @@ module.exports = {
     Product,
     Post_classify,
     city,
-    PcatBak
+    PcatBak,
+    Intro
     // Roles
 }
