@@ -29,27 +29,9 @@ const CONFIG = {
   rolling: false, // (boolean) 强制在每个响应上设置会话标识符cookie。过期将重置为原始maxAge，重新设置过期倒计时
   renew: false, // (boolean) 当会话快过期时续订会话，这样我们可以始终保持用户登录
 }
-// 解决跨域
-// app.use(async (ctx, next) => {
-//   ctx.set('Access-Control-Allow-Origin', '*');
-//   await next();
-// });
-// 解决options请求
-/**
- * 由于做了跨域,所以前端用post请求后台接口的时候,会有预检,及时options请求,解决的方法,在nodejs里对options的请求直接返回200,具体的做法是在app.js加入如下代码:
- */
-// app.use(async (ctx, next)=> {
-//   ctx.set('Access-Control-Allow-Origin', '*');
-//   ctx.set('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
-//   ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-//   if (ctx.method == 'OPTIONS') {
-//     ctx.body = 200;
-//   } else {
-//     await next();
-//   }
-// });
 // 解析session
 app.use(session(CONFIG, app));
+
 //设置跨域请求
 app.use(cors({
   origin: function(ctx) {

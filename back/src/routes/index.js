@@ -35,12 +35,16 @@ router.get('/', login.home)
       .get('/delivery/invite', invite['invite'])
       // 公司简介
       .get('/delivery/intro', intro['intro'])
+      .get('/delivery/richText', intro['richText'])
+      .post('/api/get_rich', intro['get_rich'])
       // 富文本
       .get('/delivery/edit', Logincheck, edit['edit'])
       // 职位分类
       .get('/delivery/job', job['jobClass'])
       // 首页展示
       .get('/delivery/home', home['indexManage'])
+      // 公司公告
+      .get('/delivery/notice', exchange['companyTalk'])
       // 公司交流
       .get('/delivery/exchange', exchange['companyTalk'])
       // 产品中心
