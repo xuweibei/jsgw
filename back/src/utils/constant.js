@@ -16,11 +16,7 @@ const url = {
     editClassify: base + 'api/edit_classify',//编辑职业分类
     delClassify:  base + 'api/del_classify',//删除职业分类
     changeClassifyStatus:  base + 'api/change_classify_status',//禁用职业分类
-<<<<<<< HEAD
-    submitIntro: base + 'api/get_rich' // 提交公司简介
-=======
     getProducts: base + 'api/get_products', //获取产品信息
     delProduct: base + 'api/del_product', //删除产品
     showItem: base + 'api/show_item' //设置产品是否显示
->>>>>>> d8f75d3b4687be27676ac4774460a9324b3ec404
 }
