@@ -17,6 +17,7 @@ Thumbs.db
 *.pyo
 node_modules
 public
+images
 bower_components/
 npm-debug.log
 .module-cache

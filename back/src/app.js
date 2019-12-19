@@ -61,6 +61,7 @@ app.use(logger())
 createCss()
 app.use(require('koa-static')(__dirname, '/assets'))
 
+
 // logger
 app.use(async (ctx, next) => {
   const start = new Date();
@@ -82,7 +83,7 @@ app.use(views(__dirname + '/views', viewsParam));
 const router = require('./routes/index');
 app.use(router.routes())
    .use(router.allowedMethods());
-
+ 
 // error-handling
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

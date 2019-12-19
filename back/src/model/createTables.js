@@ -208,8 +208,31 @@ const city = db.defineModel('gw_city', {
         type: Sequelize.STRING(30)
     }
 })
+//省市
+const PcatBak = db.defineModel('gw_pcat_bak', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    code:{
+        type: Sequelize.STRING(20)
+    },
+    parentId:{
+        type: Sequelize.STRING(20)
+    },
+    //名称
+    name: {
+        type: Sequelize.STRING(50)
+    },
+    //等级
+    level: {
+        type: Sequelize.STRING(5)
+    }
+})
 //招聘信息表（加入我们）
-const Invite_info = db.defineModel('gw_invite_info', {
+const Invite = db.defineModel('gw_invite_info', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -263,6 +286,10 @@ const Invite_info = db.defineModel('gw_invite_info', {
      //邮箱
       email: {
         type: Sequelize.STRING(50)
+      },
+      //职位类型
+      job_class:{
+          type:Sequelize.STRING(10)
       }
     })
 //公司表
@@ -348,6 +375,16 @@ const Product = db.defineModel('gw_product', {
         defaultValue: '1'
     },
 })
+
+const Intro = db.defineModel('gw_intro',  {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    content: Sequelize.TEXT
+})
 module.exports = {
     Users,
     Department,
@@ -357,10 +394,12 @@ module.exports = {
     Identity,
     Account,
     Post,
-    Invite_info,
+    Invite,
     Company,
     Product,
     Post_classify,
-    city
+    city,
+    PcatBak,
+    Intro
     // Roles
 }

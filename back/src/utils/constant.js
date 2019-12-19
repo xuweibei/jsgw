@@ -9,6 +9,12 @@ const url = {
     getTable:base + 'api/get_tab', // 获取员工
     editEmp: base + 'api/edit_emp', //编辑员工
     delEmp: base + 'api/del_emp', //编辑员工
+    changeStatus: base + 'api/change_status', //编辑员工
+    getRecreuit: base + 'api/get_recruit', //获取招聘信息
+    addMen: base + 'api/add_recruiter', //获取招聘信息
+    getPcatBak: base + 'api/pcat_bak', //获取获取省市
+    delEmp: base + 'api/del_emp', //删除员工
+    changeStatus: base + 'api/change_status', //编辑员工状态
     addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
     changeStatus: base + 'api/change_status', //编辑员工
     getClassify: base + 'api/get_classify', //获取职业分类
@@ -18,5 +24,8 @@ const url = {
     changeClassifyStatus:  base + 'api/change_classify_status',//禁用职业分类
     getProducts: base + 'api/get_products', //获取产品信息
     delProduct: base + 'api/del_product', //删除产品
-    showItem: base + 'api/show_item' //设置产品是否显示
+    showItem: base + 'api/show_item', //设置产品是否显示
+    submitIntro: base + 'api/get_rich', // 富文本上传图片
+    insertIntro: base + 'api/insert_intro', // 插入富文本
+    renderHtml: base + 'api/render_html', // 获取html
 }

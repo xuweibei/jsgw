@@ -107,11 +107,14 @@ const defineModel = function (name, attributes) {
     // };
     return sequelize.define(name, attrs, {
         tableName: name,
+<<<<<<< HEAD
         
+=======
+        timestamps: false,
+>>>>>>> 53a47df1b4c0f54953b7849cee1e82bcafb25cc3
         paranoid: true,
-        timestamps: true,
-        createdAt: "CreatedAt",  //自定义时间戳
-        updatedAt: "UpdatedAt", // 自定义时间戳
+        // createdAt: "CreatedAt",  //自定义时间戳
+        // updatedAt: "UpdatedAt", // 自定义时间戳
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
         hooks: {

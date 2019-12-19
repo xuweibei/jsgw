@@ -296,15 +296,15 @@
                   message: '密码长度必须在6到12位之间'
                 },
               },
-              department:{
-                validators:{
+              department: {
+                validators: {
                   notEmpty: {
                     message: '所属部门不能为空'
                   }
                 }
               },
-              author:{
-                validators:{
+              author: {
+                validators: {
                   notEmpty: {
                     message: '权限不能为空'
                   }
@@ -364,17 +364,19 @@
             },
             responseHandler: function (res) {
               const arr = []
-              res.data.forEach(item => {
-                arr.push({
-                  id: item.id,
-                  active: item.active,
-                  department: item.department,
-                  name: item.name,
-                  tel: item.phone,
-                  card: item.identity,
-                  status: Number(item.active) ? "使用中" : "关闭中",
+              if (res && res.status === 0) {
+                res.data.forEach(item => {
+                  arr.push({
+                    id: item.id,
+                    active: item.active,
+                    department: item.department,
+                    name: item.name,
+                    tel: item.phone,
+                    card: item.identity,
+                    status: Number(item.active) ? "使用中" : "关闭中",
+                  })
                 })
-              })
+              }
               return arr
             },
             columns: [{
