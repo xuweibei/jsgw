@@ -53,10 +53,10 @@ const findDep = async () => {
     // const sql1 = 'SELECT d.department, d.id, num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
     const sql1 = 'select d.department, e.dep_id, d.id,count(dep_id) as num from gw_department as d LEFT JOIN gw_employee as e on e.dep_id=d.id and e.status=1 where d.dep_status=1 group by dep_id,d.id, department'
     // 获取分组
-    const ret = await sequelize.query(sql1)
+    const ret = await sequelize.query(sql1, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     const sql = 'select COUNT(1) as num from gw_employee where gw_employee.status=1'
     // 获取全部员工
-    const count = await sequelize.query(sql)
+    const count = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     // console.log(ret[0])
     const obj = {
         dep: ret[0],
@@ -85,7 +85,7 @@ const delDep = async (id) => {
         }
     })
     const sql = `update gw_employee as e set e.status=0 where e.dep_id=${id}`
-    sequelize.query(sql)
+    sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     if (ret.dataValues) {
         const del = await Department.update({
             dep_status: '0'
@@ -203,7 +203,7 @@ const insertEmployee = async (obj) => {
 // 获取员工
 const getEmployee = async () => {
     const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
-    const ret = await sequelize.query(sql)
+    const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     // console.log(ret, "dsjkhskjdhsd ")
     return ret[0]
 }

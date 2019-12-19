@@ -18,5 +18,6 @@ const url = {
     changeClassifyStatus:  base + 'api/change_classify_status',//禁用职业分类
     getProducts: base + 'api/get_products', //获取产品信息
     delProduct: base + 'api/del_product', //删除产品
-    showItem: base + 'api/show_item' //设置产品是否显示
+    showItem: base + 'api/show_item', //设置产品是否显示
+    submitIntro: base + 'api/get_rich' // 富文本上传图片
 }

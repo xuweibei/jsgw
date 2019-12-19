@@ -19,9 +19,8 @@
     </div>
     <div class="editor position-fixed">
         <div id="editor" style="width: 1200px;">
-            <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
         </div>
-        <button class="btn btn-primary btn-edit">保存</button>
+        <button class="btn btn-primary btn-edit" onclick="saveHtml()">保存</button>
     </div>
 </div>
 
@@ -32,7 +31,6 @@
     var editor = document.getElementsByClassName('editor')[0];
     var E = window.wangEditor;
     var editor = new E('#editor');
-    editor.customConfig.debug = true;
     // 当富文本编辑器内容发生改变就会触发 返回页面内容
     editor.customConfig.onchange = function (html) {
         // html 即变化之后的内容
@@ -49,15 +47,19 @@
         return true // 返回 true 表示校验成功
         // return '验证失败' // 返回字符串，即校验失败的提示信息
     }
-    // 限制传图大小
-    editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
-    // 限制一次传多少图
-    editor.customConfig.uploadImgMaxLength = 30;
+    editor.customConfig = {
+        uploadImgMaxSize: 2 * 1024 * 1024,
+        uploadFileName: 'mypic',
+        uploadImgMaxLength: 10,
+        debug: true,//开启debug调试
+    }
+
     editor.customConfig.customUploadImg = function (files, insert) {
         var formData = new FormData();
         for (var i = 0; i < files.length; i++) {
             formData.append("files[" + i + "]", files[i], files[i].name);
         }
+        console.log(formData, "撒即可到哈萨克的")
         $.ajax({
             url: url.submitIntro,
             type: "POST",
@@ -70,17 +72,25 @@
                 if (res.status == 0) {
                     res.data.forEach(item => {
                         insert(item)
-                        console.log(item, "吉萨回到家喀什更好的")
                     })
                 }
             }
         });
     };
     editor.create();
+    // 显示富文本
     function change() {
         edit.classList.add('d-none');
         desc.classList.add('d-none');
         home.classList.add('d-none');
     }
+
+    // 上传富文本
+    function saveHtml() {
+        var html = editor.txt.html();
+        var filterHtml = filterXSS(html);
+        console.log(html);
+    }
+
 </script>
 {{/default}}

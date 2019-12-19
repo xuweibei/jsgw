@@ -18,11 +18,14 @@ module.exports = {
             //获取上传文件名称
             const readName = ctx.request.files[item].name;
             // 生成写入路径
-            const whritePath = path.join(__dirname, '../', '../', 'public', 'images','/') + `${Date.now()}-${readName}`;
+            const whritePath = path.join(__dirname,'../', 'assets', 'images','/') + `${Date.now()}-${readName}`;
             const readStream = fs.createReadStream(readPath);
             const writeStream = fs.createWriteStream(whritePath);
             readStream.pipe(writeStream);
-            arr.push(readStream.pipe(writeStream).path)
+            // console.log(readStream.pipe(writeStream).path.split('\\'));
+            const red = readStream.pipe(writeStream).path.split('\\');
+            const redPath = 'http://localhost:8000/'+ 'assets/' + 'images/' + red[red.length - 1];
+            arr.push(redPath)
         })
         ctx.body = new SuccessModel(arr, "存储成功")
     }
