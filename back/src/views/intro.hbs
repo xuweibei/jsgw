@@ -1,18 +1,86 @@
 <link rel="stylesheet" href="../assets/css/intro.css">
 {{#>default}}
-    <div class="intro-container">
-        <div class="intro-title border-bottom">
-            <div class="float-left font-weight-bolder intro">公司简介</div>
-            <div class="float-right d-flex justify-content-between">
-                <div class="show-home font-weight-bold">展示在首页</div>
-                <button class="btn text-white border-0 intro-edit">编辑</button>
-            </div>
+<div class="intro-container">
+    <div class="intro-title border-bottom">
+        <div class="float-left font-weight-bolder intro">公司简介</div>
+        <div class="float-right d-flex justify-content-between">
+            <div class="show-home font-weight-bold">展示在首页</div>
+            <button class="btn text-white border-0 intro-edit" onclick="change()">编辑</button>
         </div>
+    </div>
+    <div class="intro-desc">
         <div class="intro-desc">
-            这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容 这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
+            这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
+            这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
         </div>
         <div class="intro-img-container text-center">
             <img src="../assets/img/login-bg.png" alt="">
         </div>
     </div>
+    <div class="editor position-fixed">
+        <div id="editor" style="width: 1200px;">
+            <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
+        </div>
+        <button class="btn btn-primary btn-edit">保存</button>
+    </div>
+</div>
+
+<script type="text/javascript" type="module">
+    var edit = document.getElementsByClassName('intro-edit')[0];
+    var desc = document.getElementsByClassName('intro-desc')[0];
+    var home = document.getElementsByClassName('show-home')[0];
+    var editor = document.getElementsByClassName('editor')[0];
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.customConfig.debug = true;
+    // 当富文本编辑器内容发生改变就会触发 返回页面内容
+    editor.customConfig.onchange = function (html) {
+        // html 即变化之后的内容
+        console.log('html改')
+    };
+    // 插入网络图片时的回调
+    editor.customConfig.linkImgCallback = function (url) {
+        console.log(url, "插入网络图片") // url 即插入图片的地址
+    }
+    // 插入网络图片校验
+    editor.customConfig.linkImgCheck = function (src) {
+        console.log(src) // 图片的链接
+
+        return true // 返回 true 表示校验成功
+        // return '验证失败' // 返回字符串，即校验失败的提示信息
+    }
+    // 限制传图大小
+    editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024;
+    // 限制一次传多少图
+    editor.customConfig.uploadImgMaxLength = 30;
+    editor.customConfig.customUploadImg = function (files, insert) {
+        var formData = new FormData();
+        for (var i = 0; i < files.length; i++) {
+            formData.append("files[" + i + "]", files[i], files[i].name);
+        }
+        $.ajax({
+            url: url.submitIntro,
+            type: "POST",
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                if (res.status == 0) {
+                    res.data.forEach(item => {
+                        insert(item)
+                        console.log(item, "吉萨回到家喀什更好的")
+                    })
+                }
+            }
+        });
+    };
+    editor.create();
+    function change() {
+        edit.classList.add('d-none');
+        desc.classList.add('d-none');
+        home.classList.add('d-none');
+    }
+</script>
 {{/default}}

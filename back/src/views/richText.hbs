@@ -1,18 +1,16 @@
 {{#>default}}
-<link rel="stylesheet" href="../assets/css/richText.css">
-<div class="rich-text">
-    <div class="edit-title border-bottom font-weight-bolder">
-        公司简介
+<form action="">
+    <div>
+        <h1></h1>
+        <script id="editor" type="text/plain" style="width:1024px;height:500px;"></script>
     </div>
-    <div id="editor">
-        <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
-    </div>
-</div>
-<script src="../assets/js/wangEditor.min.js"></script>
+</form>
+
+
+<!-- 加载编辑器的容器 -->
+
+<!-- 实例化编辑器 -->
 <script type="text/javascript">
-    var E = window.wangEditor
-    var editor = new E('#editor')
-    // 或者 var editor = new E( document.getElementById('editor') )
-    editor.create()
+    var ue = UE.getEditor('editor');
 </script>
 {{/default}}

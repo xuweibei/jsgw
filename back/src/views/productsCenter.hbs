@@ -19,13 +19,12 @@
       id="table"
       class="text-center table table-striped table-borderless"
       data-pagination="true"
-      data-url="json"
     >
       <thead>
         <tr>
-          {{!-- <th data-field="id">ID</th> --}}
+          {{!-- <th data-field="id">ID</th>
           <th data-field="serial_number">Item Name</th>
-          <th data-field="pro_name">Item Price</th>
+          <th data-field="pro_name">Item Price</th> --}}
         </tr>
       </thead>
     </table>
@@ -34,56 +33,75 @@
         $(function() {
           $table.bootstrapTable({
             toolbar: '.toolbar',
+            method: "get",
+            url: url.getProducts,
+            pageNumber: 1,
+            pagination: true,
+            sortable: true,
+            sortOrder: "asc",
+            //queryParams: { a: 1 },
+            pageSize: 5,
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
+            pageList: [5, 10, 15, 20, 25],
+            formatLoadingMessage: function () {
+              return "请稍等，正在加载中...";
+            },
+            responseHandler: function (res) {
+              return res.data
+            },
             columns: [{
               title: '编号',
-              field: 'name'
+              field: 'serial_number'
             }, {
               title: '产品名称',
-              field: 'sort'
+              field: 'pro_name'
             }, {
               title: '操作',
-              field: 'opt'
-            }],
-            data: [{
-              name: '垃圾程序员',
-              sort: 'bug一大堆',
-              opt: operateFormatter()
-            },{
-             name: '垃圾程序员',
-              sort: 'bug一大堆',
-              opt: operateFormatter()
-            },{
-              name: '垃圾程序员',
-              sort: 'bug一大堆',
-              opt: operateFormatter()
-            },{
-              name: '垃圾程序员',
-              sort: 'bug一大堆',
-              opt: operateFormatter()
-            }],
+              field: 'opt',
+              formatter: operateFormatter,
+              events: operateEvent = {
+                /*"click .btn-modify": function (e, value, row, index) {
+                  e.preventDefault();
+                },*/
+                "click .btn-remove": function (e, value, row, index) {
+                  e.preventDefault();
+                  $.post(url.delProduct, {id: row.id}, function(res){
+                    if(res && res.status === 0) {
+                      location.reload()
+                    }
+                  })
+                },
+                "click .btn-preview": function (e, value, row, index) {
+                  e.preventDefault();
+                },
+                "click .btn-show": function(e, value, row, index) {
+                  e.preventDefault();
+                  const status = row.status === '1' ? '0' : '1'
+                  $.post(url.showItem, {status, id: row.id}, function(res) {
+                    if(res && res.status === 0) {
+                      location.reload()
+                    }
+                  })
+                }
+              }
+            }]
           })
           function operateFormatter(value, row, index) {
             return [
-              '<a class="like opt" href="javascript:void(0)" title="Like">修改 </a>',
-              '<a class="remove opt" href="javascript:void(0)" title="Remove">删除</a>',
-              '<a class=" opt" href="javascript:void(0)" title="Remove">预览 </a>',
-              '<a class="like opt" href="javascript:void(0)" title="Remove">展示 </a>'
+              row.status === '1' ? '<a class="btn-modify like opt" href="javascript:void(0)" title="Like" data-toggle="modal" data-target="#modifyModal">修改 </a>' : '',
+              row.status === '1' ? '<a class="btn-remove remove opt" href="javascript:void(0)" title="Remove">删除</a>' : '',
+              '<a class="btn-preview opt" href="javascript:void(0)" title="Remove" data-toggle="modal" data-target="#previewModal">预览 </a>',
+              `<a class="btn-show like opt" href="javascript:void(0)" title="Remove">${row.status === '1' ? '展示' : '停止展示'}</a>`
             ].join('')
           }
-          //删除行
-          $('.remove').click(function(value, row, index) {
-            $table.bootstrapTable('remove', {
-              field: 'name'
-            })
-          })
         })
     </script>
   </div>
 </div>
 {{!-- 新增弹出框 --}}
-{{!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> --}}
-
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -115,7 +133,13 @@
           <div class="form-group product-code d-flex justify-content-start align-items-center">
             <label class="control-label">下载方式：</label>
             <div class="product-code-container">
-              <input type="file"/>
+              <input id="dawnload-way" type="file"/>
+            </div>
+          </div>
+          <div class="form-group d-flex justify-content-start align-items-center">
+            <label for="dawnload-address" class="col-form-label">下载地址：</label>
+            <div>
+              <input id="dawnload-address" type="text"/>
             </div>
           </div>
         </form>
@@ -127,13 +151,126 @@
     </div>
   </div>
 </div>
+{{!-- 修改弹窗 --}}
+<div class="modal fade" id="modifyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{!-- <h5 class="modal-title" id="exampleModalLabel">New message</h5> --}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group d-flex justify-content-start">
+            <label for="recipient-name" class="col-form-label">产品名称：</label>
+            <div>
+              <input type="text" placeholder="中卖网" class="form-control" id="recipient-name"/>
+            </div>
+          </div>
+          <div class="form-group d-flex justify-content-start">
+            <label for="message-text" class="col-form-label">简介：</label>
+            <div>
+              <textarea class="form-control" placeholder="优质商品，快乐选购" id="message-text"></textarea>
+            </div>
+          </div>
+          <div class="form-group d-flex justify-content-start">
+            <label for="show-item" class="col-form-label">是否展示：</label>
+            <div>
+              <input type="text" placeholder="展示" class="form-control" id="show-item"/>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+        <button type="button" class="btn btn-primary">保存</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{!-- 预览弹窗 --}}
+<div class="modal fade" id="previewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        {{!-- <h5 class="modal-title" id="exampleModalLabel">New message</h5> --}}
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-6">
+              <span>产品名称：</span>
+              <span>fdsfsdf</span>
+            </div>
+            <div class="col-6">
+              <span>简介：</span>
+              <span>佛挡杀佛胜多负少的</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <p>产品logo：</p>
+              <img src="" alt="">
+            </div>
+            <div class="col-6">
+              <p>下载地址二维码：</p>
+              <img src="" alt="">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <span>下载地址：</span>
+              <span>www.baidu.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+        {{!-- <button type="button" class="btn btn-primary">保存</button> --}}
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  //获取本地图片url
+  function getObjectURL(file) {
+    var url = null ;
+    if (window.createObjectURL!=undefined) { // basic
+        url = window.createObjectURL(file) ;
+    } else if (window.URL!=undefined) { // mozilla(firefox)
+        url = window.URL.createObjectURL(file) ;
+    } else if (window.webkitURL!=undefined) { // webkit or chrome
+        url = window.webkitURL.createObjectURL(file) ;
+    }
+    return url ;
+  }
+  function getImg(selector, container) {
+    $(selector).on('change', function(e){
+      const newImg = e.target.files[0]
+      const imgUrl = getObjectURL(newImg)
+      const imgName = newImg.name
+      $(container).css({
+        'background': `url(${getObjectURL(e.target.files[0])})`,
+        'background-size': '100%'
+      })
+    })
+  }
+  getImg($('#dawnload-logo'), $('.product-logo-container'))
+  getImg($('#dawnload-way'), $('.product-code-container'))
+</script>
 <style>
   .form-group label{
     width: 120px;
     text-align: right;
   }
   .modal-footer .btn{
-    margin: auto;
+    width: 128px;
   }
   .form-group>div{
     width: 300px;

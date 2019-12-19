@@ -1,11 +1,18 @@
-//
-const {sequelize} = require('../db/db');
+
+const {
+    sequelize
+} = require('../db/db');
+
+
 const {
     Department,
     Identity,
     Employee,
-    Company
+    Account
 } = require('../model/createTables')
+
+
+
 // 生成随机密码
 function randomn(n) {
     let res = ''
@@ -126,7 +133,6 @@ const findIdentity = async () => {
 const insertEmployee = async (obj) => {
     // 查找部门id
     if (!obj.password) {
-        // obj.password = Math.r
         obj.password = randomn(8)
     }
     const findDepID = await Department.findOne({
@@ -147,7 +153,6 @@ const insertEmployee = async (obj) => {
         }
     })
     if (ret) {
-        console.log("执行啦圣诞节按时打电话")
         const result = sequelize.transaction(function (t) {
             // 在事务中执行操作
             return Employee.update({
