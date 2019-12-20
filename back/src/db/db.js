@@ -89,7 +89,6 @@ const defineModel = function (name, attributes) {
         } else {
             attrs[key] = {
                 type: value,
-                // allowNull: false
             };
         }
     }

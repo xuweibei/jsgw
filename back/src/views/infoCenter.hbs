@@ -2,39 +2,97 @@
 <div class="job-class-container info-center-container">
   <div class="job-class-top">
     <div class="card-body-title">
-        资讯中心
+      资讯中心
     </div>
     <div class="card-body-btn">
-      <button type="button" class="btn">展示在首页</button>
-      <button type="button" class="btn">编辑</button>
+      <button type="button" class="btn show-home">展示在首页</button>
+      <button type="button" class="btn edit-btn" onclick="change()">编辑</button>
     </div>
   </div>
 
   <div class="info-center-body">
-      <div class="info-center-content">
-        <ul>
-          <li>
-            <div>百万商家学习交流平台——商家社区全新上线！</div>
-            <div class="li-line"></div>
-            <div>2019-3-12</div>
-          </li>
-          <li>
-            <div>百万商家学习交流平台——商家社区全新上线！</div>
-            <div class="li-line"></div>
-            <div>2019-3-12</div>
-          </li>
-          <li>
-            <div>百万商家学习交流平台——商家社区全新上线！</div>
-            <div class="li-line"></div>
-            <div>2019-3-12</div>
-          </li>
-          <li>
-            <div>百万商家学习交流平台——商家社区全新上线！</div>
-            <div class="li-line"></div>
-            <div>2019-3-12</div>
-          </li>
-        </ul>
-      </div>
+    <div class="info-center-content">
+      <ul>
+        <li>
+          <div>百万商家学习交流平台——商家社区全新上线！</div>
+          <div class="li-line"></div>
+          <div>2019-3-12</div>
+        </li>
+        <li>
+          <div>百万商家学习交流平台——商家社区全新上线！</div>
+          <div class="li-line"></div>
+          <div>2019-3-12</div>
+        </li>
+        <li>
+          <div>百万商家学习交流平台——商家社区全新上线！</div>
+          <div class="li-line"></div>
+          <div>2019-3-12</div>
+        </li>
+        <li>
+          <div>百万商家学习交流平台——商家社区全新上线！</div>
+          <div class="li-line"></div>
+          <div>2019-3-12</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="editor-content invisible">
+    <div id="editor" style="width: 1200px;"></div>
+    <div class="text-center">
+      <button class="btn btn-primary btn-edit" onclick="saveHtml()"
+        style="width: 138px; height: 32px; margin: 30px 0;" onclick="saveHtml()">发布</button>
+    </div>
   </div>
 </div>
+<script type="text/javascript">
+  function change() {
+    $('.show-home')[0].classList.add('d-none');
+    $('.edit-btn')[0].classList.add('d-none');
+    $('.info-center-body')[0].classList.add('d-none');
+    $('.editor-content')[0].classList.remove('invisible');
+  }
+  var E = window.wangEditor;
+  var editor = new E('#editor');
+  editor.customConfig = {
+    uploadImgMaxSize: 2 * 1024 * 1024,
+    uploadFileName: 'mypic',
+    uploadImgMaxLength: 10,
+    debug: true,//开启debug调试
+  }
+
+  editor.customConfig.customUploadImg = function (files, insert) {
+    var formData = new FormData();
+    for (var i = 0; i < files.length; i++) {
+      formData.append("files[" + i + "]", files[i], files[i].name);
+    }
+    $.ajax({
+      url: url.submitIntro,
+      type: "POST",
+      data: formData,
+      async: false,
+      cache: false,
+      contentType: false,
+      processData: false,
+      success: function (res) {
+        if (res.status == 0) {
+          res.data.forEach(item => {
+            insert(item)
+          })
+        }
+      }
+    });
+  };
+  editor.create();
+  // 上传富文本
+  function saveHtml() {
+    var html = editor.txt.html();
+    var filterHtml = filterXSS(html);
+    $.post(url.insertIntro, { html }, function (res) {
+      if (res && res.status === 0) {
+        location.reload()
+      }
+    })
+  }
+
+</script>
 {{/default}}

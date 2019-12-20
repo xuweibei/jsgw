@@ -360,6 +360,7 @@ const Product = db.defineModel('gw_product', {
     },
 })
 
+// 公司级简介
 const Intro = db.defineModel('gw_intro',  {
     id: {
         type: Sequelize.INTEGER(11),
@@ -368,6 +369,23 @@ const Intro = db.defineModel('gw_intro',  {
         autoIncrement: true
     },
     content: Sequelize.TEXT
+})
+
+// 咨询中心
+const Information = db.defineModel('gw_information', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    info_title: Sequelize.STRING(30),
+    info_content: Sequelize.TEXT,
+    createdAt: Sequelize.DATE,
+    updatedAt: Sequelize.DATE,
+}, {
+    timestamps: true,
 })
 module.exports = {
     Users,
@@ -384,6 +402,7 @@ module.exports = {
     Post_classify,
     city,
     PcatBak,
-    Intro
+    Intro,
+    Information
     // Roles
 }

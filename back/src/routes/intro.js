@@ -5,12 +5,8 @@ const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "intro": async (ctx, next) => {
         const ret = await getHtml()
-        const html = ret ? ret.dataValues.content : ''
         await ctx.render('intro')
     },
-    // "richText": async (ctx, next) => {
-    //     await ctx.render('richText')
-    // },
     "get_rich": async (ctx, next) => {
         // 获取上传文件key
         const keys = Object.keys(ctx.request.files);
