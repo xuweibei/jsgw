@@ -9,19 +9,13 @@
         </div>
     </div>
     <div class="intro-desc">
-        {{!-- <div class="intro-desc">
-            这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
-            这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容这里是正文内容
-        </div> --}}
-        {{!-- <div class="intro-img-container text-center">
-            <img src="../assets/img/login-bg.png" alt="">
-        </div> --}}
         <div id="ht"></div>
     </div>
-    <div class="editor position-fixed">
-        <div id="editor" style="width: 1200px;">
+    <div class="editor invisible">
+        <div id="editor" style="width: 1200px;"></div>
+        <div class="text-center">
+            <button class="btn btn-primary btn-edit" onclick="saveHtml()">保存</button>
         </div>
-        <button class="btn btn-primary btn-edit" onclick="saveHtml()">保存</button>
     </div>
 </div>
 
@@ -29,7 +23,6 @@
     var edit = document.getElementsByClassName('intro-edit')[0];
     var desc = document.getElementsByClassName('intro-desc')[0];
     var home = document.getElementsByClassName('show-home')[0];
-    var editor = document.getElementsByClassName('editor')[0];
     var E = window.wangEditor;
     var editor = new E('#editor');
     editor.customConfig = {
@@ -67,13 +60,14 @@
         edit.classList.add('d-none');
         desc.classList.add('d-none');
         home.classList.add('d-none');
+        $('.editor')[0].classList.remove('invisible')
     }
 
     // 上传富文本
     function saveHtml() {
         var html = editor.txt.html();
         var filterHtml = filterXSS(html);
-        $.post(url.insertIntro, {html}, function(res) {
+        $.post(url.insertIntro, {html: filterHtml}, function(res) {
             if (res && res.status === 0) {
                 location.reload()
             }
