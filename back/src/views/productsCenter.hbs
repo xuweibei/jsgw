@@ -138,6 +138,12 @@
               <textarea class="form-control" placeholder="优质商品，快乐选购" id="message-text"></textarea>
             </div>
           </div>
+          <div class="form-group d-flex justify-content-start">
+            <label for="serial-number" class="col-form-label">产品编号：</label>
+            <div>
+              <input type="text" class="form-control" id="serial-number"/>
+            </div>
+          </div>
           <div class="form-group product-logo d-flex justify-content-start align-items-center">
             <label class="control-label">产品logo：</label>
             <div class="product-logo-container">
@@ -286,20 +292,17 @@
   //提交
   function commitNewProduct(){
     const data = {
-      serial_number: '55',
+      serial_number: $('#serial-number').val(),
       pro_name: $('#recipient-name').val(),
       status: '0',
       product_desc: $('#message-text').val(),
-      //link: $('#dawnload-way').val(),
-      link: 'fdsfs',
-      //link_code: formFile[1],
-      //logo: formFile[0]
-      link_code: '555',
-      logo: 'dfsfsd'
+      link: $('#dawnload-address').val(),
+      link_code: getObjectURL(formFile[1]),
+      logo: getObjectURL(formFile[0])
     }
     $.post(url.newProduct, {data}, function(res){
       if (res && res.status === 0) {
-        //$('.toast').toast('show')
+        $('.toast').toast('show')
       }
     })
   }

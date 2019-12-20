@@ -16,12 +16,11 @@ const delProduct = async (id) => {
 const showItem = async (id, status) => {
   const sql = `update gw_product set status=${status} where id=${id}`
   const res = await sequelize.query(sql)
-  console.log('dsfdsfdsfds', res)
   return res[0]
 }
 //新增商品
 const newProduct = async (data) => {
-  const sql = `insert into gw_product (serial_number,pro_name,status,product_desc,logo,link,link_code) values (${data.serial_number},${data.pro_name},${data.status},${data.product_desc},${data.logo},${data.link},${data.link_code})`
+  const sql = `insert into gw_product (serial_number,pro_name,status,product_desc,logo,link,link_code) values ('${data.serial_number}','${data.pro_name}',${data.status},'${data.product_desc}','${data.logo}','${data.link}','${data.link_code}')`
   const res = await sequelize.query(sql)
   return res[0]
 }

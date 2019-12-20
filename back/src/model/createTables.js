@@ -347,7 +347,7 @@ const Product = db.defineModel('gw_product', {
     },
     //编号
     serial_number: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(16),
     },
     //产品名称
     pro_name: {
