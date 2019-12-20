@@ -34,7 +34,7 @@ module.exports = {
     },
     //新建产品
     'new_product': async ctx => {
-        const res = await newProduct(ctx.request.body);
+        const res = await newProduct(ctx.request.body.data);
         if(res) {
             ctx.body = new SuccessModel(res, '增加失败')
             return;

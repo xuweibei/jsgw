@@ -21,10 +21,9 @@ const showItem = async (id, status) => {
 }
 //新增商品
 const newProduct = async (data) => {
-  const sql =``
+  const sql = `insert into gw_product (serial_number,pro_name,status,product_desc,logo,link,link_code) values (${data.serial_number},${data.pro_name},${data.status},${data.product_desc},${data.logo},${data.link},${data.link_code})`
   const res = await sequelize.query(sql)
   return res[0]
-
 }
 module.exports = {
   getProducts,
