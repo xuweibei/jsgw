@@ -19,8 +19,16 @@ const showItem = async (id, status) => {
   console.log('dsfdsfdsfds', res)
   return res[0]
 }
+//新增商品
+const newProduct = async (data) => {
+  const sql =``
+  const res = await sequelize.query(sql)
+  return res[0]
+
+}
 module.exports = {
   getProducts,
   delProduct,
-  showItem
+  showItem,
+  newProduct
 }

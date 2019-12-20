@@ -358,7 +358,7 @@ const Product = db.defineModel('gw_product', {
         type: Sequelize.STRING(255)
     },
     //logo
-    product_desc: {
+    logo: {
         type: Sequelize.STRING(128)
     },
     //下载地址

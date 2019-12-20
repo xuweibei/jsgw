@@ -37,6 +37,7 @@ router.get('/', login.home)
       .post('/api/change_classify_status',postApi['change_status'])   //禁用职业分类
       .post('/api/del_product',product['del_product']) //删除产品
       .post('/api/show_item',product['show_item']) //设置产品是否展示
+      .post('/api/new_product',product['new_product']) //新增产品
       // 招聘
       .get('/delivery/invite', invite['invite'])
       // 公司简介

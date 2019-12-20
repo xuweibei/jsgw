@@ -1,4 +1,4 @@
-const {getProducts, delProduct, showItem } = require('../controller/product');
+const {getProducts, delProduct, showItem, newProduct } = require('../controller/product');
 const {SuccessModel, ErrorModel} = require('../config/model')
 
 module.exports = {
@@ -31,5 +31,13 @@ module.exports = {
             return;
         }
         ctx.body = new ErrorModel('设置失败')
+    },
+    //新建产品
+    'new_product': async ctx => {
+        const res = await newProduct(ctx.request.body);
+        if(res) {
+            ctx.body = new SuccessModel(res, '增加失败')
+            return;
+        }
     }
 }

@@ -8,7 +8,7 @@
     </div>
     <div class="card-body-btn">
       <button type="button" class="btn">展示在首页</button>
-      <button type="button" class="btn" data-toggle="modal" data-target="#exampleModal">新增</button>
+      <button type="button" class="btn" data-toggle="modal" data-target="#addModal">新增</button>
     </div>
   </div>
   <div>
@@ -100,7 +100,7 @@
   </div>
 </div>
 {{!-- 新增弹出框 --}}
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -146,7 +146,7 @@
       </div>
       <div class="modal-footer text-center">
         {{!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> --}}
-        <button type="button" class="btn btn-primary">发布</button>
+        <button type="button" class="btn btn-primary" onclick="commitNewProduct()">发布</button>
       </div>
     </div>
   </div>
@@ -250,10 +250,13 @@
     }
     return url ;
   }
+  //var logo
+  var formFile = []
   //封装的图片预览方法
   function getImg(selector, container) {
     $(selector).on('change', function(e){
       const newImg = e.target.files[0]
+      formFile.push(newImg)
       console.log(newImg, 'fgdgfdgfdh')
       const imgUrl = getObjectURL(newImg)
       console.log(imgUrl, 'dsfddghghgf')
@@ -266,6 +269,21 @@
   }
   getImg($('#dawnload-logo'), $('.product-logo-container'))
   getImg($('#dawnload-way'), $('.product-code-container'))
+  //提交
+  function commitNewProduct(){
+    const data = {
+      serial_number: '55',
+      pro_name: $('#recipient-name').val(),
+      status: '0',
+      product_desc: $('#message-text').val(),
+      link: $('#dawnload-way').val(),
+      link_code: formFile[1],
+      logo: formFile[0]
+    }
+    $.post(url.newProduct,{data},function(){
+
+    })
+  }
 </script>
 <style>
   .form-group label{

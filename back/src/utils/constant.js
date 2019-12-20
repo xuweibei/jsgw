@@ -28,4 +28,5 @@ const url = {
     submitIntro: base + 'api/get_rich', // 富文本上传图片
     insertIntro: base + 'api/insert_intro', // 插入富文本
     renderHtml: base + 'api/render_html', // 获取html
+    newProduct: base + 'api/new_product' //新增产品
 }

@@ -68,15 +68,9 @@ const findDep = async () => {
 // 获取分组信息
 const readDep = async () => {
     const ret = await Department.findAll({
-<<<<<<< HEAD
-        attributes: {
-            // exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
-        }
-=======
         // attributes: {
         //     // exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
         // }
->>>>>>> 53a47df1b4c0f54953b7849cee1e82bcafb25cc3
     })
     let arr = []
     ret.forEach(item => {
