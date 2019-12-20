@@ -398,8 +398,18 @@ const Information = db.defineModel('gw_information', {
     },
     info_title: Sequelize.STRING(30),
     info_content: Sequelize.TEXT,
-    createdAt: Sequelize.DATE,
-    updatedAt: Sequelize.DATE,
+    // 是否删除
+    del_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
+    },
+    // 是否隐藏
+    show_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
+    },
+    createdAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW},
+    updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
 }, {
     timestamps: true,
 })

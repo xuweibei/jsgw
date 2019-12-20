@@ -47,7 +47,7 @@ router.get('/', login.home)
       .post('/api/insert_intro', intro['insert_intro'])
       .post('/api/render_html', intro['render_html'])
       // 富文本
-      .get('/delivery/edit', Logincheck, edit['edit'])
+      // .get('/delivery/edit', Logincheck, edit['edit'])
       // 职位分类
       .get('/delivery/job', job['jobClass'])
       // 首页展示
@@ -60,6 +60,12 @@ router.get('/', login.home)
       .get('/delivery/products', product['productsCenter'])
       // 咨询中心
       .get('/delivery/consult', consult['infoCenter'])
+      // 插入资讯
+      .post('/api/insert_info', consult['insert_info'])
+      .post('/api/get_info', consult['get_info'])
+      .post('/api/del_info', consult['del_info'])
+      .post('/api/hide_info', consult['hide_info'])
+      .post('/api/edit_info', consult['edit_info'])
       // 轮播管理
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类

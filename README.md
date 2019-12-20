@@ -24,6 +24,8 @@ koa2: https://github.com/chenshenhai/koa2-note
     ｜———— utils        // 一些工具函数
     ｜———— views        // 视图
     ｜———— app.ejs      // 应用入口js文件
+命名规范: controller xxxControler 各个文件从试图-路由-controller请统一命名
+各文件目录下尽量不要子目录
 ```
 
 

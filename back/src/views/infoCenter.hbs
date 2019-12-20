@@ -11,40 +11,97 @@
   </div>
 
   <div class="info-center-body">
-    <div class="info-center-content">
-      <ul>
-        <li>
-          <div>百万商家学习交流平台——商家社区全新上线！</div>
-          <div class="li-line"></div>
-          <div>2019-3-12</div>
-        </li>
-        <li>
-          <div>百万商家学习交流平台——商家社区全新上线！</div>
-          <div class="li-line"></div>
-          <div>2019-3-12</div>
-        </li>
-        <li>
-          <div>百万商家学习交流平台——商家社区全新上线！</div>
-          <div class="li-line"></div>
-          <div>2019-3-12</div>
-        </li>
-        <li>
-          <div>百万商家学习交流平台——商家社区全新上线！</div>
-          <div class="li-line"></div>
-          <div>2019-3-12</div>
-        </li>
-      </ul>
+    <div class="info-center-content table-container">
+      <table id="table" class="text-center table table-striped table-borderless"></table>
     </div>
   </div>
   <div class="editor-content invisible">
-    <div id="editor" style="width: 1200px;"></div>
+    <form class="mt-3 mb-3">
+      <div class="form-group row" style="width: 1200px; margin: 0 auto;">
+        <label for="colFormLabel" class="col-sm-1 col-form-label title" style="font-size: 20px; line-height: 19px;">标题</label>
+        <div class="col-sm-11 ">
+          <input type="email" class="form-control title" maxlength="50" id="colFormLabel" placeholder="请输入标题">
+        </div>
+      </div>
+    </form>
+    <div id="editor" style="width: 1200px; margin: 0 auto;"></div>
     <div class="text-center">
       <button class="btn btn-primary btn-edit" onclick="saveHtml()"
-        style="width: 138px; height: 32px; margin: 30px 0;" onclick="saveHtml()">发布</button>
+        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;" onclick="saveHtml()">发布</button>
     </div>
   </div>
 </div>
 <script type="text/javascript">
+  let editStatus;
+  let editId;
+  function operateFormatter(value, row, index) {
+    let show = row.show === "1" ? "隐藏" : "开启"
+    return [
+      '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
+      '<a class="remove opt" id="table-hide" href="javascript:void(0)" title="Remove">'+show+'</a>',
+      '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
+    ].join('')
+  }
+  // 初始化表格
+  $('#table').bootstrapTable({
+    striped: true,
+    method: "post",
+    url: url.getInfo,
+    formatLoadingMessage: function () {
+      return "请稍等，正在加载中...";
+    },
+    responseHandler: function (res) {
+      const col = [];
+      if (res && res.status === 0) {
+        res.data.list.forEach(item => {
+          col.push({
+            id: item.id,
+            title: item.info_title,
+            content: item.info_content,
+            time: item.createdAt,
+            show: item.show_status
+          })
+        })
+      }
+      return col;
+    },
+    columns: [{
+      title: '标题',
+      field: 'title',
+    }, {
+      title: '发布时间',
+      field: 'time'
+    }, {
+      title: '操作',
+      field: 'opt',
+      class: 'last-column',
+      formatter: operateFormatter,
+      events: operateEvent = {
+        "click #table-edit": function (e, value, row, index) {
+          change();
+          $('.title').val(row.title);
+          editor.txt.html(row.content);
+          editId: row.id
+          editStatus = true;
+        },
+        "click #table-hide": function (e, value, row, index) {
+          $.post(url.hideInfo, {id: row.id}, function(res){
+            if (res && res.status === 0) {
+              location.reload();
+            }
+          })
+        },
+        "click #table-del": function (e, value, row, index) {
+          $.post(url.delInfo, {id: row.id}, function(res) {
+            if (res && res.status === 0) {
+              location.reload()
+            }
+          })
+        }
+      }
+    }],
+
+  })
   function change() {
     $('.show-home')[0].classList.add('d-none');
     $('.edit-btn')[0].classList.add('d-none');
@@ -86,10 +143,17 @@
   // 上传富文本
   function saveHtml() {
     var html = editor.txt.html();
+    var title = $('.title').val();
     var filterHtml = filterXSS(html);
-    $.post(url.insertIntro, { html }, function (res) {
+    if (!html || !title) {
+      return
+    };
+    if (editStatus) {
+      $.post(url.editInfo)
+    }
+    $.post(url.insertInfo, { html, title }, function (res) {
       if (res && res.status === 0) {
-        location.reload()
+        location.reload();
       }
     })
   }
