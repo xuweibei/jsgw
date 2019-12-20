@@ -30,7 +30,7 @@ router.get('/', login.home)
       .post('/api/pcat_bak', resuirc["pcat_bak"]) //获取省市级信息
       .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
       .post('/api/get_classify', postApi["get_classify"])
-      .post('/api/add_centent_title', department["add_centent_title"])
+      .post('/api/add_centent_title', helpContent["add_centent_title"])
       .post('/api/add_classify',postApi['add_classify'])   //新增职业分类
       .post('/api/edit_classify',postApi['edit_classify'])   //新增职业分类
       .post('/api/del_classify',postApi['del_classify'])   //删除职·业分类
