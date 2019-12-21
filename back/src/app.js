@@ -10,7 +10,7 @@ const session = require('koa-session')
 const cors = require('koa2-cors'); // 跨域中间件
 const logger = require('koa-logger'); // 日志生成中间件
 
-const {createCss} = require('./utils/utils'); // 自定义方法动态生成css
+const {createCss} = require('./utils/transLess'); // 自定义方法动态生成css
 
 // 创建应用
 const app = new Koa();

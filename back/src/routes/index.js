@@ -29,6 +29,8 @@ router.get('/', login.home)
       .post('/api/get_recruit', resuirc["get_recruit"]) //获取招聘信息
       .post('/api/pcat_bak', resuirc["pcat_bak"]) //获取省市级信息
       .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
+      .post('/api/detelte_recreit', resuirc["detelte_recreit"]) //删除招聘信息
+      .post('/api/enable_recreit', resuirc["enable_recreit"]) //启用或停用
       .post('/api/get_classify', postApi["get_classify"])
       .post('/api/add_centent_title', helpContent["add_centent_title"])
       .post('/api/add_classify',postApi['add_classify'])   //新增职业分类
