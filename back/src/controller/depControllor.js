@@ -8,7 +8,8 @@ const {
     Department,
     Identity,
     Employee,
-    Account
+    Account,
+    Company
 } = require('../model/createTables')
 
 
@@ -291,19 +292,38 @@ const changeStatus = async (id) => {
 //产品中心（存储[志强]）
 const saveCententTitle = async (obj) => {
     console.log(JSON.stringify(obj));
-    let insert = obj
+    let insert = obj;
+    insert.status = 1;
     if (obj) {
-        insert = await Company.create({
-            comp_name: obj.comp_name,
-            intro: obj.intro,
-            link_phone: obj.link_phone,
-            address: obj.address,
-            page_name: obj.page_name,
-            page_link: obj.page_link,
-            friend_page: obj.friend_page,
-            friend_link: obj.friend_link,
-            pic_rul: 'https/www/baidu.jpg',
-        })
+        if (!(/^([\u2E80-\u9FFF]+){6}$/.test(obj.comp_name))) {
+            insert.message = '公司名称最少为6个中文字'
+        } else if (!(/^1[34578]\d{9}$/.test(obj.link_phone))) {
+            insert.message = '联络方式有误'
+        } else if (obj.address.length < 4) {
+            insert.message = '联络地址最少为4个字'
+        } else if (!obj.page_name) {
+            insert.message = '联系我们 页面名称不能为空'
+        } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(obj.page_link))) {
+            insert.message = '联系我们 跳转链接格式错误'
+        } else if (!obj.friend_page) {
+            insert.message = '友情链接 页面名称不能为空'
+        } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(obj.friend_link))) {
+            insert.message = '友情链接 跳转链接格式错误'
+        } else {
+            insert = await Company.create({
+                status: 0,
+                message: '存储成功',
+                comp_name: obj.comp_name,
+                intro: obj.intro,
+                link_phone: obj.link_phone,
+                address: obj.address,
+                page_name: obj.page_name,
+                page_link: obj.page_link,
+                friend_page: obj.friend_page,
+                friend_link: obj.friend_link,
+                pic_rul: 'https/www/baidu.jpg',
+            })
+        }
     }
     return insert
 }

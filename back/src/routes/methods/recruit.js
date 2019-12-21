@@ -1,5 +1,5 @@
 //招聘信息接口
-const {getRecruitInfo,addRecruitMen,getPcatBak} = require('../../controller/recruit')
+const {getRecruitInfo,addRecruitMen,getPcatBak,deleteRecruic} = require('../../controller/recruit')
 const {SuccessModel, ErrorModel} = require('../../config/model')
 module.exports = {
     "get_recruit": async ctx => {
@@ -22,7 +22,6 @@ module.exports = {
         ctx.body = new ErrorModel('添加失败')
     },
     "pcat_bak":async ctx =>{
-        console.log('啦啦啦啦')
         const res =  await getPcatBak(ctx.request.body);  
         // console.log(res,'2考虑到法国');
         if(res){
@@ -30,5 +29,15 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('获取失败')
+    },
+    "detelte_recreit":async ctx =>{
+        console.log(ctx.request.body,'考虑程序')
+        const res =  await deleteRecruic(ctx.request.body);  
+        // console.log(res,'2考虑到法国');
+        if(res){
+            ctx.body = new SuccessModel(res,'删除成功')
+            return
+        }
+        ctx.body = new ErrorModel('删除失败')
     }
 }

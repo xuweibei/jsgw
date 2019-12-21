@@ -1,5 +1,6 @@
 const {getProducts, delProduct, showItem, newProduct } = require('../controller/product');
 const {SuccessModel, ErrorModel} = require('../config/model')
+const multer = require('koa-multer')
 
 module.exports = {
     'productsCenter': async (ctx, next) => {
@@ -34,10 +35,23 @@ module.exports = {
     },
     //新建产品
     'new_product': async ctx => {
-        const res = await newProduct(ctx.request.body);
+        // const storage = multer.diskStorage({
+        //     //文件保存路径
+        //     destination: function (ctx.request, ctx.request.body.data.logo, cb) {
+        //       cb(null, 'public/img/')
+        //     },
+        //     //修改文件名称
+        //     // filename: function (req, file, cb) {
+        //     //   var fileFormat = (file.originalname).split(".");
+        //     //   cb(null,Date.now() + "." + fileFormat[fileFormat.length - 1]);
+        //     // }
+        //   })
+        // const upload = multer({ storage: storage });
+        const res = await newProduct(ctx.request.body.data);
         if(res) {
-            ctx.body = new SuccessModel(res, '增加失败')
+            ctx.body = new SuccessModel(res, '增加成功')
             return;
         }
+        ctx.body = new ErrorModel('增加失败')
     }
 }
