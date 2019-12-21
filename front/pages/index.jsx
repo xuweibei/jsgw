@@ -1,8 +1,6 @@
-import ScrollAnim from "rc-scroll-anim"; //滚动动画
-import QueueAnim from "rc-queue-anim"; //进出场动画
 import Layout from "../components/layout/layout";
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
-const { MonthPicker, RangePicker, WeekPicker } = DatePicker;
+const {RangePicker} = DatePicker;
 import "../static/style/page/index.less";
 const { Option } = Select;
 
