@@ -359,17 +359,71 @@ const Product = db.defineModel('gw_product', {
     },
     //编号
     serial_number: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(16),
     },
     //产品名称
     pro_name: {
         type: Sequelize.STRING(50)
+    },
+    //简介
+    product_desc: {
+        type: Sequelize.STRING(255)
+    },
+    //logo
+    logo: {
+        type: Sequelize.STRING(128)
+    },
+    //下载地址
+    link: {
+        type: Sequelize.STRING(128)
+    },
+    //下载二维码
+    link_code: {
+        type: Sequelize.STRING(128)
     },
     //是否启用
     status:{
         type: Sequelize.STRING(1),
         defaultValue: '1'
     },
+})
+
+// 公司级简介
+const Intro = db.defineModel('gw_intro',  {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    content: Sequelize.TEXT
+})
+
+// 咨询中心
+const Information = db.defineModel('gw_information', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    info_title: Sequelize.STRING(30),
+    info_content: Sequelize.TEXT,
+    // 是否删除
+    del_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
+    },
+    // 是否隐藏
+    show_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
+    },
+    createdAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW},
+    updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
+}, {
+    timestamps: true,
 })
 module.exports = {
     Users,
@@ -385,6 +439,8 @@ module.exports = {
     Product,
     Post_classify,
     city,
-    PcatBak
+    PcatBak,
+    Intro,
+    Information
     // Roles
 }

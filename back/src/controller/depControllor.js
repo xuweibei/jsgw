@@ -8,7 +8,8 @@ const {
     Department,
     Identity,
     Employee,
-    Account
+    Account,
+    Company
 } = require('../model/createTables')
 
 
@@ -26,7 +27,6 @@ const addDep = async (dep) => {
             department: dep
         }
     })
-    console.log(add, "asljkdhaksdhjkahsd")
     if (add && add.dataValues) {
         if (add.dataValues.dep_status === '0') {
             const update = await Department.update({
@@ -36,7 +36,6 @@ const addDep = async (dep) => {
                     department: dep
                 }
             })
-            console.log(update, "接口好圣诞节卡实打实")
             return update[0]
         }
         return false
@@ -46,7 +45,6 @@ const addDep = async (dep) => {
                 department: dep
             }
         })
-        console.log(ret, "驾驶舱电信卡接收到哈迪斯")
         return ret && ret[1]
     }
 
@@ -56,23 +54,24 @@ const findDep = async () => {
     // const sql1 = 'SELECT d.department, d.id, num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
     const sql1 = 'select d.department, e.dep_id, d.id,count(dep_id) as num from gw_department as d LEFT JOIN gw_employee as e on e.dep_id=d.id and e.status=1 where d.dep_status=1 group by dep_id,d.id, department'
     // 获取分组
-    const ret = await sequelize.query(sql1)
+    const ret = await sequelize.query(sql1, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     const sql = 'select COUNT(1) as num from gw_employee where gw_employee.status=1'
     // 获取全部员工
-    const count = await sequelize.query(sql)
+    const count = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     // console.log(ret[0])
     const obj = {
-        dep: ret[0],
-        allDep: count[0]
+        dep: ret,
+        allDep: count
     }
+    console.log(obj, "卡萨接电话sad")
     return obj || {}
 }
 // 获取分组信息
 const readDep = async () => {
     const ret = await Department.findAll({
-        attributes: {
-            exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
-        }
+        // attributes: {
+        //     // exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
+        // }
     })
     let arr = []
     ret.forEach(item => {
@@ -88,7 +87,7 @@ const delDep = async (id) => {
         }
     })
     const sql = `update gw_employee as e set e.status=0 where e.dep_id=${id}`
-    sequelize.query(sql)
+    sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
     if (ret.dataValues) {
         const del = await Department.update({
             dep_status: '0'
@@ -206,9 +205,9 @@ const insertEmployee = async (obj) => {
 // 获取员工
 const getEmployee = async () => {
     const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
-    const ret = await sequelize.query(sql)
-    console.log(ret, " 考虑是大法官")
-    return ret[0]
+    const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
+    // console.log(ret, "dsjkhskjdhsd ")
+    return ret
 }
 // 编辑员工
 const editEmp = async (parms) => {
@@ -293,19 +292,38 @@ const changeStatus = async (id) => {
 //产品中心（存储[志强]）
 const saveCententTitle = async (obj) => {
     console.log(JSON.stringify(obj));
-    let insert = obj
+    let insert = obj;
+    insert.status = 1;
     if (obj) {
-        insert = await Company.create({
-            comp_name: obj.comp_name,
-            intro: obj.intro,
-            link_phone: obj.link_phone,
-            address: obj.address,
-            page_name: obj.page_name,
-            page_link: obj.page_link,
-            friend_page: obj.friend_page,
-            friend_link: obj.friend_link,
-            pic_rul: 'https/www/baidu.jpg',
-        })
+        if (!(/^([\u2E80-\u9FFF]+){6}$/.test(obj.comp_name))) {
+            insert.message = '公司名称最少为6个中文字'
+        } else if (!(/^1[34578]\d{9}$/.test(obj.link_phone))) {
+            insert.message = '联络方式有误'
+        } else if (obj.address.length < 4) {
+            insert.message = '联络地址最少为4个字'
+        } else if (!obj.page_name) {
+            insert.message = '联系我们 页面名称不能为空'
+        } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(obj.page_link))) {
+            insert.message = '联系我们 跳转链接格式错误'
+        } else if (!obj.friend_page) {
+            insert.message = '友情链接 页面名称不能为空'
+        } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(obj.friend_link))) {
+            insert.message = '友情链接 跳转链接格式错误'
+        } else {
+            insert = await Company.create({
+                status: 0,
+                message: '存储成功',
+                comp_name: obj.comp_name,
+                intro: obj.intro,
+                link_phone: obj.link_phone,
+                address: obj.address,
+                page_name: obj.page_name,
+                page_link: obj.page_link,
+                friend_page: obj.friend_page,
+                friend_link: obj.friend_link,
+                pic_rul: 'https/www/baidu.jpg',
+            })
+        }
     }
     return insert
 }

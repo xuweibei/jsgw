@@ -25,5 +25,14 @@ const url = {
     changeClassifyStatus:  base + 'api/change_classify_status',//禁用职业分类
     getProducts: base + 'api/get_products', //获取产品信息
     delProduct: base + 'api/del_product', //删除产品
-    showItem: base + 'api/show_item' //设置产品是否显示
+    showItem: base + 'api/show_item', //设置产品是否显示
+    submitIntro: base + 'api/get_rich', // 富文本上传图片
+    insertIntro: base + 'api/insert_intro', // 插入富文本
+    renderHtml: base + 'api/render_html', // 获取html
+    newProduct: base + 'api/new_product', //新增产品
+    insertInfo: base + 'api/insert_info', // 插入资讯
+    getInfo: base + 'api/get_info', // 插入资讯
+    delInfo: base + 'api/del_info', // 删除资讯
+    hideInfo: base + 'api/hide_info', // 删除资讯
+    editInfo: base + 'api/edit_info', // 删除资讯
 }
