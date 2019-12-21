@@ -8,7 +8,30 @@ const url = {
     insertStf: base + 'api/insert_stf',
     getTable:base + 'api/get_tab', // 获取员工
     editEmp: base + 'api/edit_emp', //编辑员工
+    delEmp: base + 'api/del_emp', //编辑员工
+    changeStatus: base + 'api/change_status', //编辑员工
+    getRecreuit: base + 'api/get_recruit', //获取招聘信息
+    addMen: base + 'api/add_recruiter', //获取招聘信息
+    getPcatBak: base + 'api/pcat_bak', //获取获取省市
     delEmp: base + 'api/del_emp', //删除员工
     changeStatus: base + 'api/change_status', //编辑员工状态
     addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
+    changeStatus: base + 'api/change_status', //编辑员工
+    getClassify: base + 'api/get_classify', //获取职业分类
+    addClassify: base + 'api/add_classify', //新增职业分类
+    editClassify: base + 'api/edit_classify',//编辑职业分类
+    delClassify:  base + 'api/del_classify',//删除职业分类
+    changeClassifyStatus:  base + 'api/change_classify_status',//禁用职业分类
+    getProducts: base + 'api/get_products', //获取产品信息
+    delProduct: base + 'api/del_product', //删除产品
+    showItem: base + 'api/show_item', //设置产品是否显示
+    submitIntro: base + 'api/get_rich', // 富文本上传图片
+    insertIntro: base + 'api/insert_intro', // 插入富文本
+    renderHtml: base + 'api/render_html', // 获取html
+    newProduct: base + 'api/new_product', //新增产品
+    insertInfo: base + 'api/insert_info', // 插入资讯
+    getInfo: base + 'api/get_info', // 插入资讯
+    delInfo: base + 'api/del_info', // 删除资讯
+    hideInfo: base + 'api/hide_info', // 删除资讯
+    editInfo: base + 'api/edit_info', // 删除资讯
 }

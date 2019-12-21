@@ -8,7 +8,7 @@ const Users = db.defineModel('gw_users', {
         allowNull: false,
         autoIncrement: true
     },
-    account : {type: Sequelize.STRING(50),unique: true},
+    account : {type: Sequelize.STRING(50),unique: 'column'},
     password: Sequelize.STRING(50),
     identity_id: Sequelize.BOOLEAN(4),
     status: Sequelize.BOOLEAN(4)
@@ -98,6 +98,10 @@ const Post_classify = db.defineModel('gw_post_classify', {
     //排序
     sort: {
         type: Sequelize.INTEGER(11)
+    },
+    //状态：禁用0或启用1
+    status: {
+        type: Sequelize.STRING(1)
     }
 });
 //侧边栏一级导航表
@@ -139,7 +143,7 @@ const Employee = db.defineModel('gw_employee', {
         autoIncrement: true
     },
     //员工姓名
-    name : {type: Sequelize.STRING(30), unique: true},
+    name : {type: Sequelize.STRING(30), unique: 'column'},
     //联系电话
     phone: {type: Sequelize.STRING(11)},
     //状态：1使用中，0禁用中
@@ -204,8 +208,31 @@ const city = db.defineModel('gw_city', {
         type: Sequelize.STRING(30)
     }
 })
+//省市
+const PcatBak = db.defineModel('gw_pcat_bak', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    code:{
+        type: Sequelize.STRING(20)
+    },
+    parentId:{
+        type: Sequelize.STRING(20)
+    },
+    //名称
+    name: {
+        type: Sequelize.STRING(50)
+    },
+    //等级
+    level: {
+        type: Sequelize.STRING(5)
+    }
+})
 //招聘信息表（加入我们）
-const Invite_info = db.defineModel('gw_invite_info', {
+const Invite = db.defineModel('gw_invite_info', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -259,6 +286,10 @@ const Invite_info = db.defineModel('gw_invite_info', {
      //邮箱
       email: {
         type: Sequelize.STRING(50)
+      },
+      //职位类型
+      job_class:{
+          type:Sequelize.STRING(10)
       }
     })
 //公司表
@@ -316,12 +347,71 @@ const Product = db.defineModel('gw_product', {
     },
     //编号
     serial_number: {
-        type: Sequelize.STRING(50)
+        type: Sequelize.STRING(16),
     },
     //产品名称
     pro_name: {
         type: Sequelize.STRING(50)
-    }
+    },
+    //简介
+    product_desc: {
+        type: Sequelize.STRING(255)
+    },
+    //logo
+    logo: {
+        type: Sequelize.STRING(128)
+    },
+    //下载地址
+    link: {
+        type: Sequelize.STRING(128)
+    },
+    //下载二维码
+    link_code: {
+        type: Sequelize.STRING(128)
+    },
+    //是否启用
+    status:{
+        type: Sequelize.STRING(1),
+        defaultValue: '1'
+    },
+})
+
+// 公司级简介
+const Intro = db.defineModel('gw_intro',  {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    content: Sequelize.TEXT
+})
+
+// 咨询中心
+const Information = db.defineModel('gw_information', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    info_title: Sequelize.STRING(30),
+    info_content: Sequelize.TEXT,
+    // 是否删除
+    del_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
+    },
+    // 是否隐藏
+    show_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
+    },
+    createdAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW},
+    updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
+}, {
+    timestamps: true,
 })
 module.exports = {
     Users,
@@ -332,10 +422,13 @@ module.exports = {
     Identity,
     Account,
     Post,
-    Invite_info,
+    Invite,
     Company,
     Product,
     Post_classify,
-    city
+    city,
+    PcatBak,
+    Intro,
+    Information
     // Roles
 }

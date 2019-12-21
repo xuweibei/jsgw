@@ -26,6 +26,10 @@
             background-color: #fff;
             // background: #0AAFDE;
             margin-top: 104px;
+            //分页左侧提示文字隐藏
+            .pagination-detail{
+                display: none;
+            }
             //筛选模块样式
             #select {
                 width: 100px;
@@ -115,6 +119,9 @@
                 padding-right: 24px;
                 display: flex;
                 justify-content: space-between;
+                .pagination-detail{
+                    display: none !important;
+                }
                 .svg-img {
                     img{
                         width: 15px;
@@ -218,6 +225,7 @@
                         font-weight: 500;
                       span{
                           margin-right: 40px;
+                          width: 35px;
                       }
                     }
                     .item:nth-child(1){
@@ -315,6 +323,14 @@
                         font-size: 12px;
                     }
                 }
+                #table  thead {
+                    background: #0AAFDE;
+                    color: #fff;
+                }
+                // #table tr {
+                //     height: 80px;
+                //     line-height: 80px;
+                // }
             }
             //资讯中心样式
             .info-center-container{
@@ -449,6 +465,12 @@
                             height: 100%;
                             background-color: #F5F7FA;
                             border: 1px dashed #DEE1E7;
+                            text-align: center;
+                            p{
+                                position: relative;
+                                top: 50%;
+                                transform: translateY(-50%);
+                            }
                         }
                     }
                 }

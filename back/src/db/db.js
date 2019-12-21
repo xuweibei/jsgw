@@ -89,7 +89,6 @@ const defineModel = function (name, attributes) {
         } else {
             attrs[key] = {
                 type: value,
-                // allowNull: false
             };
         }
     }
@@ -107,10 +106,10 @@ const defineModel = function (name, attributes) {
     // };
     return sequelize.define(name, attrs, {
         tableName: name,
-        timestamps: true,
+        timestamps: false,
         paranoid: true,
-        createdAt: "CreatedAt",  //自定义时间戳
-        updatedAt: "UpdatedAt", // 自定义时间戳
+        // createdAt: "CreatedAt",  //自定义时间戳
+        // updatedAt: "UpdatedAt", // 自定义时间戳
         charset: 'utf8mb4',
         collate: 'utf8mb4_general_ci',
         hooks: {
