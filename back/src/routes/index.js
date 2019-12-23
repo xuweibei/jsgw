@@ -5,7 +5,7 @@ const department = require('./department')
 const resuirc = require('./methods/recruit')
 const intro = require('./intro')
 const invite = require('./invite')
-const edit = require('./edit')
+const events = require('./events')
 const job = require('./job')
 const home = require('./home')
 const exchange = require('./exchange')
@@ -48,8 +48,6 @@ router.get('/', login.home)
       .post('/api/get_rich', intro['get_rich'])
       .post('/api/insert_intro', intro['insert_intro'])
       .post('/api/render_html', intro['render_html'])
-      // 富文本
-      // .get('/delivery/edit', Logincheck, edit['edit'])
       // 职位分类
       .get('/delivery/job', job['jobClass'])
       // 首页展示
@@ -68,11 +66,14 @@ router.get('/', login.home)
       .post('/api/del_info', consult['del_info'])
       .post('/api/hide_info', consult['hide_info'])
       .post('/api/edit_info', consult['edit_info'])
-      // 轮播管理
+      // 轮播管理 
       .get('/delivery/carousel', carousel['turnManage'])
       //职业分类
       .get('/delivery/postClassify', postApi['postClassify'])
       //产品中心[志强]
       .get('/delivery/helpContent', helpContent['helpContent'])
       .get('/api/get_products',product['get_products']) //获取产品信息
+      // 大事件
+      .get('/delivery/events', events['events'])
+      .post('/api/insert_event', events['insert_event'])
 module.exports = router

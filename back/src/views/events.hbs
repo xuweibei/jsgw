@@ -1,0 +1,121 @@
+{{#>default}}
+<div class="events">
+    {{!-- TOAST --}}
+    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body"></div>
+    </div>
+    <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
+    <div class="enent d-flex card-container">
+        <div class="date text-white">11-12</div>
+        <div class="line">
+            <img class="cls-img" src="../assets/img/cls.png" data-toggle="modal"
+                data-target="#exampleModalCenter"></img>
+        </div>
+    </div>
+    {{#if arr.length}}
+    {{#each arr}}
+    <div class="enent d-flex card-container">
+        <div class="date">{{this.time}}</div>
+        <div class="line">
+            <div class="cle"></div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                {{this.time}}
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">{{this.event_title}}t</h5>
+                <p class="card-text">{{this.event_content}}</p>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{/if}}
+
+    <div class="modal fade event-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header d-flex justify-content-lg-center">
+                    <h5 class="modal-title" id="exampleModalCenterTitle">添加</h5>
+                </div>
+                <form>
+                    <div class="form-group row p-3">
+                        <label for="colFormLabel" class="col-sm-2 col-form-label">大事记节点:</label>
+                        <div class="col-sm-10 d-flex justify-content-lg-around">
+                            <select class="form-control year w-25" aria-placeholder="请选择"></select>
+                            <select class="form-control mounth w-25">
+                            </select>
+                            <select class="form-control day w-25">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row p-3">
+                        <label for="" class="col-sm-2 col-form-label">事件标题:</label>
+                        <input type="text" class="col-sm-9 form-control event-title" placeholder="请输入事件标题"
+                            maxlength="50">
+                    </div>
+                    <div class="mb-3 p-3 row form-group">
+                        <label for="validationTextarea" class="col-form-label col-2">大事概述:</label>
+                        <textarea class="form-control col-9 event-content" id="validationTextarea"
+                            placeholder="请输入事件内容"></textarea>
+                    </div>
+                </form>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary commitEvent">保存</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        // 添加年月日选择
+        const years = [...Array.from({ length: 2100 }).keys()].slice(2015);
+        const mounth = [...Array.from({ length: 13 }).keys()].slice(1);
+        const day = [...Array.from({ length: 32 }).keys()].slice(1);
+        const select = $('.year');
+        const mounthSelect = $('.mounth');
+        const daySelect = $('.day');
+        years.forEach(item => {
+            let str = `<option>${item}</option>`;
+            select.append(str)
+        })
+        mounth.forEach(item => {
+            let str = `<option>${item}</option>`;
+            mounthSelect.append(str)
+        })
+        day.forEach(item => {
+            let str = `<option>${item}</option>`;
+            daySelect.append(str)
+        })
+
+        // 提交信息
+        $('.commitEvent').on('click', function () {
+            const time = select.val() + '/' + mounthSelect.val() + '/' + daySelect.val();
+            const title = $('.event-title').val();
+            const content = $('.event-content').val();
+            if (!time || !title || !content) {
+                $('.toast').toast('show');
+                $('.toast-body').text('请完善表格内容!')
+                return;
+            }
+            $.post(url.insertEvent, { time, title, content }, function (res) {
+                if (res) {
+                    $('.toast').toast('show');
+                    $('.toast-body').text(res.message)
+                    $('.toast').on('hidden.bs.toast', function () {
+                        if (res.status === 0) {
+                            location.reload();
+                        }
+                    })
+                }
+            })
+        })
+
+    })
+
+</script>
+{{/default}}
