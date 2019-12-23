@@ -68,9 +68,18 @@ const deleteRecruic = async(data)=>{
     })
     return res;
 }
+
+//启用或停用
+const enableRecreit = async(data)=>{
+    const res = await Invite.update({
+        enable:data.enable === '0' ? 1 : 0
+    },{where:{id:data.id}})
+    return res;
+}
 module.exports = {
     getRecruitInfo,
     addRecruitMen,
     getPcatBak,
-    deleteRecruic
+    deleteRecruic,
+    enableRecreit
 }
