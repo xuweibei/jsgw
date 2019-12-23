@@ -40,7 +40,7 @@
             sortable: true,
             sortOrder: "asc",
             //queryParams: { a: 1 },
-            pageSize: 5,
+            pageSize: 10,
             paginationPreText: "上一页",
             paginationNextText: "下一页",
             pageList: [5, 10, 15, 20, 25],
@@ -270,17 +270,13 @@
     }
     return url ;
   }
-  //var logo
-  var formFile = []
+  var imgFile = []
   //封装的图片预览方法
   function getImg(selector, container) {
     $(selector).on('change', function(e){
       const newImg = e.target.files[0]
-      formFile.push(newImg)
-      console.log(newImg, 'fgdgfdgfdh')
+      imgFile.push(newImg)
       const imgUrl = getObjectURL(newImg)
-      console.log(imgUrl, 'dsfddghghgf')
-      const imgName = newImg.name
       $(container).css({
         'background': `url(${getObjectURL(e.target.files[0])})`,
         'background-size': '100%'
@@ -297,8 +293,8 @@
       status: '0',
       product_desc: $('#message-text').val(),
       link: $('#dawnload-address').val(),
-      link_code: getObjectURL(formFile[1]),
-      logo: getObjectURL(formFile[0])
+      logo: imgFile[0],
+      link_code: imgFile[1]
     }
     $.post(url.newProduct, {data}, function(res){
       if (res && res.status === 0) {
