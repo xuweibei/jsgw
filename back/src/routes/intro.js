@@ -24,7 +24,6 @@ module.exports = {
             // console.log(readStream.pipe(writeStream).path.split('\\'));
             const red = readStream.pipe(writeStream).path.split('\\');
             const redPath = 'http://localhost:8000/'+ 'assets/' + 'images/' + red[red.length - 1];
-            console.log(redPath)
             arr.push(redPath)
         })
         ctx.body = new SuccessModel(arr, "存储成功")
