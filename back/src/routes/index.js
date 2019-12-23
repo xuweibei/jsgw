@@ -75,5 +75,6 @@ router.get('/', login.home)
       .get('/api/get_products',product['get_products']) //获取产品信息
       // 大事件
       .get('/delivery/events', events['events'])
-      .post('/api/insert_event', events['insert_event'])
+      .post('/api/insert_event', events['insert_event']) // 插入事件
+      .post('/api/del_event', events['del_event']) // 删除事件
 module.exports = router

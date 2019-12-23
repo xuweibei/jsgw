@@ -5,17 +5,10 @@
         <div class="toast-body"></div>
     </div>
     <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
-    <div class="enent d-flex card-container">
-        <div class="date text-white">11-12</div>
-        <div class="line">
-            <img class="cls-img" src="../assets/img/cls.png" data-toggle="modal"
-                data-target="#exampleModalCenter"></img>
-        </div>
-    </div>
     {{#if arr.length}}
     {{#each arr}}
     <div class="enent d-flex card-container">
-        <div class="date">{{this.time}}</div>
+        <div class="date">{{this.titleTime}}</div>
         <div class="line">
             <div class="cle"></div>
         </div>
@@ -27,11 +20,29 @@
                 <h5 class="card-title">{{this.event_title}}t</h5>
                 <p class="card-text">{{this.event_content}}</p>
             </div>
+            <div class="close close-btn" data-container="body" data-toggle="popover" data-placement="left"
+                data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                onclick="delEvent({{this.id}})">&times;</div>
         </div>
     </div>
     {{/each}}
     {{/if}}
 
+    {{!-- 删除事件 --}}
+    <div class="modal modal-del fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    是否删除此条记录，删除后将不可恢复。
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary del-btn">删除</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="modal fade event-modal" id="exampleModalCenter" tabindex="-1" role="dialog"
         aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -71,7 +82,29 @@
 </div>
 
 <script>
+    // 定义删除事件id
+    let delId;
+    function delEvent(id) {
+        delId = id;
+        $('.modal-del').modal('show');
+    }
     $(function () {
+        // 设置card样式
+        let Line = document.getElementsByClassName('line');
+        const cardContainer = document.getElementsByClassName('card-container');
+        const lastLine = Line[Line.length - 1];
+        Line[0].style.height = 450 + 'px';
+        cardContainer[0].style.marginTop = "200px"
+        const openImg = new Image();
+        openImg.src = "../assets/img/cls.png";
+        openImg.style.position = 'absolute';
+        openImg.style.left = "-12px";
+        openImg.style.top = "-10px";
+        // 开启模态框
+        openImg.addEventListener('click', function () {
+            $('.event-modal').modal('show')
+        })
+        Line[0].appendChild(openImg)
         // 添加年月日选择
         const years = [...Array.from({ length: 2100 }).keys()].slice(2015);
         const mounth = [...Array.from({ length: 13 }).keys()].slice(1);
@@ -90,6 +123,19 @@
         day.forEach(item => {
             let str = `<option>${item}</option>`;
             daySelect.append(str)
+        })
+
+        // 定义删除事件
+        $('.del-btn').on('click', function () {
+            $.post(url.delEvent, { id: delId }, function (res) {
+                if (res) {
+                    $('.toast').toast('show');
+                    $('.toast-body').text(res.message);
+                    $('.toast').on('hidden.bs.toast', function () {
+                        location.reload();
+                    })
+                }
+            })
         })
 
         // 提交信息

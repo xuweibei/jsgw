@@ -140,7 +140,18 @@
                 padding-right: 24px;
                 display: flex;
                 justify-content: space-between;
-
+                .toast {
+                    width: 200px !important;
+                    background: rgba(0,0,0,0.5);
+                    border: none !important;
+                    color: #fff;
+                    text-align: center;
+                    left: 50%; 
+                    top: 50%;
+                    z-index: 100000;
+                    transform: translateX(-50%);
+                    // opacity: 1;
+                }
                 .pagination-detail {
                     display: none !important;
                 }
@@ -755,6 +766,12 @@
     label {
         color: #999999;
         font-size: 14px;
+    }
+
+    .close-btn {
+        position: absolute;
+        right: 0;
+        cursor: pointer;
     }
 
     .toast {
