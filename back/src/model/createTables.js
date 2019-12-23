@@ -260,50 +260,54 @@ const Invite = db.defineModel('gw_invite_info', {
         type: Sequelize.STRING(30)
     },
     //详细地址
-      detail_address: {
-          type: Sequelize.STRING(255)
-      },
-        //最低薪水
-        low_salary: {
-            type: Sequelize.INTEGER(11)
-        },
-       // 最高薪水
-       top_salary: {
-           type: Sequelize.INTEGER(11)
-        },
-       //工作职责
-       work_content: {
-           type: Sequelize.TEXT
-       },
-      //任职要求
-        post_job: {
-            type: Sequelize.TEXT
-        },
-       //招聘人数
-        require_num: {
-            type: Sequelize.INTEGER(11)
-        },
-        //发布开始时间
-      start_time: {
-           type: Sequelize.DATE
-      },
-    //发布结束时间
-      end_time: {
-          type: Sequelize.DATE
-      },
-      //联系电话
-       phone: {
-          type: Sequelize.STRING(30)
-       },
-     //邮箱
-      email: {
-        type: Sequelize.STRING(50)
-      },
-      //职位类型
-      job_class:{
-          type:Sequelize.STRING(10)
-      }
-    })
+    detail_address: {
+        type: Sequelize.STRING(255)
+    },
+    //最低薪水
+    low_salary: {
+        type: Sequelize.INTEGER(11)
+    },
+    // 最高薪水
+    top_salary: {
+        type: Sequelize.INTEGER(11)
+    },
+    //工作职责
+    work_content: {
+        type: Sequelize.TEXT
+    },
+    //任职要求
+    post_job: {
+        type: Sequelize.TEXT
+    },
+    //招聘人数
+    require_num: {
+        type: Sequelize.INTEGER(11)
+    },
+    //发布开始时间
+    start_time: {
+        type: Sequelize.DATE
+    },
+//发布结束时间
+    end_time: {
+        type: Sequelize.DATE
+    },
+    //联系电话
+    phone: {
+        type: Sequelize.STRING(30)
+    },
+    //邮箱
+    email: {
+    type: Sequelize.STRING(50)
+    },
+    //职位类型
+    job_class:{
+        type:Sequelize.STRING(10)
+    },
+    //是否启用类型  0 未启用 1启用
+    enable:{
+        type:Sequelize.STRING(1)
+    }
+})
 //公司表
 const Company = db.defineModel('gw_company', {
     id: {

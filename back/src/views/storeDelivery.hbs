@@ -9,7 +9,7 @@
   }
 </style>
 {{#>default}}
-<link rel="stylesheet" href="../assets/css/recruic.css"/>
+  <link rel="stylesheet" href="../assets/css/recruic.css"/>
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
@@ -161,6 +161,7 @@
       var workPlace = ''//工作地点
       var jobEditClass = ''//新增或编辑的  职位分类
       var deleteData = {}; //删除的数据
+      var enableData = {}; //停用或启用数据
       //选择职位分类的时候
       function chooseJobClass(data){
         jobClass = data;
@@ -218,7 +219,8 @@
             })
         })
         $.post(url.getRecreuit,obj,function(resData){
-          $table.bootstrapTable('load', resData.data.rows)
+          const arr = resData.data.rows.reverse();
+          $table.bootstrapTable('load',arr )
         });
       }
       //点击新增按钮
@@ -420,8 +422,8 @@
           function operateFormatter(value, row, index) {
             return [
               '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
-              '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>',
-              '<a class="like opt" id="table-start" href="javascript:void(0)" title="Remove">启用</a>',
+              '<a class="remove opt aActive" id="table-del" href="javascript:void(0)" title="Remove">删除</a>',
+              row.enable === 0 ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="Remove">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
               '<a class="like opt" id="table-see" href="javascript:void(0)" title="Remove">预览</a>'
             ].join('')
           }
@@ -437,6 +439,7 @@
             pagination: true,
             sortable: true,
             pageSize: 5,
+            theadClasses: "thead-blue",
             pageList: [10, 25],
             responseHandler: function (res) {
               const arr = []
@@ -461,7 +464,7 @@
                       county_id:item.county_id,
                       sort:item.sort,
                       post_job:item.post_job,
-                      opt: operateFormatter(item)
+                      enable: item.enable
                     })
                     //获取工作地点
                     const str = document.createElement('option');
@@ -500,6 +503,10 @@
                     deleteData = row;
                     $('#deletetable').modal('show')
                   },
+                  "click #table-start": function (e, value, row, index) {
+                    enableData = row;
+                    $('#enable').modal('show')
+                  },
                   "click #table-see": function (e, value, row, index) {
                     $('#preview').html(prevSee(row));
                     $('#preview').modal('show');
@@ -507,12 +514,22 @@
                 }
               }]
           })
+          //删除招聘信息
           $('#delete_list').click(function(){
             $.post(url.deleteRecreit,deleteData,function(res){
-              console.log(res,'电饭锅看来')
               if(res && res.status === 0){
                 alert('删除成功');
                 $('#deletetable').modal('hide')
+                searchList();//重新请求数据
+              }
+            })
+          })
+          $('#enable_btn').click(function(data){
+            $.post(url.enable,enableData,function(res){
+              console.log(res,'电饭锅看来')
+              if(res && res.status === 0){
+                alert('操作成功');
+                $('#enable').modal('hide')
                 searchList();//重新请求数据
               }
             })
@@ -698,6 +715,26 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
           <button type="button" class="btn btn-primary" id="delete_list">确定</button>
+        </div>
+      </div>
+    </div>
+</div>
+  {{!-- 是否停用按钮的弹框 --}}
+  <div class="modal fade" id="enable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        {{!-- <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div> --}}
+        <div class="modal-body">
+          确定操作？
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="enable_btn">确定</button>
         </div>
       </div>
     </div>

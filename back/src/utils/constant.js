@@ -14,6 +14,7 @@ const url = {
     addMen: base + 'api/add_recruiter', //获取招聘信息
     getPcatBak: base + 'api/pcat_bak', //获取获取省市
     deleteRecreit: base + 'api/detelte_recreit', //删除某条招聘信息
+    enable: base + 'api/enable_recreit', //启用或停用
     delEmp: base + 'api/del_emp', //删除员工
     changeStatus: base + 'api/change_status', //编辑员工状态
     addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
