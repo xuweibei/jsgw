@@ -12,11 +12,25 @@
 .toolbar{
     form{
         float:left;
+        .searchWork{
+            background:#F3F6FA;
+            border:none;
+            font-size:12px;
+            color:#A0AAB6;
+            width:240px;
+            height:32px;
+        }
     }
 }
 #filterBy{
     float:right;
     margin:10px 100px 0 0;
+    border-color:#0AAFDE;
+    color:#0AAFDE;
+    background:#fff;
+    width:64px;
+    height:32px;
+    font-size:14px;
 }
 .edit-modal{
     max-width: 1000px;
@@ -199,10 +213,18 @@
 
 .fl{
     float: left;
-    width:280px;
-    border:1px solid #ccc;
     border-radius: 4px;
-    color:#ccc;
+    background:#F3F6FA;
+    width:280px;
+    height:32px;
+    margin-left:160px;
+    span{
+        color:#A0AAB6;
+        font-size:12px;
+        height:32px;
+        line-height:0px;
+        display: inline-block;
+    }
 }
 .timeSlot{
     line-height: 30px;
@@ -301,7 +323,7 @@
     background-color: #3195f1;
     border-color: #0d7adf;
 } 
-#table-edit,#table-del,#table-start,#table-see{
+#table_edit,#table_del,#table_see,#table_hide{
     font-size:14px;
     color:#0AAFDE;
     margin:0 10px;

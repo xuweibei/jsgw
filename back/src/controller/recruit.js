@@ -11,7 +11,6 @@ const Op = Sequelize.Op;
 // 获取招聘信息
 const getRecruitInfo = async (data) => {
     let ret = '';
-    // console.log(data,'从VB模块了')
     if(data.post_name || data.job_class || data.detail_address || data.start_time || data.end_time){
         // console.log(data,'这里');
         const obj = {};
@@ -22,19 +21,21 @@ const getRecruitInfo = async (data) => {
             where:obj
         });
     } else {
-        // console.log('那里')
         ret = await Invite.findAndCountAll()
     }
-    // console.log(ret,'东方国际考虑')
     return ret
 }
 
+//添加招聘信息或者编辑招聘信息
 const addRecruitMen = async (data) => {
-    console.log(data,'而维特我')
     const res = await Invite.findOrCreate({
         where: {
             post_name: data.post_name,
+            job_class:data.job_class,
+            province_id:data.province_id,
             city_id:data.city_id,
+            county_id:data.county_id,
+            address_name:data.address_name,
             detail_address:data.detail_address,
             low_salary: 1,
             top_salary: 2 ,
@@ -47,20 +48,38 @@ const addRecruitMen = async (data) => {
             email:data.email
         }
     })
-    console.log(res,'扣篮大赛');
     return res;
 }
 
+//获取省市县地址
 const getPcatBak = async (data) => {
-    console.log(data,'才下班不诚信 ')
     const res = await PcatBak.findAndCountAll({
         where:data
     })
-    console.log(res,'扣篮大赛');
+    return res;
+}
+
+//删除招聘信息
+const deleteRecruic = async(data)=>{
+    const res = await Invite.destroy({
+        where:{
+            id : data.id
+        }
+    })
+    return res;
+}
+
+//启用或停用
+const enableRecreit = async(data)=>{
+    const res = await Invite.update({
+        enable:data.enable === '0' ? 1 : 0
+    },{where:{id:data.id}})
     return res;
 }
 module.exports = {
     getRecruitInfo,
     addRecruitMen,
-    getPcatBak
+    getPcatBak,
+    deleteRecruic,
+    enableRecreit
 }

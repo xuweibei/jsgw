@@ -9,12 +9,11 @@
   }
 </style>
 {{#>default}}
-    {{!-- <script type="text/javascript" src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>  
-    <link rel="stylesheet" href="http://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css"/>  
-    <script type="text/javascript" src="http://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>  
-<link rel="stylesheet" href="../assets/css/recruic.css"/> --}}
-<link rel="stylesheet" href="../assets/css/recruic.css"/> 
-<link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/recruic.css"/>
+  <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
+  <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
+  <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
+
 <div class="store-delivery-container">
   <div class="card">
     <div class="card-body">
@@ -24,7 +23,7 @@
       <div class="card-body-btn">
         <button type="button" class="btn">展示在首页</button>
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
+        <button id="addFromMain" type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
           新增
         </button>
       </div>
@@ -38,33 +37,29 @@
             <input type="text" class="form-control" placeholder="请输入职位关键字" name="searchWork">
           </div>
           <div class="col">
-            <select class="form-control" id="job_class">
+            <select class="form-control" id="job_class" onchange="chooseJobClass(this.value)">
               <option value="">请选择职位分类</option>
             </select>
           </div>
           <div class="col">
-            <select class="form-control" id="work_place">
-              <option>请选择工作地点</option>
+            <select class="form-control" id="work_place" onChange="chooseWorkPlace(this.value)">
+              <option value="">请选择工作地点</option>
             </select>
           </div>
           <div class="col">
-            <div class='input-group date' id='datetimepicker1'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
-          </div>
-          <div class="col">
-            <div class='input-group date' id='datetimepicker2'>
-                <input type='text' class="form-control" />
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-            </div>
+              <div class="main">
+                  <div class="input-group fl">
+                          <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
+                              <span></span>
+                  <i class="time_close">X</i>
+                          </button>
+                          <input type="hidden" value="" id="incomeStartDate">
+                          <input type="hidden" value="" id="incomeEndDate">
+                      </div>
+                  </div>
+              </div>
           </div>
         </div>
-
       </form>
       <button class="btn btn-primary" id="filterBy">搜索</button>
 		</div>
@@ -75,8 +70,110 @@
       {{!-- data-side-pagination="server"> --}}>
     </table>
     <script>
-      var city = '';//省;
-      var county = '';//县级
+        $(function () {
+        $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间');
+            $("#incomeStartDate").val(GetDateStr(-2));
+            $("#incomeEndDate").val((new Date()).Format("yyyy-MM-dd"));
+      
+        $('#daterange-btn').daterangepicker({
+                    startDate:moment().subtract(2, 'days'),
+                    endDate: (new Date()).Format("yyyy-MM-dd"),
+                    locale:{
+                        format: 'YYYY-MM-DD',
+                        separator: ' ~ '
+                    }
+                },
+                function(start, end,label) {
+                    if(end==null){
+                        end = start;
+                    }
+                    $('#daterange-btn span').html(start.format('YYYY-MM-DD')+' ~ '+end.format('YYYY-MM-DD'));
+                    if($("#incomeStartDate").val() != start.format('YYYY-MM-DD')&& $("#incomeEndDate").val() != end.format('YYYY-MM-DD')){
+                        $(".timeSlot .slot").removeClass("active");
+                    }
+                    $("#incomeStartDate").val(start.format('YYYY-MM-DD'));
+                    $("#incomeEndDate").val(end.format('YYYY-MM-DD'));
+                });
+        })
+      /*获取今天前后的日期*/
+        function GetDateStr(AddDayCount) {
+            var dd = new Date();
+            dd.setDate(dd.getDate()+AddDayCount);//获取AddDayCount天后的日期
+            var y = dd.getFullYear();
+            var m = (dd.getMonth()+1)<10?"0"+(dd.getMonth()+1):(dd.getMonth()+1);//获取当前月份的日期，不足10补0
+            var d = dd.getDate()<10?"0"+dd.getDate():dd.getDate();//获取当前几号，不足10补0
+            return y+"-"+m+"-"+d;
+        }
+        /*选择到账日期区间*/
+        function choseTimeSlot(obj,type) {
+            $(obj).addClass("active").siblings(".slot").removeClass("active");
+            if(type == 0){
+                /*昨天*/
+                var date = GetDateStr(-1);
+                $('#daterange-btn span').html(date+' ~ '+date);
+                $("#incomeStartDate").val(date);
+                $("#incomeEndDate").val(date);
+                $('#daterange-btn').data('daterangepicker').setStartDate(date);
+                $('#daterange-btn').data('daterangepicker').setEndDate(date);
+            }else if(type == 1){
+                /*今天*/
+                var date =(new Date()).Format("yyyy-MM-dd");
+                $('#daterange-btn span').html(date+' ~ '+date);
+                $("#incomeStartDate").val(date);
+                $("#incomeEndDate").val(date);
+                $('#daterange-btn').data('daterangepicker').setStartDate(date);
+                $('#daterange-btn').data('daterangepicker').setEndDate(date);
+            }else if(type == 2){
+                /*前三天*/
+                $('#daterange-btn span').html(GetDateStr(-2)+' ~ '+(new Date()).Format("yyyy-MM-dd"));
+                $("#incomeStartDate").val(GetDateStr(-2));
+                $("#incomeEndDate").val((new Date()).Format("yyyy-MM-dd"));
+                $('#daterange-btn').data('daterangepicker').setStartDate(GetDateStr(-2));
+                $('#daterange-btn').data('daterangepicker').setEndDate((new Date()).Format("yyyy-MM-dd"));
+            }
+        }
+      /*格式化日期*/
+      Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1,                 //月份
+            "d+": this.getDate(),                    //日
+            "h+": this.getHours(),                   //小时
+            "m+": this.getMinutes(),                 //分
+            "s+": this.getSeconds(),                 //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds()             //毫秒
+        };
+        if (/(y+)/.test(fmt))
+            fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt))
+                fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+
+      
+    </script>
+    <script>
+      var province = {}//省
+      var city = {};//市;
+      var county = {};//县级
+      var jobClass = ''//职位分类
+      var workPlace = ''//工作地点
+      var jobEditClass = ''//新增或编辑的  职位分类
+      var deleteData = {}; //删除的数据
+      var enableData = {}; //停用或启用数据
+      //选择职位分类的时候
+      function chooseJobClass(data){
+        jobClass = data;
+      }
+      //选择工作地点的时候
+      function chooseWorkPlace(data){
+        workPlace = data;
+      }
+      //编辑或新增 选择职位分类的时候
+      function chooseEditJobClass(data){
+        jobEditClass = data;
+      }
       //列表移入
       function workList(name){
         const workPlaceList = $(`.${name}`);
@@ -101,54 +198,77 @@
         }
       }
       workList('work_place_list li');
-      var $table = $('#table')
-      //点击新建信息
-      function addRecruit(){
-        console.log($('.recJob').val(),'了；')
-        return;
-        const data = {
-          post_name:$('.recJob').val(),
-          email:$('.recEmial').val(),
-          class:$('.recClass').val(),
-          phone:$('.recPhone').val(),
-          city_id:$('.recCity').val(),
-          sort:$('.recSort').val(),
-          detail_address:$('.recAdress').val(),
-          work_content:$('.recContent').val(),
-          post_job:$('.recTask').val(),
-        }
-        $.post(url.addMen, data, function(res) {
-          console.log(res,'电饭锅看来')
-          {{!-- location.reload() --}}
+      //搜索列表
+      function searchList() {
+        const post_name = $("input[name='searchWork']").val();
+        const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
+        const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
+        const arr = [];//取值的数组
+        const keyArr = ['post_name','job_class','city_id','start_time','end_time'];
+        const obj = {};//发过去的对象
+        arr.push(post_name);
+        arr.push(jobClass);
+        arr.push(workPlace)
+        arr.push(start_time);
+        arr.push(end_time);
+        keyArr.forEach((item,index)=>{
+            arr.forEach((data,num)=>{
+              if(data && index === num){
+                obj[item] = data
+              }
+            })
         })
-        console.log(data,'是否')
+        $.post(url.getRecreuit,obj,function(resData){
+          const arr = resData.data.rows.reverse();
+          $table.bootstrapTable('load',arr )
+        });
       }
-       $('#datetimepicker1').datetimepicker({
-          format: 'YYYY-MM-DD',
-          locale: moment.locale('zh-cn')
+      //点击新增按钮
+      const addFromMain = document.getElementById('addFromMain');
+      addFromMain.addEventListener('click',function(e){
+        $('#exampleModalCenterTitle').html('新增')
+        dataMain({})
+        $('#exampleModalCenter').modal('show')
+        e.stopPropagation();
       });
-      $('#datetimepicker2').datetimepicker({
-          format: 'YYYY-MM-DD',
-          locale: moment.locale('zh-cn')
+      //点击日期选择的清空按钮
+      const time_close = document.getElementsByClassName('time_close')[0];
+      time_close.addEventListener('click',function(e){
+        $('#daterange-btn span').html('')
+        e.stopPropagation();
       });
+
+      var $table = $('#table')
+      //新增保存
+      function addRecruit(){
+        if($('.recJob').val() && $('.recEmial').val() && jobEditClass && $('.recPhone').val() && $('.recSort').val() && province.id && $('.recContent').val() && $('.recTask').val()){
+            const data = {
+              post_name:$('.recJob').val(),
+              email:$('.recEmial').val(),
+              job_class:jobEditClass,
+              phone:$('.recPhone').val(),
+              province_id:province.id,
+              city_id:city.id,
+              county_id:county.id,
+              address_name:province?province.name+'-'+city.name+'-'+county.name:'',
+              sort:$('.recSort').val(),
+              detail_address:$('.recAdress').val(),
+              work_content:$('.recContent').val(),
+              post_job:$('.recTask').val()
+            }
+            $.post(url.addMen, data, function(res) {
+              if(res && res.status === 0){
+                  $('#exampleModalCenter').modal('hide')
+                  province = city = county = {};
+                  searchList();//重新请求数据
+              }
+            })
+        }else{
+          alert('内容未填或格式不正确')
+        }
+      }
       $(function () {
-				var picker1 = $('#datetimepicker1').datetimepicker({
-					format: 'YYYY-MM-DD',
-					locale: moment.locale('zh-cn')
-				});
-				var picker2 = $('#datetimepicker2').datetimepicker({
-					format: 'YYYY-MM-DD',
-					locale: moment.locale('zh-cn')
-				});
         
-				//动态设置最小值
-				picker1.on('dp.change', function(e) {
-					picker2.data('DateTimePicker').minDate(e.date);
-				});
-				//动态设置最大值
-				picker2.on('dp.change', function(e) {
-					picker1.data('DateTimePicker').maxDate(e.date);
-				});
         //表单验证
           $('.rec-from').bootstrapValidator({
             fields: {
@@ -215,17 +335,17 @@
               }
             }
           })
-          //表头添加类名设置背景色
-          $table.bootstrapTable('refreshOptions', {
-            theadClasses: 'bg-blue'
-          })
           //获取职位分类数据
           $.post(url.getClassify, {}, function(res) {
             res.data.forEach(item=>{
                 const str = document.createElement('option');
-                str.value = item.id;
+                const str1 = document.createElement('option');
+                str.value = item.classify;
                 str.innerHTML = item.classify;
-                $('#job_class').append(str)
+                str1.value = item.classify;
+                str1.innerHTML = item.classify;
+                $('#edit_job_class').append(str)
+                $('#job_class').append(str1)
             })
           })
           //获取省
@@ -234,43 +354,63 @@
                 const str = document.createElement('li');
                 str.id = item.id;
                 str.innerHTML = item.name;
-                str.addEventListener('click',(ev)=>getCounty(item,ev))
+                str.addEventListener('click',(ev)=>getCity(item,ev))
                 $('.edit_work_place_list').append(str)
             })
             workList('edit_work_place_list li')
           })
+          var editSelect =  document.getElementsByClassName('edit_select')[0]
           //点击省份，然后请求下面的地区
-          function getCounty(data,ev){
+          function getCity(data,ev){
             const cityPlace = document.getElementsByClassName('city_place')[0];
             const cityContent = document.getElementsByClassName('city_content')[0];
+            const countyPlace = document.getElementsByClassName('county_place')[0];
+            cityPlace.style.display = 'block';
+            countyPlace.style.display = 'none';
             cityContent.innerHTML = '';
-              $.post(url.getPcatBak, {parentId:data.code}, function(res) {
-                console.log(res,'风格的风格')
-                $.post(url.getPcatBak, {parentId:res.data.rows[0].code}, function(res) {
-                  console.log(res,'发过火法国红酒')
-                  cityPlace.style.display = 'block';
-                  res.data.rows.forEach(item=>{
-                    const lis = document.createElement('li');
-                    lis.innerHTML = item.name;
-                    lis.addEventListener('click',(ev)=>getCity(data,item,ev))
-                    $('.city_content').append(lis)
-                  })
-                  workList('city_content li')
+              $.post(url.getPcatBak, {parentId:data.code}, function(resdata) {
+                resdata.data.rows.forEach(item=>{
+                    const str = document.createElement('li');
+                    str.id = item.id;
+                    str.innerHTML = item.name;
+                    str.addEventListener('click',(ev)=>getCounty(data,item,ev))
+                    $('.city_content').append(str)
                 })
+                workList('city_content li');
               })
             ev.stopPropagation();
           }
-          var editSelect =  document.getElementsByClassName('edit_select')[0]
-          function getCity(value,data){
-            console.log(value,data,'得咯')
-            city = value;
-            county = value;
-            editSelect.innerHTML = value.name + '-' +data.name;
+          //点击市
+          function getCounty(value,data,ev){
+            const countyPlace = document.getElementsByClassName('county_place')[0];
+            const countyContent = document.getElementsByClassName('county_content')[0];
+            countyPlace.style.display = 'block';
+            countyContent.innerHTML = '';
+              $.post(url.getPcatBak, {parentId:data.code}, function(res) {
+                res.data.rows.forEach(item=>{
+                    const str = document.createElement('li');
+                    str.id = item.id;
+                    str.innerHTML = item.name;
+                    str.addEventListener('click',(ev)=>getEitdCounty(value,data,item))
+                    $('.county_content').append(str)
+                })
+                workList('county_content li')
+              })
+            ev.stopPropagation();
           }
+          //点击县级   设置所选的工作地点名称
+          function getEitdCounty(data,value,res){
+            province = data;
+            city = value;
+            county = res;
+            editSelect.innerHTML = data.name+'-'+value.name + '-' +res.name;
+          }
+          
           document.addEventListener('click',function(){
               const scrollWork = document.getElementsByClassName('scroll_work')[0];
               const cityPlace = document.getElementsByClassName('city_place')[0];
-              scrollWork.style.display = cityPlace.style.display = 'none';
+              const countyPlace = document.getElementsByClassName('county_place')[0];
+              scrollWork.style.display = cityPlace.style.display = countyPlace.style.display ='none';
           })
           //编辑或添加的时候地址的点击
           editSelect.onclick = function(e){
@@ -282,35 +422,14 @@
           function operateFormatter(value, row, index) {
             return [
               '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
-              '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>',
-              '<a class="like opt" id="table-start" href="javascript:void(0)" title="Remove">启用</a>',
+              '<a class="remove opt aActive" id="table-del" href="javascript:void(0)" title="Remove">删除</a>',
+              row.enable === 0 ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="Remove">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
               '<a class="like opt" id="table-see" href="javascript:void(0)" title="Remove">预览</a>'
             ].join('')
           }
 
           //点击搜索
-          $('#filterBy').click(function () {
-            const post_name = $("input[name='searchWork']").val();
-            const start_time = $("#datetimepicker1").find("input").val();
-            const end_time = $("#datetimepicker2").find("input").val();
-            const arr = [];//取值的数组
-            const keyArr = ['post_name','start_time','end_time'];
-            const obj = {};//发过去的对象
-            arr.push(post_name);
-            arr.push(start_time);
-            arr.push(end_time);
-            keyArr.forEach((item,index)=>{
-                arr.forEach((data,num)=>{
-                  if(data && index === num){
-                    obj[item] = data
-                  }
-                })
-            })
-            console.log(obj,'到付款了个')
-            $.post(url.getRecreuit,obj,function(resData){
-              $table.bootstrapTable('load', resData.data.rows)
-            });
-          })
+          $('#filterBy').click(searchList)
         //请求列表数据
           $table.bootstrapTable({
             toolbar: '.toolbar',
@@ -320,17 +439,32 @@
             pagination: true,
             sortable: true,
             pageSize: 5,
+            theadClasses: "thead-blue",
             pageList: [10, 25],
             responseHandler: function (res) {
               const arr = []
-              console.log(res,'工行卡里')
               if(res.data.rows && res.data.rows.length>0){
-                  res.data.rows.forEach(item => {
+                const arrList = res.data.rows.reverse()
+                  arrList.forEach(item => {
                     arr.push({
+                      id:item.id,
                       post_name: item.post_name,
                       detail_address: item.detail_address,
+                      address_name: item.address_name,
                       start_time: item.start_time,
-                      opt: operateFormatter()
+                      work_content:item.work_content,
+                      email: item.email,
+                      job_class:item.job_class,
+                      low_salary:item.low_salary,
+                      top_salary:item.top_salary,
+                      require_num:item.require_num,
+                      phone: item.phone,
+                      province_id:item.province_id,
+                      city_id:item.city_id,
+                      county_id:item.county_id,
+                      sort:item.sort,
+                      post_job:item.post_job,
+                      enable: item.enable
                     })
                     //获取工作地点
                     const str = document.createElement('option');
@@ -360,28 +494,122 @@
                 formatter: operateFormatter,
                 events: operateEvent = {
                   "click #table-edit": function (e, value, row, index) {
+                    $('#exampleModalCenterTitle').html('编辑')
+                    dataMain(row)
                     e.preventDefault();
                     $('#exampleModalCenter').modal('show')
                   },
                   "click #table-del": function (e, value, row, index) {
+                    deleteData = row;
                     $('#deletetable').modal('show')
+                  },
+                  "click #table-start": function (e, value, row, index) {
+                    enableData = row;
+                    $('#enable').modal('show')
+                  },
+                  "click #table-see": function (e, value, row, index) {
+                    $('#preview').html(prevSee(row));
+                    $('#preview').modal('show');
                   },
                 }
               }]
           })
-
-          
+          //删除招聘信息
+          $('#delete_list').click(function(){
+            $.post(url.deleteRecreit,deleteData,function(res){
+              if(res && res.status === 0){
+                alert('删除成功');
+                $('#deletetable').modal('hide')
+                searchList();//重新请求数据
+              }
+            })
+          })
+          $('#enable_btn').click(function(data){
+            $.post(url.enable,enableData,function(res){
+              console.log(res,'电饭锅看来')
+              if(res && res.status === 0){
+                alert('操作成功');
+                $('#enable').modal('hide')
+                searchList();//重新请求数据
+              }
+            })
+          })
       })
+      //表达数据集合
+      function dataMain(row){
+          $(".recJob").val(row.post_name);
+          $(".recEmial").val(row.email);
+          $(".recPhone").val(row.phone);
+          $(".recSort").val(row.post_name);
+          $(".recAdress").val(row.detail_address);
+          $(".recContent").val(row.work_content);
+          $(".recContent").val(row.work_content);
+          $(".recTask").val(row.post_job);
+          $("#edit_job_class").val(row.job_class);
+          $(".edit_select").html(row.address_name);
+          province.id = row.province_id;
+          city.id = row.city_id;
+          county.id = row.county_id;
+      }
+      //预览弹框结构
+      function prevSee(data) {
+        return `<div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">${data.post_name}</h5>
+                </div>
+                <div class="prev_main_info">
+                  <div class="tab_prev">
+                    <label>职位类型：</label>
+                    <span>${data.job_class}</span>
+                  </div>
+                  <div class="tab_prev">
+                    <label>薪资：</label>
+                    <span>${data.low_salary - data.top_salary}</span>
+                  </div>
+                  <div class="tab_prev">
+                    <label>电话：</label>
+                    <span>${data.phone}</span>
+                  </div>
+                </div>
+                <div class="prev_main_info">
+                  <div class="tab_prev">
+                    <label>工作地点：</label>
+                    <span>${data.address_name}</span>
+                  </div>
+                  <div class="tab_prev">
+                    <label>人数：</label>
+                    <span>${data.require_num}</span>
+                  </div>
+                </div>
+                <div class="prev_main_info">
+                  <div class="tab_prev">
+                    <label>详情地址</label>
+                    <span>${data.detail_address}</span>
+                  </div>
+                  <div class="tab_prev">
+                    <label>邮箱</label>
+                    <span>${data.email}</span>
+                  </div>
+                </div>
+                <div class="work_content">
+                  <div>
+                    <label>工作内容：</label>
+                    <p>${data.work_content}</p>
+                  </div>
+                  <div>
+                    <label>岗位职责：</label>
+                    <p>${data.post_job}</p>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                </div>
+              </div>
+            </div>`
+      }
     </script>
-  </div>
-
-
-
-
-
-
-
-
+</div>
 
 
 
@@ -396,40 +624,35 @@
       <div class="modal-content edit-modal">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalCenterTitle">新增</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="modal-body">
           <form class="rec-from">
               <div class="form-row">
                   <div class="form-group">
                       <label>职位名称：</label>
-                      <input type="text" class="form-control" placeholder="请输入职位关键字" name="recJob" />
+                      <input type="text" class="form-control recJob" placeholder="请输入职位关键字" name="recJob" />
                   </div>
                   <div class="form-group">
                       <label>邮箱：</label>
-                      <input type="text" class="form-control" placeholder="请输入邮箱" name="recEmial" />
+                      <input type="text" class="form-control recEmial" placeholder="请输入邮箱" name="recEmial"/>
                   </div>
               </div>
               <div class="form-row">
                   <div class="form-group">
                       <label>职位分类：</label>
-                      <input type="text" class="form-control" placeholder="-请选择职位分类-" name="recClass" />
+                      <select class="form-control" id="edit_job_class" onchange="chooseEditJobClass(this.value)">
+                        <option value="">请选择职位分类</option>
+                      </select>
                   </div>
                   <div class="form-group">
                       <label>联系电话：</label>
-                      <input type="text" class="form-control" placeholder="请输入联系电话" name="recPhone" />
+                      <input type="text" class="form-control recPhone" placeholder="请输入联系电话" name="recPhone"/>
                   </div>
               </div>
               <div class="form-row">
                   <div class="form-group">
                       <label>工作地点：</label>
-                      {{!-- <input type="text" class="form-control" placeholder="-请选择地点-" name="recCity" /> --}}
-                      {{!-- <select class="form-control edit_select">
-                        <option>请选择工作地点</option>
-                      </select> --}}
-                      <div class="edit_select"></div>
+                      <div class="edit_select">请选择工作地点</div>
                       <div class="scroll_work">
                         <div class="scroll_wrap">
                           <ul class="edit_work_place_list">
@@ -442,30 +665,36 @@
                           </ul>
                         </div>
                       </div>
+                      <div class="county_place">
+                        <div class="county_wrap">
+                          <ul class="county_content">
+                          </ul>
+                        </div>
+                      </div>
                   </div>
                   <div class="form-group">
                       <label>排序：</label>
-                      <input type="text" class="form-control" placeholder="请输入" name="recSort" />
+                      <input class="form-control recSort" placeholder="请输入" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
                   </div>
               </div>
               
-              <div class="form-group">
+              <div class="form-group detail_area">
                   <label>详细地址：</label>
-                  <textarea type="text" class="form-control" placeholder="请输入详细地址" name="recAdress" ></textarea>
+                  <textarea type="text" class="form-control recAdress" placeholder="请输入详细地址" name="recAdress" ></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group main_info">
                   <label>工作内容：</label>
-                  <textarea type="text" class="form-control" placeholder="内容" name="recContent" ></textarea>
+                  <textarea type="text" class="form-control recContent" placeholder="内容" name="recContent"></textarea>
               </div>
-              <div class="form-group">
+              <div class="form-group main_info">
                   <label>任职要求：</label>
-                  <textarea type="text" class="form-control" placeholder="要求" name="recTask" ></textarea>
+                  <textarea type="text" class="form-control recTask" placeholder="要求" name="recTask"></textarea>
               </div>
           </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" onclick="addRecruit()" data-dismiss="modal">保存</button>
-          <button type="button" class="btn btn-info" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-info" data-dismiss="modal">返回</button>
+          <button type="submit" class="btn btn-primary" onclick="addRecruit()">保存</button>
         </div>
       </div>
     </div>
@@ -485,49 +714,33 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary">确定</button>
+          <button type="button" class="btn btn-primary" id="delete_list">确定</button>
         </div>
       </div>
     </div>
 </div>
-  {{!-- 模態框 --}}
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button>
-  {{!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@fat">Open modal for @fat</button>
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap">Open modal for @getbootstrap</button> --}}
-  <div class="modal fade modal-form" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  {{!-- 是否停用按钮的弹框 --}}
+  <div class="modal fade" id="enable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">编辑</h5>
+        {{!-- <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
-        </div>
+        </div> --}}
         <div class="modal-body">
-          <form>
-            <div class="container-fluid">
-              <div class="row">
-                <div class="col-4">
-                  <div class="form-group form-input-item">
-                    <label for="recipient-name" class="col-form-label">职位名称</label>
-                    <input type="text" class="form-control" id="recipient-name">
-                  </div>
-                </div>
-                <div class="col-4">
-                  <div class="form-group form-input-item">
-                    <label for="message-text" class="col-form-label">邮箱</label>
-                    <textarea class="form-control" id="message-text"></textarea>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+          确定操作？
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-          <button type="button" class="btn btn-primary">保存</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" id="enable_btn">确定</button>
         </div>
       </div>
     </div>
+</div>
+  {{!-- 预览按钮的弹框 --}}
+  <div class="modal fade prev_main" id="preview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    
   </div>
 {{/default}}

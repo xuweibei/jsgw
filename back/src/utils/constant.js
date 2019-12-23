@@ -13,6 +13,8 @@ const url = {
     getRecreuit: base + 'api/get_recruit', //获取招聘信息
     addMen: base + 'api/add_recruiter', //获取招聘信息
     getPcatBak: base + 'api/pcat_bak', //获取获取省市
+    deleteRecreit: base + 'api/detelte_recreit', //删除某条招聘信息
+    enable: base + 'api/enable_recreit', //启用或停用
     delEmp: base + 'api/del_emp', //删除员工
     changeStatus: base + 'api/change_status', //编辑员工状态
     addCententTitle: base + 'api/add_centent_title', //产品中心（存储[志强]）
@@ -34,4 +36,6 @@ const url = {
     delInfo: base + 'api/del_info', // 删除资讯
     hideInfo: base + 'api/hide_info', // 删除资讯
     editInfo: base + 'api/edit_info', // 删除资讯
+    insertEvent: base + 'api/insert_event', // 插入事件
+    delEvent: base + 'api/del_event', // 删除事件
 }
