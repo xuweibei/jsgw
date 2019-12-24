@@ -16,6 +16,7 @@ const {createCss} = require('./utils/transLess'); // 自定义方法动态生成
 const app = new Koa();
 // error handler
 require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
+// 代替koa默认错误提示
 onerror(app)
 app.keys = ['zzkj_@123'];
 
@@ -51,7 +52,7 @@ app.use(cors({
 app.use(koaBody({
   multipart: true,
   formidable: {
-      maxFileSize: 200*1024*1024    // 设置上传文件大小最大限制，默认2M
+      maxFileSize: 2000*1024*1024    // 设置上传文件大小最大限制，默认2M
   }
 }));
 app.use(json())
@@ -84,9 +85,9 @@ const router = require('./routes/index');
 app.use(router.routes())
    .use(router.allowedMethods());
  
-// error-handling
-app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-});
+// error-handling koa默认错误补货
+// app.on('error', (err, ctx) => {
+//   console.error('server error', err, ctx)
+// });
 
 module.exports = app;

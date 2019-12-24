@@ -36,4 +36,6 @@ const url = {
     delInfo: base + 'api/del_info', // 删除资讯
     hideInfo: base + 'api/hide_info', // 删除资讯
     editInfo: base + 'api/edit_info', // 删除资讯
+    insertEvent: base + 'api/insert_event', // 插入事件
+    delEvent: base + 'api/del_event', // 删除事件
 }

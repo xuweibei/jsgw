@@ -245,7 +245,7 @@ const Invite = db.defineModel('gw_invite_info', {
     },
     //所在地id (省级，对应城市表的id)
     province_id: {
-        type: Sequelize.STRING(30)
+        type: Sequelize.STRING(255)
     },
     //所在地id (市，对应城市表的id)
     city_id: {
@@ -388,7 +388,7 @@ const Product = db.defineModel('gw_product', {
     //是否启用
     status:{
         type: Sequelize.STRING(1),
-        defaultValue: '1'
+        defaultValue: '0'
     },
 })
 
@@ -429,6 +429,24 @@ const Information = db.defineModel('gw_information', {
 }, {
     timestamps: true,
 })
+
+const Events = db.defineModel('gw_events', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    time: Sequelize.STRING(30),
+    event_title: Sequelize.STRING(50),
+    event_content: Sequelize.TEXT,
+    createdAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW},
+    updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
+},{
+    timestamps: true,
+})
+
 module.exports = {
     Users,
     Department,
@@ -445,6 +463,7 @@ module.exports = {
     city,
     PcatBak,
     Intro,
-    Information
+    Information,
+    Events
     // Roles
 }
