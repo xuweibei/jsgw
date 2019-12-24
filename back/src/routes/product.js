@@ -37,11 +37,14 @@ module.exports = {
     },
     //新建产品
     'new_product': async ctx => {
-        const res = await newProduct(ctx.request.body.data);
-        if(res) {
-            ctx.body = new SuccessModel(res, '增加成功')
-            return;
-        }
-        ctx.body = new ErrorModel('增加失败')
+        // const res = await newProduct(ctx.request.body.data);
+        console.log(ctx.request.body)
+        console.log(ctx.request.files)
+        // if(res) {
+        //     ctx.body = new SuccessModel(res, '增加成功')
+        //     return;
+        // }
+        // ctx.body = new ErrorModel('增加失败')
+        ctx.body = {a: 1}
     }
 }

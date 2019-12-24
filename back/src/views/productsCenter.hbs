@@ -290,17 +290,12 @@
     const data = {
       serial_number: $('#serial-number').val(),
       pro_name: $('#recipient-name').val(),
-      status: '0',
       product_desc: $('#message-text').val(),
       link: $('#dawnload-address').val(),
       logo: imgFile[0],
       link_code: imgFile[1]
     }
-    $.post(url.newProduct, {data}, function(res){
-      if (res && res.status === 0) {
-        $('.toast').toast('show')
-      }
-    })
+    
   }
 </script>
 <style>
