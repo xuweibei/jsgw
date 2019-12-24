@@ -16,6 +16,7 @@ const {createCss} = require('./utils/transLess'); // 自定义方法动态生成
 const app = new Koa();
 // error handler
 require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
+// 代替koa默认错误提示
 onerror(app)
 app.keys = ['zzkj_@123'];
 
@@ -84,9 +85,9 @@ const router = require('./routes/index');
 app.use(router.routes())
    .use(router.allowedMethods());
  
-// error-handling
-app.on('error', (err, ctx) => {
-  console.error('server error', err, ctx)
-});
+// error-handling koa默认错误补货
+// app.on('error', (err, ctx) => {
+//   console.error('server error', err, ctx)
+// });
 
 module.exports = app;
