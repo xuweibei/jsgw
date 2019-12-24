@@ -8,6 +8,7 @@ module.exports = {
         await ctx.render('intro')
     },
     "get_rich": async (ctx, next) => {
+        console.log(ctx,'健康和')
         // 获取上传文件key
         const keys = Object.keys(ctx.request.files);
         let arr = [] ;

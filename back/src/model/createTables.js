@@ -388,7 +388,7 @@ const Product = db.defineModel('gw_product', {
     //是否启用
     status:{
         type: Sequelize.STRING(1),
-        defaultValue: '1'
+        defaultValue: '0'
     },
 })
 
