@@ -40,10 +40,12 @@ router.get('/', login.home)
       .post('/api/del_product',product['del_product']) //删除产品
       .post('/api/show_item',product['show_item']) //设置产品是否展示
       .post('/api/new_product',product['new_product']) //新增产品
-      // 招聘
+      // 招聘信息管理
       .get('/delivery/invite', invite['invite'])
       // 公司简介
       .get('/delivery/intro', intro['intro'])
+      //企业文化
+      .get('/delivery/culture', intro['intro'])
       // .get('/delivery/richText', intro['richText'])
       .post('/api/get_rich', intro['get_rich'])
       .post('/api/insert_intro', intro['insert_intro'])

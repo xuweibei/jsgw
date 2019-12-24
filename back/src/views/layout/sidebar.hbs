@@ -79,8 +79,8 @@
                     <div class="list-group" id="list-tab" role="tablist">
                         <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
                             href="#list-home" role="tab" aria-controls="home" onclick="routeTo(9)">公告管理</a>
-                        <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
-                            href="#list-profile" role="tab" aria-controls="profile" onclick="routeTo(10)">部门交流</a>
+                        {{!-- <a class="list-group-item list-group-item-action" id="list-profile-list" data-toggle="list"
+                            href="#list-profile" role="tab" aria-controls="profile" onclick="routeTo(10)">部门交流</a> --}}
                     </div>
                 </div>
             </div>
@@ -98,7 +98,11 @@
                 <div>
                     <div class="list-group" id="list-tab" role="tablist">
                         <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
-                            href="#list-home" role="tab" aria-controls="home" onclick="routeTo(11)">招聘管理</a>
+                            href="#list-home" role="tab" aria-controls="home" onclick="routeTo(10)">招聘信息管理</a>
+                        <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
+                            href="#list-home" role="tab" aria-controls="home" onclick="routeTo(11)">招聘地区管理</a>
+                        <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
+                            href="#list-home" role="tab" aria-controls="home" onclick="routeTo(12)">招聘职位管理</a>
                     </div>
                 </div>
             </div>
@@ -116,7 +120,7 @@
                 <div>
                     <div class="list-group" id="list-tab" role="tablist">
                         <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list"
-                            href="#list-home" role="tab" aria-controls="home" onclick="routeTo(12)">员工管理</a>
+                            href="#list-home" role="tab" aria-controls="home" onclick="routeTo(13)">员工管理</a>
                     </div>
                 </div>
             </div>
@@ -131,14 +135,14 @@
             [3, '/delivery/intro'],//公司简介
             [4, '/delivery/culture'],//企业文化
             [5, '/delivery/helpContent'],//底部栏
-            [6, '/delivery/consult'],//大事记
-            [7, '/delivery/notice'],//资讯中心
+            [6, '/delivery/events'],//大事记
+            [7, '/delivery/consult'],//资讯中心
             [8, '/delivery/products'],//产品中心
-            [9, '/delivery/observe'],//公告管理
-            [10, '/delivery/exchange'],//部门交流
-            [11, '/delivery/invite'],//回复管理
-            //[12, '/delivery/recruitment'],//招聘管理
-            [12, '/delivery/department-structur'],//员工管理
+            [9, '/delivery/notice'],//公告管理
+            [10, '/delivery/invite'],//招聘信息管理
+            [11, '/delivery/job'],//招聘地区管理
+            [12, '/delivery/postClassify'],//招聘职位管理
+            [13, '/delivery/department-structur'],//员工管理
         ])
     function routeTo(num) {
         window.location.href = mapRoute.get(num)
