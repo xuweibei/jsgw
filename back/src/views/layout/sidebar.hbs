@@ -148,7 +148,7 @@
         window.location.href = mapRoute.get(num)
         //$(`.list-group-item:eq(${num-1})`).addClass('active').siblings().removeClass('active')
     }
-    for (let item of mapRoute.entries()) {
+    for (let item of mapRoute.entries()) { 
         if(window.location.href.includes(item[1])){
             $(`.list-group-item:eq(${item[0]-1})`).addClass('active')
             .parents('.collapse').addClass('show')

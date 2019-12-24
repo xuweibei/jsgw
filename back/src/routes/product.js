@@ -38,7 +38,7 @@ module.exports = {
     //新建产品
     'new_product': async ctx => {
         // const res = await newProduct(ctx.request.body.data);
-        // console.log(ctx.request.body)
+        console.log(ctx.request.body)
         console.log(ctx.request.files)
         // if(res) {
         //     ctx.body = new SuccessModel(res, '增加成功')

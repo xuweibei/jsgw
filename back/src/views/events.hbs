@@ -94,7 +94,10 @@
         const cardContainer = document.getElementsByClassName('card-container');
         const lastLine = Line[Line.length - 1];
         Line[0].style.height = 450 + 'px';
-        cardContainer[0].style.marginTop = "200px"
+        lastLine.style.background = "#fff";
+        Line[Line.length - 2].style.height = "360px";
+        Line[Line.length - 2].style.zIndex = "2";
+        cardContainer[0].style.marginTop = "200px";
         const openImg = new Image();
         openImg.src = "../assets/img/cls.png";
         openImg.style.position = 'absolute';
@@ -150,10 +153,11 @@
             }
             $.post(url.insertEvent, { time, title, content }, function (res) {
                 if (res) {
-                    $('.toast').toast('show');
-                    $('.toast-body').text(res.message)
+
                     $('.toast').on('hidden.bs.toast', function () {
                         if (res.status === 0) {
+                            $('.toast').toast('show');
+                            $('.toast-body').text(res.message)
                             location.reload();
                         }
                     })

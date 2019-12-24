@@ -25,6 +25,7 @@ router.get('/', login.home)
       .post('/api/get_tab', department["get_tab"])
       .post('/api/edit_emp', department["edit_emp"])
       .post('/api/del_emp', department["del_emp"])
+      .post('/api/emp_info', department["emp_info"])
       .post('/api/change_status', department["change_status"])
       .post('/api/get_recruit', resuirc["get_recruit"]) //获取招聘信息
       .post('/api/pcat_bak', resuirc["pcat_bak"]) //获取省市级信息

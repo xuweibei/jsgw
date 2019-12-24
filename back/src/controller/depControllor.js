@@ -63,7 +63,6 @@ const findDep = async () => {
         dep: ret,
         allDep: count
     }
-    console.log(obj, "卡萨接电话sad")
     return obj || {}
 }
 // 获取分组信息
@@ -203,11 +202,23 @@ const insertEmployee = async (obj) => {
 }
 
 // 获取员工
-const getEmployee = async () => {
-    const sql = "select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1"
+const getEmployee = async (limit, page, keyword) => {
+    if (keyword) {
+        const sql = `select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1 and e.name like '%${keyword}%' or e.phone like '%${keyword}%'`
+        const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
+        const count = ret.length
+        
+        return {ret, count}
+    }
+    const offset = (page - 1) * limit;
+    const sql = `select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1 limit ${offset}, ${limit}`
+    const count = await Employee.count({where: {status: 1}})
+    
     const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
-    // console.log(ret, "dsjkhskjdhsd ")
-    return ret
+    if (!ret || !count) {
+        return false
+    }
+    return {ret, count}
 }
 // 编辑员工
 const editEmp = async (parms) => {
@@ -289,6 +300,21 @@ const changeStatus = async (id) => {
         return change && change[0]
     }
 }
+
+// 获取员工信息
+const empInfo = async id => {
+    const ret = await Employee.findOne({where: {id}})
+    if (ret) {
+        const ident = await Identity.findOne({where: {id: ret.dataValues.ident_id}})
+        ret.dataValues.ident_id = ident.dataValues.identity
+        const dep = await Department.findOne({where:{id: ret.dataValues.dep_id}})
+        ret.dataValues.dep_id = dep.dataValues.department
+    }
+    const acount = await Account.findOne({where: {id}})
+    const obj = Object.assign(ret.dataValues, acount.dataValues)
+    return obj
+}
+
 //产品中心（存储[志强]）
 const saveCententTitle = async (obj) => {
     console.log(JSON.stringify(obj));
@@ -339,5 +365,6 @@ module.exports = {
     editEmp,
     delEmp,
     changeStatus,
+    empInfo,
     saveCententTitle
 }
