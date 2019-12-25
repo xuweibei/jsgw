@@ -1,6 +1,9 @@
-<link rel="stylesheet" href="../assets/css/intro.css">
 {{#>default}}
 <div class="intro-container">
+    {{!-- TOAST --}}
+    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-body"></div>
+    </div>
     <div class="intro-title border-bottom">
         <div class="float-left font-weight-bolder intro">公司简介</div>
         <div class="float-right d-flex justify-content-between">
@@ -66,16 +69,23 @@
     // 上传富文本
     function saveHtml() {
         var html = editor.txt.html();
+        console.log(html)
         var filterHtml = filterXSS(html);
-        $.post(url.insertIntro, {html: filterHtml}, function(res) {
-            if (res && res.status === 0) {
-                location.reload()
+        $.post(url.insertIntro, { html: filterHtml }, function (res) {
+            if (res) {
+                $('.toast').toast('show');
+                $('.toast-body').text('内容不能为空')
+                $('.toast').on('hidden.bs.toast', function () {
+                    if (res.status === 0) {
+                        location.reload();
+                    }
+                })
             }
         })
     }
     // 获取页面渲染元素
     function getHtml() {
-        $.post(url.renderHtml, function(res) {
+        $.post(url.renderHtml, function (res) {
             if (res && res.status === 0) {
                 $('#ht').html(res.data.html);
             }

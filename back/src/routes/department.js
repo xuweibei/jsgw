@@ -1,10 +1,9 @@
 //员工接口
-const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep,editEmp, readDep, findIdentity, delEmp, changeStatus} = require('../controller/depControllor')
+const {addDep, delDep, updateDep, insertEmployee, getEmployee, findDep,editEmp, readDep, findIdentity, delEmp, changeStatus, empInfo} = require('../controller/depControllor')
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     'departmentStructur': async (ctx, next) => {
         const depObj = await findDep()
-        console.log(depObj)
         const identity = await findIdentity()
         const dep = await readDep()
         await ctx.render('departmentStructur', {depObj, identity, dep})
@@ -44,7 +43,8 @@ module.exports = {
         ctx.body = new SuccessModel('新增失败')
     },
     "get_tab": async ctx => {
-        const ret = await getEmployee()
+        const {limit = 5, page = 1, keyword = ''} = ctx.request.body
+        const ret = await getEmployee(limit, page, keyword)
         if (ret) {
             ctx.body = new SuccessModel(ret, "获取列表成功")
             return;
@@ -67,6 +67,15 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('刪除员工失败')
+    },
+    "emp_info": async ctx => {
+        const {id} = ctx.request.body
+        const ret = await empInfo(id)
+        if (ret) {
+            ctx.body = new SuccessModel(ret, '获取员工信息成功')
+            return
+        }
+        ctx.body = new ErrorModel('获取员工信息失败')
     },
     "change_status": async ctx => {
         const {id} = ctx.request.body

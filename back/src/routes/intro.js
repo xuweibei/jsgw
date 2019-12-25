@@ -8,7 +8,6 @@ module.exports = {
         await ctx.render('intro')
     },
     "get_rich": async (ctx, next) => {
-        console.log(ctx,'健康和')
         // 获取上传文件key
         const keys = Object.keys(ctx.request.files);
         let arr = [] ;
@@ -32,12 +31,11 @@ module.exports = {
     "insert_intro": async ctx => {
         const {html} = ctx.request.body;
         const ret = await insertIntro(html);
-        if (ret) {
+        if (ret[0]) {
             ctx.body = new SuccessModel("新建成功")
-        } else {
-            ctx.body = new ErrorModel("新建失败")
+            return
         }
-        
+        ctx.body = new ErrorModel("新建失败")
     },
     "render_html": async ctx => {
         const ret = await getHtml()
