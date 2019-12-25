@@ -447,6 +447,60 @@ const Events = db.defineModel('gw_events', {
     timestamps: true,
 })
 
+//轮播图表
+const Carousel = db.defineModel('gw_carousel', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //序号
+    serial_number: {
+        type: Sequelize.INTEGER(11),
+        allowNull: true
+    },
+    //图片地址
+    pic_address: {
+        type: Sequelize.STRING(128)
+    },
+    //跳转地址
+    link: {
+        type:Sequelize.STRING(128),
+        allowNull: true
+    },
+    //轮播时间
+    carousel_timer: {
+        type: Sequelize.INTEGER(11),
+        defaultValue: 3
+    }
+})
+
+//首页模块展示表
+const IndexModule = db.defineModel('gw_index_module', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //模块名称
+    module_name: {
+        type: Sequelize.STRING(128),
+        allowNull:false
+    },
+    //序号
+    module_number: {
+        type:Sequelize.STRING(128),
+        allowNull: false
+    },
+    //状态
+    status: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    }
+})
+
 module.exports = {
     Users,
     Department,
@@ -464,6 +518,8 @@ module.exports = {
     PcatBak,
     Intro,
     Information,
-    Events
+    Events,
+    Carousel,
+    IndexModule
     // Roles
 }
