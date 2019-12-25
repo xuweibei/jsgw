@@ -38,4 +38,10 @@ const url = {
     editInfo: base + 'api/edit_info', // 删除资讯
     insertEvent: base + 'api/insert_event', // 插入事件
     delEvent: base + 'api/del_event', // 删除事件
+    carouseManage: base + 'api/carousel_manage', //轮播管理
+    getModule: base + 'api/get_module', //模块管理
+    changeModuleNumber: base + 'api/change_module_number', //更改模块排序
+    changeModuleStatus: base + 'api/change_module_status', //展示开关
+    setCarouselLink: base + 'api/set_carousel_link', //设置轮播图跳转链接
+    setCarouselTimer: base + 'api/set_carousel_timer' //设置轮播时间
 }

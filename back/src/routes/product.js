@@ -45,6 +45,5 @@ module.exports = {
         //     return;
         // }
         // ctx.body = new ErrorModel('增加失败')
-        ctx.body = {a: 1}
     }
 }

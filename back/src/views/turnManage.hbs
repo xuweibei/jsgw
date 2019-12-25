@@ -8,40 +8,36 @@
   <Form>
     <div class="turn-manage-body">
       <div class="turn-spec">
-        <div>循环间隔<input />秒</div>
+        <div>循环间隔<input type="text" class="carousel-timer" />秒</div>
+        <script>
+          $(function(){
+            $('.carousel-timer').on('blur', function(){
+              $.post(url.setCarouselTimer, {carouselTimer: $('.carousel-timer').val()}, function(res){
+                if(res && res.status === 0){
+                  console.log('设置成功')
+                }
+              })
+            })
+          })
+        </script>
         <button class="btn">预览</button> 
       </div>
       <div class="container turn-pic">
         <div class="row">
-          <div class="turn-item col-4">
+          {{#if carouselList.length}}
+          {{#each carouselList}}
+          <div class="turn-item col-4 turned">
             <div>
-              <img src="../assets/img/shop-avtar.png" alt="">
+              <img src={{this.pic_address}} alt="">
             </div>
             <img class="close_" src="../assets/img/close.png" alt="">
-            <div class="turn-link"><input type="text" placeholder="请输入跳转地址"/></div>
-          </div>
-          <div class="turn-item col-4">
-            <div>
-              <img src="../assets/img/shop-avtar.png" alt="">
+            <div class="turn-link">
+              <input type="text" class="link-address" placeholder="请输入跳转地址" value={{this.link}}>
             </div>
-            <img class="close_" src="../assets/img/close.png" alt="">
-            <div class="turn-link"><input type="text" placeholder="请输入跳转地址"/></div>
           </div>
-          <div class="turn-item col-4">
-            <div>
-              <img src="../assets/img/shop-avtar.png" alt="">
-            </div>
-            <img class="close_" src="../assets/img/close.png" alt="">
-            <div class="turn-link"><input type="text" placeholder="请输入跳转地址"/></div>
-          </div>
-          <div class="turn-item col-4">
-            <div>
-              <img src="../assets/img/shop-avtar.png" alt="">
-            </div>
-            <img class="close_" src="../assets/img/close.png" alt="">
-            <div class="turn-link"><input type="text" placeholder="请输入跳转地址"/></div>
-          </div>
-          <div class="col-4 turn-item clearfix">
+          {{/each}}
+          {{/if}}
+          <div class="col-4 turn-item">
             <div class="click-to-upload">
               <p>点击上传</p>
             </div>
@@ -52,4 +48,17 @@
     </div>
   </form>
 </div>
+<script>
+  $(function(){
+    $('.turned').on('change', function(){
+      const link = $(`.link-address:eq(${$(this).index()})`).val()
+      const id = $(this).index() + 1
+      $.post(url.setCarouselLink, {link, id}, function(res){
+        if(res && res.status === 0){
+          console.log('设置成功')
+        }
+      })
+    })
+  })
+</script>
 {{/default}}
