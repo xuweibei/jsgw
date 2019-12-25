@@ -269,12 +269,10 @@
     }
     return url;
   }
-  var imgFile = []
   //封装的图片预览方法
   function getImg(selector, container) {
     $(selector).on('change', function (e) {
       const newImg = e.target.files[0]
-      imgFile.push(newImg)
       const imgUrl = getObjectURL(newImg)
       $(container).css({
         'background': `url(${getObjectURL(e.target.files[0])})`,
@@ -288,17 +286,17 @@
   function commitNewProduct() {
     let formData = new FormData();
     const logo = $('#dawnload-logo')[0].files;
-    const down = $('#dawnload-way')[0].files;
-    const card = $('#serial-number').val();
-    const desc = $('#message-text').val();
-    const name = $('#recipient-name').val();
-    const address = $('#dawnload-address').val();
+    const link_code = $('#dawnload-way')[0].files;
+    const serial_number = $('#serial-number').val();
+    const product_desc = $('#message-text').val();
+    const pro_name = $('#recipient-name').val();
+    const link = $('#dawnload-address').val();
     formData.append('logo', logo[0], logo[0].name);
-    formData.append('down', down[0], down[0].name);
-    formData.append('card', card);
-    formData.append('desc', desc);
-    formData.append('name', name);
-    formData.append('address', address);
+    formData.append('link_code', link_code[0], link_code[0].name);
+    formData.append('serial_number', serial_number);
+    formData.append('product_desc', product_desc);
+    formData.append('pro_name', pro_name);
+    formData.append('link', link);
     $.ajax({
       url: url.newProduct,
       type: "POST",

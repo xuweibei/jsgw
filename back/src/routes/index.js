@@ -47,6 +47,8 @@ router.get('/', login.home)
       .post('/api/change_module_status',home['changeModuleStatus'])//修改模块展示状态
       .post('/api/set_carousel_link',carousel['set_carousel_link'])//设置轮播图跳转链接
       .post('/api/set_carousel_timer',carousel['set_carousel_timer'])//设置轮播时间
+      .post('/api/del_carousel',carousel['del_carousel'])//删除轮播图
+      .post('/api/new_carousel',carousel['new_carousel'])//新增轮播图
       // 招聘信息管理
       .get('/delivery/invite', invite['invite'])
       // 公司简介

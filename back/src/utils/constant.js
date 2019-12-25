@@ -45,4 +45,6 @@ const url = {
     setCarouselLink: base + 'api/set_carousel_link', //设置轮播图跳转链接
     setCarouselTimer: base + 'api/set_carousel_timer', //设置轮播时间
     empInfo: base + 'api/emp_info', // 删除事件
+    delCarousel: base + 'api/del_carousel', //删除轮播图
+    newCarousel: base + 'api/new_carousel', //新增轮播图
 }
