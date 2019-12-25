@@ -1,4 +1,3 @@
-
 const {
     sequelize
 } = require('../db/db');
@@ -54,11 +53,16 @@ const findDep = async () => {
     // const sql1 = 'SELECT d.department, d.id, num.dep_id as dep_id, IFNULL(num.count,0) as sum from gw_department d LEFT JOIN (select e.dep_id as dep_id, count(e.dep_id) as count from gw_employee as e LEFT JOIN gw_department as d on e.dep_id=d.id where d.dep_status=1 group by e.dep_id,d.department) as num on d.id=num.dep_id'
     const sql1 = 'select d.department, e.dep_id, d.id,count(dep_id) as num from gw_department as d LEFT JOIN gw_employee as e on e.dep_id=d.id and e.status=1 where d.dep_status=1 group by dep_id,d.id, department'
     // 获取分组
-    const ret = await sequelize.query(sql1, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
+    const ret = await sequelize.query(sql1, {
+        replacements: ['active'],
+        type: sequelize.QueryTypes.SELECT
+    })
     const sql = 'select COUNT(1) as num from gw_employee where gw_employee.status=1'
     // 获取全部员工
-    const count = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
-    // console.log(ret[0])
+    const count = await sequelize.query(sql, {
+        replacements: ['active'],
+        type: sequelize.QueryTypes.SELECT
+    })
     const obj = {
         dep: ret,
         allDep: count
@@ -67,11 +71,7 @@ const findDep = async () => {
 }
 // 获取分组信息
 const readDep = async () => {
-    const ret = await Department.findAll({
-        // attributes: {
-        //     // exclude: ['CreatedAt', 'UpdatedAt', 'deletedAt']
-        // }
-    })
+    const ret = await Department.findAll({where: {dep_status: "1"}})
     let arr = []
     ret.forEach(item => {
         arr.push(item.dataValues)
@@ -86,7 +86,10 @@ const delDep = async (id) => {
         }
     })
     const sql = `update gw_employee as e set e.status=0 where e.dep_id=${id}`
-    sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
+    sequelize.query(sql, {
+        replacements: ['active'],
+        type: sequelize.QueryTypes.SELECT
+    })
     if (ret.dataValues) {
         const del = await Department.update({
             dep_status: '0'
@@ -151,53 +154,24 @@ const insertEmployee = async (obj) => {
         }
     })
     if (ret) {
-        const result = sequelize.transaction(function (t) {
-            // 在事务中执行操作
-            return Employee.update({
-                    name: obj.name,
-                    phone: obj.phone,
-                    ident_id,
-                    dep_id
-                }, {
-                    where: {name: obj.name}
-                }, {
-                    transaction: t
-                })
-                .then(function () {
-                    return Account.update({
-                        account: obj.account,
-                        password: obj.password,
-                        identity_id: ident_id
-                    }, {
-                        where: {account: obj.account}
-                    }, {
-                        transaction: t
-                    })
-                });
-        })
-        return result.dataValues
+        return await Employee.update({status: "1"}, {where: {name: obj.name}})
     } else {
-        const result = sequelize.transaction(function (t) {
-            // 在事务中执行操作
+        return sequelize.transaction(function (t) {
+            // 要确保所有的查询链都有return返回
             return Employee.create({
-                    name: obj.name,
-                    phone: obj.phone,
-                    ident_id,
-                    dep_id
-                }, {
-                    transaction: t
-                })
-                .then(function () {
-                    return Account.create({
-                        account: obj.account,
-                        password: obj.password,
-                        identity_id: ident_id
-                    }, {
-                        transaction: t
-                    })
-                });
-        })
-        return result.dataValues
+                name: obj.name,
+                phone: obj.phone,
+                ident_id,
+                dep_id
+            }, {transaction: t}).then(function () {
+              return Account.create({
+                account: obj.account,
+                password: obj.password,
+                identity_id: ident_id
+              }, {transaction: t});
+            });
+          
+          })
     }
 }
 
@@ -205,20 +179,35 @@ const insertEmployee = async (obj) => {
 const getEmployee = async (limit, page, keyword) => {
     if (keyword) {
         const sql = `select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1 and e.name like '%${keyword}%' or e.phone like '%${keyword}%'`
-        const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
+        const ret = await sequelize.query(sql, {
+            replacements: ['active'],
+            type: sequelize.QueryTypes.SELECT
+        })
         const count = ret.length
-        
-        return {ret, count}
+        return {
+            ret,
+            count
+        }
     }
     const offset = (page - 1) * limit;
     const sql = `select e.id, e.name, e.phone, d.department, i.identity,e.active from gw_employee e left join gw_department d on (e.dep_id=d.id)LEFT JOIN gw_identity i on (i.id=e.ident_id) where e.status = 1 limit ${offset}, ${limit}`
-    const count = await Employee.count({where: {status: 1}})
-    
-    const ret = await sequelize.query(sql, { replacements: ['active'], type: sequelize.QueryTypes.SELECT })
+    const count = await Employee.count({
+        where: {
+            status: 1
+        }
+    })
+
+    const ret = await sequelize.query(sql, {
+        replacements: ['active'],
+        type: sequelize.QueryTypes.SELECT
+    })
     if (!ret || !count) {
         return false
     }
-    return {ret, count}
+    return {
+        ret,
+        count
+    }
 }
 // 编辑员工
 const editEmp = async (parms) => {
@@ -227,33 +216,44 @@ const editEmp = async (parms) => {
             id: parms.id
         }
     })
+    if (!parms.password) {
+        parms.password = randomn(8)
+    }
     const department = await Department.findOne({
-        attributes: ['id']
-    }, {
         where: {
             department: parms.department
         }
     })
     const identity = await Identity.findOne({
-        attributes: ['id']
-    }, {
         where: {
             identity: parms.author
         }
     })
     if (findEmp) {
-        const updateEmp = await Employee.update({
-            name: parms.name,
-            phone: parms.phone,
-            ident_id: identity.dataValues.id,
-            dep_id: department.dataValues.id
-        }, {
-            where: {
-                id: parms.id
-            }
+        console.log(department, "卡时间段会撒娇客户端三块")
+        console.log(identity, "卡时间段会撒娇客户端三块")
+        return sequelize.transaction(function (t) {
+            // 在事务中执行操作
+            return Employee.update({
+                    name: parms.name,
+                    phone: parms.phone,
+                    ident_id: identity.dataValues.id,
+                    dep_id: department.dataValues.id
+                }, {where: {id: parms.id}} , {
+                    transaction: t
+                })
+                .then(function () {
+                    return Account.update({
+                        account: parms.account,
+                        password: parms.password,
+                        identity_id: identity.dataValues.id,
+                    }, {where: {id: parms.id}}, {
+                        transaction: t
+                    })
+                });
         })
-        return updateEmp && updateEmp[0]
     }
+    return false
 }
 // 删除员工
 const delEmp = async (id) => {
@@ -303,14 +303,30 @@ const changeStatus = async (id) => {
 
 // 获取员工信息
 const empInfo = async id => {
-    const ret = await Employee.findOne({where: {id}})
+    const ret = await Employee.findOne({
+        where: {
+            id
+        }
+    })
     if (ret) {
-        const ident = await Identity.findOne({where: {id: ret.dataValues.ident_id}})
+        const ident = await Identity.findOne({
+            where: {
+                id: ret.dataValues.ident_id
+            }
+        })
         ret.dataValues.ident_id = ident.dataValues.identity
-        const dep = await Department.findOne({where:{id: ret.dataValues.dep_id}})
+        const dep = await Department.findOne({
+            where: {
+                id: ret.dataValues.dep_id
+            }
+        })
         ret.dataValues.dep_id = dep.dataValues.department
     }
-    const acount = await Account.findOne({where: {id}})
+    const acount = await Account.findOne({
+        where: {
+            id
+        }
+    })
     const obj = Object.assign(ret.dataValues, acount.dataValues)
     return obj
 }
