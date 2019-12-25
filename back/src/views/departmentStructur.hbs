@@ -150,7 +150,7 @@
                   </div>
                   <div class="modal-footer border-top-0 dep-footer justify-content-center">
                     <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
-                    <button type="submit" class="btn btn-right" onclick="addEmp()">保存</button>
+                    <button type="submit" class="btn btn-right addEmp">保存</button>
                   </div>
                 </div>
               </form>
@@ -235,8 +235,8 @@
         location.reload()
       })
 
-      // 添加员工
-      function addEmp() {
+      $('.addEmp').on('click', function(e) {
+        e.preventDefault();
         var form = $('.stf-form');
         var bootstrapValidator = form.data('bootstrapValidator');
         bootstrapValidator.validate();
@@ -254,12 +254,14 @@
             $.post(url.editEmp, data, function (res) {
               toast(res.message)
             })
+            return
           }
           $.post(url.insertStf, data, function (res) {
             toast(res.message)
           })
         }
-      }
+      })
+
       var $table = $('#table');
       $(function () {
         $('.search-btn').on('click', function (e) {
@@ -414,7 +416,7 @@
             }
             return {
               rows: arr,
-              total: res.data.count
+              total: res.data && res.data.count
             }
           },
           columns: [{
