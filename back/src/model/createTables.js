@@ -377,8 +377,12 @@ const Product = db.defineModel('gw_product', {
     logo: {
         type: Sequelize.STRING(128)
     },
-    //下载地址
-    link: {
+    //安卓下载地址
+    android_link: {
+        type: Sequelize.STRING(128)
+    },
+    //ios下载地址
+    ios_link: {
         type: Sequelize.STRING(128)
     },
     //下载二维码

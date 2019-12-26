@@ -70,6 +70,11 @@
               },
               "click .btn-preview": function (e, value, row, index) {
                 e.preventDefault();
+                $.post(url.previewProduct, {id: row.id}, function(res){
+                  if(res && res.status === 0){
+                    console.log(res)
+                  }
+                })
               },
               "click .btn-show": function (e, value, row, index) {
                 e.preventDefault();
@@ -154,9 +159,15 @@
             </div>
           </div>
           <div class="form-group d-flex justify-content-start align-items-center">
-            <label for="dawnload-address" class="col-form-label">下载地址：</label>
+            <label for="android-dawnload-address" class="col-form-label">安卓下载地址：</label>
             <div>
-              <input id="dawnload-address" type="text" />
+              <input id="android-dawnload-address" class="form-control" type="text" />
+            </div>
+          </div>
+          <div class="form-group d-flex justify-content-start align-items-center">
+            <label for="ios-dawnload-address" class="col-form-label">IOS下载地址：</label>
+            <div>
+              <input id="ios-dawnload-address" class="form-control" type="text" />
             </div>
           </div>
         </form>
@@ -224,11 +235,11 @@
           <div class="row">
             <div class="col-6">
               <span>产品名称：</span>
-              <span>fdsfsdf</span>
+              <span class=""></span>
             </div>
             <div class="col-6">
               <span>简介：</span>
-              <span>佛挡杀佛胜多负少的</span>
+              <span></span>
             </div>
           </div>
           <div class="row">
@@ -244,7 +255,7 @@
           <div class="row">
             <div class="col-12">
               <span>下载地址：</span>
-              <span>www.baidu.com</span>
+              <span></span>
             </div>
           </div>
         </div>
@@ -290,13 +301,15 @@
     const serial_number = $('#serial-number').val();
     const product_desc = $('#message-text').val();
     const pro_name = $('#recipient-name').val();
-    const link = $('#dawnload-address').val();
+    const android_link = $('#android-dawnload-address').val();
+    const ios_link = $('#ios-dawnload-address').val();
     formData.append('logo', logo[0], logo[0].name);
     formData.append('link_code', link_code[0], link_code[0].name);
     formData.append('serial_number', serial_number);
     formData.append('product_desc', product_desc);
     formData.append('pro_name', pro_name);
-    formData.append('link', link);
+    formData.append('android_link', android_link);
+    formData.append('ios_link', ios_link)
     $.ajax({
       url: url.newProduct,
       type: "POST",
@@ -306,7 +319,7 @@
       contentType: false,
       processData: false,
       success: function (res) {
-        console.log(res)
+        location.reload()
       }
     });
   }

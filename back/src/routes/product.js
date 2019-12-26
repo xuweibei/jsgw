@@ -1,4 +1,4 @@
-const {getProducts, delProduct, showItem, newProduct } = require('../controller/product');
+const {getProducts, delProduct, showItem, newProduct, previewProduct } = require('../controller/product');
 const {SuccessModel, ErrorModel} = require('../config/model')
 const path = require('path');
 const fs = require('fs');
@@ -62,5 +62,14 @@ module.exports = {
             return;
         }
         ctx.body = new ErrorModel('增加失败')
+    },
+    //预览产品
+    'preview_product': async (ctx, next) => {
+        const res = await previewProduct(ctx.request.body.id)
+        if(res) {
+            ctx.body = new SuccessModel(res, '预览成功')
+            return;
+        }
+        ctx.body = new ErrorModel('预览失败')
     }
 }
