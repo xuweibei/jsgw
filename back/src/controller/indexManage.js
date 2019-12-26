@@ -29,8 +29,14 @@ const changeModuleStatus = async (status, id) => {
 }
 
 //设置轮播图跳转链接
-const setCarouselLink = async (link, id) => {
-  const sql = `update gw_carousel set link='${link}' where id=${id}`
+const setCarouselLink = async (link, pic_address, id) => {
+  let sql;
+  if(pic_address){
+    sql = `update gw_carousel set link='${link}',pic_address='${pic_address}' where id=${id}`
+  } else {
+    sql = `update gw_carousel set link='${link}' where id=${id}`
+  }
+  
   const res = await sequelize.query(sql)
   return res[0]
 } 
@@ -42,11 +48,27 @@ const setCarouselTimer = async (carouselTimer) => {
   return res[0]
 }
 
+//删除轮播图
+const delCarousel = async (id) => {
+  const sql = `delete from gw_carousel where id=${id}`
+  const res = await sequelize.query(sql)
+  return res[0]
+}
+
+//新增轮播图
+const newCarousel = async (pic_address) => {
+  const sql = `insert into gw_carousel (pic_address) values ('${pic_address}')`
+  const res = await sequelize.query(sql)
+  return res[0]
+}
+
 module.exports = {
   getCarousel,
   getModules,
   changeModuleNumber,
   changeModuleStatus,
   setCarouselLink,
-  setCarouselTimer
+  setCarouselTimer,
+  delCarousel,
+  newCarousel
 }

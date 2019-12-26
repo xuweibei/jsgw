@@ -20,7 +20,13 @@ const showItem = async (id, status) => {
 }
 //新增商品
 const newProduct = async (data) => {
-  const sql = `insert into gw_product (serial_number,pro_name,product_desc,logo,link,link_code) values ('${data.serial_number}','${data.pro_name}','${data.product_desc}','${data.logo}','${data.link}','${data.link_code}')`
+  const sql = `insert into gw_product (serial_number,pro_name,product_desc,logo,android_link,ios_link,link_code) values ('${data.serial_number}','${data.pro_name}','${data.product_desc}','${data.logo}','${data.android_link}','${data.ios_link}','${data.link_code}')`
+  const res = await sequelize.query(sql)
+  return res[0]
+}
+//预览产品
+const previewProduct = async (id) => {
+  const sql = `select * from gw_product where id=${id}`
   const res = await sequelize.query(sql)
   return res[0]
 }
@@ -28,5 +34,6 @@ module.exports = {
   getProducts,
   delProduct,
   showItem,
-  newProduct
+  newProduct,
+  previewProduct
 }

@@ -48,7 +48,7 @@
               field: 'module_number',
               formatter: operateFormatter,
               events: operateEvent = {
-                "blur .module_number": function(e, value, row, index){
+                "change .module_number": function(e, value, row, index){
                   $.post(url.changeModuleNumber, {module_number: e.target.value, id: row.id}, function(res){
                     if(res && res.status === 0){
                       console.log('修改成功')

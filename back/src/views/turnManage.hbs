@@ -9,37 +9,28 @@
     <div class="turn-manage-body">
       <div class="turn-spec">
         <div>循环间隔<input type="text" class="carousel-timer" />秒</div>
-        <script>
-          $(function(){
-            $('.carousel-timer').on('blur', function(){
-              $.post(url.setCarouselTimer, {carouselTimer: $('.carousel-timer').val()}, function(res){
-                if(res && res.status === 0){
-                  console.log('设置成功')
-                }
-              })
-            })
-          })
-        </script>
         <button class="btn">预览</button> 
       </div>
       <div class="container turn-pic">
         <div class="row">
           {{#if carouselList.length}}
-          {{#each carouselList}}
-          <div class="turn-item col-4 turned">
-            <div>
-              <img src={{this.pic_address}} alt="">
-            </div>
-            <img class="close_" src="../assets/img/close.png" alt="">
-            <div class="turn-link">
-              <input type="text" class="link-address" placeholder="请输入跳转地址" value={{this.link}}>
-            </div>
-          </div>
-          {{/each}}
+            {{#each carouselList}}
+              <div keyId={{this.id}} class="turn-item col-4 turned">
+                <div class="turn-item-pic">
+                  <img src={{this.pic_address}} onclick="" alt="">
+                  <input type="file" class="turn-item-input">
+                </div>
+                <img class="close_" keyId={{this.id}} src="../assets/img/close.png" alt="">
+                <div class="turn-link">
+                  <input type="text" class="link-address" placeholder="请输入跳转地址" value={{this.link}}>
+                </div>
+              </div>
+            {{/each}}
           {{/if}}
-          <div class="col-4 turn-item">
+          <div class="col-4 turn-item click-to-upload-container">
             <div class="click-to-upload">
               <p>点击上传</p>
+              <input type="file" class="click-to-upload-input">
             </div>
           </div>
         </div>
@@ -48,12 +39,83 @@
     </div>
   </form>
 </div>
+<style>
+  .turn-item-pic{
+    position: relative;
+  }
+  .turn-item-input{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    opacity: 0;
+    top: 0;
+  }
+  .click-to-upload-input{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
 <script>
   $(function(){
+    //设置图片高度
+    const picWidth = $('.turn-item-pic img')[0].offsetWidth
+    $('.turn-item-pic img').css('height', picWidth + 'px')
+    $('.click-to-upload').css('height', $('.turned')[0].offsetHeight + 'px')
+    //设置跳转路径和轮播图
     $('.turned').on('change', function(){
+      let formData = new FormData();
+      const pic_address = $(`.turn-item-input:eq(${$(this).index()})`)[0].files
       const link = $(`.link-address:eq(${$(this).index()})`).val()
-      const id = $(this).index() + 1
-      $.post(url.setCarouselLink, {link, id}, function(res){
+      const id = $(this).attr('keyId')
+      if(pic_address.length > 0){formData.append('pic_address', pic_address[0], pic_address[0].name)}
+      formData.append('link', link)
+      formData.append('id', id)
+      $.ajax({
+        url: url.setCarouselLink,
+        type: "POST",
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+          console.log('设置成功')
+        }
+      });
+    })
+    //新增轮播图
+    $('.click-to-upload-input').on('change', function(){
+      const pic_address = $(this)[0].files[0] 
+      let formData = new FormData();
+      formData.append('pic_address', pic_address, pic_address.name)
+      $.ajax({
+        url: url.newCarousel,
+        type: "POST",
+        data: formData,
+        async: false,
+        cache: false,
+        contentType: false,
+        processData: false,
+        success: function (res) {
+          location.reload()
+        }
+      });
+    })
+    //删除轮播图
+    $('.close_').on('click', function(){
+      $.post(url.delCarousel, {id: $(this).attr('keyId')}, function(res){
+        if(res && res.status === 0){
+          location.reload()
+        }
+      })
+    })
+    //设置轮播时间
+    $('.carousel-timer').on('blur', function(){
+      $.post(url.setCarouselTimer, {carouselTimer: $('.carousel-timer').val()}, function(res){
         if(res && res.status === 0){
           console.log('设置成功')
         }
