@@ -400,7 +400,11 @@ const Intro = db.defineModel('gw_intro',  {
         allowNull: false,
         autoIncrement: true
     },
-    content: Sequelize.TEXT
+    content: Sequelize.TEXT,
+    show_status: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0,
+    },
 })
 
 // 咨询中心

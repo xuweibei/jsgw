@@ -10,7 +10,7 @@ module.exports = {
         const data = await login(account, password)
         if (data.hasOwnProperty('dataValues')) {
             ctx.session.account = data.account
-            ctx.body = new SuccessModel(data)
+            ctx.body = new SuccessModel(data, "登录成功")
         } else {
             ctx.body = new ErrorModel('账号或者密码错误')
         }

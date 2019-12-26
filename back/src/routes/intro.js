@@ -5,6 +5,7 @@ const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "intro": async (ctx, next) => {
         const ret = await getHtml()
+        console.log(ret, "ksajhdsakhd")
         await ctx.render('intro')
     },
     "get_rich": async (ctx, next) => {

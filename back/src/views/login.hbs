@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,6 +17,9 @@
 
 <body>
     <div class="container-fluid login">
+        <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body"></div>
+        </div>
         <div class="login-header bg-white d-flex container">
             <img src="../assets/img/home-logo.png" alt="" class="login-logo">
         </div>
@@ -51,7 +55,15 @@
     </div>
 </body>
 <script>
+
     $(function () {
+        function toast(msg, callback) {
+            $('.toast').toast('show');
+            $('.toast-body').text(msg);
+            $('.toast').on('hidden.bs.toast', function () {
+                callback()
+            })
+        }
         $('form').bootstrapValidator({
             fields: {
                 account: {
@@ -80,25 +92,26 @@
                 }
             }
         })
-        .on('success.form.bv', function(e) {
-            // Prevent form submission
-            e.preventDefault();
-            // Get the form instance
-            var $form = $(e.target);
-            // Get the BootstrapValidator instance
-            const bv = $form.data('bootstrapValidator');
-            // Use Ajax to submit form data
-            $.post($form.attr('action'), $form.serialize(), function(res) {
-                if (res && res.status === 0) {
-                    window.location.href = '/delivery/home'
-                }
+            .on('success.form.bv', function (e) {
+                // Prevent form submission
+                e.preventDefault();
+                // Get the form instance
+                var $form = $(e.target);
+                // Get the BootstrapValidator instance
+                const bv = $form.data('bootstrapValidator');
+                // Use Ajax to submit form data
+                $.post($form.attr('action'), $form.serialize(), function (res) {
+                    if (res && res.status === 0) {
+                        toast(res.message, function () {
+                            window.location.href = '/delivery/home'
+                        });
+                    } else {
+                        toast(res.message, function () {
+                            location.reload()
+                        })
+                    }
+                });
             });
-        });
-
-        $('#getCode').on('click', function(e) {
-            e.preventDefault()
-            alert('功能未实现')
-        })
     });
 </script>
 

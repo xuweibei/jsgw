@@ -1,67 +1,95 @@
 .login {
     padding: 0 !important;
+
+    .toast {
+        width: 200px !important;
+        background: rgba(0, 0, 0, 0.5);
+        border: none !important;
+        color: #fff;
+        text-align: center;
+        left: 50%;
+        top: 50%;
+        z-index: 100000;
+        transform: translateX(-50%);
+        // opacity: 1;
+    }
+
     .form-control::placeholder {
-        color:#999999 !important;
+        color: #999999 !important;
         font-size: 12px !important;
     }
+
     .login-header {
         height: 80px;
-        .login-logo{
+
+        .login-logo {
             width: 146px;
             height: 40px;
             margin: 20px;
         }
     }
-    .content{
+
+    .content {
         background: #F2F2F2;
         padding: 60px 0 42px 0;
         box-sizing: border-box;
-        .content-inner{
+
+        .content-inner {
             height: 664px;
             margin: 0 auto;
+
             .inner-left {
                 padding: 86px 0 96px 80px;
+
                 .left-img {
                     padding: 19px 6px 39px 24px;
+
                     img {
                         width: 522px;
                         height: 424px;
                     }
                 }
             }
-            .inner-right{
+
+            .inner-right {
                 border: none;
                 padding: 39px 43px 0 0;
                 width: 350px;
+
                 .title {
                     margin-bottom: 48px;
                 }
-                .get-code{
+
+                .get-code {
                     background: #DFE2E6;
                     font-size: 14px;
                 }
+
                 .btn-login {
                     background: #0AAFDE !important;
                     margin-top: 80px !important;
                     margin-bottom: 16px !important;
                 }
+
                 .remmber {
                     color: #666666;
                     font-size: 14px;
                 }
+
                 .form-check-input {
                     width: 16px;
                     height: 16px;
-                    background:#fff;
-                    border:1px solid rgba(217,217,217,1) ;
-                    border-radius:4px;
+                    background: #fff;
+                    border: 1px solid rgba(217, 217, 217, 1);
+                    border-radius: 4px;
                 }
             }
         }
-        .login-footer{
+
+        .login-footer {
             margin-top: 100px;
             font-size: 14px;
-            letter-spacing:4px;
+            letter-spacing: 4px;
         }
     }
 }
