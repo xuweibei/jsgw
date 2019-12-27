@@ -404,11 +404,7 @@ const Intro = db.defineModel('gw_intro',  {
         allowNull: false,
         autoIncrement: true
     },
-    content: Sequelize.TEXT,
-    show_status: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: 0,
-    },
+    content: Sequelize.TEXT
 })
 
 // 咨询中心
@@ -508,7 +504,7 @@ const IndexModule = db.defineModel('gw_index_module', {
         allowNull: false
     }
 })
-
+ 
 module.exports = {
     Users,
     Department,

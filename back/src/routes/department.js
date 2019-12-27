@@ -19,6 +19,7 @@ const {
 } = require('../config/model')
 module.exports = {
     'departmentStructur': async (ctx, next) => {
+        console.log(ctx.session,"上课较好的萨卡的")
         const depObj = await findDep()
         const identity = await findIdentity()
         const dep = await readDep()
