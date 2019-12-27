@@ -509,6 +509,32 @@ const IndexModule = db.defineModel('gw_index_module', {
     }
 })
 
+//公司交流表
+const communicate = db.defineModel('gw_communicate',{
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //标题
+    title: {
+        type: Sequelize.STRING(1234)
+    },
+    //详情
+    describe: {
+        type: Sequelize.TEXT
+    },
+    //转态  0 隐藏  1 显示
+    status: {
+        type: Sequelize.STRING(1)
+    },
+    //发布时间
+    create_time: {
+        type: Sequelize.DATE(2)
+    }
+})
+
 module.exports = {
     Users,
     Department,
@@ -528,6 +554,7 @@ module.exports = {
     Information,
     Events,
     Carousel,
-    IndexModule
+    IndexModule,
+    communicate
     // Roles
 }
