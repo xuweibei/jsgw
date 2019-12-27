@@ -6,6 +6,7 @@ const views = require('koa-views'); // 模板插件
 const json = require('koa-json'); // json格式处理中间件
 const onerror = require('koa-onerror'); // 处理koa程序错误
 const koaBody = require('koa-body'); // 解析body传输数据
+const passport = require('./middleware/passport')
 const session = require('koa-session')
 const cors = require('koa2-cors'); // 跨域中间件
 const logger = require('koa-logger'); // 日志生成中间件
@@ -22,7 +23,7 @@ app.keys = ['zzkj_@123'];
 
 const CONFIG = {
   key: 'koa:sess', // 加密key
-  maxAge: 86400000, // 这个是确定cookie的有效期，默认是一天。
+  // maxAge: 100, // 这个是确定cookie的有效期，默认是一天。
   autoCommit: true, /** (boolean 自定义提交头 */
   overwrite: true, /** (boolean) can overwrite or not (default true) */
   httpOnly: true, // 表示是否可以通过javascript来修改，设成true会更加安全
@@ -30,9 +31,13 @@ const CONFIG = {
   rolling: false, // (boolean) 强制在每个响应上设置会话标识符cookie。过期将重置为原始maxAge，重新设置过期倒计时
   renew: false, // (boolean) 当会话快过期时续订会话，这样我们可以始终保持用户登录
 }
+
 // 解析session
 app.use(session(CONFIG, app));
 
+
+app.use(passport.initialize())
+app.use(passport.session())
 //设置跨域请求
 app.use(cors({
   origin: function(ctx) {

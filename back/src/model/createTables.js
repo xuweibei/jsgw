@@ -404,11 +404,7 @@ const Intro = db.defineModel('gw_intro',  {
         allowNull: false,
         autoIncrement: true
     },
-    content: Sequelize.TEXT,
-    show_status: {
-        type: Sequelize.BOOLEAN,
-        defaultValue: 0,
-    },
+    content: Sequelize.TEXT
 })
 
 // 咨询中心
@@ -534,6 +530,7 @@ const communicate = db.defineModel('gw_communicate',{
         type: Sequelize.DATE(2)
     }
 })
+
 
 module.exports = {
     Users,
