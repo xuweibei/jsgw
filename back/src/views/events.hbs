@@ -5,9 +5,10 @@
         <div class="toast-body"></div>
     </div>
     <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
+    <div class="add-event"></div>
     {{#if arr.length}}
     {{#each arr}}
-    <div class="enent d-flex card-container">
+    <div class="enent d-flex card-container" id="{{this.year}}">
         <div class="date">{{this.titleTime}}</div>
         <div class="line">
             <div class="cle"></div>
@@ -93,11 +94,6 @@
         let Line = document.getElementsByClassName('line');
         const cardContainer = document.getElementsByClassName('card-container');
         const lastLine = Line[Line.length - 1];
-        Line[0].style.height = 450 + 'px';
-        lastLine.style.background = "#fff";
-        Line[Line.length - 2].style.height = "360px";
-        Line[Line.length - 2].style.zIndex = "2";
-        cardContainer[0].style.marginTop = "200px";
         const openImg = new Image();
         openImg.src = "../assets/img/cls.png";
         openImg.style.position = 'absolute';
@@ -107,7 +103,53 @@
         openImg.addEventListener('click', function () {
             $('.event-modal').modal('show')
         })
-        Line[0].appendChild(openImg)
+        if (Line.length > 0) {
+            const add = document.getElementsByClassName('add-event');
+            document.getElementsByClassName('events')[0].removeChild(add[0])
+        }
+        if (Line.length > 1) {
+            Line[0].style.height = 450 + 'px';
+            lastLine.style.background = "#fff";
+            Line[Line.length - 2].style.height = "360px";
+            Line[Line.length - 2].style.zIndex = "2";
+            cardContainer[0].style.marginTop = "200px";
+            Line[0].appendChild(openImg)
+        } else if (!Line.length) {
+            const add = document.getElementsByClassName('add-event')[0];
+            add.style.height = "50px";
+            add.style.right = "-50px";
+            add.style.position = "relative";
+            add.appendChild(openImg)
+        } else if (Line.length === 1) {
+            Line[0].appendChild(openImg)
+            const oDiv = document.createElement("div");
+            oDiv.style.width = "1px"
+            oDiv.style.height = "76px"
+            oDiv.style.background = "#fff"
+            oDiv.style.position = "absolute"
+            oDiv.style.bottom = "0"
+            Line[0].appendChild(oDiv)
+        }
+
+        const ids = [];
+        cardContainer.forEach(item => {
+            ids.push(item.getAttribute('id'))
+        })
+        // 创建标题年
+        for (let i = 0; i < ids.length; i++) {
+            if (ids[i] !== ids[i + 1]) {
+                const yearEle = document.createElement("div");
+                yearEle.style.position = "absolute"
+                yearEle.style.top = "100px"
+                yearEle.style.left = "-20px"
+                yearEle.style.fontSize = "24px"
+                yearEle.style.color = "#0AAFDE"
+                yearEle.innerText = ids[i]
+
+                cardContainer[i].appendChild(yearEle)
+            }
+        }
+
         // 添加年月日选择
         const years = [...Array.from({ length: 2100 }).keys()].slice(2015);
         const mounth = [...Array.from({ length: 13 }).keys()].slice(1);
@@ -153,11 +195,10 @@
             }
             $.post(url.insertEvent, { time, title, content }, function (res) {
                 if (res) {
-
+                    $('.toast').toast('show');
+                    $('.toast-body').text(res.message)
                     $('.toast').on('hidden.bs.toast', function () {
                         if (res.status === 0) {
-                            $('.toast').toast('show');
-                            $('.toast-body').text(res.message)
                             location.reload();
                         }
                     })

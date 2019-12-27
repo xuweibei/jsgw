@@ -11,6 +11,9 @@ const getEvent = async () => {
     if (ret) {
         ret.forEach(item => {
             item.dataValues.titleTime = item.dataValues.time.split('/')[1] + '-' + item.dataValues.time.split('/')[2]
+            item.dataValues.year = item.dataValues.time.split('/')[0]
+            
+            
             arr.push(item.dataValues)
         })
         return arr

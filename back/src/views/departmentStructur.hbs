@@ -35,9 +35,6 @@
     <div class="left-footer" data-toggle="modal" data-target="#dep-modal">
       <img src="../assets/img/add.png" alt=""><span>添加分组</span>
     </div>
-    {{!-- <div role="alert" aria-live="assertive" aria-atomic="true" class="toast" data-autohide="false">
-      <div class="toast-body"></div>
-    </div> --}}
   </div>
   <div class="modal fade" id="dep-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
@@ -235,7 +232,7 @@
         location.reload()
       })
 
-      $('.addEmp').on('click', function(e) {
+      $('.addEmp').on('click', function (e) {
         e.preventDefault();
         var form = $('.stf-form');
         var bootstrapValidator = form.data('bootstrapValidator');
@@ -266,7 +263,7 @@
       $(function () {
         $('.search-btn').on('click', function (e) {
           e.preventDefault();
-          $table.bootstrapTable('refresh', {a: 1});
+          $table.bootstrapTable('refresh', { a: 1 });
         })
 
         $('.stf-form').bootstrapValidator({
@@ -386,8 +383,8 @@
           queryParamsType: 'limit',
           queryParams: function (params) {
             let keyword = $('.keyword').val();
-            if(keyword) {
-              return {keyword}
+            if (keyword) {
+              return { keyword }
             }
             var temp = {
               limit: params.limit, // 每页显示数量
