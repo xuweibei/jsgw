@@ -7,7 +7,12 @@
     <div class="intro-title border-bottom">
         <div class="float-left font-weight-bolder intro">公司简介</div>
         <div class="float-right d-flex justify-content-between">
-            <div class="show-home font-weight-bold">展示在首页</div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="defaultCheck1">
+                <label class="form-check-label show-home font-weight-bold" for="defaultCheck1">
+                    展示在首页
+                </label>
+            </div>
             <button class="btn text-white border-0 intro-edit" onclick="change()">编辑</button>
         </div>
     </div>
@@ -26,6 +31,12 @@
     var edit = document.getElementsByClassName('intro-edit')[0];
     var desc = document.getElementsByClassName('intro-desc')[0];
     var home = document.getElementsByClassName('show-home')[0];
+    $(function(){
+        $('.form-check-input').on('change', function(){
+        let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
+        
+    })
+    })
     var E = window.wangEditor;
     var editor = new E('#editor');
     editor.customConfig = {
@@ -69,12 +80,12 @@
     // 上传富文本
     function saveHtml() {
         var html = editor.txt.html();
-        console.log(html)
         var filterHtml = filterXSS(html);
-        $.post(url.insertIntro, { html: filterHtml }, function (res) {
+        let id = window.location.href.includes('intro') ? 1 : 2
+        $.post(url.insertIntro, { html: filterHtml, id }, function (res) {
             if (res) {
                 $('.toast').toast('show');
-                $('.toast-body').text('内容不能为空')
+                $('.toast-body').text(res.message)
                 $('.toast').on('hidden.bs.toast', function () {
                     if (res.status === 0) {
                         location.reload();
@@ -85,8 +96,10 @@
     }
     // 获取页面渲染元素
     function getHtml() {
-        $.post(url.renderHtml, function (res) {
-            if (res && res.status === 0) {
+        let id = window.location.href.includes('intro') ? 1 : 2
+        console.log(id)
+        $.post(url.renderHtml, {id}, function (res) {
+            if (res && res.status === 0) {  
                 $('#ht').html(res.data.html);
             }
         })
