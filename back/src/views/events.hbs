@@ -162,11 +162,11 @@
             select.append(str)
         })
         mounth.forEach(item => {
-            let str = `<option>${item}</option>`;
+            let str = `<option>${item > 9 ? item : '0' + item}</option>`;
             mounthSelect.append(str)
         })
         day.forEach(item => {
-            let str = `<option>${item}</option>`;
+            let str = `<option>${item > 9 ? item : '0' + item}</option>`;
             daySelect.append(str)
         })
 

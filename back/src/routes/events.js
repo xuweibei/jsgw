@@ -3,7 +3,6 @@ const {insertEvent, getEvent, delEvent} = require('../controller/eventController
 module.exports = {
     "events": async ctx => {
         const ret = await getEvent()
-        console.log(ret)
         await ctx.render('events', {arr: ret})
     },
     "insert_event": async ctx => {
