@@ -4,91 +4,118 @@
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
 <div class="job-class-container company-talk-container">
-  <div class="job-class-top">
-    <span>公司交流</span>
-    <button type="button" class="btn">新增</button>
-  </div>
-  <div>
-    
-  </div>
-  <div class="table-container">
-    <div class="toolbar">
-      <form>
-        <div class="row">
-          <div class="col">
-            <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="searchWork">
+  <div class="mainModal">
+    <div class="job-class-top">
+      <span>公司交流</span>
+      <button type="button" class="btn" onclick="showOr()">新增</button>
+    </div>
+    <div class="table-container">
+      <div class="toolbar">
+        <form>
+          <div class="row">
+            <div class="col">
+              <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="searchWork">
+            </div>
+            <div class="col">
+                <div class="main">
+                    <div class="input-group fl">
+                            <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
+                                <span></span>
+                            <i class="time_close">X</i>
+                            </button>
+                            <input type="hidden" value="" id="incomeStartDate">
+                            <input type="hidden" value="" id="incomeEndDate">
+                        </div>
+                    </div>
+                </div>
+            </div>
           </div>
-          <div class="col">
-              <div class="main">
-                  <div class="input-group fl">
-                          <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
-                              <span></span>
-                          <i class="time_close">X</i>
-                          </button>
-                          <input type="hidden" value="" id="incomeStartDate">
-                          <input type="hidden" value="" id="incomeEndDate">
-                      </div>
-                  </div>
-              </div>
-          </div>
+        </form>
+        <button class="btn btn-primary" id="filterBy">搜索</button>
+      </div>
+      <table
+        id="table"
+        class="text-center table table-striped table-borderless"
+        data-pagination="true">
+        {{!-- <thead>
+          <tr>
+            <th data-field="id">ID</th>
+            <th data-field="name">Item Name</th>
+            <th data-field="price">Item Price</th>
+          </tr>
+        </thead> --}}
+      </table>
+  </div>
+  <div class="editor-content d-none editModel">
+    <form class="mt-3 mb-3">
+      <div class="form-group row" style="width: 1200px; margin: 0 auto;">
+        <label for="colFormLabel" class="col-sm-1 col-form-label" style="font-size: 20px; line-height: 19px;">标题</label>
+        <div class="col-sm-11 ">
+          <input type="email" class="form-control title" maxlength="50" id="colFormLabel" placeholder="请输入标题">
         </div>
-      </form>
-      <button class="btn btn-primary" id="filterBy">搜索</button>
-		</div>
-    <table
-      id="table"
-      class="text-center table table-striped table-borderless"
-      data-pagination="true">
-      {{!-- <thead>
-        <tr>
-          <th data-field="id">ID</th>
-          <th data-field="name">Item Name</th>
-          <th data-field="price">Item Price</th>
-        </tr>
-      </thead> --}}
-    </table>
+      </div>
+    </form>
+    <div id="editor" style="width: 1200px; margin: 0 auto;"></div>
+    <div class="text-center">
+      <button class="btn btn-primary btn-edit" onclick="showOr(true)"
+        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;">返回</button>
+      <button class="btn btn-primary btn-edit" onclick="saveHtml()"
+        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;">发布</button>
+    </div>
+  </div>
+  </div>
     <script>
-      var $table = $('#table')
-        $(function() {
-          $table.bootstrapTable({
-            toolbar: '.toolbar',
-            columns: [{
-              title: '展示模块',
-              field: 'name'
-            }, {
-              title: '位置排序(数值越小排的越前)',
-              field: 'sort'
-            }, {
-              title: '状态',
-              field: 'opt'
-            }],
-            data: [{
-              name: '最新动态',
-              sort: 1,
-              opt: operateFormatter()
-            },{
-              name: '最新动态',
-              sort: 1,
-              opt: operateFormatter()
-            },{
-              name: '最新动态',
-              sort: 1,
-              opt: operateFormatter()
-            },{
-              name: '最新动态',
-              sort: 1,
-              opt: operateFormatter()
-            }],
-          })
-          function operateFormatter(value, row, index) {
-            return [
-              '<a class="like opt" id="table_see" href="javascript:void(0)" title="see">查看</a>',
-              '<a class="like opt" id="table_edit" href="javascript:void(0)" title="edit">编辑</a>',
-              '<a class="like opt" id="table_hide" href="javascript:void(0)" title="hide">隐藏</a>',
-              '<a class="remove opt" id="table_del" href="javascript:void(0)" title="remove">删除</a>'
-            ].join('')
-          }
+        var $table = $('#table')
+          $(function() {
+            $table.bootstrapTable({
+              toolbar: '.toolbar',
+              {{!-- url: url.getRecreuit, --}}
+              columns: [{
+                title: '标题',
+                field: 'name'
+              }, {
+                title: '发布时间',
+                field: 'sort'
+              }, {
+                title: '操作',
+                field: 'opt'
+              }],
+              responseHandler:function(res){
+                console.log(res,'到付款了个')
+              }
+            })
+            function operateFormatter(value, row, index) {
+              return [
+                '<a class="like opt" id="table_see" href="javascript:void(0)" title="see">查看</a>',
+                '<a class="like opt" id="table_edit" href="javascript:void(0)" title="edit">编辑</a>',
+                '<a class="like opt" id="table_hide" href="javascript:void(0)" title="hide">隐藏</a>',
+                '<a class="remove opt" id="table_del" href="javascript:void(0)" title="remove">删除</a>'
+              ].join('')
+            }
         })
+        var E = window.wangEditor;
+        var editor = new E('#editor');
+        console.log(editor,'克里斯多夫是')
+        editor.create();
+        editor.txt.html('123')
+        editor.customConfig.customUploadImg = function (files, insert) {
+          var formData = new FormData();
+          for (var i = 0; i < files.length; i++) {
+            formData.append("files[" + i + "]", files[i], files[i].name);
+          }
+        };
+        function saveHtml(){
+            console.log(editor.txt.html())
+        }
+        function showOr(onOff){
+          if(!onOff){
+              $('.mainModal')[0].classList.add('d-none');
+              $('.editModel')[0].classList.remove('d-none');
+          }else{
+              $('.mainModal')[0].classList.remove('d-none');
+              $('.editModel')[0].classList.add('d-none');
+          }
+        }
     </script>
     <script>
         $(function () {
@@ -174,6 +201,5 @@
 
       
     </script>
-  </div>
 </div>
 {{/default}}
