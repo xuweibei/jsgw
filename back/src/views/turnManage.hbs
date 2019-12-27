@@ -107,6 +107,7 @@
     })
     //删除轮播图
     $('.close_').on('click', function(){
+      console.log($(this))
       $.post(url.delCarousel, {id: $(this).attr('keyId')}, function(res){
         if(res && res.status === 0){
           location.reload()
