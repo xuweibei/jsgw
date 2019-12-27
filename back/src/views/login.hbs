@@ -110,6 +110,8 @@
                 var password = $('#password').val();
                 $.post(url.login, { account: user, password: md5(password) }, function (res) {
                     if (res && res.status === 0) {
+                        sessionStorage.setItem("info", JSON.stringify(res.data));
+                        console.log(res.data)
                         toast(res.message, function () {
                             window.location.href = '/delivery/home'
                         });

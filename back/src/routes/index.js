@@ -21,7 +21,8 @@ router.get('/delivery/*', async (ctx, next) => {
         }
     })
     .get('/', login.home)
-    .post('/api/login', login.login)
+    .post('/api/login', login['login'])
+    .get('/api/logout', login['logout'])
     // 员工部门
     .get('/delivery/department-structur', department['departmentStructur'])
     .post('/api/add_dep', department["add-dep"])
