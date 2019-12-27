@@ -5,7 +5,7 @@ const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "intro": async (ctx, next) => {
         const ret = await getHtml()
-        console.log(ret, "ksajhdsakhd")
+        // console.log(ret, "ksajhdsakhd")
         await ctx.render('intro')
     },
     "get_rich": async (ctx, next) => {
@@ -30,16 +30,19 @@ module.exports = {
         ctx.body = new SuccessModel(arr, "存储成功")
     },
     "insert_intro": async ctx => {
-        const {html} = ctx.request.body;
-        const ret = await insertIntro(html);
-        if (ret[0]) {
+        const {html, id} = ctx.request.body;
+        
+        const ret = await insertIntro(html, id);
+        console.log(ret)
+        if (ret) {
             ctx.body = new SuccessModel("新建成功")
             return
         }
         ctx.body = new ErrorModel("新建失败")
     },
     "render_html": async ctx => {
-        const ret = await getHtml()
+        const {id} = ctx.request.body
+        const ret = await getHtml(id)
         const html = ret ? ret.dataValues.content : ''
         if (html) {
             ctx.body = new SuccessModel({html}, "获取成功")
