@@ -75,7 +75,7 @@
                             message: '登录用户名不能为空'
                         },
                         stringLength: {
-                            min: 6,
+                            min: 5,
                             max: 12,
                             message: '用户姓名长度必须在6到12位之间'
                         },
@@ -110,6 +110,8 @@
                 var password = $('#password').val();
                 $.post(url.login, { account: user, password: md5(password) }, function (res) {
                     if (res && res.status === 0) {
+                        sessionStorage.setItem("info", JSON.stringify(res.data));
+                        console.log(res.data)
                         toast(res.message, function () {
                             window.location.href = '/delivery/home'
                         });

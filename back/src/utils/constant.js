@@ -3,6 +3,7 @@
 const base = "http://localhost:8000/"
 const url = {
     login: base + 'api/login',
+    logout: base + 'api/logout',
     delDep: base + "api/del_dep", // 删除部门分组
     addDep: base + 'api/add_dep', //添加部门分组
     editDep: base + 'api/edit_dep', // 编辑分组
@@ -52,5 +53,6 @@ const url = {
     communicateList: base + 'api/communicate_list', //公司交流列表
     editCommunicateList: base + 'api/edit_communicate_list', //添加公司交流列表
     deleteCommunicate: base + 'api/del_communicate_list', //删除公司交流列表
-    enableCommu: base + 'api/enable_commu' //隐藏或显示公司交流列表
+    enableCommu: base + 'api/enable_commu', //隐藏或显示公司交流列表
+    getChecked: base + 'api/get_checked', //获取选中状态
 }

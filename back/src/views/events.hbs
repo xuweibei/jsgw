@@ -4,10 +4,19 @@
     <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="toast-body"></div>
     </div>
-    <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
+    <div class="d-flex justify-content-lg-between">
+        <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
+        <div class="form-check" style="margin-right: 30px;">
+            <input class="form-check-input ml-0" type="checkbox" id="defaultCheck1" style="margin-top: 8px;">
+            <label class="form-check-label show-home ml-3" style="color: #0AAFDE" for="defaultCheck1">
+                展示在首页
+            </label>
+        </div>
+    </div>
+    <div class="add-event"></div>
     {{#if arr.length}}
     {{#each arr}}
-    <div class="enent d-flex card-container">
+    <div class="enent d-flex card-container" id="{{this.year}}">
         <div class="date">{{this.titleTime}}</div>
         <div class="line">
             <div class="cle"></div>
@@ -72,7 +81,7 @@
                             placeholder="请输入事件内容"></textarea>
                     </div>
                 </form>
-                <div class="modal-footer justify-content-center">
+                <div class="modal-footer justify-content-center border-0">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
                     <button type="button" class="btn btn-primary commitEvent">保存</button>
                 </div>
@@ -88,16 +97,21 @@
         delId = id;
         $('.modal-del').modal('show');
     }
+
+    function getChecked() {
+        $.get(url.getChecked, { id: 5 }, function (res) {
+            if (res && res.status === 0) {
+                $('.form-check-input').attr('checked', res.data.checked)
+            }
+        })
+    }
+    getChecked()
+
     $(function () {
         // 设置card样式
         let Line = document.getElementsByClassName('line');
         const cardContainer = document.getElementsByClassName('card-container');
         const lastLine = Line[Line.length - 1];
-        Line[0].style.height = 450 + 'px';
-        lastLine.style.background = "#fff";
-        Line[Line.length - 2].style.height = "360px";
-        Line[Line.length - 2].style.zIndex = "2";
-        cardContainer[0].style.marginTop = "200px";
         const openImg = new Image();
         openImg.src = "../assets/img/cls.png";
         openImg.style.position = 'absolute';
@@ -107,7 +121,54 @@
         openImg.addEventListener('click', function () {
             $('.event-modal').modal('show')
         })
-        Line[0].appendChild(openImg)
+        if (Line.length > 0) {
+            const add = document.getElementsByClassName('add-event');
+            document.getElementsByClassName('events')[0].removeChild(add[0])
+        }
+        if (Line.length > 1) {
+            Line[0].style.height = 450 + 'px';
+            lastLine.style.background = "#fff";
+            Line[Line.length - 2].style.height = "360px";
+            Line[Line.length - 2].style.zIndex = "2";
+            cardContainer[0].style.marginTop = "200px";
+            Line[0].appendChild(openImg)
+        } else if (!Line.length) {
+            const add = document.getElementsByClassName('add-event')[0];
+            add.style.height = "50px";
+            add.style.right = "-50px";
+            add.style.position = "relative";
+            add.appendChild(openImg)
+        } else if (Line.length === 1) {
+            Line[0].appendChild(openImg)
+            const oDiv = document.createElement("div");
+            oDiv.style.width = "1px"
+            oDiv.style.height = "76px"
+            oDiv.style.background = "#fff"
+            oDiv.style.position = "absolute"
+            oDiv.style.bottom = "0"
+            Line[0].appendChild(oDiv)
+        }
+
+        // 获取enent id
+        const ids = [];
+        cardContainer.forEach(item => {
+            ids.push(item.getAttribute('id'))
+        })
+        // 创建标题年
+        for (let i = 0; i < ids.length; i++) {
+            if (ids[i] !== ids[i + 1]) {
+                const yearEle = document.createElement("div");
+                yearEle.style.position = "absolute"
+                yearEle.style.top = "100px"
+                yearEle.style.left = "-20px"
+                yearEle.style.fontSize = "24px"
+                yearEle.style.color = "#0AAFDE"
+                yearEle.innerText = ids[i]
+
+                cardContainer[i].appendChild(yearEle)
+            }
+        }
+
         // 添加年月日选择
         const years = [...Array.from({ length: 2100 }).keys()].slice(2015);
         const mounth = [...Array.from({ length: 13 }).keys()].slice(1);
@@ -120,11 +181,11 @@
             select.append(str)
         })
         mounth.forEach(item => {
-            let str = `<option>${item}</option>`;
+            let str = `<option>${item > 9 ? item : '0' + item}</option>`;
             mounthSelect.append(str)
         })
         day.forEach(item => {
-            let str = `<option>${item}</option>`;
+            let str = `<option>${item > 9 ? item : '0' + item}</option>`;
             daySelect.append(str)
         })
 
@@ -153,11 +214,10 @@
             }
             $.post(url.insertEvent, { time, title, content }, function (res) {
                 if (res) {
-
+                    $('.toast').toast('show');
+                    $('.toast-body').text(res.message)
                     $('.toast').on('hidden.bs.toast', function () {
                         if (res.status === 0) {
-                            $('.toast').toast('show');
-                            $('.toast-body').text(res.message)
                             location.reload();
                         }
                     })

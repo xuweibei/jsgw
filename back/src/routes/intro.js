@@ -1,6 +1,6 @@
 const path = require('path');
 const fs = require('fs');
-const {insertIntro, getHtml} = require('../controller/introControllor')
+const {insertIntro, getHtml, getChecked} = require('../controller/introControllor')
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "intro": async (ctx, next) => {
@@ -46,6 +46,17 @@ module.exports = {
         const html = ret ? ret.dataValues.content : ''
         if (html) {
             ctx.body = new SuccessModel({html}, "获取成功")
+            return
+        }
+        ctx.body = new ErrorModel('获取失败')
+    },
+    "get_checked": async ctx => {
+        let url = ctx.request.query;
+        
+        const ret = await getChecked(url.id)
+        if (ret) {
+            // let checked = ret.dataValues === true ? 'checked' : ''
+            ctx.body = new SuccessModel({checked: ret.dataValues.status}, "获取成功")
             return
         }
         ctx.body = new ErrorModel('获取失败')

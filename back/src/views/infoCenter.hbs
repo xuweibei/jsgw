@@ -4,8 +4,13 @@
     <div class="card-body-title">
       资讯中心
     </div>
-    <div class="card-body-btn">
-      <button type="button" class="btn show-home">展示在首页</button>
+    <div class="card-body-btn d-flex" style="line-height: 32px;">
+      <div class="form-check" style="margin-right: 30px;">
+        <input class="form-check-input" type="checkbox" id="defaultCheck1" style="margin-top: 11px;">
+        <label class="form-check-label show-home" style="color: #0AAFDE" for="defaultCheck1">
+          展示在首页
+        </label>
+      </div>
       <button type="button" class="btn edit-btn" onclick="change()">编辑</button>
     </div>
   </div>
@@ -24,7 +29,7 @@
         </div>
       </div>
     </form>
-    <div id="editor" style="width: 1200px; margin: 0 auto;"></div>
+    <div id="editor" style="width: 1000px; margin: 0 auto;"></div>
     <div class="text-center">
       <button class="btn btn-primary btn-edit" onclick="saveHtml()"
         style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;" onclick="saveHtml()">发布</button>
@@ -39,10 +44,20 @@
     let show = row.show === "1" ? "隐藏" : "开启"
     return [
       '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
-      '<a class="remove opt" id="table-hide" href="javascript:void(0)" title="Remove">' + show + '</a>',
+      '<a class="opt" id="table-hide" href="javascript:void(0)" title="Remove">' + show + '</a>',
       '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
     ].join('')
   }
+
+  // 获取展示状态
+  function getChecked() {
+    $.get(url.getChecked, { id: 6 }, function (res) {
+      if (res && res.status === 0) {
+        $('.form-check-input').attr('checked', res.data.checked)
+      }
+    })
+  }
+  getChecked()
 
   // 初始化表格
   $('#table').bootstrapTable({

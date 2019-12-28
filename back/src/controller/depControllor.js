@@ -71,7 +71,11 @@ const findDep = async () => {
 }
 // 获取分组信息
 const readDep = async () => {
-    const ret = await Department.findAll({where: {dep_status: "1"}})
+    const ret = await Department.findAll({
+        where: {
+            dep_status: "1"
+        }
+    })
     let arr = []
     ret.forEach(item => {
         arr.push(item.dataValues)
@@ -154,7 +158,13 @@ const insertEmployee = async (obj) => {
         }
     })
     if (ret) {
-        return await Employee.update({status: "1"}, {where: {name: obj.name}})
+        return await Employee.update({
+            status: "1"
+        }, {
+            where: {
+                name: obj.name
+            }
+        })
     } else {
         return sequelize.transaction(function (t) {
             // 要确保所有的查询链都有return返回
@@ -163,15 +173,19 @@ const insertEmployee = async (obj) => {
                 phone: obj.phone,
                 ident_id,
                 dep_id
-            }, {transaction: t}).then(function () {
-              return Account.create({
-                account: obj.account,
-                password: obj.password,
-                identity_id: ident_id
-              }, {transaction: t});
+            }, {
+                transaction: t
+            }).then(function () {
+                return Account.create({
+                    account: obj.account,
+                    password: obj.password,
+                    identity_id: ident_id
+                }, {
+                    transaction: t
+                });
             });
-          
-          })
+
+        })
     }
 }
 
@@ -230,8 +244,6 @@ const editEmp = async (parms) => {
         }
     })
     if (findEmp) {
-        console.log(department, "卡时间段会撒娇客户端三块")
-        console.log(identity, "卡时间段会撒娇客户端三块")
         return sequelize.transaction(function (t) {
             // 在事务中执行操作
             return Employee.update({
@@ -239,7 +251,11 @@ const editEmp = async (parms) => {
                     phone: parms.phone,
                     ident_id: identity.dataValues.id,
                     dep_id: department.dataValues.id
-                }, {where: {id: parms.id}} , {
+                }, {
+                    where: {
+                        id: parms.id
+                    }
+                }, {
                     transaction: t
                 })
                 .then(function () {
@@ -247,7 +263,11 @@ const editEmp = async (parms) => {
                         account: parms.account,
                         password: parms.password,
                         identity_id: identity.dataValues.id,
-                    }, {where: {id: parms.id}}, {
+                    }, {
+                        where: {
+                            id: parms.id
+                        }
+                    }, {
                         transaction: t
                     })
                 });
@@ -263,14 +283,37 @@ const delEmp = async (id) => {
         }
     })
     if (emp) {
-        const del = await Employee.update({
-            status: "0"
-        }, {
-            where: {
-                id
-            }
+        // const del = await Employee.update({
+        //     status: "0"
+        // }, {
+        //     where: {
+        //         id
+        //     }
+        // })
+        // return del && del[0]
+        return sequelize.transaction(function (t) {
+            // 在事务中执行操作
+            return Employee.update({
+                    status: "0"
+                }, {
+                    where: {
+                        id
+                    }
+                }, {
+                    transaction: t
+                })
+                .then(function () {
+                    return Account.update({
+                        account_status: "0",
+                    }, {
+                        where: {
+                            id
+                        }
+                    }, {
+                        transaction: t
+                    })
+                });
         })
-        return del && del[0]
     }
 }
 const changeStatus = async (id) => {
@@ -333,7 +376,14 @@ const empInfo = async id => {
 
 //产品中心（存储[志强]）
 const saveCententTitle = async (obj) => {
-    console.log(JSON.stringify(obj));
+    // const sql1 = `insert into gw_company(comp_name, link_phone, address) values(${obj.comp_name},${obj.link_phone}, ${obj.address})`;
+    // const sql2 = `insert into gw_main_concat(comp_id, page_name, page_link) values('1',${obj.page_name}, ${obj.page_link})`;
+    // const sql3 = `insert into gw_friend_concat(comp_id, friend_page, friend_link) values('1',${obj.friend_page}, ${obj.friend_link})`;
+    // const ret1 = await sequelize.query(sql1);
+    // const ret2 = await sequelize.query(sql2);
+    // const ret3 = await sequelize.query(sql3);
+    // const arr =[ret1[0], ret2[0], ret3[0]];
+    // return arr;
     let insert = obj;
     insert.status = 1;
     if (obj) {

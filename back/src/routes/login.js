@@ -21,6 +21,8 @@ module.exports = {
             password
         } = ctx.request.body;
         const data = await login(account)
+        console.log(data, "打算接电话萨卡的很")
+
         if (password === data.password) {
             // ctx.body = new SuccessModel(data, "登录成功")
             // return 
@@ -35,5 +37,9 @@ module.exports = {
                 })(ctx)
         }
         ctx.body = new ErrorModel('账号或者密码错误')
+    },
+    "logout": async ctx => {
+        ctx.logout()
+        ctx.body = {auth: ctx.isAuthenticated(), user: ctx.state.user}
     }
 }
