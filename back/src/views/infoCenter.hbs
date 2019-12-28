@@ -49,6 +49,15 @@
     ].join('')
   }
 
+  $('.form-check-input').on('change', function () {
+    let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
+    $.post(url.changeModuleStatus, { status: show, id: 6 }, function (res) {
+      if (res && res.status === 0) {
+        console.log('修改成功')
+      }
+    })
+  })
+
   // 获取展示状态
   function getChecked() {
     $.get(url.getChecked, { id: 6 }, function (res) {
