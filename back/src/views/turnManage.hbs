@@ -66,11 +66,11 @@
       let picWidth = $('.turn-item-pic img')[0].offsetWidth
       if(picWidth < 100) {picWidth = 400}
       $('.turn-item-pic img').css('height', picWidth + 'px')
-    }
-    if($('.turned')[0]){
       let uploadHeight = $('.turned')[0].offsetHeight
       if(uploadHeight < 100) {uploadHeight = 400}
       $('.click-to-upload').css('height', uploadHeight + 'px')
+    } else {
+      $('.click-to-upload').css('height', '300px')
     }
    
     //设置跳转路径和轮播图
@@ -91,7 +91,7 @@
         contentType: false,
         processData: false,
         success: function (res) {
-          console.log('设置成功')
+          location.reload()
         }
       });
     })
