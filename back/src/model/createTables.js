@@ -486,7 +486,11 @@ const communicate = db.defineModel('gw_communicate',{
     },
     //发布时间
     create_time: {
-        type: Sequelize.DATE(2)
+        type: Sequelize.BIGINT(200)
+    },
+    //发布结束时间
+    end_time: {
+        type: Sequelize.BIGINT(200)
     }
 })
 

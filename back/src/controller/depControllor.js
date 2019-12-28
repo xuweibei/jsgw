@@ -376,7 +376,14 @@ const empInfo = async id => {
 
 //产品中心（存储[志强]）
 const saveCententTitle = async (obj) => {
-    console.log(JSON.stringify(obj));
+    // const sql1 = `insert into gw_company(comp_name, link_phone, address) values(${obj.comp_name},${obj.link_phone}, ${obj.address})`;
+    // const sql2 = `insert into gw_main_concat(comp_id, page_name, page_link) values('1',${obj.page_name}, ${obj.page_link})`;
+    // const sql3 = `insert into gw_friend_concat(comp_id, friend_page, friend_link) values('1',${obj.friend_page}, ${obj.friend_link})`;
+    // const ret1 = await sequelize.query(sql1);
+    // const ret2 = await sequelize.query(sql2);
+    // const ret3 = await sequelize.query(sql3);
+    // const arr =[ret1[0], ret2[0], ret3[0]];
+    // return arr;
     let insert = obj;
     insert.status = 1;
     if (obj) {

@@ -13,6 +13,7 @@ const product = require('./product')
 const carousel = require('./carousel')
 const postApi = require('./postApi')
 const helpContent = require('./helpContent')
+const communicate = require('./methods/communicate')
 router.get('/delivery/*', async (ctx, next) => {
         if (ctx.isAuthenticated()) {
             await next()
@@ -58,6 +59,10 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/new_carousel', carousel['new_carousel']) //新增轮播图
     .post('/api/preview_product', product['preview_product']) //预览产品
     .post('/api/commit_modify',product['modify_product'])//修改产品
+    .post('/api/communicate_list',communicate['communicate_list'])//公司交流列表
+    .post('/api/edit_communicate_list',communicate['edit_communicate_list'])//编辑公司交流列表
+    .post('/api/del_communicate_list',communicate['del_communicate_list'])//删除公司交流列表
+    .post('/api/enable_commu',communicate['enable_commu'])//隐藏或显示公司交流列表
     // 招聘信息管理
     .get('/delivery/invite', invite['invite'])
     // 公司简介

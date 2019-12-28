@@ -57,7 +57,9 @@
             .table-container {
                 padding-left: 24px;
                 padding-right: 24px;
-
+                //.row-container{
+                //    padding-left:20px;
+                //}
                 // thead> tr{
                 //     height: 56px;
                 //     line-height: 56px;
@@ -134,7 +136,6 @@
                         justify-content: space-between;
                         padding: 28px 24px;
                         align-items: center;
-
                         .card-body-title {
                             font-size: 24px;
                             font-weight: 600;
@@ -553,7 +554,7 @@
                         .turn-item {
                             position: relative;
                             margin-bottom: 40px;
-
+                            min-width: 320px;
                             img {
                                 width: 100%;
                                 height: 100%;
@@ -562,9 +563,17 @@
                             .close_ {
                                 width: 24px;
                                 height: 24px;
+                                background: red;
+                                color: white;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
                                 position: absolute;
+                                border-radius: 50%;
+                                font-size: 16px;
                                 right: 3px;
                                 top: -12px;
+                                cursor: pointer;
                             }
 
                             .turn-link {
@@ -636,11 +645,9 @@
                 .card {
                     border: 0;
                     border-radius: 0 !important;
-
                     .card-header {
                         background-color: #12181A;
                         border-radius: 0;
-
                         .btn-link.focus,
                         .btn-link:focus {
                             text-decoration: none;
@@ -687,17 +694,22 @@
     height: 100%;
     background: #ffffff;
     overflow: hidden;
-
+    position: relative;
     .content-bottom-right {
-        position: fixed;
-        top: 212px;
-        left: 680px;
+        position: absolute;
+        top: 117px;
+        left: 478px;
         .bottom-right-img {
             margin-left: 80px;
             margin-top: 30px;
             width: 160px;
             height: 160px;
         }
+    }
+    .bottom-right-imgs {
+        margin-top: 30px;
+        width: 160px;
+        height: 160px;
     }
 
     .help-content-top {
@@ -806,6 +818,7 @@
         justify-content: center;
         font-size: 14px;
         margin:0 auto;
+        cursor: pointer;
         margin-top: 40px;
     }
 }
@@ -815,7 +828,7 @@
 #recruic-wrap{
     .search-from{
         .search-input{
-            width:60%;
+            width: 60%;
             display: inline;
         }
     }
@@ -827,11 +840,47 @@
     .toolbar{
         form{
             float:left;
+            input,select,.input-group{
+                background:#F3F6FA;
+                border:none;
+                color:#A0AAB6;
+                font-size:12px;
+            }
+            .input-group{
+                button{
+                    span{
+                        color:#A0AAB6;
+                        font-size:12px;
+                    }
+                    .time_close{
+                        display: inline-block;
+                        width: 16px;
+                        height: 16px;
+                        line-height: 15px;
+                        text-align: center;
+                        float: right;
+                        border: 1px solid #ccc;
+                        border-radius: 50%;
+                        font-style: normal;
+                        color: #ccc;
+                        font-size: 12px;
+                        margin-right: 8px;
+                        margin-top:1px;
+                    }
+                }
+            }
         }
     }
     #filterBy{
         float:right;
-        margin:10px 100px 0 0;
+        margin:14px 100px 0 0;
+        width:64px;
+        height:32px;
+        line-height:16px;
+        color:#0AAFDE;
+        border:1px solid #0AAFDE;
+        background:#fff;
+        font-size:14px;
     }
     .edit-modal{
         max-width: 1000px;
@@ -880,6 +929,10 @@
                 width:100%;
                 padding:0 60px;
             }
+            input,textarea{
+                font-size:12px;
+                color:#A0AAB6;
+            }
         }
         .modal-footer{
             border:none;
@@ -918,10 +971,11 @@
 
     .active_background_two{
         background:rgb(72, 72, 231);
-        color:#fff;
+        color:#fff !important;
     }
     #edit_job_class{
         color:#A0AAB6;
+        font-size:12px;
     }
     .edit_select{
         position: relative;
@@ -929,23 +983,28 @@
         width:100%;
         border-radius: 4px;
         border:1px solid #ccc;
-        line-height: 40px;
+        line-height: 30px;
         text-align: center;
         color:#A0AAB6;
+        font-size:12px;
         background:#F3F6FA;
         border:none;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
     }
     .scroll_work{
         display: none;
         width:200px;
         position: absolute;
         top:42px;
-        left:62px;
+        left:84px;
         z-index: 2;
         height:200px;
         overflow: hidden;
         background:#fff;
         border:1px solid #ccc;
+        border-radius: 6px;
         .scroll_wrap{
             width:260px;
             height:200px;
@@ -956,6 +1015,8 @@
                 li{
                     padding-left:10px;
                     position: relative;
+                    font-size:12px;
+                    color:#A0AAB6
                 }
             }
         }
@@ -967,12 +1028,13 @@
         width:200px;
         position: absolute;
         top:42px;
-        left:270px;
+        left:290px;
         z-index: 2;
         height:200px;
         overflow: hidden;
         background:#fff;
         border:1px solid #ccc;
+        border-radius: 6px;
         .city_wrap{
             width:260px;
             height:200px;
@@ -982,6 +1044,8 @@
                 width:220px;
                 li{
                     padding-left:10px;
+                    font-size:12px;
+                    color:#A0AAB6
                 }
             }
         }
@@ -991,11 +1055,12 @@
         width:200px;
         position: absolute;
         top:42px;
-        left:480px;
+        left:496px;
         z-index: 2;
         height:200px;
         overflow: hidden;
         background:#fff;
+        border-radius: 6px;
         border:1px solid #ccc;
         .county_wrap{
             width:260px;
@@ -1006,6 +1071,8 @@
                 width:220px;
                 li{
                     padding-left:10px;
+                    font-size:12px;
+                    color:#A0AAB6
                 }
             }
         }
@@ -1036,20 +1103,6 @@
         padding-right: 10px;
     }
 
-    .time_close{
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        line-height: 18px;
-        text-align: center;
-        float: right;
-        border: 1px solid #ccc;
-        border-radius: 50%;
-        font-style: normal;
-        color: #ccc;
-        font-size: 12px;
-        margin-top: 2px;
-    }
 
     .prev_main{
         .modal-dialog{
@@ -1113,8 +1166,9 @@
 
     .table .thead-blue th {
         color: #fff;
-        background-color: #3195f1;
-        border-color: #0d7adf;
+        background-color: #0AAFDE;
+        border-color: #0AAFDE;
+        font-size:14px;
     }
     #table-edit,#table-del,#table-start,#table-see{
         font-size:14px;
@@ -1197,10 +1251,14 @@
         background: #F5F5F5;
         border-radius: 10px;
         border: none !important;
-
+        .card-body{
+            padding-top: 8px;
+            padding-bottom: 12px;
+        }
         .card-header {
             background: #F5F5F5;
             border: none;
+            padding-bottom: 0;
         }
     }
 
@@ -1241,7 +1299,7 @@
             background: #0AAFDE;
             border-radius: 50%;
             position: absolute;
-            top: 50%;
+            top: 48.5%;
             right: -7px;
         }
     }
