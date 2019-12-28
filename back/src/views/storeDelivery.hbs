@@ -344,7 +344,10 @@
             })
         })
         $.post(url.getRecreuit,obj,function(resData){
-          const arr = resData.data.rows.reverse();
+          let arr = [];
+          if(resData && resData.data.rows && resData.data.rows.length > 0){
+            arr = resData.data.rows.reverse();
+          }
           $table.bootstrapTable('load',arr )
         });
       }
@@ -359,7 +362,7 @@
       //点击日期选择的清空按钮
       const time_close = document.getElementsByClassName('time_close')[0];
       time_close.addEventListener('click',function(e){
-        $('#daterange-btn span').html('')
+        $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
         e.stopPropagation();
       });
 
@@ -475,14 +478,16 @@
           })
           //获取省
           $.post(url.getPcatBak, {level:1}, function(res) {
-            res.data.rows.forEach(item=>{
-                const str = document.createElement('li');
-                str.id = item.id;
-                str.innerHTML = item.name;
-                str.addEventListener('click',(ev)=>getCity(item,ev))
-                $('.edit_work_place_list').append(str)
-            })
-            workList('edit_work_place_list li')
+            if(res && res.data.rows && res.data.rows.length >0){
+                res.data.rows.forEach(item=>{
+                    const str = document.createElement('li');
+                    str.id = item.id;
+                    str.innerHTML = item.name;
+                    str.addEventListener('click',(ev)=>getCity(item,ev))
+                    $('.edit_work_place_list').append(str)
+                })
+                workList('edit_work_place_list li')
+            }
           })
           var editSelect =  document.getElementsByClassName('edit_select')[0]
           //点击省份，然后请求下面的地区
@@ -494,14 +499,16 @@
             countyPlace.style.display = 'none';
             cityContent.innerHTML = '';
               $.post(url.getPcatBak, {parentId:data.code}, function(resdata) {
-                resdata.data.rows.forEach(item=>{
-                    const str = document.createElement('li');
-                    str.id = item.id;
-                    str.innerHTML = item.name;
-                    str.addEventListener('click',(ev)=>getCounty(data,item,ev))
-                    $('.city_content').append(str)
-                })
-                workList('city_content li');
+              if(resdata && resdata.data.rows && resdata.data.rows.length >0){
+                  resdata.data.rows.forEach(item=>{
+                      const str = document.createElement('li');
+                      str.id = item.id;
+                      str.innerHTML = item.name;
+                      str.addEventListener('click',(ev)=>getCounty(data,item,ev))
+                      $('.city_content').append(str)
+                  })
+                  workList('city_content li');
+                }
               })
             ev.stopPropagation();
           }
@@ -512,14 +519,16 @@
             countyPlace.style.display = 'block';
             countyContent.innerHTML = '';
               $.post(url.getPcatBak, {parentId:data.code}, function(res) {
-                res.data.rows.forEach(item=>{
-                    const str = document.createElement('li');
-                    str.id = item.id;
-                    str.innerHTML = item.name;
-                    str.addEventListener('click',(ev)=>getEitdCounty(value,data,item))
-                    $('.county_content').append(str)
-                })
-                workList('county_content li')
+              if(res && res.data.rows && res.data.rows.length >0){
+                  res.data.rows.forEach(item=>{
+                      const str = document.createElement('li');
+                      str.id = item.id;
+                      str.innerHTML = item.name;
+                      str.addEventListener('click',(ev)=>getEitdCounty(value,data,item))
+                      $('.county_content').append(str)
+                  })
+                  workList('county_content li')
+              }
               })
             ev.stopPropagation();
           }
@@ -605,7 +614,7 @@
                 field: 'post_name'
               }, {
                 title: '职位分类',
-                field: 'name'
+                field: 'job_class'
               }, {
                 title: '工作地点',
                 field: 'detail_address'
@@ -651,7 +660,6 @@
           })
           $('#enable_btn').click(function(data){
             $.post(url.enable,enableData,function(res){
-              console.log(res,'电饭锅看来')
               if(res && res.status === 0){
                 alert('操作成功');
                 $('#enable').modal('hide')
