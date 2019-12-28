@@ -1,85 +1,70 @@
 import Layout from "../components/layout/layout";
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
-import fetch from 'isomorphic-unfetch';
 const {RangePicker} = DatePicker;
+import { Carousel } from 'antd';
+import Slider from "react-slick";
+// import "slick-carousel/slick/slick.css";
+// import "slick-carousel/slick/slick-theme.css";
 import "../static/style/page/index.less";
-const { Option } = Select;
 
-const Index =(props)=>{
+
+class Index extends React.Component {
+
+    state = {
+
+    }
+
+
+
+    render() {
+        const settings = {
+            dots: true,
+            infinite: true,
+            speed: 500,
+            slidesToShow: 1,
+            slidesToScroll: 1
+        };
         return(
-            <Layout>
-               <div className="home">
-                   {/*banner图*/}
-                   <div className="banner">
-                       <div className="join">Join us</div>
-                       <div className="join-one">加入我们</div>
-                   </div>
-                   {/*表单搜索栏*/}
-                   <div className="sizer distance">
-                       <div className="screen">
-                           <Input className="fill" placeholder="Basic usage" />
-                           <Select
-                               placeholder="-请选择职位分类-"
-                               optionFilterProp="children"
-                           >
-                               <Option value="jack">UI</Option>
-                               <Option value="front">前端</Option>
-                               <Option value="after">后端</Option>
-                           </Select>
-                           <Select
-                               placeholder="-请选择工作地点-"
-                               optionFilterProp="children"
-                           >
-                               <Option value="fuZhou">福州</Option>
-                               <Option value="sanMing">三明</Option>
-                           </Select>
-                           <RangePicker />
-                       </div>
-                       <div className="search">
-                           <span className="empty">清空筛选条件</span>
-                           <Button type="primary">搜索</Button>
-                       </div>
-                   </div>
-                   {/*每项数据内容*/}
-                   <div>
-                       <div className="each">
-                           <div className="datum">
-                               <div className="position">
-                                   <div>UI/UE 设计师</div>
-                                   <div>6k-7k</div>
-                               </div>
-                               <div className="specification">
-                                   <div>研发</div>
-                                   <div>辅助</div>
-                                   <div>3人</div>
-                               </div>
-                               <div className="time">
-                                   <div>2019-11-11</div>
-                                   <div>12:11:11</div>
-                               </div>
-                           </div>
-                           <div className="details">查看详细<img src={"/arrows.png"} alt=""/></div>
-                       </div>
-                       <div className="distance">
-                           <Pagination
-                               showSizeChanger
-                               showQuickJumper
-                               // onShowSizeChange={this.onShowSizeChange}
-                               defaultCurrent={3}
-                               total={500}
-                           />
-                       </div>
-                   </div>
-               </div>
-            </Layout>
-        )
+        <Layout>
+            <div className="home">
+                <img className="banner" src="/hong-bg.png" alt=""/>
+                <div className="dynamic">
+                    <div className="dynamic-head">最新动态</div>
+                    <div>
+                        <h2> Single Item</h2>
+                        <Slider {...settings}>
+                            <div>
+                                <h3>1</h3>
+                            </div>
+                            <div>
+                                <h3>2</h3>
+                            </div>
+                            <div>
+                                <h3>3</h3>
+                            </div>
+                            <div>
+                                <h3>4</h3>
+                            </div>
+                            <div>
+                                <h3>5</h3>
+                            </div>
+                            <div>
+                                <h3>6</h3>
+                            </div>
+                        </Slider>
+                    </div>
+                </div>
+            </div>
+        </Layout>
+    )
+    }
 }
 
-Index.getInitialProps = async () => {
-    const res = await fetch('http://localhost:8000/api/get_tab',{method:'POST'})
-    const json = await res.json()
-    console.log(json)
-    return { data: json }
-}
+// Index.getInitialProps = async () => {
+//     const res = await fetch('http://localhost:8000/api/get_tab',{method:'POST'})
+//     const json = await res.json()
+//     console.log(json)
+//     return { data: json }
+// }
 
 export default Index;

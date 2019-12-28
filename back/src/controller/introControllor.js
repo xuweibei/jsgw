@@ -1,5 +1,5 @@
 
-const {Intro} = require('../model/createTables')
+const {Intro, IndexModule} = require('../model/createTables')
 const insertIntro = async (data, id) => {
     if (id) {
         const find =  await Intro.findOne({where: {id}});
@@ -26,7 +26,17 @@ const getHtml = async (id) => {
     }
     
 }
+
+// 獲取展示首頁狀態
+const getChecked = async id => {
+    if (id) {
+        const ret = await IndexModule.findOne({attributes: ['status'], where: {id}})
+        return ret 
+    }
+}
+
 module.exports = {
     insertIntro,
     getHtml,
+    getChecked
 }
