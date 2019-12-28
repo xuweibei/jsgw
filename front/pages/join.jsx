@@ -3,7 +3,6 @@ import {Button, DatePicker, Input, Pagination, Select} from "antd";
 import "../static/style/page/join.less";
 const { Option } = Select;
 const {RangePicker} = DatePicker;
-import fetch from 'isomorphic-unfetch';
 
 const join = () => {
     return (
