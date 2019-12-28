@@ -49,4 +49,8 @@ const url = {
     delCarousel: base + 'api/del_carousel', //删除轮播图
     newCarousel: base + 'api/new_carousel', //新增轮播图
     previewProduct: base + 'api/preview_product', //预览产品
+    communicateList: base + 'api/communicate_list', //公司交流列表
+    editCommunicateList: base + 'api/edit_communicate_list', //添加公司交流列表
+    deleteCommunicate: base + 'api/del_communicate_list', //删除公司交流列表
+    enableCommu: base + 'api/enable_commu' //隐藏或显示公司交流列表
 }

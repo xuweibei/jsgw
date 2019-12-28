@@ -1,9 +1,30 @@
 {{#>default}}
+<style>
+  .active{
+    color: #FF9C39 !important;
+  }
+  .toast {
+      width: 200px !important;
+      background: rgba(0, 0, 0, 0.5);
+      border: none !important;
+      color: #fff;
+      text-align: center;
+      left: 50%;
+      top: 50%;
+      z-index: 100000;
+      transform: translateX(-50%);
+      // opacity: 1;
+  }
+</style>
   <link rel="stylesheet" href="../assets/css/commiucate.css"/>
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
+
 <div class="job-class-container company-talk-container">
+    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
+      <div class="toast-body"></div>
+    </div>
   <div class="mainModal">
     <div class="job-class-top">
       <span>公司交流</span>
@@ -14,7 +35,7 @@
         <form>
           <div class="row">
             <div class="col">
-              <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="searchWork">
+              <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
             </div>
             <div class="col">
                 <div class="main">
@@ -31,7 +52,7 @@
             </div>
           </div>
         </form>
-        <button class="btn btn-primary" id="filterBy">搜索</button>
+        <button class="btn btn-primary" id="filterBy" onclick="searchList()">搜索</button>
       </div>
       <table
         id="table"
@@ -63,50 +84,198 @@
         style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;">发布</button>
     </div>
   </div>
+    {{!-- 删除按钮的弹框 --}}
+    <div class="modal fade" id="deletetable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            确定删除该条类目
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="deleteRow()" id="delete_list">确定</button>
+          </div>
+        </div>
+      </div>
+  </div>
+    {{!-- 是否停用按钮的弹框 --}}
+    <div class="modal fade" id="enable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            确定操作？
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" onclick="showOrHide()" id="enable_btn">确定</button>
+          </div>
+        </div>
+    </div>
+    
   </div>
     <script>
-        var $table = $('#table')
+        var $table = $('#table');
+        var enableData = {};//显示隐藏的数据
+        var deleteData = {};//删除数据储存
+        var editData = {};//编辑时的数据
+
+        //点击日期选择的清空按钮
+        const time_close = document.getElementsByClassName('time_close')[0];
+        time_close.addEventListener('click',function(e){
+          $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
+          e.stopPropagation();
+        });
+
+        // 关闭提示框
+        function toast(message,callBack) {
+          $('.toast').toast("show")
+          $('.toast-body').text(message);
+        $('.toast').on('hidden.bs.toast', function () {
+           callBack && callBack()
+        })
+        }
+        //删除某条数据
+        function deleteRow(){
+          $.post(url.deleteCommunicate,{id:deleteData.id},(res)=>{
+            if(res && res.status === 0){
+              $('#deletetable').modal('hide')
+              searchList();
+              toast(res.message,()=>{
+                $('#deletetable').modal('hide')
+              })
+            }
+          })
+        }
+
+        //显示或隐藏
+        function showOrHide(){
+          $.post(url.enableCommu,{id:enableData.id,status:enableData.status},(res)=>{
+            if(res && res.status === 0){
+              searchList();
+              toast(res.message,()=>{
+                $('#enable').modal('hide')
+              })
+            }
+          })
+        }
+        function formatDate(timestamp) {
+            var date = new Date(timestamp );//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+            var D = date.getDate() + ' ';
+            var h = date.getHours() + ':';
+            var m = date.getMinutes() + ':';
+            var s = date.getSeconds();
+            return Y + M + D + h + m + s;
+        }
+
+        //点击搜索
+        function searchList() {
+          const title = $("input[name='title']").val();
+          const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
+          const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
+          const arr = [];//取值的数组
+          const keyArr = ['title','create_time','end_time'];
+          const obj = {};//发过去的对象
+          arr.push(title);
+          arr.push(start_time);
+          arr.push(end_time);
+          keyArr.forEach((item,index)=>{
+              arr.forEach((data,num)=>{
+                if(data && index === num){
+                  obj[item] = data
+                }
+              })
+          })
+          $.post(url.communicateList,obj,function(resData){
+            let arr = [];
+            if(resData && resData.data.rows && resData.data.rows.length > 0 ){
+              arr = resData.data.rows.reverse();
+            }
+              $table.bootstrapTable('load',arr )
+          });
+        }
           $(function() {
             $table.bootstrapTable({
               toolbar: '.toolbar',
-              {{!-- url: url.getRecreuit, --}}
+              method: "post",
+              pageNumber: 1,
+              pagination: true,
+              pageSize: 5,
+              pageList: [10, 25],
+              url: url.communicateList,
               columns: [{
                 title: '标题',
-                field: 'name'
+                field: 'title'
               }, {
                 title: '发布时间',
-                field: 'sort'
+                field: 'create_time',
+                formatter:(res)=>{
+                  return formatDate(res)
+                }
               }, {
                 title: '操作',
-                field: 'opt'
+                field: 'opt',
+                formatter: operateFormatter,
+                events: operateEvent = {
+                  "click #table_edit": function (e, value, row, index) {
+                    editData = row;
+                    editor.txt.html(row.describe);
+                    $('#colFormLabel').val(row.title);
+                    showOr()
+                    e.preventDefault();
+                  },
+                  "click #table_del": function (e, value, row, index) {
+                    deleteData = row;
+                    $('#deletetable').modal('show')
+                  },
+                  "click #table_hide": function (e, value, row, index) {
+                    enableData = row;
+                    $('#enable').modal('show')
+                  },
+                  "click #table_see": function (e, value, row, index) {
+                    $('#preview').html(prevSee(row));
+                    $('#preview').modal('show');
+                  },
+                }
               }],
               responseHandler:function(res){
-                console.log(res,'到付款了个')
+                const arr = [];
+                if(res && res.status === 0 && res.data.rows.length > 0 ){
+                    const arrList = res.data.rows.reverse();
+                    arrList.forEach(item => {
+                      arr.push({
+                        id:item.id,
+                        title: item.title,
+                        create_time: item.create_time,
+                        describe:item.describe,
+                        status:item.status
+                      })
+                  })
+                }
+                return arr;
               }
             })
             function operateFormatter(value, row, index) {
+              const style = row.status === '1' ? 'aActive' :''
               return [
                 '<a class="like opt" id="table_see" href="javascript:void(0)" title="see">查看</a>',
                 '<a class="like opt" id="table_edit" href="javascript:void(0)" title="edit">编辑</a>',
-                '<a class="like opt" id="table_hide" href="javascript:void(0)" title="hide">隐藏</a>',
+                `<a class="like opt ${style}" id="table_hide" href="javascript:void(0)" title="hide">${style ? '显示':'隐藏'}</a>`,
                 '<a class="remove opt" id="table_del" href="javascript:void(0)" title="remove">删除</a>'
               ].join('')
             }
         })
         var E = window.wangEditor;
         var editor = new E('#editor');
-        console.log(editor,'克里斯多夫是')
         editor.create();
-        editor.txt.html('123')
         editor.customConfig.customUploadImg = function (files, insert) {
           var formData = new FormData();
           for (var i = 0; i < files.length; i++) {
             formData.append("files[" + i + "]", files[i], files[i].name);
           }
         };
-        function saveHtml(){
-            console.log(editor.txt.html())
-        }
+        //点击新增
         function showOr(onOff){
           if(!onOff){
               $('.mainModal')[0].classList.add('d-none');
@@ -114,7 +283,27 @@
           }else{
               $('.mainModal')[0].classList.remove('d-none');
               $('.editModel')[0].classList.add('d-none');
+              editor.txt.html('');
+              $('#colFormLabel').val('');
           }
+        }
+
+        //富文本保存时
+        function saveHtml(){
+            const title = $('#colFormLabel').val();
+            const detail = editor.txt.html();
+            if(title && detail){
+              $.post(url.editCommunicateList,{id:editData.id,title,describe:detail,create_time:new Date().getTime(),end_time:new Date().getTime()},(res)=>{
+                if(res && res.status === 0){
+                    $('#colFormLabel').val('');
+                    searchList();
+                    editor.txt.html('')
+                    toast(res.message,()=>{
+                      showOr(true);
+                    })
+                }
+              })
+            }
         }
     </script>
     <script>
