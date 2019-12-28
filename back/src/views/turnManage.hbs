@@ -62,9 +62,17 @@
 <script>
   $(function(){
     //设置图片高度
-    const picWidth = $('.turn-item-pic img')[0].offsetWidth
-    $('.turn-item-pic img').css('height', picWidth + 'px')
-    $('.click-to-upload').css('height', $('.turned')[0].offsetHeight + 'px')
+    if($('.turn-item-pic img')[0]){
+      let picWidth = $('.turn-item-pic img')[0].offsetWidth
+      if(picWidth < 100) {picWidth = 400}
+      $('.turn-item-pic img').css('height', picWidth + 'px')
+    }
+    if($('.turned')[0]){
+      let uploadHeight = $('.turned')[0].offsetHeight
+      if(uploadHeight < 100) {uploadHeight = 400}
+      $('.click-to-upload').css('height', uploadHeight + 'px')
+    }
+   
     //设置跳转路径和轮播图
     $('.turned').on('change', function(){
       let formData = new FormData();

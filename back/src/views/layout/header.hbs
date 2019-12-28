@@ -1,6 +1,11 @@
 <div class="header-container">
-    <div class="header-info"><span class="info-name"></span>(<span class="info-ident"></span>) <button class="btn logout" style="color: #4FCAFF">退出</button></div>
-
+    <div class="header-info">
+        <div>
+            <span class="info-name"></span>
+            (<span class="info-ident"></span>)
+        </div>
+        <button class="btn logout" style="color: #4FCAFF">退出</button>
+    </div>
     <script>
         $('.logout').on('click', function(e) {
             e.preventDefault();
@@ -12,5 +17,6 @@
         const info = JSON.parse(sessionStorage.getItem("info"));
         $('.info-name').text(info.name);
         $('.info-ident').text(info.identity);
+        $('.header-info').css('width', ($('body')[0].offsetWidth - 300) + 'px')
     </script>
 </div>
