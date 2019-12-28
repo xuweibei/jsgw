@@ -13,15 +13,26 @@
     .body-content {
         flex: 1;
         background-color: #F9F9F9;
-
+        padding-left: 200px;
         .header-container {
             height: 80px;
             line-height: 80px;
             background-color: #fff;
             position: fixed;
+            // margin-top: 0;
             // flex: 1;
             width: 100%;
             z-index: 5;
+            padding-left: 30px;
+            padding-right: 30px;
+            .header-info{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                .logout{
+                    
+                }
+            }
         }
 
         .mid-content {
@@ -634,6 +645,11 @@
                         .btn-link.focus,
                         .btn-link:focus {
                             text-decoration: none;
+                        }
+                        .mb-0{
+                            img{
+                                width: 16px;
+                            }
                         }
                     }
 
