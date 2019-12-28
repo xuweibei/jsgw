@@ -31,6 +31,15 @@
     </table>
     <script>
 
+      $('.form-check-input').on('change', function () {
+        let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
+        $.post(url.changeModuleStatus, { status: show, id: 7 }, function (res) {
+          if (res && res.status === 0) {
+            console.log('修改成功')
+          }
+        })
+      })
+
       function getChecked() {
         $.get(url.getChecked, { id: 7 }, function (res) {
           if (res && res.status === 0) {
