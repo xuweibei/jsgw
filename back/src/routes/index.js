@@ -67,6 +67,8 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/get_rich', intro['get_rich'])
     .post('/api/insert_intro', intro['insert_intro'])
     .post('/api/render_html', intro['render_html'])
+    // 獲取展示首页状态
+    .get('/api/get_checked', intro['get_checked'])
     // 职位分类
     .get('/delivery/job', job['jobClass'])
     // 首页展示

@@ -20,7 +20,7 @@ const getInfo = async (offset, limit, page) => {
         limit: limit,
         offset: (page - 1) * limit
     })
-    const total = await Information.count()
+    const total = await Information.count({where: {del_status: "1"}})
     const arr = []
     if (ret) {
         ret.forEach(item => {

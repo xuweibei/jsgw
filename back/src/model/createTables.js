@@ -47,6 +47,10 @@ const Account = db.defineModel('gw_account', {
     //身份id,对应identity表的主键
     identity_id: {
         type: Sequelize.INTEGER(11),
+    },
+    account_status: {
+        type: Sequelize.STRING(1),
+        defaultValue: "1"
     }
 });
 
