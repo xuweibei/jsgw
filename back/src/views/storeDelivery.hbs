@@ -50,7 +50,7 @@
                   <div class="input-group fl">
                           <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
                               <span></span>
-                  <i class="time_close">X</i>
+                          <i class="time_close">X</i>
                           </button>
                           <input type="hidden" value="" id="incomeStartDate">
                           <input type="hidden" value="" id="incomeEndDate">
@@ -103,7 +103,7 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>工作地点：</label>
-                        <div class="edit_select">请选择工作地点</div>
+                        <div class="edit_select" title="请选择工作地点">请选择工作地点</div>
                         <div class="scroll_work">
                           <div class="scroll_wrap">
                             <ul class="edit_work_place_list">
@@ -538,6 +538,7 @@
             city = value;
             county = res;
             editSelect.innerHTML = data.name+'-'+value.name + '-' +res.name;
+            editSelect.title = data.name+'-'+value.name + '-' +res.name;
           }
           
           document.addEventListener('click',function(){
@@ -631,6 +632,7 @@
                     $('#exampleModalCenterTitle').html('编辑')
                     dataMain(row)
                     e.preventDefault();
+                    editSelect.title = row.address_name;
                     $('#exampleModalCenter').modal('show')
                   },
                   "click #table-del": function (e, value, row, index) {
