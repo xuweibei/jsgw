@@ -71,7 +71,11 @@ const findDep = async () => {
 }
 // 获取分组信息
 const readDep = async () => {
-    const ret = await Department.findAll({where: {dep_status: "1"}})
+    const ret = await Department.findAll({
+        where: {
+            dep_status: "1"
+        }
+    })
     let arr = []
     ret.forEach(item => {
         arr.push(item.dataValues)
@@ -154,7 +158,13 @@ const insertEmployee = async (obj) => {
         }
     })
     if (ret) {
-        return await Employee.update({status: "1"}, {where: {name: obj.name}})
+        return await Employee.update({
+            status: "1"
+        }, {
+            where: {
+                name: obj.name
+            }
+        })
     } else {
         return sequelize.transaction(function (t) {
             // 要确保所有的查询链都有return返回
@@ -163,15 +173,19 @@ const insertEmployee = async (obj) => {
                 phone: obj.phone,
                 ident_id,
                 dep_id
-            }, {transaction: t}).then(function () {
-              return Account.create({
-                account: obj.account,
-                password: obj.password,
-                identity_id: ident_id
-              }, {transaction: t});
+            }, {
+                transaction: t
+            }).then(function () {
+                return Account.create({
+                    account: obj.account,
+                    password: obj.password,
+                    identity_id: ident_id
+                }, {
+                    transaction: t
+                });
             });
-          
-          })
+
+        })
     }
 }
 
@@ -230,8 +244,6 @@ const editEmp = async (parms) => {
         }
     })
     if (findEmp) {
-        console.log(department, "卡时间段会撒娇客户端三块")
-        console.log(identity, "卡时间段会撒娇客户端三块")
         return sequelize.transaction(function (t) {
             // 在事务中执行操作
             return Employee.update({
@@ -239,7 +251,11 @@ const editEmp = async (parms) => {
                     phone: parms.phone,
                     ident_id: identity.dataValues.id,
                     dep_id: department.dataValues.id
-                }, {where: {id: parms.id}} , {
+                }, {
+                    where: {
+                        id: parms.id
+                    }
+                }, {
                     transaction: t
                 })
                 .then(function () {
@@ -247,7 +263,11 @@ const editEmp = async (parms) => {
                         account: parms.account,
                         password: parms.password,
                         identity_id: identity.dataValues.id,
-                    }, {where: {id: parms.id}}, {
+                    }, {
+                        where: {
+                            id: parms.id
+                        }
+                    }, {
                         transaction: t
                     })
                 });
@@ -263,14 +283,37 @@ const delEmp = async (id) => {
         }
     })
     if (emp) {
-        const del = await Employee.update({
-            status: "0"
-        }, {
-            where: {
-                id
-            }
+        // const del = await Employee.update({
+        //     status: "0"
+        // }, {
+        //     where: {
+        //         id
+        //     }
+        // })
+        // return del && del[0]
+        return sequelize.transaction(function (t) {
+            // 在事务中执行操作
+            return Employee.update({
+                    status: "0"
+                }, {
+                    where: {
+                        id
+                    }
+                }, {
+                    transaction: t
+                })
+                .then(function () {
+                    return Account.update({
+                        account_status: "0",
+                    }, {
+                        where: {
+                            id
+                        }
+                    }, {
+                        transaction: t
+                    })
+                });
         })
-        return del && del[0]
     }
 }
 const changeStatus = async (id) => {

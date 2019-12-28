@@ -6,8 +6,13 @@
     <div class="card-body-title">
       产品中心
     </div>
-    <div class="card-body-btn">
-      <button type="button" class="btn">展示在首页</button>
+    <div class="card-body-btn d-flex" style="line-height: 32px;">
+      <div class="form-check" style="margin-right: 30px;">
+        <input class="form-check-input" type="checkbox" id="defaultCheck1" style="margin-top: 11px;">
+        <label class="form-check-label show-home" style="color: #0AAFDE" for="defaultCheck1">
+          展示在首页
+        </label>
+      </div>
       <button type="button" class="btn" data-toggle="modal" data-target="#addModal">新增</button>
     </div>
   </div>
@@ -25,6 +30,16 @@
       </thead>
     </table>
     <script>
+
+      function getChecked() {
+        $.get(url.getChecked, { id: 7 }, function (res) {
+          if (res && res.status === 0) {
+            $('.form-check-input').attr('checked', res.data.checked)
+          }
+        })
+      }
+      getChecked()
+
       var $table = $('#table')
       $(function () {
         $table.bootstrapTable({
@@ -70,8 +85,8 @@
               },
               "click .btn-preview": function (e, value, row, index) {
                 e.preventDefault();
-                $.post(url.previewProduct, {id: row.id}, function(res){
-                  if(res && res.status === 0){
+                $.post(url.previewProduct, { id: row.id }, function (res) {
+                  if (res && res.status === 0) {
                     console.log(res)
                   }
                 })
