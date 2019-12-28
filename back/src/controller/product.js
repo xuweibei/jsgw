@@ -2,7 +2,7 @@ const {sequelize} = require('../db/db');
 
 //获取产品信息
 const getProducts = async () => {
-  const sql = 'select id,serial_number,pro_name,status from gw_product'
+  const sql = 'select * from gw_product'
   const res = await sequelize.query(sql)
   return res[0]
 }
@@ -30,10 +30,17 @@ const previewProduct = async (id) => {
   const res = await sequelize.query(sql)
   return res[0]
 }
+//修改产品
+const modifyProduct = async (data) => {
+  const sql = `update gw_product set serial_number='${data.serial_number}',pro_name='${data.pro_name}',product_desc='${data.product_desc}',logo='${data.logo}',android_link='${data.android_link}',ios_link='${data.ios_link}',link_code='${data.link_code}' where id=${data.id}`
+  const res = await sequelize.query(sql)
+  return res[0]
+}
 module.exports = {
   getProducts,
   delProduct,
   showItem,
   newProduct,
-  previewProduct
+  previewProduct,
+  modifyProduct
 }

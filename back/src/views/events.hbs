@@ -98,6 +98,16 @@
         $('.modal-del').modal('show');
     }
 
+    $('.form-check-input').on('change', function () {
+        let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
+        let id = window.location.href.includes('intro') ? 2 : 3
+        $.post(url.changeModuleStatus, { status: show, id: 5 }, function (res) {
+            if (res && res.status === 0) {
+                console.log('修改成功')
+            }
+        })
+    })
+
     function getChecked() {
         $.get(url.getChecked, { id: 5 }, function (res) {
             if (res && res.status === 0) {

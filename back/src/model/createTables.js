@@ -312,51 +312,6 @@ const Invite = db.defineModel('gw_invite_info', {
         type:Sequelize.STRING(1)
     }
 })
-//公司表
-const Company = db.defineModel('gw_company', {
-    id: {
-        type: Sequelize.INTEGER(11),
-        primaryKey: true,
-        allowNull: false,
-        autoIncrement: true
-    },
-    //公司名称
-    comp_name: {
-        type: Sequelize.STRING(50)
-    },
-    //公司简介
-    intro: {
-        type: Sequelize.TEXT
-    },
-    //电话（联系方式）
-    link_phone: {
-        type: Sequelize.STRING(30)
-    },
-    //联系地址
-    address: {
-        type: Sequelize.STRING(255)
-    },
-    //页面名称
-    page_name: {
-        type: Sequelize.STRING(255)
-    },
-    // 跳转链接
-    page_link: {
-        type: Sequelize.STRING(255)
-    },
-    //友情页面
-    friend_page: {
-        type: Sequelize.STRING(255)
-    },
-    //友情链接
-    friend_link: {
-        type: Sequelize.STRING(255)
-    },
-    //图片地址
-    pic_rul: {
-        type: Sequelize.STRING(255)
-    }
-})
 //产品表
 const Product = db.defineModel('gw_product', {
     id: {
@@ -531,7 +486,85 @@ const communicate = db.defineModel('gw_communicate',{
     },
     //发布时间
     create_time: {
-        type: Sequelize.DATE(2)
+        type: Sequelize.BIGINT(200)
+    },
+    //发布结束时间
+    end_time: {
+        type: Sequelize.BIGINT(200)
+    }
+})
+
+//公司表
+const Company = db.defineModel('gw_company', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //公司名称
+    comp_name: {
+        type: Sequelize.STRING(50)
+    },
+    //公司简介
+    intro: {
+        type: Sequelize.TEXT
+    },
+    //电话（联系方式）
+    link_phone: {
+        type: Sequelize.STRING(30)
+    },
+    //联系地址
+    address: {
+        type: Sequelize.STRING(255)
+    },
+    //图片地址
+    pic_rul: {
+        type: Sequelize.STRING(255)
+    }
+})
+
+//主要联络方式表
+const mainConcat = db.defineModel('gw_main_concat',{
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //公司id,对应公司表的主键
+    comp_id: {
+        type: Sequelize.INTEGER(11),
+    },
+    //页面名称
+    page_name: {
+    type: Sequelize.STRING(255)
+},
+     // 跳转链接
+    page_link: {
+    type: Sequelize.STRING(255)
+}
+})
+
+//友情链接表
+const friendConcat = db.defineModel('gw_friend_concat',{
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //公司id,对应公司表的主键
+    comp_id: {
+        type: Sequelize.INTEGER(11),
+    },
+//友情页面
+    friend_page: {
+        type: Sequelize.STRING(255)
+    },
+//友情链接
+    friend_link: {
+        type: Sequelize.STRING(255)
     }
 })
 
@@ -556,6 +589,8 @@ module.exports = {
     Events,
     Carousel,
     IndexModule,
-    communicate
+    communicate,
+    mainConcat,
+    friendConcat
     // Roles
 }

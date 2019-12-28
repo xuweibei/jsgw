@@ -29,7 +29,7 @@
         </div>
       </div>
     </form>
-    <div id="editor" style="width: 1200px; margin: 0 auto;"></div>
+    <div id="editor" style="width: 1000px; margin: 0 auto;"></div>
     <div class="text-center">
       <button class="btn btn-primary btn-edit" onclick="saveHtml()"
         style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;" onclick="saveHtml()">发布</button>
@@ -44,10 +44,19 @@
     let show = row.show === "1" ? "隐藏" : "开启"
     return [
       '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
-      '<a class="remove opt" id="table-hide" href="javascript:void(0)" title="Remove">' + show + '</a>',
+      '<a class="opt" id="table-hide" href="javascript:void(0)" title="Remove">' + show + '</a>',
       '<a class="remove opt" id="table-del" href="javascript:void(0)" title="Remove">删除</a>'
     ].join('')
   }
+
+  $('.form-check-input').on('change', function () {
+    let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
+    $.post(url.changeModuleStatus, { status: show, id: 6 }, function (res) {
+      if (res && res.status === 0) {
+        console.log('修改成功')
+      }
+    })
+  })
 
   // 获取展示状态
   function getChecked() {
