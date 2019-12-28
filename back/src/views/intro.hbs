@@ -20,7 +20,7 @@
         <div id="ht"></div>
     </div>
     <div class="editor invisible">
-        <div id="editor" style="width: 1200px;"></div>
+        <div id="editor" style="width: 1000px;"></div>
         <div class="text-center">
             <button class="btn btn-primary btn-edit" onclick="saveHtml()">保存</button>
         </div>
@@ -31,11 +31,16 @@
     var edit = document.getElementsByClassName('intro-edit')[0];
     var desc = document.getElementsByClassName('intro-desc')[0];
     var home = document.getElementsByClassName('show-home')[0];
-    $(function(){
-        $('.form-check-input').on('change', function(){
-        let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
-        
-    })
+    $(function () {
+        $('.form-check-input').on('change', function () {
+            let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
+            let id = window.location.href.includes('intro') ? 2 : 3
+            $.post(url.changeModuleStatus, { status: show, id }, function (res) {
+                if (res && res.status === 0) {
+                    console.log('修改成功')
+                }
+            })
+        })
     })
     var E = window.wangEditor;
     var editor = new E('#editor');
@@ -97,13 +102,24 @@
     // 获取页面渲染元素
     function getHtml() {
         let id = window.location.href.includes('intro') ? 1 : 2
-        console.log(id)
-        $.post(url.renderHtml, {id}, function (res) {
-            if (res && res.status === 0) {  
+        $.post(url.renderHtml, { id }, function (res) {
+            if (res && res.status === 0) {
                 $('#ht').html(res.data.html);
             }
         })
     }
     getHtml();
+
+    // 获取选中状态
+    function getChecked() {
+        let id = window.location.href.includes('intro') ? 2 : 3
+        $.get(url.getChecked, {id}, function(res) {
+            if (res && res.status === 0) {
+                console.log(res.data.checked)
+                $('.form-check-input').attr('checked', res.data.checked)
+            }
+        })
+    }
+    getChecked()
 </script>
 {{/default}}

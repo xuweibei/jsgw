@@ -50,4 +50,5 @@ const url = {
     delCarousel: base + 'api/del_carousel', //删除轮播图
     newCarousel: base + 'api/new_carousel', //新增轮播图
     previewProduct: base + 'api/preview_product', //预览产品
+    getChecked: base + 'api/get_checked', //获取选中状态
 }

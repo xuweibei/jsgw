@@ -9,8 +9,7 @@ const login = async (account) => {
             account
         }
     });
-    console.log(rows)
-    if (rows && rows.dataValues) {
+    if (rows && rows.dataValues.account_status === "1") {
         const password = crypto.createHash('md5').update(rows.dataValues.password).digest("hex")
         const ident = rows.dataValues.identity_id
         const account = rows.dataValues.account
