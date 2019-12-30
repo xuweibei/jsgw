@@ -1,32 +1,5 @@
 {{#>default}}
-<style>
-  .active{
-    color: #FF9C39 !important;
-  }
-  .toast {
-      width: 200px !important;
-      background: rgba(0, 0, 0, 0.5);
-      border: none !important;
-      color: #fff;
-      text-align: center;
-      left: 50%;
-      top: 50%;
-      z-index: 100000;
-      transform: translateX(-50%);
-  }
-    #filterByComm{
-        float:right;
-        margin:14px 100px 0 0;
-        width:64px;
-        height:32px;
-        line-height:16px;
-        color:#0AAFDE;
-        border:1px solid #0AAFDE;
-        background:#fff;
-        font-size:14px;
-    }
-</style>
-  <link rel="stylesheet" href="../assets/css/commiucate.css"/>
+  <link rel="stylesheet" href="../assets/css/home.css"/>
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
@@ -181,6 +154,7 @@
 
         //点击搜索
         function searchList() {
+          $table.bootstrapTable("showLoading");
           const title = $("input[name='title']").val();
           const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
           const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
@@ -202,6 +176,7 @@
             if(resData && resData.data.rows && resData.data.rows.length > 0 ){
               arr = resData.data.rows.reverse();
             }
+              $table.bootstrapTable("hideLoading");
               $table.bootstrapTable('load',arr )
           });
         }

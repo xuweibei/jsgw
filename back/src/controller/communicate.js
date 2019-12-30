@@ -68,7 +68,6 @@ const editCommuList = async (data) =>{
             title: data.title,
             describe:data.describe,
             create_time:data.create_time,
-            end_time:data.end_time,
             status:0
         }
     })

@@ -3,29 +3,6 @@
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
-<style>
-  #select {
-    width: 100px;
-    display: inline-block;
-  }
-
-  #table {
-    border: 0;
-  }
-  .toast{
-      width: 200px !important;
-      background: rgba(0, 0, 0, 0.5);
-      border: none !important;
-      color: #fff;
-      text-align: center;
-      left: 50%;
-      top: 50%;
-      z-index: 100000;
-      border-radius: 6px;
-      transform: translateX(-50%);
-  }
-</style>
-
 <div class="store-delivery-container" id='recruic-wrap'>
   <div class="card">
     <div class="card-body">
@@ -362,6 +339,7 @@
       workList('work_place_list li');
       //搜索列表
       function searchList() {
+        $table.bootstrapTable("showLoading");
         const post_name = $("input[name='searchWork']").val();
         const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
         const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
@@ -382,8 +360,9 @@
         })
         $.post(url.getRecreuit,obj,function(resData){
           if(resData && resData.data.rows && resData.data.rows.length > 0){
-          $table.bootstrapTable('load',resData )
+            $table.bootstrapTable('load',resData.data.rows )
           }
+          $table.bootstrapTable("hideLoading");
         });
       }
       //点击新增按钮
@@ -613,7 +592,8 @@
             var s = date.getSeconds();
             return Y + M + D + h + m + s;
         }
-
+        $table.show();
+        $table.bootstrapTable('showLoading')
           //点击搜索
           $('#filterBy').click(searchList)
         //请求列表数据
@@ -634,7 +614,8 @@
                 return "暂无数据";
             },
             responseHandler: function (res) {
-              const arr = []
+              const arr = [];
+              const strArr = [];
               if(res.data.rows && res.data.rows.length>0){
                   res.data.rows.forEach(item => {
                     arr.push({
@@ -657,13 +638,25 @@
                       enable: item.enable
                     })
                     //获取工作地点
-                    const str = document.createElement('option');
-                    str.value = item.id;
-                    str.innerHTML = item.detail_address;
-                    $('#work_place').append(str)
+                    strArr.push({
+                      value:item.id,
+                      innerHTML:item.detail_address
+                    });
                   })
               }
-              return arr
+              const option = [];//储存option的列表
+              strArr.forEach(item=>{
+                if(!option.some(aa=> item.innerHTML === aa.innerHTML)){
+                  option.push(item)
+                }
+              })
+              option.forEach(item=>{//赋值地址选择
+                    const str = document.createElement('option');
+                    str.value = item.value;
+                    str.innerHTML = item.innerHTML;
+                    $('#work_place').append(str)
+              })
+              return arr;
             },
             columns: [{
                 title: '职位名称',
