@@ -267,12 +267,8 @@ const Invite = db.defineModel('gw_invite_info', {
     detail_address: {
         type: Sequelize.STRING(255)
     },
-    //最低薪水
-    low_salary: {
-        type: Sequelize.INTEGER(11)
-    },
-    // 最高薪水
-    top_salary: {
+    //薪资
+    salary: {
         type: Sequelize.INTEGER(11)
     },
     //工作职责
@@ -289,11 +285,7 @@ const Invite = db.defineModel('gw_invite_info', {
     },
     //发布开始时间
     start_time: {
-        type: Sequelize.DATE
-    },
-//发布结束时间
-    end_time: {
-        type: Sequelize.DATE
+        type: Sequelize.BIGINT(200)
     },
     //联系电话
     phone: {
@@ -301,7 +293,7 @@ const Invite = db.defineModel('gw_invite_info', {
     },
     //邮箱
     email: {
-    type: Sequelize.STRING(50)
+        type: Sequelize.STRING(50)
     },
     //职位类型
     job_class:{
@@ -310,6 +302,10 @@ const Invite = db.defineModel('gw_invite_info', {
     //是否启用类型  0 未启用 1启用
     enable:{
         type:Sequelize.STRING(1)
+    },
+    //排序
+    sort:{
+        type:Sequelize.STRING(11)
     }
 })
 //产品表
@@ -486,10 +482,6 @@ const communicate = db.defineModel('gw_communicate',{
     },
     //发布时间
     create_time: {
-        type: Sequelize.BIGINT(200)
-    },
-    //发布结束时间
-    end_time: {
         type: Sequelize.BIGINT(200)
     }
 })

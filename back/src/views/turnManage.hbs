@@ -124,11 +124,16 @@
     })
     //设置轮播时间
     $('.carousel-timer').on('blur', function(){
-      $.post(url.setCarouselTimer, {carouselTimer: $('.carousel-timer').val()}, function(res){
-        if(res && res.status === 0){
-          console.log('设置成功')
-        }
-      })
+      let str = /^[0-9]{1,}$/
+      if(str.test($(this).val())){
+        $.post(url.setCarouselTimer, {carouselTimer: $(this).val()}, function(res){
+          if(res && res.status === 0){
+            console.log('设置成功')
+          }
+        })
+      } else {
+        console.log('输入错误')
+      }
     })
   })
 </script>
