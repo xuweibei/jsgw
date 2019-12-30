@@ -37,10 +37,10 @@ module.exports = {
         const {id} = ctx.request.body
         const ret = await hideInfo(id)
         if (ret) {
-            ctx.body = new SuccessModel("隐藏资讯成功")
+            ctx.body = new SuccessModel("资讯状态修改成功")
             return 
         }
-        ctx.body = new ErrorModel("隐藏资讯失败")
+        ctx.body = new ErrorModel("资讯状态修改失败")
     },
     "edit_info": async ctx => {
         const {id, html, title} = ctx.request.body

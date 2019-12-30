@@ -40,6 +40,15 @@
   let editStatus;
   let editId;
 
+  // 提示框
+  function toast(message) {
+    $('.toast').toast("show")
+    $('.toast-body').text(message);
+    $('.toast').on('hidden.bs.toast', function () {
+      location.reload()
+    })
+  }
+
   function operateFormatter(value, row, index) {
     let show = row.show === "1" ? "隐藏" : "开启"
     return [
@@ -53,7 +62,8 @@
     let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
     $.post(url.changeModuleStatus, { status: show, id: 6 }, function (res) {
       if (res && res.status === 0) {
-        console.log('修改成功')
+        $('.toast').toast("show")
+        $('.toast-body').text(res.message);
       }
     })
   })
@@ -132,15 +142,15 @@
         },
         "click #table-hide": function (e, value, row, index) {
           $.post(url.hideInfo, { id: row.id }, function (res) {
-            if (res && res.status === 0) {
-              location.reload();
+            if (res) {
+              toast(res.message);
             }
           })
         },
         "click #table-del": function (e, value, row, index) {
           $.post(url.delInfo, { id: row.id }, function (res) {
-            if (res && res.status === 0) {
-              location.reload()
+            if (res) {
+              toast(res.message)
             }
           })
         }
@@ -195,15 +205,15 @@
     };
     if (editStatus) {
       $.post(url.editInfo, { id: editId, html, title }, function (res) {
-        if (res && res.status === 0) {
-          location.reload()
+        if (res) {
+          toast(res.message)
         }
       })
       return;
     }
     $.post(url.insertInfo, { html, title }, function (res) {
-      if (res && res.status === 0) {
-        location.reload();
+      if (res) {
+        toast(res.message)
       }
     })
   }
