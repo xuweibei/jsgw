@@ -8,19 +8,20 @@ const css = path.join(__dirname, '../assets/css/');
 const assets = path.join(__dirname, '../assets');
 
 
-
 function createCss() {
-    fs.readdirSync(less).forEach(function (item, index) {
-        let info = fs.statSync(less + '/' + item);
-        if(info.isDirectory()) return;
-        const cssName = item.split('.')[0] + '.css';
-        koaMinify(assets,
-            {
-                entry: less + item,
-                output: css + cssName
-            }
-        )
-    })
+    console.log(less, 'fdsf')
+    koaMinify(assets,
+        {
+            entry: less + 'main.less',
+            output: css + 'main.css'
+        }
+    )
+    // fs.readdirSync(less).forEach(function (item, index) {
+    //     let info = fs.statSync(less + '/' + item);
+    //     if(info.isDirectory()) return;
+    //     const cssName = item.split('.')[0] + '.css';
+        
+    // })
     // glob(less + '*.less', (err, file) => {
     //     file.forEach(item => {
     //         const sp = item.split('/')
