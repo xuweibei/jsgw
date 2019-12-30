@@ -55,4 +55,5 @@ const url = {
     deleteCommunicate: base + 'api/del_communicate_list', //删除公司交流列表
     enableCommu: base + 'api/enable_commu', //隐藏或显示公司交流列表
     getChecked: base + 'api/get_checked', //获取选中状态
+    modifyProduct: base + 'api/commit_modify', //修改产品
 }

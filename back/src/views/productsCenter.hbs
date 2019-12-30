@@ -81,9 +81,59 @@
             field: 'opt',
             formatter: operateFormatter,
             events: operateEvent = {
-              /*"click .btn-modify": function (e, value, row, index) {
+              "click .btn-modify": function (e, value, row, index) {
                 e.preventDefault();
-              },*/
+                var html = `<form>
+                  <div class="form-group d-flex justify-content-start">
+                    <label for="pro-name" class="col-form-label">产品名称：</label>
+                    <div>
+                      <input keyId=${row.id} type="text" placeholder="中卖网" class="form-control" id="pro-name" value=${row.pro_name}>
+                    </div>
+                  </div>
+                  <div class="form-group d-flex justify-content-start">
+                    <label for="pro-desc" class="col-form-label">简介：</label>
+                    <div>
+                      <textarea class="form-control" placeholder="优质商品，快乐选购" id="pro-desc">${row.product_desc}</textarea>
+                    </div>
+                  </div>
+                  <div class="form-group d-flex justify-content-start">
+                    <label for="pro-number" class="col-form-label">产品编号：</label>
+                    <div>
+                      <input type="text" class="form-control" id="pro-number" value=${row.serial_number}>
+                    </div>
+                  </div>
+                  <div class="form-group product-logo d-flex justify-content-start align-items-center">
+                    <label class="control-label" for="pro-logo">产品logo：</label>
+                    <div>
+                      <img src=${row.logo} alt=""/>
+                      <input class="modify-picture" id="pro-logo" type="file" />
+                    </div>
+                  </div>
+                  <div class="form-group product-code d-flex justify-content-start align-items-center">
+                    <label class="control-label" for="pro-link">下载方式：</label>
+                    <div>
+                      <img src=${row.link_code} alt=""/>
+                      <input class="modify-picture" id="pro-link-code" type="file" />
+                    </div>
+                  </div>
+                  <div class="form-group d-flex justify-content-start align-items-center">
+                    <label for="pro-android-dawnload-address" class="col-form-label">安卓下载地址：</label>
+                    <div>
+                      <input id="pro-android-dawnload-address" class="form-control" type="text" value=${row.android_link}>
+                    </div>
+                  </div>
+                  <div class="form-group d-flex justify-content-start align-items-center">
+                    <label for="pro-ios-dawnload-address" class="col-form-label">IOS下载地址：</label>
+                    <div>
+                      <input id="pro-ios-dawnload-address" class="form-control" type="text" value=${row.ios_link}>
+                    </div>
+                  </div>
+                </form>`
+                $('#modify-modal').html(html);
+                $('#pro-logo,#pro-link-code').on('change', function(e){
+                  $(this).prev().attr('src', getObjectURL(e.target.files[0]))
+                })
+              },
               "click .btn-remove": function (e, value, row, index) {
                 e.preventDefault();
                 $.post(url.delProduct, { id: row.id }, function (res) {
@@ -246,31 +296,12 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group d-flex justify-content-start">
-            <label for="recipient-name" class="col-form-label">产品名称：</label>
-            <div>
-              <input type="text" placeholder="中卖网" class="form-control" id="recipient-name" />
-            </div>
-          </div>
-          <div class="form-group d-flex justify-content-start">
-            <label for="message-text" class="col-form-label">简介：</label>
-            <div>
-              <textarea class="form-control" placeholder="优质商品，快乐选购" id="message-text"></textarea>
-            </div>
-          </div>
-          <div class="form-group d-flex justify-content-start">
-            <label for="show-item" class="col-form-label">是否展示：</label>
-            <div>
-              <input type="text" placeholder="展示" class="form-control" id="show-item" />
-            </div>
-          </div>
-        </form>
+      <div class="modal-body" id="modify-modal">
+        
       </div>
       <div class="modal-footer d-flex justify-content-center">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-        <button type="button" class="btn btn-primary">保存</button>
+        <button type="button" onclick="commitModify()" class="btn btn-primary">保存</button>
       </div>
     </div>
   </div>
@@ -322,7 +353,7 @@
   }
   getImg($('#dawnload-logo'), $('.product-logo-container'))
   getImg($('#dawnload-way'), $('.product-code-container'))
-  //提交
+  //新增产品提交
   function commitNewProduct() {
     let formData = new FormData();
     const logo = $('#dawnload-logo')[0].files;
@@ -352,8 +383,49 @@
       }
     });
   }
+  //修改产品提交
+  function commitModify() {
+                  let formData = new FormData();
+                  const logo = $('#pro-logo')[0].files;
+                  const link_code = $('#pro-link-code')[0].files;
+                  const serial_number = $('#pro-number').val();
+                  const product_desc = $('#pro-desc').val();
+                  const pro_name = $('#pro-name').val();
+                  const android_link = $('#pro-android-dawnload-address').val();
+                  const ios_link = $('#pro-ios-dawnload-address').val();
+                  const id = $('#pro-name').attr('keyId');
+                  formData.append('logo', logo[0], logo[0].name);
+                  formData.append('link_code', link_code[0], link_code[0].name);
+                  formData.append('serial_number', serial_number);
+                  formData.append('product_desc', product_desc);
+                  formData.append('pro_name', pro_name);
+                  formData.append('android_link', android_link);
+                  formData.append('ios_link', ios_link)
+                  formData.append('id', id)
+                  $.ajax({
+                    url: url.modifyProduct,
+                    type: "POST",
+                    data: formData,
+                    async: false,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    success: function (res) {
+                      location.reload()
+                    }
+                  });
+                }
 </script>
 <style>
+  .modify-picture{
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
   .modal .modal-body img{
     width: 200px;
     height: 200px;
@@ -376,6 +448,7 @@
 
   .form-group>div {
     width: 300px;
+    position: relative;
   }
 
   .product-logo-container input,

@@ -1,57 +1,65 @@
 import Layout from "../components/layout/layout";
-import {Input, Select, DatePicker, Button, Pagination} from 'antd';
-const {RangePicker} = DatePicker;
-import { Carousel } from 'antd';
-import Slider from "react-slick";
-// import "slick-carousel/slick/slick.css";
-// import "slick-carousel/slick/slick-theme.css";
 import "../static/style/page/index.less";
 
-
 class Index extends React.Component {
-
-    state = {
-
-    }
 
 
 
     render() {
-        const settings = {
-            dots: true,
-            infinite: true,
-            speed: 500,
-            slidesToShow: 1,
-            slidesToScroll: 1
-        };
         return(
         <Layout>
             <div className="home">
                 <img className="banner" src="/hong-bg.png" alt=""/>
-                <div className="dynamic">
-                    <div className="dynamic-head">最新动态</div>
-                    <div>
-                        <h2> Single Item</h2>
-                        <Slider {...settings}>
-                            <div>
-                                <h3>1</h3>
+                <div className="distance">
+                    {/*最新动态*/}
+                    <div className="dynamic">
+                        <div className="headline">最新动态</div>
+                    </div>
+                    {/*产品中心*/}
+                    <div className="product">
+                        <div className="headline">产品中心</div>
+                        <div className="product-list">
+                            <div className="list">
+                                <img className="list-img" src="/hong-bg.png" alt=""/>
+                                <div className="list-name">中卖网</div>
                             </div>
-                            <div>
-                                <h3>2</h3>
+                            <div className="list">
+                                <img className="list-img" src="/hong-bg.png" alt=""/>
+                                <div className="list-name">中卖网</div>
                             </div>
-                            <div>
-                                <h3>3</h3>
+                            <div className="list">
+                                <img className="list-img" src="/hong-bg.png" alt=""/>
+                                <div className="list-name">中卖网</div>
                             </div>
-                            <div>
-                                <h3>4</h3>
+                            <div className="list">
+                                <img className="list-img" src="/hong-bg.png" alt=""/>
+                                <div className="list-name">中卖网</div>
                             </div>
-                            <div>
-                                <h3>5</h3>
+                        </div>
+                    </div>
+                </div>
+                {/*加入我们*/}
+                <div>
+                    <div className="headline">加入我们</div>
+                    <div className="participate">
+                        <div className="possess-box">
+                            <div className="possess">
+                                <img src="possess.png" alt=""/>
                             </div>
-                            <div>
-                                <h3>6</h3>
+                            <div>全部岗位</div>
+                        </div>
+                        <div className="computers-box">
+                            <div className="computers">
+                                <img src="computers.png" alt=""/>
                             </div>
-                        </Slider>
+                            <div>研发岗位</div>
+                        </div>
+                        <div className="manage-box">
+                            <div className="manage">
+                                <img className="manage-img" src="product.png" alt=""/>
+                            </div>
+                            <div>行政岗位</div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -13,8 +13,18 @@
       top: 50%;
       z-index: 100000;
       transform: translateX(-50%);
-      // opacity: 1;
   }
+    #filterByComm{
+        float:right;
+        margin:14px 100px 0 0;
+        width:64px;
+        height:32px;
+        line-height:16px;
+        color:#0AAFDE;
+        border:1px solid #0AAFDE;
+        background:#fff;
+        font-size:14px;
+    }
 </style>
   <link rel="stylesheet" href="../assets/css/commiucate.css"/>
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
@@ -52,7 +62,7 @@
             </div>
           </div>
         </form>
-        <button class="btn btn-primary" id="filterBy" onclick="searchList()">搜索</button>
+        <button class="btn btn-primary" id="filterByComm" onclick="searchList()">搜索</button>
       </div>
       <table
         id="table"

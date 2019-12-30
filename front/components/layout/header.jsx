@@ -6,7 +6,8 @@ const links = [
     { href: "/", label: "首页", as: "/home" },
     { href: "/about", label: "关于我们" },
     { href: "/product", label: "产品资讯" },
-    { href: "/join", label: "加入我们", as: "/join-us" }
+    { href: "/join", label: "加入我们", as: "/join" },
+    { href: "/exchange", label: "内部交流", as: "/exchange" }
 ].map(link => {
     link.key = `nav-link-${link.href}-${link.label}`;
     return link;

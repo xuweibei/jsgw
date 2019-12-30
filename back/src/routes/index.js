@@ -58,6 +58,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/del_carousel', carousel['del_carousel']) //删除轮播图
     .post('/api/new_carousel', carousel['new_carousel']) //新增轮播图
     .post('/api/preview_product', product['preview_product']) //预览产品
+    .post('/api/commit_modify',product['modify_product'])//修改产品
     .post('/api/communicate_list',communicate['communicate_list'])//公司交流列表
     .post('/api/edit_communicate_list',communicate['edit_communicate_list'])//编辑公司交流列表
     .post('/api/del_communicate_list',communicate['del_communicate_list'])//删除公司交流列表
