@@ -66,7 +66,7 @@ class Bulletin extends  React.PureComponent{
                         <Pagination
                             showSizeChanger
                             showQuickJumper
-                            onShowSizeChange={this.onShowSizeChange}
+                            // onShowSizeChange={this.onShowSizeChange}
                             defaultCurrent={3}
                             total={500}
                         />
