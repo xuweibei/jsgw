@@ -7,6 +7,18 @@ module.exports = {
     },
     "insert_event": async ctx => {
         const {time, title, content} = ctx.request.body
+        if (!time) {
+            ctx.body =  new ErrorModel('请填写事件节点时间')
+            return
+        }
+        if (!title) {
+            ctx.body =  new ErrorModel('事件标题未填写')
+            return
+        }
+        if (!content) {
+            ctx.body =  new ErrorModel('请填写事件内容')
+            return
+        }
         const ret = await insertEvent(time, title, content)
         if (ret) {
             ctx.body =  new SuccessModel('插入事件成功')

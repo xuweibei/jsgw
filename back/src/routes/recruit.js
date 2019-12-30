@@ -1,6 +1,6 @@
 //招聘信息接口
-const {getRecruitInfo,addRecruitMen,getPcatBak,deleteRecruic,enableRecreit} = require('../../controller/recruit')
-const {SuccessModel, ErrorModel} = require('../../config/model')
+const {getRecruitInfo,addRecruitMen,getPcatBak,deleteRecruic,enableRecreit} = require('../controller/recruit')
+const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "get_recruit": async ctx => {
         const ret = await getRecruitInfo(ctx.request.body);
@@ -35,7 +35,6 @@ module.exports = {
         ctx.body = new ErrorModel('删除失败')
     },
     "enable_recreit":async ctx =>{
-        console.log(ctx.request.body,'考虑程序')
         const res =  await enableRecreit(ctx.request.body);  
         // console.log(res,'2考虑到法国');
         if(res){
