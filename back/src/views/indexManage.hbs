@@ -49,14 +49,18 @@
               formatter: operateFormatter,
               events: operateEvent = {
                 "change .module_number": function(e, value, row, index){
-                  $.post(url.changeModuleNumber, {module_number: e.target.value, id: row.id}, function(res){
-                    if(res && res.status === 0){
-                      console.log('修改成功')
-                    }
-                  })
+                  let str = /^[0-9]{1,}$/
+                  if(str.test(e.target.value)){
+                      $.post(url.changeModuleNumber, {module_number: e.target.value, id: row.id}, function(res){
+                      if(res && res.status === 0){
+                        console.log('修改成功')
+                      }
+                    })
+                  } else {
+                    console.log('输入错误')
+                  }
                 }
               }
-
             }, {
               title: '状态',
               field: 'status',
@@ -73,7 +77,9 @@
             }]
           })
           function operateFormatter(value, row, index) {
-              return `<input type="text" class="module_number" value=${row.module_number}>`
+              return `<form class="set-module-number">
+                <input type="text" class="module_number" value=${row.module_number}>
+              </form>`
           }
           function operateFormatter2(value, row, index){
             return `<div class="custom-control custom-switch">
