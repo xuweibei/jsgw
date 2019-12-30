@@ -1,7 +1,7 @@
 const router = require('koa-router')()
 const login = require('./login')
 const department = require('./department')
-const resuirc = require('./methods/recruit')
+const resuirc = require('./recruit')
 const intro = require('./intro')
 const invite = require('./invite')
 const events = require('./events')
@@ -13,7 +13,7 @@ const product = require('./product')
 const carousel = require('./carousel')
 const postApi = require('./postApi')
 const helpContent = require('./helpContent')
-const communicate = require('./methods/communicate')
+const communicate = require('./communicate')
 router.get('/delivery/*', async (ctx, next) => {
         if (ctx.isAuthenticated()) {
             await next()
