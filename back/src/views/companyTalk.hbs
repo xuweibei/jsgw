@@ -140,9 +140,9 @@
         function toast(message,callBack) {
           $('.toast').toast("show")
           $('.toast-body').text(message);
-        $('.toast').on('hidden.bs.toast', function () {
-           callBack && callBack()
-        })
+          $('.toast').on('hidden.bs.toast', function () {
+            callBack && callBack()
+          })
         }
         //删除某条数据
         function deleteRow(){
@@ -249,6 +249,12 @@
                   },
                 }
               }],
+              formatLoadingMessage: function () {
+                return '<span style="font-size:20px">加载中...</span>';
+              },
+              formatNoMatches:function(){
+                  return "暂无数据";
+              },
               responseHandler:function(res){
                 const arr = [];
                 if(res && res.status === 0 && res.data.rows.length > 0 ){

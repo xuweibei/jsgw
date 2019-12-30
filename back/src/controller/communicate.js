@@ -24,16 +24,16 @@ const getCommunicateInfo = async ({title = '',create_time = '',end_time = ''}) =
         }
         if(create_time != ''){
             if(!where){
-                where =` c.create_time<='${create_time}'`;
+                where =` c.create_time>='${create_time}'`;
             }else{
-                where +=` and c.create_time<='${create_time}'`;
+                where +=` and c.create_time>='${create_time}'`;
             }
         }
         if(end_time != ''){
             if(!where){
-                where =` c.end_time<='${end_time}'`;
+                where =` c.create_time<='${end_time}'`;
             }else{
-                where +=` and c.end_time<='${end_time}'`;
+                where +=` and c.create_time<='${end_time}'`;
             }
         }
         const sql = `select * from gw_communicate c where ${where}`;

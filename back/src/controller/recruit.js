@@ -10,15 +10,7 @@ const {sequelize} = require('../db/db');
 // 获取招聘信息
 const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',start_time='',end_time=''}) => {
     let ret = {};
-    if(post_name || job_class || detail_address || start_time ||  end_time){
-        // console.log(data,'这里');
-        // const obj = {};
-        // for(let i in data){//模糊查询
-        //     obj[i] = { [Op.like]: '%' + data[i] + '%'}
-        // }
-        // ret = await Invite.findAndCountAll({
-        //     where:obj
-        // });
+    if(post_name || job_class || detail_address || start_time || end_time){
         let date = null;
         let date2 = null;
         if(start_time){
@@ -26,7 +18,6 @@ const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',sta
             date2 = new Date(end_time).getTime();
         }
         let where = '';
-        // console.log(data.post_name,'收到了付款',typeof data.job_class,data.detail_address)
         if(post_name!=''){
             where=`c.post_name like '%${post_name}%'`;
         }
@@ -46,21 +37,19 @@ const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',sta
         }
         if(start_time != ''){
             if(!where){
-                where =` c.start_time<='${start_time}'`;
+                where =` c.start_time>='${date}'`;
             }else{
-                where +=` and c.start_time<='${start_time}'`;
+                where +=` and c.start_time>='${date}'`;
             }
         }
         if(end_time != ''){
             if(!where){
-                where =` c.end_time>= '${end_time}'`;
+                where =` c.start_time<= '${date2}'`;
             }else{
-                where +=` and c.end_time>= '${end_time}'`;
+                where +=` and c.start_time<= '${date2}'`;
             }
         }
-        const sql = `select * from gw_invite_info c where ${where}`;
-        
-        //const sql = `select * from gw_invite_info c where start_time < ${date} and end_time > ${date2} or (c.post_name like '%${post_name}%' and c.job_class='${job_class}') or c.detail_address='${detail_address}'`;
+        const sql = `select * from gw_invite_info c where ${where} order by c.sort desc`;
         const res = await sequelize.query(sql, {
             replacements: ['active'],
             type: sequelize.QueryTypes.SELECT
@@ -70,7 +59,16 @@ const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',sta
             ret.rows = res
         }
     } else {
-        ret = await Invite.findAndCountAll()
+        const res = await Invite.findAll({
+            'order': [
+                ['sort', 'ASC'],
+                ['start_time', 'DESC']
+            ]
+        });
+        if(res && res.length > 0){
+            ret.count = res.length;
+            ret.rows = res;
+        }
     }
     return ret
 }
@@ -86,14 +84,13 @@ const addRecruitMen = async (data) => {
             county_id:data.county_id,
             address_name:data.address_name,
             detail_address:data.detail_address,
-            low_salary: 1,
-            top_salary: 2 ,
+            salary: data.salary,
+            require_num: data.require_num,
             work_content :data.work_content,
             post_job:data.post_job,
-            require_num:10,
-            start_time: 1,
-            end_time:2,
+            start_time: data.start_time,
             phone:data.phone,
+            sort:data.sort,
             email:data.email,
             enable:1
         }
