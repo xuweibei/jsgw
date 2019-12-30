@@ -163,6 +163,54 @@
                     listNums: 0, //增加减少 （友情链接）
                 };
 
+                //获取初始值
+                $.post(
+                    url.getCententTitle,
+                    function(res) {
+                        if (res) {
+                            if (res.data) {
+                                $('#companyName').val(res.data[0].comp_name);//公司名称
+                                state.companyName = res.data[0].comp_name; //公司名称
+                                $('#contactInfo').val(res.data[0].link_phone);//联络方式
+                                state.contactInfo = res.data[0].link_phone; //联络方式
+                                $('#contactAddress').val(res.data[0].address);//联络地址
+                                state.contactAddress = res.data[0].address; //联络地址
+                                $('#myPageName').val(res.data[1].page_name);//联系我们 页面名称
+                                state.myPageName = res.data[1].page_name; //联系我们 页面名称
+                                $('#mySkipJoin').val(res.data[1].page_link);//联系我们 页面名称
+                                state.mySkipJoin = res.data[1].page_link; //联系我们 页面名称
+                                $('#myPageName1').val(res.data[2].page_name);//联系我们 页面名称1
+                                state.myPageName1 = res.data[2].page_name; //联系我们 页面名称1
+                                $('#mySkipJoin1').val(res.data[2].page_link);//联系我们 页面名称1
+                                state.mySkipJoin1 = res.data[2].page_link; //联系我们 页面名称1
+                                $('#myPageName2').val(res.data[3].page_name);//联系我们 页面名称2
+                                state.myPageName2 = res.data[3].page_name; //联系我们 页面名称2
+                                $('#mySkipJoin2').val(res.data[3].page_link);//联系我们 页面名称2
+                                state.mySkipJoin2 = res.data[3].page_link; //联系我们 页面名称2
+                                $('#myPageName3').val(res.data[4].page_name);//联系我们 页面名称3
+                                state.myPageName3 = res.data[4].page_name; //联系我们 页面名称3
+                                $('#mySkipJoin3').val(res.data[4].page_link);//联系我们 页面名称3
+                                state.mySkipJoin3 = res.data[4].page_link; //联系我们 页面名称3
+                                $('#myPageName4').val(res.data[5].page_name);//联系我们 页面名称4
+                                state.myPageName4 = res.data[5].page_name; //联系我们 页面名称4
+                                $('#mySkipJoin4').val(res.data[5].page_link);//联系我们 页面名称4
+                                state.mySkipJoin4 = res.data[5].page_link; //联系我们 页面名称4
+                                $('#myPageName5').val(res.data[6].page_name);//联系我们 页面名称5
+                                state.myPageName5 = res.data[6].page_name; //联系我们 页面名称5
+                                $('#mySkipJoin5').val(res.data[6].page_link);//联系我们 页面名称5
+                                state.mySkipJoin5 = res.data[6].page_link; //联系我们 页面名称5
+                                $('#friendSkipJoin').val(res.data[7].friend_link);//友情链接 页面名称
+                                state.friendSkipJoin = res.data[7].friend_link; //友情链接 页面名称
+                                $('#friendPageName').val(res.data[7].friend_page);//友情链接 页面名称
+                                state.friendPageName = res.data[7].friend_page; //友情链接 页面名称
+                                $('#friendSkipJoin1').val(res.data[8].friend_link);//友情链接 页面名称1
+                                state.friendSkipJoin1 = res.data[8].friend_link; //友情链接 页面名称1
+                                $('#friendPageName1').val(res.data[8].friend_page);//友情链接 页面名称1
+                                state.friendPageName1 = res.data[8].friend_page; //友情链接 页面名称1
+                            }
+                        }
+                    })
+
                 //获取input内容
                 $('input').bind('input propertychange', function(e){
                     const name = e.currentTarget.id; //获取input id名称
@@ -231,93 +279,44 @@
                     const {companyName, contactInfo, contactAddress,
                         myPageName, myPageName1,myPageName2, myPageName3, myPageName4, myPageName5,
                         mySkipJoin, mySkipJoin1, mySkipJoin2, mySkipJoin3, mySkipJoin4, mySkipJoin5,
-                        friendPageName, friendPageName1, friendSkipJoin, friendSkipJoin1, listNum, listNums} = state;
-                    let myPageNameWrap = [myPageName];
-                    let mySkipJoinWrap = [mySkipJoin];
-                    let friendPageNameWrap = [friendPageName];
-                    let friendSkipJoinWrap = [friendSkipJoin];
-                    if (listNum != 0) {
-                        for(let i=0; i<listNum; i++) {
-                            if (i == 0) {
-                                myPageNameWrap.push(myPageName1);
-                                mySkipJoinWrap.push(mySkipJoin1);
-                            }
-                            if (i == 1) {
-                                myPageNameWrap.push(myPageName2);
-                                mySkipJoinWrap.push(mySkipJoin2);
-                            }
-                            if (i == 2) {
-                                myPageNameWrap.push(myPageName3);
-                                mySkipJoinWrap.push(mySkipJoin3);
-                            }
-                            if (i == 3) {
-                                myPageNameWrap.push(myPageName4);
-                                mySkipJoinWrap.push(mySkipJoin4);
-                            }
-                            if (i == 4) {
-                                myPageNameWrap.push(myPageName5);
-                                mySkipJoinWrap.push(mySkipJoin5);
-                            }
-                        }
-                    }
-                    if (listNums == 1){
-                        friendPageNameWrap.push(friendPageName1);
-                        friendSkipJoinWrap.push(friendSkipJoin1);
-                    }
-                    console.log(myPageNameWrap);
-                    console.log(mySkipJoinWrap);
-                    console.log(friendPageNameWrap);
-                    console.log(friendSkipJoinWrap);
-                    $.post(
-                        url.addCententTitle,
-                        data = {
-                            comp_name: companyName,
-                            intro: '您好!',
-                            link_phone: contactInfo,
-                            address: contactAddress,
-                            page_name: myPageNameWrap,
-                            page_link: mySkipJoinWrap,
-                            friend_page: friendPageNameWrap,
-                            friend_link: friendSkipJoinWrap,
-                        },
-                        function(res) {
-                            if (res) {
-                                if (res.status === 0) {
-                                    alert(res.message)
-                                } else {
+                        friendPageName, friendPageName1, friendSkipJoin, friendSkipJoin1} = state;
+                    if (!(/^([\u2E80-\u9FFF]+){6}$/.test(companyName))) {
+                        alert('公司名称最少为6个中文字')
+                    } else if (!(/^1[34578]\d{9}$/.test(contactInfo))) {
+                        alert('联络方式有误')
+                    } else if (contactAddress.length < 4) {
+                        alert('联络地址最少为4个字')
+                    } else {
+                        $.post(
+                            url.addCententTitle,
+                            data = {
+                                comp_name: companyName,
+                                intro: '您好!',
+                                link_phone: contactInfo,
+                                address: contactAddress,
+                                page_name1: myPageName,
+                                page_link1: mySkipJoin,
+                                page_name2: myPageName1,
+                                page_link2: mySkipJoin1,
+                                page_name3: myPageName2,
+                                page_link3: mySkipJoin2,
+                                page_name4: myPageName3,
+                                page_link4: mySkipJoin3,
+                                page_name5: myPageName4,
+                                page_link5: mySkipJoin4,
+                                page_name6: myPageName5,
+                                page_link6: mySkipJoin5,
+                                friend_page1: friendPageName,
+                                friend_link1: friendSkipJoin,
+                                friend_page2: friendPageName1,
+                                friend_link2: friendSkipJoin1,
+                            },
+                            function(res) {
+                                if (res) {
                                     alert(res.message);
                                 }
-                            }
-                        })
-//                    if (!(/^([\u2E80-\u9FFF]+){6}$/.test(companyName))) {
-//                        alert('公司名称最少为6个中文字')
-//                    } else if (!(/^1[34578]\d{9}$/.test(contactInfo))) {
-//                        alert('联络方式有误')
-//                    } else if (contactAddress.length < 4) {
-//                        alert('联络地址最少为4个字')
-//                    } else {
-//                        $.post(
-//                            url.addCententTitle,
-//                            data = {
-//                                comp_name: companyName,
-//                                intro: '您好!',
-//                                link_phone: contactInfo,
-//                                address: contactAddress,
-//                                page_name: myPageNameWrap,
-//                                page_link: mySkipJoinWrap,
-//                                friend_page: friendPageNameWrap,
-//                                friend_link: friendSkipJoinWrap,
-//                            },
-//                            function(res) {
-//                            if (res) {
-//                                if (res.status === 0) {
-//                                    alert(res.message)
-//                                } else {
-//                                    alert(res.message);
-//                                }
-//                            }
-//                        })
-//                    }
+                            })
+                    }
                 })
             })
         </script>

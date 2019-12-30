@@ -42,6 +42,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/enable_recreit', resuirc["enable_recreit"]) //启用或停用
     .post('/api/get_classify', postApi["get_classify"])
     .post('/api/add_centent_title', helpContent["add_centent_title"])
+    .post('/api/get_centent_title', helpContent["get_centent_title"])
     .post('/api/add_classify', postApi['add_classify']) //新增职业分类
     .post('/api/edit_classify', postApi['edit_classify']) //新增职业分类
     .post('/api/del_classify', postApi['del_classify']) //删除职·业分类
@@ -93,7 +94,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/del_info', consult['del_info'])
     .post('/api/hide_info', consult['hide_info'])
     .post('/api/edit_info', consult['edit_info'])
-    // 轮播管理 
+    // 轮播管理
     .get('/delivery/carousel', carousel['turnManage'])
     //职业分类
     .get('/delivery/postClassify', postApi['postClassify'])

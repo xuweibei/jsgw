@@ -8,7 +8,9 @@ const {
     Identity,
     Employee,
     Account,
-    Company
+    Company,
+    mainConcat,
+    friendConcat,
 } = require('../model/createTables')
 
 
@@ -376,49 +378,208 @@ const empInfo = async id => {
 
 //产品中心（存储[志强]）
 const saveCententTitle = async (obj) => {
-    // const sql1 = `insert into gw_company(comp_name, link_phone, address) values(${obj.comp_name},${obj.link_phone}, ${obj.address})`;
-    // const sql2 = `insert into gw_main_concat(comp_id, page_name, page_link) values('1',${obj.page_name}, ${obj.page_link})`;
-    // const sql3 = `insert into gw_friend_concat(comp_id, friend_page, friend_link) values('1',${obj.friend_page}, ${obj.friend_link})`;
-    // const ret1 = await sequelize.query(sql1);
-    // const ret2 = await sequelize.query(sql2);
-    // const ret3 = await sequelize.query(sql3);
-    // const arr =[ret1[0], ret2[0], ret3[0]];
-    // return arr;
-    let insert = obj;
-    insert.status = 1;
-    if (obj) {
-        if (!(/^([\u2E80-\u9FFF]+){6}$/.test(obj.comp_name))) {
-            insert.message = '公司名称最少为6个中文字'
-        } else if (!(/^1[34578]\d{9}$/.test(obj.link_phone))) {
-            insert.message = '联络方式有误'
-        } else if (obj.address.length < 4) {
-            insert.message = '联络地址最少为4个字'
-        } else if (!obj.page_name) {
-            insert.message = '联系我们 页面名称不能为空'
-        } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(obj.page_link))) {
-            insert.message = '联系我们 跳转链接格式错误'
-        } else if (!obj.friend_page) {
-            insert.message = '友情链接 页面名称不能为空'
-        } else if (!(/^(http|ftp|https)\:[^\u2E80-\u9FFF]{1,}$/.test(obj.friend_link))) {
-            insert.message = '友情链接 跳转链接格式错误'
-        } else {
-            insert = await Company.create({
+    const company = await Company.findOne({
+        where: {
+            id: 1
+        }
+    });
+    if (company) {
+        return sequelize.transaction(function (t) {
+            return Company.update({
                 status: 0,
                 message: '存储成功',
                 comp_name: obj.comp_name,
                 intro: obj.intro,
                 link_phone: obj.link_phone,
                 address: obj.address,
-                page_name: obj.page_name,
-                page_link: obj.page_link,
-                friend_page: obj.friend_page,
-                friend_link: obj.friend_link,
-                pic_rul: 'https/www/baidu.jpg',
-            })
-        }
+                pic_rul: '',
+            }, {
+                where: {
+                    id: 1
+                }
+            }, {
+                transaction: t
+            }).then(function () {
+                return mainConcat.update({
+                    comp_id: 1,
+                    page_name: obj.page_name1,
+                    page_link: obj.page_link1,
+                },{
+                    where: {
+                        id: 1
+                    }
+                }, {
+                    transaction: t
+                }),
+                    mainConcat.update({
+                        comp_id: 1,
+                        page_name: obj.page_name2,
+                        page_link: obj.page_link2,
+                    },{
+                        where: {
+                            id: 2
+                        }
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.update({
+                        comp_id: 1,
+                        page_name: obj.page_name3,
+                        page_link: obj.page_link3,
+                    },{
+                        where: {
+                            id: 3
+                        }
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.update({
+                        comp_id: 1,
+                        page_name: obj.page_name4,
+                        page_link: obj.page_link4,
+                    },{
+                        where: {
+                            id: 4
+                        }
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.update({
+                        comp_id: 1,
+                        page_name: obj.page_name5,
+                        page_link: obj.page_link5,
+                    },{
+                        where: {
+                            id: 5
+                        }
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.update({
+                        comp_id: 1,
+                        page_name: obj.page_name6,
+                        page_link: obj.page_link6,
+                    },{
+                        where: {
+                            id: 6
+                        }
+                    }, {
+                        transaction: t
+                    });
+            }).then(function () {
+                return friendConcat.update({
+                    friend_page: obj.friend_page1,
+                    friend_link: obj.friend_link1,
+                    comp_id: 1,
+                }, {
+                    where: {
+                        id: 1
+                    }
+                }, {
+                    transaction: t
+                }),
+                    friendConcat.update({
+                        friend_page: obj.friend_page2,
+                        friend_link: obj.friend_link2,
+                        comp_id: 1,
+                    }, {
+                        where: {
+                            id: 2
+                        }
+                    }, {
+                        transaction: t
+                    })
+            });
+        })
+    } else {
+        return sequelize.transaction(function (t) {
+            return Company.create({
+                status: 0,
+                message: '存储成功',
+                comp_name: obj.comp_name,
+                intro: obj.intro,
+                link_phone: obj.link_phone,
+                address: obj.address,
+                pic_rul: '',
+            }, {
+                transaction: t
+            }).then(function () {
+                return mainConcat.create({
+                    comp_id: 1,
+                    page_name: obj.page_name1,
+                    page_link: obj.page_link1,
+                }, {
+                    transaction: t
+                }),
+                    mainConcat.create({
+                        comp_id: 1,
+                        page_name: obj.page_name2,
+                        page_link: obj.page_link2,
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.create({
+                        comp_id: 1,
+                        page_name: obj.page_name3,
+                        page_link: obj.page_link3,
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.create({
+                        comp_id: 1,
+                        page_name: obj.page_name4,
+                        page_link: obj.page_link4,
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.create({
+                        comp_id: 1,
+                        page_name: obj.page_name5,
+                        page_link: obj.page_link5,
+                    }, {
+                        transaction: t
+                    }),
+                    mainConcat.create({
+                        comp_id: 1,
+                        page_name: obj.page_name6,
+                        page_link: obj.page_link6,
+                    }, {
+                        transaction: t
+                    })
+            }).then(function () {
+                return friendConcat.create({
+                    friend_page: obj.friend_page1,
+                    friend_link: obj.friend_link1,
+                    comp_id: 1,
+                },{
+                    transaction: t
+                }),
+                friendConcat.create({
+                    friend_page: obj.friend_page2,
+                    friend_link: obj.friend_link2,
+                    comp_id: 1,
+                },{
+                    transaction: t
+                });
+            });
+        })
     }
-    return insert
 }
+
+//获取数据(底部栏)
+const getCententTitle = async () => {
+    const ret = await Company.findOne({where: {id: 1}});
+    const ret1 = await mainConcat.findOne({where: {id: 1}});
+    const ret2 = await mainConcat.findOne({where: {id: 2}});
+    const ret3 = await mainConcat.findOne({where: {id: 3}});
+    const ret4 = await mainConcat.findOne({where: {id: 4}});
+    const ret5 = await mainConcat.findOne({where: {id: 5}});
+    const ret6 = await mainConcat.findOne({where: {id: 6}});
+    const ret7 = await friendConcat.findOne({where: {id: 1}});
+    const ret8 = await friendConcat.findOne({where: {id: 2}});
+    const arr = [ret,ret1,ret2,ret3,ret4,ret5,ret6,ret7,ret8];
+    return arr;
+};
 module.exports = {
     addDep,
     findDep,
@@ -432,5 +593,6 @@ module.exports = {
     delEmp,
     changeStatus,
     empInfo,
-    saveCententTitle
+    saveCententTitle,
+    getCententTitle
 }
