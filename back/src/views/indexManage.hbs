@@ -18,6 +18,7 @@
         </tr>
       </thead>
     </table>
+    <script src="../utils/utils.js"></script>
     <script>
       //编辑
       var $table = $('#table')
@@ -49,14 +50,18 @@
               formatter: operateFormatter,
               events: operateEvent = {
                 "change .module_number": function(e, value, row, index){
-                  $.post(url.changeModuleNumber, {module_number: e.target.value, id: row.id}, function(res){
-                    if(res && res.status === 0){
-                      console.log('修改成功')
-                    }
-                  })
+                  let str = /^[0-9]{1,}$/
+                  if(str.test(e.target.value)){
+                      $.post(url.changeModuleNumber, {module_number: e.target.value, id: row.id}, function(res){
+                      if(res && res.status === 0){
+                        toast(res.message, 1)
+                      }
+                    })
+                  } else {
+                    toast('请输入数字', 0)
+                  }
                 }
               }
-
             }, {
               title: '状态',
               field: 'status',
@@ -65,7 +70,7 @@
                 "change .custom-control-input": function(e, value, row, index){
                   $.post(url.changeModuleStatus, {status: e.target.checked, id: row.id}, function(res){
                     if(res && res.status === 0){
-                      console.log('修改成功')
+                      toast(res.message, 0)
                     }
                   })
                 }
@@ -73,7 +78,9 @@
             }]
           })
           function operateFormatter(value, row, index) {
-              return `<input type="text" class="module_number" value=${row.module_number}>`
+              return `<form class="set-module-number">
+                <input type="text" class="module_number" value=${row.module_number}>
+              </form>`
           }
           function operateFormatter2(value, row, index){
             return `<div class="custom-control custom-switch">

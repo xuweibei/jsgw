@@ -90,10 +90,19 @@ module.exports = {
             // console.log(readStream.pipe(writeStream).path.split('\\'));
             const red = readStream.pipe(writeStream).path.split('\\');
             const redPath = 'http://localhost:8000/'+ 'assets/' + 'img/' + red[red.length - 1];
-            arr.push(redPath)
+            if(item==='logo'){
+                arr['logo'] = redPath
+            } else {
+                arr['link_code'] = redPath
+            }
         })
-        ctx.request.body.logo = arr[0]
-        ctx.request.body.link_code = arr[1]
+        console.log(arr, 'aaaaaaaaaa')
+        if(arr['logo']){
+            ctx.request.body.logo = arr['logo']
+        }
+        if(arr['link_code']){
+            ctx.request.body.link_code = arr['link_code']
+        }
         const res = await modifyProduct(ctx.request.body)
         if(res) {
             ctx.body = new SuccessModel(res, '修改成功')

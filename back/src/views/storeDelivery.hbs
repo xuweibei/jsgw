@@ -1,18 +1,8 @@
-<style>
-  #select {
-    width: 100px;
-    display: inline-block;
-  }
 
-  #table {
-    border: 0;
-  }
-</style>
 {{#>default}}
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
-
 <div class="store-delivery-container" id='recruic-wrap'>
   <div class="card">
     <div class="card-body">
@@ -62,13 +52,15 @@
       </form>
       <button class="btn btn-primary" id="filterBy">搜索</button>
 		</div>
-
     <table id="table" class="text-center table table-striped table-borderless"
       {{!-- data-show-pagination-switch="true" --}} data-pagination="true"
       {{!-- data-page-list="[3, 5, 8, 100, all]" --}} {{!-- data-show-footer="true" --}}
       {{!-- data-side-pagination="server"> --}}>
     </table>
     
+  <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
+    <div class="toast-body"></div>
+  </div>
     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
       aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered edit-modal" role="document">
@@ -84,8 +76,8 @@
                         <input type="text" class="form-control recJob" placeholder="请输入职位关键字" name="recJob" />
                     </div>
                     <div class="form-group">
-                        <label>邮箱：</label>
-                        <input type="text" class="form-control recEmial" placeholder="请输入邮箱" name="recEmial"/>
+                        <label>人数：</label>
+                        <input type="text" class="form-control recNum" placeholder="填写人数或范围" name="recNum"/>
                     </div>
                 </div>
                 <div class="form-row">
@@ -96,8 +88,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>联系电话：</label>
-                        <input type="text" class="form-control recPhone" placeholder="请输入联系电话" name="recPhone"/>
+                        <label>薪资：</label>
+                        <input type="text" class="form-control recMoney" placeholder="填写薪资或范围" name="recMoney"/>
                     </div>
                 </div>
                 <div class="form-row">
@@ -129,9 +121,22 @@
                     </div>
                 </div>
                 
-                <div class="form-group detail_area">
+                <div class="form-group detail_area" style="float:left">
                     <label>详细地址：</label>
-                    <textarea type="text" class="form-control recAdress" placeholder="请输入详细地址" name="recAdress" ></textarea>
+                    <textarea style="height:80px;" type="text" class="form-control recAdress" placeholder="请输入详细地址" name="recAdress" ></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group" style="margin:0;margin-left:15%;">
+                        <label>联系电话：</label>
+                        <input type="text" class="form-control recPhone" placeholder="请输入联系电话" name="recPhone"/>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"></div>
+                    <div class="form-group" style="margin-left:15%;">
+                        <label>邮箱：</label>
+                        <input type="text" class="form-control recEmial" placeholder="请输入邮箱" name="recEmial"/>
+                    </div>
                 </div>
                 <div class="form-group main_info">
                     <label>工作内容：</label>
@@ -299,6 +304,15 @@
       function chooseEditJobClass(data){
         jobEditClass = data;
       }
+
+      // 关闭提示框
+      function toast(message,callBack) {
+        $('.toast').toast("show")
+        $('.toast-body').text(message);
+        $('.toast').on('hidden.bs.toast', function () {
+          callBack && callBack()
+        })
+      }
       //列表移入
       function workList(name){
         const workPlaceList = $(`.${name}`);
@@ -325,6 +339,7 @@
       workList('work_place_list li');
       //搜索列表
       function searchList() {
+        $table.bootstrapTable("showLoading");
         const post_name = $("input[name='searchWork']").val();
         const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
         const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
@@ -344,11 +359,10 @@
             })
         })
         $.post(url.getRecreuit,obj,function(resData){
-          let arr = [];
           if(resData && resData.data.rows && resData.data.rows.length > 0){
-            arr = resData.data.rows.reverse();
+            $table.bootstrapTable('load',resData.data.rows )
           }
-          $table.bootstrapTable('load',arr )
+          $table.bootstrapTable("hideLoading");
         });
       }
       //点击新增按钮
@@ -369,7 +383,7 @@
       var $table = $('#table')
       //新增保存
       function addRecruit(){
-        if($('.recJob').val() && $('.recEmial').val() && jobEditClass && $('.recPhone').val() && $('.recSort').val() && province.id && $('.recContent').val() && $('.recTask').val()){
+        if($('.recJob').val() && $('.recMoney').val() && $('.recNum').val() && $('.recEmial').val() && jobEditClass && $('.recPhone').val() && $('.recSort').val() && province.id && $('.recContent').val() && $('.recTask').val()){
             const data = {
               post_name:$('.recJob').val(),
               email:$('.recEmial').val(),
@@ -382,17 +396,22 @@
               sort:$('.recSort').val(),
               detail_address:$('.recAdress').val(),
               work_content:$('.recContent').val(),
-              post_job:$('.recTask').val()
+              post_job:$('.recTask').val(),
+              require_num:$('.recNum').val(),
+              salary:$('.recMoney').val(),
+              start_time:new Date().getTime()
             }
             $.post(url.addMen, data, function(res) {
               if(res && res.status === 0){
-                  $('#exampleModalCenter').modal('hide')
                   province = city = county = {};
-                  searchList();//重新请求数据
+                  toast($('#exampleModalCenterTitle').html()+'成功',()=>{
+                    $('#exampleModalCenter').modal('hide')
+                    searchList();//重新请求数据
+                  })
               }
             })
         }else{
-          alert('内容未填或格式不正确')
+            toast('内容未填或格式不正确')
         }
       }
       $(function () {
@@ -563,6 +582,18 @@
             ].join('')
           }
 
+        function formatDate(timestamp) {
+            var date = new Date(timestamp );//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var Y = date.getFullYear() + '年';
+            var M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月';
+            var D = date.getDate() + '日 ';
+            var h = date.getHours() + ':';
+            var m = date.getMinutes() + ':';
+            var s = date.getSeconds();
+            return Y + M + D + h + m + s;
+        }
+        $table.show();
+        $table.bootstrapTable('showLoading')
           //点击搜索
           $('#filterBy').click(searchList)
         //请求列表数据
@@ -576,11 +607,17 @@
             pageSize: 5,
             theadClasses: "thead-blue",
             pageList: [10, 25],
+            formatLoadingMessage: function () {
+              return '<span style="font-size:20px">加载中...</span>';
+            },
+            formatNoMatches:function(){
+                return "暂无数据";
+            },
             responseHandler: function (res) {
-              const arr = []
+              const arr = [];
+              const strArr = [];
               if(res.data.rows && res.data.rows.length>0){
-                const arrList = res.data.rows.reverse()
-                  arrList.forEach(item => {
+                  res.data.rows.forEach(item => {
                     arr.push({
                       id:item.id,
                       post_name: item.post_name,
@@ -590,8 +627,7 @@
                       work_content:item.work_content,
                       email: item.email,
                       job_class:item.job_class,
-                      low_salary:item.low_salary,
-                      top_salary:item.top_salary,
+                      salary:item.salary,
                       require_num:item.require_num,
                       phone: item.phone,
                       province_id:item.province_id,
@@ -602,13 +638,25 @@
                       enable: item.enable
                     })
                     //获取工作地点
-                    const str = document.createElement('option');
-                    str.value = item.id;
-                    str.innerHTML = item.detail_address;
-                    $('#work_place').append(str)
+                    strArr.push({
+                      value:item.id,
+                      innerHTML:item.detail_address
+                    });
                   })
               }
-              return arr
+              const option = [];//储存option的列表
+              strArr.forEach(item=>{
+                if(!option.some(aa=> item.innerHTML === aa.innerHTML)){
+                  option.push(item)
+                }
+              })
+              option.forEach(item=>{//赋值地址选择
+                    const str = document.createElement('option');
+                    str.value = item.value;
+                    str.innerHTML = item.innerHTML;
+                    $('#work_place').append(str)
+              })
+              return arr;
             },
             columns: [{
                 title: '职位名称',
@@ -621,7 +669,10 @@
                 field: 'detail_address'
               }, {
                 title: '发布时间',
-                field: 'start_time'
+                field: 'start_time',
+                formatter:(res)=>{
+                  return formatDate(res)
+                }
               }, {
                 title: '操作',
                 field: 'opt',
@@ -700,7 +751,7 @@
                   </div>
                   <div class="tab_prev">
                     <label>薪资：</label>
-                    <span>${data.low_salary - data.top_salary}</span>
+                    <span>${data.salary}</span>
                   </div>
                   <div class="tab_prev">
                     <label>电话：</label>

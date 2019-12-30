@@ -37,19 +37,10 @@
     </div>
   </div>
 </div>
+<script src="../utils/utils.js"></script>
 <script type="text/javascript">
   let editStatus;
   let editId;
-
-  // 提示框
-  function toast(message) {
-    $('.toast').toast("show")
-    $('.toast-body').text(message);
-    $('.toast').on('hidden.bs.toast', function () {
-      location.reload()
-    })
-  }
-
   function operateFormatter(value, row, index) {
     let show = row.show === "1" ? "隐藏" : "开启"
     return [
