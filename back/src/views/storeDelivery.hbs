@@ -358,9 +358,11 @@
             })
         })
         $.post(url.getRecreuit,obj,function(resData){
+          let arr = []
           if(resData && resData.data.rows && resData.data.rows.length > 0){
-            $table.bootstrapTable('load',resData.data.rows )
+            arr = resData.data.rows;
           }
+          $table.bootstrapTable('load',arr )
           $table.bootstrapTable("hideLoading");
         });
       }
