@@ -62,7 +62,7 @@
         for (var i = 0; i < files.length; i++) {
             formData.append("files[" + i + "]", files[i], files[i].name);
         }
-        $.ajax({
+        $.ajax({ 
             url: url.submitIntro,
             type: "POST",
             data: formData,
