@@ -9,7 +9,6 @@ const assets = path.join(__dirname, '../assets');
 
 
 function createCss() {
-    console.log(less, 'fdsf')
     koaMinify(assets,
         {
             entry: less + 'main.less',
