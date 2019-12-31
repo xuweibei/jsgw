@@ -49,7 +49,7 @@ const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',sta
                 where +=` and c.start_time<= '${date2}'`;
             }
         }
-        const sql = `select * from gw_invite_info c where ${where} order by c.sort desc`;
+        const sql = `select * from gw_invite_info c where ${where} order by c.sort asc,c.start_time desc`;
         const res = await sequelize.query(sql, {
             replacements: ['active'],
             type: sequelize.QueryTypes.SELECT
