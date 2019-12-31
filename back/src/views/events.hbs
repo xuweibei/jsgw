@@ -99,7 +99,7 @@
         let id = window.location.href.includes('intro') ? 2 : 3
         $.post(url.changeModuleStatus, { status: show, id: 5 }, function (res) {
             if (res && res.status === 0) {
-                
+
             }
         })
     })
@@ -123,6 +123,7 @@
         openImg.style.position = 'absolute';
         openImg.style.left = "-12px";
         openImg.style.top = "-10px";
+        openImg.style.background = "#ffffff";
         // 开启模态框
         openImg.addEventListener('click', function () {
             $('.event-modal').modal('show')
