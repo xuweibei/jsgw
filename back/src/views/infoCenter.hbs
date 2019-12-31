@@ -23,8 +23,8 @@
   <div class="editor-content d-none">
     <form class="mt-3 mb-3">
       <div class="form-group row" style="width: 1200px; margin: 0 auto;">
-        <label for="colFormLabel" class="col-sm-1 col-form-label" style="font-size: 20px; line-height: 19px;">标题</label>
-        <div class="col-sm-11 ">
+        <div class="col-sm-2 col-form-label text-right pr-5" style="font-size: 20px; line-height: 19px;">标题</div>
+        <div class="col-sm-9">
           <input type="email" class="form-control title" maxlength="50" id="colFormLabel" placeholder="请输入标题">
         </div>
       </div>
@@ -32,7 +32,8 @@
     <div id="editor" style="width: 1000px; margin: 0 auto;"></div>
     <div class="text-center">
       <button class="btn btn-primary btn-edit" onclick="saveHtml()"
-        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;" onclick="saveHtml()">发布</button>
+        style="width: 138px; height: 32px; line-height: 20px; margin: 30px 0; background-color: #0AAFDE;"
+        onclick="saveHtml()">发布</button>
     </div>
   </div>
 </div>
@@ -152,6 +153,7 @@
     $('.show-home')[0].classList.add('d-none');
     $('.edit-btn')[0].classList.add('d-none');
     $('.info-center-body')[0].classList.add('d-none');
+    $('.form-check-input')[0].classList.add('d-none');
     $('.editor-content')[0].classList.remove('d-none');
   }
   var E = window.wangEditor;
@@ -192,6 +194,8 @@
     var title = $('.title').val();
     var filterHtml = filterXSS(html);
     if (!html || !title) {
+      $('.toast').toast('show');
+      $('.toast-body').text('请写入要上传的内容');
       return
     };
     if (editStatus) {
