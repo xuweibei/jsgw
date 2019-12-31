@@ -17,6 +17,9 @@
         const info = JSON.parse(sessionStorage.getItem("info"));
         $('.info-name').text(info.name);
         $('.info-ident').text(info.identity);
-        $('.header-info').css('width', ($('body')[0].offsetWidth - 300) + 'px')
+        {{!-- $(window).resize(function(){
+            $('.header-info').css('width', ($('body')[0].offsetWidth - 250) + 'px')
+        }) --}}
+        $('.header-info').css('width', ($('body')[0].offsetWidth - 280) + 'px')
     </script>
 </div>
