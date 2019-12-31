@@ -16,7 +16,7 @@
         <div id="ht"></div>
     </div>
     <div class="editor invisible">
-        <div id="editor" style="width: 1000px;"></div>
+        <div id="editor" style="width: 1000px; margin: 50px auto;"></div>
         <div class="text-center">
             <button class="btn btn-primary btn-edit" onclick="saveHtml()">保存</button>
         </div>
@@ -24,16 +24,26 @@
 </div>
 
 <script type="text/javascript" type="module">
+    // 关闭提示框
+    function toast(message) {
+        $('.toast').toast("show")
+        $('.toast-body').text(message);
+        $('.toast').on('hidden.bs.toast', function () {
+            location.reload()
+        })
+    }
     var edit = document.getElementsByClassName('intro-edit')[0];
     var desc = document.getElementsByClassName('intro-desc')[0];
     var home = document.getElementsByClassName('show-home')[0];
+    var checkBox = document.getElementsByClassName('form-check-input')[0]
     $(function () {
         $('.form-check-input').on('change', function () {
             let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
             let id = window.location.href.includes('intro') ? 2 : 3
             $.post(url.changeModuleStatus, { status: show, id }, function (res) {
                 if (res && res.status === 0) {
-                    console.log('修改成功')
+                    $('.toast').toast("show")
+                    $('.toast-body').text(res.message);
                 }
             })
         })
@@ -75,6 +85,7 @@
         edit.classList.add('d-none');
         desc.classList.add('d-none');
         home.classList.add('d-none');
+        checkBox.classList.add('d-none');
         $('.editor')[0].classList.remove('invisible')
     }
 
@@ -85,13 +96,7 @@
         let id = window.location.href.includes('intro') ? 1 : 2
         $.post(url.insertIntro, { html: filterHtml, id }, function (res) {
             if (res) {
-                $('.toast').toast('show');
-                $('.toast-body').text(res.message)
-                $('.toast').on('hidden.bs.toast', function () {
-                    if (res.status === 0) {
-                        location.reload();
-                    }
-                })
+                toast(res.message)
             }
         })
     }
@@ -109,9 +114,8 @@
     // 获取选中状态
     function getChecked() {
         let id = window.location.href.includes('intro') ? 2 : 3
-        $.get(url.getChecked, {id}, function(res) {
+        $.get(url.getChecked, { id }, function (res) {
             if (res && res.status === 0) {
-                console.log(res.data.checked)
                 $('.form-check-input').attr('checked', res.data.checked)
             }
         })

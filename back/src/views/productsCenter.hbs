@@ -29,13 +29,13 @@
         </tr>
       </thead>
     </table>
+    <script src="../utils/utils.js"></script>
     <script>
-
       $('.form-check-input').on('change', function () {
         let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
         $.post(url.changeModuleStatus, { status: show, id: 7 }, function (res) {
           if (res && res.status === 0) {
-            console.log('修改成功')
+            toast(res.message, 0)
           }
         })
       })
@@ -147,7 +147,7 @@
                 e.preventDefault();
                 $.post(url.delProduct, { id: row.id }, function (res) {
                   if (res && res.status === 0) {
-                    location.reload()
+                    toast(res.message, 1)
                   }
                 })
               },
@@ -196,7 +196,7 @@
                 const status = row.status === '1' ? '0' : '1'
                 $.post(url.showItem, { status, id: row.id }, function (res) {
                   if (res && res.status === 0) {
-                    location.reload()
+                    toast(res.message, 1)
                   }
                 })
               }
@@ -438,11 +438,10 @@
       contentType: false,
       processData: false,
       success: function (res) {
-        location.reload()
+        toast(res.message, 1)
       }
     });
   }
-  console.log($('.modify-product-form'), 'ffffff')
   //修改产品提交
   function commitModify() {
     let formData = new FormData();
@@ -481,7 +480,7 @@
       contentType: false,
       processData: false,
       success: function (res) {
-        {{!-- location.reload() --}}
+        toast(res.message, 1)
       }
     });
   }

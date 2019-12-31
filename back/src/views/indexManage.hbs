@@ -18,6 +18,7 @@
         </tr>
       </thead>
     </table>
+    <script src="../utils/utils.js"></script>
     <script>
       //编辑
       var $table = $('#table')
@@ -53,11 +54,11 @@
                   if(str.test(e.target.value)){
                       $.post(url.changeModuleNumber, {module_number: e.target.value, id: row.id}, function(res){
                       if(res && res.status === 0){
-                        console.log('修改成功')
+                        toast(res.message, 1)
                       }
                     })
                   } else {
-                    console.log('输入错误')
+                    toast('请输入数字', 0)
                   }
                 }
               }
@@ -69,7 +70,7 @@
                 "change .custom-control-input": function(e, value, row, index){
                   $.post(url.changeModuleStatus, {status: e.target.checked, id: row.id}, function(res){
                     if(res && res.status === 0){
-                      console.log('修改成功')
+                      toast(res.message, 0)
                     }
                   })
                 }

@@ -6,7 +6,7 @@ const views = require('koa-views'); // 模板插件
 const json = require('koa-json'); // json格式处理中间件
 const onerror = require('koa-onerror'); // 处理koa程序错误
 const koaBody = require('koa-body'); // 解析body传输数据
-const passport = require('./middleware/passport')
+const passport = require('./middleware/passport');
 const session = require('koa-session')
 const cors = require('koa2-cors'); // 跨域中间件
 const logger = require('koa-logger'); // 日志生成中间件
@@ -89,7 +89,7 @@ app.use(views(__dirname + '/views', viewsParam));
 const router = require('./routes/index');
 app.use(router.routes())
    .use(router.allowedMethods());
- 
+
 // error-handling koa默认错误补货
 // app.on('error', (err, ctx) => {
 //   console.error('server error', err, ctx)
