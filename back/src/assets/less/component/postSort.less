@@ -1,3 +1,4 @@
+@import "./style/index.less";
 *{
     text-decoration: none !important;
     padding: 0;
@@ -11,14 +12,14 @@
         height: 80px;
         line-height: 80px;
         .post-sort-title{
-            color: #333333;
+            color: @lightBlack;
             font-size: 24px;
             font-weight: bold;
         }
         .button-content{
             .btn{
-                background-color: #0AAFDE;
-                color: #FFFFFF;
+                background-color: @tabHeader;
+                color: @white;
                 font-size: 14px;
                 width: 128px;
                 height: 32px;
@@ -27,6 +28,6 @@
         }
     }
     .main-content{
-        background: #FFFFFF;
+        background: @white;
     }
 }

@@ -1,3 +1,5 @@
+@import "./style/index.less";
+
 * {
     text-decoration: none !important;
     padding: 0;
@@ -7,7 +9,7 @@
     width: 200px !important;
     background: rgba(0, 0, 0, 0.5);
     border: none !important;
-    color: #fff;
+    color: @white;
     text-align: center;
     left: 50%;
     top: 50%;
@@ -15,26 +17,20 @@
     transform: translateX(-50%);
     // opacity: 1;
 }
-
-.spinner-border {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    z-index: 1000000;
-}
 .home-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     padding: 0 !important;
+    min-width: 1200px;
 
     .body-content {
         flex: 1;
-        background-color: #F9F9F9;
+        background-color: @lightWhite;
         .header-container {
             height: 80px;
             line-height: 80px;
-            background-color: #fff;
+            background-color: @white;
             position: fixed;
             // margin-top: 0;
             // flex: 1;
@@ -56,8 +52,8 @@
             margin-left: 24px;
             margin-top: 24px;
             margin-right: 24px;
-            background-color: #fff;
-            // background: #0AAFDE;
+            background-color: @white;
+            // background: @tabHeader;
             margin-top: 104px;
 
             //分页左侧提示文字隐藏
@@ -84,12 +80,12 @@
                 // }
                 .opt {
                     font-size: 14px;
-                    color: #0AAFDE;
+                    color: @tabHeader;
                     margin: 20px;
                 }
 
                 .opt.remove {
-                    color: #FF9C39;
+                    color: @delButton;
                 }
 
                 //行样式
@@ -105,8 +101,8 @@
 
                 //表头样式
                 thead tr {
-                    background-color: #0AAFDE;
-                    color: #fff;
+                    background-color: @tabHeader;
+                    color: @white;
                     font-weight: normal !important;
                     font-size: 14px;
                 }
@@ -120,8 +116,35 @@
                     line-height: 140px;
 
                     .float-right {
-                        height: 140px;
-                        line-height: 140px;
+                        margin-top: 50px;
+                        .pagination{
+                            .page-item{
+                                margin: 0 8px;
+                                a{
+                                    width: 24px;
+                                    height: 24px;
+                                    padding: 0 !important;
+                                    line-height: 20px;
+                                    text-align: center;
+                                    font-size: 12px;
+                                    border-radius: 4px;
+                                    color: #666;
+                                    border-color: #d9d9d9;
+                                }
+                            }
+                            .page-item.active{
+                                a{
+                                    color: @tabHeader !important;
+                                    background-color: @white;
+                                    border-color: @tabHeader;
+                                }
+                            }
+                            .page-item.page-pre,.page-item.page-next{
+                                a{
+                                    width: 72px;
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -132,7 +155,7 @@
                     .module_number{
                         width: 40px;
                         background-color: rgb(225, 230, 231);
-                        color: #333333;
+                        color: @lightBlack;
                         border-radius: 4px;
                         height: 32px;
                         outline: 0;
@@ -141,12 +164,17 @@
                     }
                 }
             }
+            .job-class-container.products-center-container{
+                .job-class-top{
+                    padding: 24px 24px 0;
+                }
+            }
 
             //招聘信息样式
             .store-delivery-container {
                 .card {
                     border: 0;
-                    border-bottom: 1px solid #EEE;
+                    border-bottom: 1px solid @lightWhite;
                     width: 100%;
 
                     .card-body {
@@ -168,327 +196,12 @@
                             }
 
                             .btn:nth-child(1) {
-                                color: #0AAFDE;
+                                color: @tabHeader;
                             }
 
                             .btn:nth-child(2) {
-                                background-color: #0AAFDE;
-                                color: #fff;
-                            }
-                        }
-                    }
-                }
-            }
-
-            //部门结构样式
-            .department-structur-container {
-                padding-right: 24px;
-                display: flex;
-                justify-content: space-between;
-
-                .pagination-detail {
-                    display: none !important;
-                }
-
-                .svg-img {
-                    img {
-                        width: 15px;
-                        height: 15px;
-                        opacity: 0;
-                        transition: all 1s linear;
-                    }
-                }
-
-                .item:hover img {
-                    opacity: 1;
-                }
-
-                .job-modal-footer {
-                    margin-bottom: 64px;
-
-                    .btn {
-                        width: 128px;
-                        height: 32px;
-                        font-size: 14px;
-                        line-height: 20px;
-                    }
-
-                    .btn-left {
-                        border: 1px solid #0AAFDE;
-                        background: #fff;
-                        color: #0AAFDE;
-                        margin-right: 20px;
-                    }
-
-                    .btn-right {
-                        background: #0AAFDE;
-                        color: #fff;
-                    }
-                }
-
-                .job-form {
-                    margin: 0 auto !important;
-                    // height: 343px;
-                    padding: 40px 40px 0 40px;
-                    box-sizing: border-box;
-
-                    .job-form-label {
-                        color: #999;
-                        font-size: 14px;
-                    }
-
-                    .job-form-input {
-                        height: 32px;
-                        background: #F3F6FA !important;
-                        border: none !important;
-                    }
-
-                    input::-webkit-input-placeholder {
-                        /* 修改字体颜色 */
-                        color: #A0AAB6;
-                        /* 修改字号，默认继承input */
-                        font-size: 12px;
-                    }
-                }
-
-                input::-webkit-input-placeholder {
-                    /* 修改字体颜色 */
-                    color: #A0AAB6;
-                    /* 修改字号，默认继承input */
-                    font-size: 12px;
-                    //    border: none !important;
-                }
-
-                .form-control {
-                    border: none !important;
-                    background: #F3F6FA;
-                }
-
-                .col-form-label {
-                    color: #A0AAB6;
-                    font-size: 14px;
-                }
-
-                .dep-footer {
-                    .btn {
-                        width: 128px;
-                        height: 32px;
-                        line-height: 20px;
-                    }
-
-                    .btn-left {
-                        border: 1px solid #0AAFDE;
-                        font-size: 14px;
-                        color: #0AAFDE;
-                    }
-
-                    .btn-right {
-                        background: #0AAFDE;
-                        font-size: 14px;
-                        color: #fff;
-                    }
-                }
-
-                .department-structur-left {
-                    color: #333333;
-                    width: 230px;
-                    border-right: 1px solid #EEE;
-
-                    .left-title {
-                        font-size: 16px;
-                        font-weight: bold;
-                        padding-left: 24px;
-                        height: 60px;
-                        line-height: 60px;
-                    }
-
-                    .left-content {
-                        .item {
-                            font-size: 14px;
-                            height: 40px;
-                            line-height: 40px;
-                            padding-left: 24px;
-                            font-weight: 500;
-
-                            span {
-                                margin-right: 40px;
-                                width: 35px;
-                            }
-                        }
-
-                        .item:nth-child(1) {
-                            background-color: #D5F5FF;
-                        }
-
-                        .item:not(:nth-child(1)):hover {
-                            background: rgba(120, 225, 255, .1);
-                        }
-                    }
-
-                    .left-footer {
-                        padding-left: 24px;
-                        font-size: 14px;
-                        color: #0AAFDE;
-                        margin-top: 30px;
-                        cursor: pointer;
-
-                        img {
-                            width: 14px;
-                            margin-right: 10px;
-                        }
-                    }
-                }
-
-                .department-structur-right {
-                    flex: 1;
-                }
-            }
-
-            //职位分类样式
-            .job-class-container {
-                .job-class-top {
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    padding: 24px 24px 0;
-
-                    &>span,
-                    .card-body-title {
-                        font-size: 24px;
-                        color: #333;
-                        font-weight: bold;
-                    }
-
-                    &>.btn {
-                        font-size: 14px;
-                        background-color: #0AAFDE;
-                        width: 128px;
-                        height: 32px;
-                        color: #fff;
-                        border-radius: 4px;
-                    }
-
-                    .card-body-btn {
-                        .btn {
-                            width: 128px;
-                            font-size: 14px;
-                            color: #0AAFDE;
-                        }
-
-                        .btn:nth-child(2) {
-                            background-color: #0AAFDE;
-                            color: #fff;
-                        }
-                    }
-                }
-
-                .job-modal-footer {
-                    margin-bottom: 64px;
-
-                    .btn {
-                        width: 128px;
-                        height: 32px;
-                        font-size: 14px;
-                        line-height: 20px;
-                    }
-
-                    .btn-left {
-                        border: 1px solid #0AAFDE;
-                        background: #fff;
-                        color: #0AAFDE;
-                        margin-right: 20px;
-                    }
-
-                    .btn-right {
-                        background: #0AAFDE;
-                        color: #fff;
-                    }
-                }
-
-                .job-form {
-                    margin: 0 auto;
-                    // height: 343px;
-                    padding: 40px 40px 0 40px;
-                    box-sizing: border-box;
-
-                    .job-form-label {
-                        color: #999;
-                        font-size: 14px;
-                    }
-
-                    .job-form-input {
-                        height: 32px;
-                        background: #F3F6FA !important;
-                        border: none !important;
-                    }
-
-                    input::-webkit-input-placeholder {
-                        /* 修改字体颜色 */
-                        color: #A0AAB6;
-                        /* 修改字号，默认继承input */
-                        font-size: 12px;
-                    }
-                }
-
-                #table thead {
-                    background: #0AAFDE;
-                    color: #fff;
-                }
-
-                // #table tr {
-                //     height: 80px;
-                //     line-height: 80px;
-                // }
-            }
-
-            //资讯中心样式
-            .info-center-container {
-                .job-class-top {
-                    padding-bottom: 24px;
-                    border-bottom: 1px solid #eee;
-                }
-
-                .info-center-body {
-                    padding: 20px;
-
-                    .info-center-content {
-                        ul {
-                            li {
-                                display: flex;
-                                justify-content: space-between;
-                                align-items: center;
-                                height: 30px;
-
-                                div:nth-child(1) {
-                                    font-size: 14px;
-                                    font-weight: 500;
-                                    color: #333;
-                                }
-
-                                div:nth-child(1)::before {
-                                    content: '';
-                                    width: 5px;
-                                    height: 5px;
-                                    border-radius: 100%;
-                                    background-color: #77CFED;
-                                    display: inline-block;
-                                    vertical-align: middle;
-                                    margin-right: 10px;
-                                }
-
-                                div:nth-child(3) {
-                                    font-size: 12px;
-                                    font-weight: 300;
-                                    color: #999;
-                                }
-
-                                .li-line {
-                                    flex: 1;
-                                    height: 1px;
-                                    margin-left: 20px;
-                                    margin-right: 20px;
-                                    background-color: #f2f2f2;
-                                }
+                                background-color: @tabHeader;
+                                color: @white;
                             }
                         }
                     }
@@ -507,111 +220,6 @@
                     justify-content: space-between;
                     align-items: center;
                     font-size: 14px;
-                }
-            }
-
-            //轮播管理样式
-            .turn-manage-container {
-                .turn-manage-top {
-                    padding: 12px 20px;
-                    color: #333;
-                    font-weight: bold;
-                    font-size: 18px;
-                    letter-spacing: 2px;
-                    border-bottom: 1px solid #f2f2f2;
-                }
-
-                .turn-manage-body {
-                    padding: 20px;
-
-                    .turn-spec {
-                        font-size: 12px;
-                        color: #333;
-                        font-weight: bold;
-                        display: flex;
-                        justify-content: flex-start;
-                        align-items: center;
-
-                        input {
-                            width: 20px;
-                            background-color: #ccc;
-                            border: 0;
-                            outline: 0;
-                            margin: 5px;
-                            text-align: center;
-                            color: #fff;
-                        }
-
-                        .btn {
-                            color: #0AAFDE;
-                            font-size: 12px;
-                        }
-                    }
-
-                    .turn-pic {
-                        padding-left: 50px;
-                        padding-right: 50px;
-                        padding-top: 30px;
-
-                        // display: flex;
-                        // flex-wrap: wrap;
-                        // justify-content: space-between;
-                        .turn-item {
-                            position: relative;
-                            margin-bottom: 40px;
-                            min-width: 320px;
-                            img {
-                                width: 100%;
-                                height: 100%;
-                            }
-
-                            .close_ {
-                                width: 24px;
-                                height: 24px;
-                                background: red;
-                                color: white;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                                position: absolute;
-                                border-radius: 50%;
-                                font-size: 16px;
-                                right: 3px;
-                                top: -12px;
-                                cursor: pointer;
-                            }
-
-                            .turn-link {
-                                margin-top: 24px;
-
-                                input {
-                                    width: 100%;
-                                    background-color: #F3F6FA;
-                                    color: #A0AAB6;
-                                    font-size: 12px;
-                                    height: 40px;
-                                    border: 0;
-                                    outline: 0;
-                                    padding-left: 10px;
-                                    font-weight: 300;
-                                }
-                            }
-                        }
-
-                        .click-to-upload {
-                            height: 100%;
-                            background-color: #F5F7FA;
-                            border: 1px dashed #DEE1E7;
-                            text-align: center;
-                            position: relative;
-
-                            p {
-                                position: relative;
-                                top: 50%;
-                                transform: translateY(-50%);
-                            }
-                        }
-                    }
                 }
             }
         }
@@ -678,13 +286,13 @@
 
                         .list-group-item:hover {
                             background-color: #EAEDF1;
-                            color: #0AAFDE !important;
+                            color: @tabHeader !important;
                         }
 
                         .list-group-item.active {
                             background-color: #EAEDF1;
-                            color: #0AAFDE !important;
-                            border-left: 4px solid #0AAFDE;
+                            color: @tabHeader !important;
+                            border-left: 4px solid @tabHeader;
                         }
                     }
                 }
@@ -697,7 +305,7 @@
 .department-help-content {
     width: 100%;
     height: 100%;
-    background: #ffffff;
+    background: @white;
     overflow: hidden;
     position: relative;
     .content-bottom-right {
@@ -720,13 +328,13 @@
     .help-content-top {
         width: 100%;
         height: 72px;
-        border-bottom: 1px solid #EEEEEE;
+        border-bottom: 1px solid @lightWhite;
         display: flex;
         align-items: center;
         justify-content: left;
         padding: 0 40px;
         box-sizing: border-box;
-        color: #333333;
+        color: @lightBlack;
         font-weight: 700;
         font-size: 24px;
     }
@@ -753,7 +361,7 @@
                     margin-top: 26px;
                 }
                 .text-wrap-top {
-                    color: #333333;
+                    color: @lightBlack;
                     font-size: 18px;
                     font-weight: 700;
                 }
@@ -765,14 +373,14 @@
                     height: 55px;
                     .title-name {
                         font-size: 14px;
-                        color: #999999;
+                        color: #999;
                     }
 
                     .title-input {
                         width: 320px;
                         height: 32px;
                         border: 0;
-                        background: #F3F6FA;
+                        background: @radioWhite;
                         border-radius: 4px;
                         padding-left: 14px;
                         box-sizing: border-box;
@@ -793,30 +401,26 @@
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            border: 1px solid rgba(10, 175, 222, 1);
+            border: 1px solid @tabHeader;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 36px;
-            color: rgba(10, 175, 222, 1);
+            color: @tabHeader;
             margin-top: 86px;
             padding-bottom: 8px;
             cursor: pointer;
         }
-        .reduce-list{
-            border-color: #666666;
-            color: #666666;
-        }
-        .reduce-list-bottom{
-            border-color: #666666;
-            color: #666666;
+        .reduce-list,.reduce-list-bottom{
+            border-color: #666;
+            color: #666;
         }
     }
     .preserve{
         width: 128px;
         height: 32px;
-        background: #0AAFDE;
-        color: #FFFFFF;
+        background: @tabHeader;
+        color: @white;
         border-radius: 4px;
         display: flex;
         align-items: center;
@@ -846,15 +450,15 @@
         form{
             float:left;
             input,select,.input-group{
-                background:#F3F6FA;
+                background:@radioWhite;
                 border:none;
-                color:#A0AAB6;
+                color:@radioFontWhite;
                 font-size:12px;
             }
             .input-group{
                 button{
                     span{
-                        color:#A0AAB6;
+                        color:@radioFontWhite;
                         font-size:12px;
                     }
                     .time_close{
@@ -864,10 +468,10 @@
                         line-height: 15px;
                         text-align: center;
                         float: right;
-                        border: 1px solid #ccc;
+                        border: 1px solid @lightGrayInput;
                         border-radius: 50%;
                         font-style: normal;
-                        color: #ccc;
+                        color: @lightGrayInput;
                         font-size: 12px;
                         margin-right: 8px;
                         margin-top:1px;
@@ -882,9 +486,9 @@
         width:64px;
         height:32px;
         line-height:16px;
-        color:#0AAFDE;
-        border:1px solid #0AAFDE;
-        background:#fff;
+        color:@tabHeader;
+        border:1px solid @tabHeader;
+        background:@white;
         font-size:14px;
     }
     .edit-modal{
@@ -915,15 +519,15 @@
                     margin-right:10px;
                 }
                 input::placeholder{
-                    color:#A0AAB6;
+                    color:@radioFontWhite;
                     font-size:12px;
                 }
                 textarea::placeholder{
-                    color:#A0AAB6;
+                    color:@radioFontWhite;
                     font-size:12px;
                 }
                 .form-control{
-                    background:#F3F6FA;
+                    background:@radioWhite;
                     border:none;
                 }
             }
@@ -936,7 +540,7 @@
             }
             input,textarea{
                 font-size:12px;
-                color:#A0AAB6;
+                color:@radioFontWhite;
             }
         }
         .modal-footer{
@@ -949,21 +553,21 @@
                 font-size:14px;
             }
             .btn-info{
-                color:#0AAFDE;
-                border:1px solid #0AAFDE;
-                background:#fff;
+                color:@tabHeader;
+                border:1px solid @tabHeader;
+                background:@white;
             }
             .btn-primary{
-                color:#fff;
-                border:1px solid #0AAFDE;
-                background:#0AAFDE;
+                color:@white;
+                border:1px solid @tabHeader;
+                background:@tabHeader;
             }
         }
     }
 
     .work_place_list{
         list-style: none;
-        border:1px solid #ccc;
+        border:1px solid @lightGrayInput;
         li{
             padding-left:10px;
         }
@@ -971,15 +575,15 @@
 
     .active_background{
         background:rgb(124, 124, 214);
-        color:#fff;
+        color:@white;
     }
 
     .active_background_two{
         background:rgb(72, 72, 231);
-        color:#fff !important;
+        color:@white !important;
     }
     #edit_job_class{
-        color:#A0AAB6;
+        color:@radioFontWhite;
         font-size:12px;
     }
     .edit_select{
@@ -987,12 +591,12 @@
         height:calc(1.5em + .75rem + 2px);
         width:100%;
         border-radius: 4px;
-        border:1px solid #ccc;
+        border:1px solid @lightGrayInput;
         line-height: 30px;
         text-align: center;
-        color:#A0AAB6;
+        color:@radioFontWhite;
         font-size:12px;
-        background:#F3F6FA;
+        background:@radioWhite;
         border:none;
         overflow: hidden;
         text-overflow:ellipsis;
@@ -1007,8 +611,8 @@
         z-index: 2;
         height:200px;
         overflow: hidden;
-        background:#fff;
-        border:1px solid #ccc;
+        background:@white;
+        border:1px solid @lightGrayInput;
         border-radius: 6px;
         .scroll_wrap{
             width:260px;
@@ -1021,7 +625,7 @@
                     padding-left:10px;
                     position: relative;
                     font-size:12px;
-                    color:#A0AAB6
+                    color:@radioFontWhite
                 }
             }
         }
@@ -1037,8 +641,8 @@
         z-index: 2;
         height:200px;
         overflow: hidden;
-        background:#fff;
-        border:1px solid #ccc;
+        background:@white;
+        border:1px solid @lightGrayInput;
         border-radius: 6px;
         .city_wrap{
             width:260px;
@@ -1050,7 +654,7 @@
                 li{
                     padding-left:10px;
                     font-size:12px;
-                    color:#A0AAB6
+                    color:@radioFontWhite
                 }
             }
         }
@@ -1064,9 +668,9 @@
         z-index: 2;
         height:200px;
         overflow: hidden;
-        background:#fff;
+        background:@white;
         border-radius: 6px;
-        border:1px solid #ccc;
+        border:1px solid @lightGrayInput;
         .county_wrap{
             width:260px;
             height:200px;
@@ -1077,7 +681,7 @@
                 li{
                     padding-left:10px;
                     font-size:12px;
-                    color:#A0AAB6
+                    color:@radioFontWhite
                 }
             }
         }
@@ -1087,9 +691,9 @@
     .fl{
         float: left;
         width:280px;
-        border:1px solid #ccc;
+        border:1px solid @lightGrayInput;
         border-radius: 4px;
-        color:#ccc;
+        color:@lightGrayInput;
     }
     .timeSlot{
         line-height: 30px;
@@ -1117,7 +721,7 @@
                     border-bottom:none;
                     #exampleModalLabel{
                         font-size:24px;
-                        color:#333;
+                        color:@lightBlack;
                         font-weight:bold;
                     }
                 }
@@ -1132,12 +736,12 @@
                         }
                         span{
                             font-size:14px;
-                            color:#333;
+                            color:@lightBlack;
                         }
                     }
                 }
                 .work_content{
-                    border-top:1px solid #EEEEEE;
+                    border-top:1px solid @lightWhite;
                     margin-top:20px;
                     padding-top:20px;
                     div{
@@ -1152,7 +756,7 @@
                             float:left;
                             width:690px;
                             font-size:14px;
-                            color:#333;
+                            color:@lightBlack;
                         }
                     }
                 }
@@ -1170,19 +774,19 @@
     }
 
     .table .thead-blue th {
-        color: #fff;
-        background-color: #0AAFDE;
-        border-color: #0AAFDE;
+        color: @white;
+        background-color: @tabHeader;
+        border-color: @tabHeader;
         font-size:14px;
     }
     #table-edit,#table-del,#table-start,#table-see{
         font-size:14px;
-        color:#0AAFDE;
+        color:@tabHeader;
         margin:0 10px;
     }
 
     .aActive{
-        color:#FF9C39 !important;
+        color:@delButton !important;
     }
 }
 .events {
@@ -1199,36 +803,36 @@
     }
 
     .btn-secondary {
-        background: #fff;
-        border-color: #0AAFDE;
-        color: #0AAFDE;
+        background: @white;
+        border-color: @tabHeader;
+        color: @tabHeader;
     }
 
     .btn-primary {
-        background: #0AAFDE;
-        border-color: #0AAFDE;
+        background: @tabHeader;
+        border-color: @tabHeader;
     }
 
     input {
         margin-left: 40px;
-        background: #F3F6FA !important;
+        background: @radioWhite !important;
         border: none !important;
     }
 
     textarea {
         height: 260px;
         margin-left: 40px;
-        background: #F3F6FA !important;
+        background: @radioWhite !important;
         border: none;
     }
 
     select {
         border: none !important;
-        background: #F3F6FA !important;
+        background: @radioWhite !important;
     }
 
     label {
-        color: #999999;
+        color: #999;
         font-size: 14px;
     }
 
@@ -1275,7 +879,7 @@
     .line {
         width: 1px;
         height: 120%;
-        background: #0AAFDE;
+        background: @tabHeader;
         margin: 0 38px 0 44px;
         position: relative;
 
@@ -1288,7 +892,7 @@
         .cle {
             width: 14px;
             height: 14px;
-            background: #0AAFDE;
+            background: @tabHeader;
             border-radius: 50%;
             position: absolute;
             top: 48.5%;
@@ -1297,24 +901,29 @@
     }
 }
 
-// 资讯
-@import "component/intro";
-
 //公司交流
 .company-talk-container{
     .table-container{
-        float: right;
+        // float: right;
         margin-top: 10px;
+        .mainModal{
+            .bootstrap-table .fixed-table-toolbar .bs-bars{
+                float: unset !important;
+            }
+        }
+        .float-left{
+            float: unset !important;
+        }
     }
     .row-searchWork{
-        width: 600px;
+        // width: 600px;
     }
     .main-searchWork{
         border:1px solid #ced4da;
         border-radius: 0.25rem;
     }
     .btn-primary{
-        color:#fff;
+        color:@white;
         border:1px solid #007bff;
         background:#007bff;
         font-size: 14px;
@@ -1330,11 +939,11 @@
     }
     .table-see-searchWork{
         margin:0 6px;
-        color: #0AAFDE;
+        color: @tabHeader;
         font-size: 14px;
     }
     .table-del-searchWork{
-        color: #FF9C39;
+        color: @delButton;
     }
     .modal-footer{
         width: 100%;
