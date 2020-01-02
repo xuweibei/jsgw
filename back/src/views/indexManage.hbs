@@ -9,12 +9,8 @@
       id="table"
       class="text-center table table-striped table-borderless"
       data-pagination="true">
-      <thead>
+      <thead> 
         <tr>
-          {{!-- <th data-field="id">ID</th> --}}
-          {{!-- <th data-field="module_name"></th>
-          <th data-field="module_number"></th>
-          <th data-field="status"></th> --}}
         </tr>
       </thead>
     </table>
@@ -39,7 +35,7 @@
               return "请稍等，正在加载中...";
             },
             responseHandler: function (res) {
-              return res.data
+              return res.data 
             },
             columns: [{
               title: '展示模块',

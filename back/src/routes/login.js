@@ -9,7 +9,6 @@ const {
 } = require('../config/model')
 module.exports = {
     'home': async ctx => {
-        console.log("object")
         await ctx.render('login')
     },
     "login": async ctx => {
@@ -22,11 +21,8 @@ module.exports = {
             password
         } = ctx.request.body;
         const data = await login(account)
-        console.log(data, "打算接电话萨卡的很")
 
         if (password === data.password) {
-            // ctx.body = new SuccessModel(data, "登录成功")
-            // return 
             return passport.authenticate('local',
                 function () {
                     ctx.body = new SuccessModel(data, "登录成功")
