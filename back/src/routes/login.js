@@ -9,6 +9,7 @@ const {
 } = require('../config/model')
 module.exports = {
     'home': async ctx => {
+        console.log("object")
         await ctx.render('login')
     },
     "login": async ctx => {

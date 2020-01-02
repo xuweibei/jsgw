@@ -2,6 +2,7 @@
  * 后台程序入口文件 // 18760660507
  * */
 const Koa = require('koa');
+const path = require('path')
 const views = require('koa-views'); // 模板插件
 const json = require('koa-json'); // json格式处理中间件
 const onerror = require('koa-onerror'); // 处理koa程序错误
@@ -14,7 +15,7 @@ const koaMinify = require('@chuchur/koa-minify'); // less插件
 // 创建应用
 const app = new Koa();
 // error handler
-// require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
+require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
 // 代替koa默认错误提示
 onerror(app)
 app.keys = ['zzkj_@123'];
@@ -65,13 +66,12 @@ app.use(json())
 app.use(logger())
 
 // less转化css
-app.use(async (ctx, next) => {
-    koaMinify(assets, {
-        entry: path.join(__dirname, '/assets/less/') + 'main.less',
-        output: path.join(__dirname, '/assets/less/') + 'main.css'
-    })
-    next()
-})
+koaMinify(__dirname + '/assets',
+  {
+    entry: __dirname + '/assets/less/main.less',
+    output: __dirname + '/assets/css/main.css'
+  }
+)
 app.use(require('koa-static')(__dirname, '/assets'))
 
 
