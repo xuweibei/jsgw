@@ -10,6 +10,7 @@ const passport = require('./middleware/passport');
 const session = require('koa-session')
 const cors = require('koa2-cors'); // 跨域中间件
 const logger = require('koa-logger'); // 日志生成中间件
+const koaMinify = require('@chuchur/koa-minify'); // less插件
 // 创建应用
 const app = new Koa();
 // error handler
@@ -63,6 +64,7 @@ app.use(koaBody({
 app.use(json())
 app.use(logger())
 
+// less转化css
 app.use(async (ctx, next) => {
     koaMinify(assets, {
         entry: path.join(__dirname, '/assets/less/') + 'main.less',
