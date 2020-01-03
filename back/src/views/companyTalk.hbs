@@ -243,10 +243,10 @@
             function operateFormatter(value, row, index) {
               const style = row.status === '1' ? 'aActive' :''
               return [
-                '<a class="like opt table-see-searchWork" id="table_see" href="javascript:void(0)" title="see">查看</a>',
-                '<a class="like opt table-see-searchWork" id="table_edit" href="javascript:void(0)" title="edit">编辑</a>',
-                `<a class="like opt ${style} table-see-searchWork table-del-searchWork" id="table_hide" href="javascript:void(0)" title="hide">${style ? '显示':'隐藏'}</a>`,
-                '<a class="remove opt table-see-searchWork table-del-searchWork" id="table_del" href="javascript:void(0)" title="remove">删除</a>'
+                '<a class="like opt table-see-searchWork" id="table_see" href="javascript:void(0)" title="查看">查看</a>',
+                '<a class="like opt table-see-searchWork" id="table_edit" href="javascript:void(0)" title="编辑">编辑</a>',
+                `<a class="like opt ${style} table-see-searchWork table-del-searchWork" id="table_hide" href="javascript:void(0)" title="显示或隐藏">${style ? '显示':'隐藏'}</a>`,
+                '<a class="remove opt table-see-searchWork table-del-searchWork" id="table_del" href="javascript:void(0)" title="删除">删除</a>'
               ].join('')
             }
         })

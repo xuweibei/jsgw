@@ -571,10 +571,10 @@
           //操作列表
           function operateFormatter(value, row, index) {
             return [
-              '<a class="like opt" id="table-edit" href="javascript:void(0)" title="Like">编辑</a>',
-              '<a class="remove opt aActive" id="table-del" href="javascript:void(0)" title="Remove">删除</a>',
-              row.enable === 0 ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="Remove">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
-              '<a class="like opt" id="table-see" href="javascript:void(0)" title="Remove">预览</a>'
+              '<a class="like opt" id="table-edit" href="javascript:void(0)" title="编辑">编辑</a>',
+              '<a class="remove opt aActive" id="table-del" href="javascript:void(0)" title="删除">删除</a>',
+              row.enable === 0 ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="启用或停用">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
+              '<a class="like opt" id="table-see" href="javascript:void(0)" title="预览">预览</a>'
             ].join('')
           }
 
