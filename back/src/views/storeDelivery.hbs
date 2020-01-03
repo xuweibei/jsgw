@@ -20,34 +20,35 @@
   </div>
   <div class="table-container">
     <div class="toolbar">
+      <form>
         <div class="row">
           <div class="col-2">
-            <input type="text" class="form-control" placeholder="请输入职位关键字" name="searchWork">
+            <input type="text" class="form-control select-style" placeholder="请输入职位关键字" name="searchWork">
           </div>
           <div class="col-2">
-            <select class="form-control" id="job_class">
+            <select class="form-control select-style" id="job_class">
               <option value="">请选择职位分类</option>
             </select>
           </div>
           <div class="col-2">
-            <select class="form-control" id="work_place">
+            <select class="form-control select-style" id="work_place">
               <option value="">请选择工作地点</option>
             </select>
           </div>
           <div class="col-4">
               <div class="main">
-                  <div class="input-group fl">
-                          <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
-                              <span></span>
-                          </button>
-                          <input type="hidden" value="" id="incomeStartDate">
-                          <input type="hidden" value="" id="incomeEndDate">
-                      </div>
-                  </div>
+                  <div class="input-group fl select-style">
+                    <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
+                      <span></span>
+                    </button>
+                    <input type="hidden" value="" id="incomeStartDate">
+                    <input type="hidden" value="" id="incomeEndDate">
+                </div>
               </div>
-          <div class="col-2 text-right">
-            <span class="screeningClear" onclick="clearSearch()">清空筛选条件</span>
-            <button class="btn btn-primary" id="filterBy">搜索</button>
+            </div>
+          <div class="col-2 text-right d-flex">
+            <button class="screeningClear btn" onclick="clearSearch()">清空</button>
+            <button class="btn" id="filterBy">搜索</button>
           </div>
         </div>
       </form>
