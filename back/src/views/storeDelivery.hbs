@@ -22,20 +22,20 @@
     <div class="toolbar">
       <form>
         <div class="row">
-          <div class="col">
+          <div class="col-2">
             <input type="text" class="form-control" placeholder="请输入职位关键字" name="searchWork">
           </div>
-          <div class="col">
+          <div class="col-2">
             <select class="form-control" id="job_class" onchange="chooseJobClass(this.value)">
               <option value="">请选择职位分类</option>
             </select>
           </div>
-          <div class="col">
+          <div class="col-2">
             <select class="form-control" id="work_place" onChange="chooseWorkPlace(this.value)">
               <option value="">请选择工作地点</option>
             </select>
           </div>
-          <div class="col">
+          <div class="col-4">
               <div class="main">
                   <div class="input-group fl">
                           <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
@@ -47,14 +47,17 @@
                       </div>
                   </div>
               </div>
+          <div class="col-2 text-right">
+            <button class="btn btn-primary" id="filterBy">搜索</button>
           </div>
         </div>
       </form>
-      <button class="btn btn-primary" id="filterBy">搜索</button>
-      <table id="table" class="text-center table table-striped table-borderless"
-      {{!-- data-show-pagination-switch="true" --}} data-pagination="true"
-      {{!-- data-page-list="[3, 5, 8, 100, all]" --}} {{!-- data-show-footer="true" --}}
-      {{!-- data-side-pagination="server"> --}}>
+    </div>
+      <table
+        id="table"
+        class="text-center table table-striped table-borderless"
+        data-pagination="true"
+      >
     </table>
 	</div>
   <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
