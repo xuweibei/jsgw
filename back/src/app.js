@@ -2,6 +2,7 @@
  * 后台程序入口文件 // 18760660507
  * */
 const Koa = require('koa');
+const path = require('path')
 const views = require('koa-views'); // 模板插件
 const json = require('koa-json'); // json格式处理中间件
 const onerror = require('koa-onerror'); // 处理koa程序错误
@@ -10,10 +11,10 @@ const passport = require('./middleware/passport');
 const session = require('koa-session')
 const cors = require('koa2-cors'); // 跨域中间件
 const logger = require('koa-logger'); // 日志生成中间件
+const koaMinify = require('@chuchur/koa-minify'); // less插件
 // 创建应用
 const app = new Koa();
 // error handler
-// require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
 // 代替koa默认错误提示
 onerror(app)
 app.keys = ['zzkj_@123'];
@@ -63,23 +64,28 @@ app.use(koaBody({
 app.use(json())
 app.use(logger())
 
-app.use(async (ctx, next) => {
-    koaMinify(assets, {
-        entry: path.join(__dirname, '/assets/less/') + 'main.less',
-        output: path.join(__dirname, '/assets/less/') + 'main.css'
+
+if (process.env.NODE_ENV === "production") {
+    console.log("线上环境")
+} else {
+    require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
+
+    // less转化css
+    koaMinify(__dirname + '/assets', {
+        entry: __dirname + '/assets/less/main.less',
+        output: __dirname + '/assets/css/main.css'
     })
-    next()
-})
+
+    // logger
+    app.use(async (ctx, next) => {
+        const start = new Date();
+        await next();
+        const ms = new Date() - start;
+        console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
+    })
+    // console.log("开发环境")
+}
 app.use(require('koa-static')(__dirname, '/assets'))
-
-
-// logger
-app.use(async (ctx, next) => {
-    const start = new Date();
-    await next();
-    const ms = new Date() - start;
-    console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-})
 
 // handlebars 模板参数设置
 const viewsParam = require('./views/index');
