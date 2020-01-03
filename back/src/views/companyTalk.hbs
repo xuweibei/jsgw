@@ -4,9 +4,9 @@
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
 
 <div class="job-class-container company-talk-container">
-    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
-      <div class="toast-body"></div>
-    </div>
+  <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
+    <div class="toast-body"></div>
+  </div>
   <div class="mainModal">
     <div class="job-class-top">
       <span>公司交流</span>
@@ -15,26 +15,26 @@
     <div class="table-container">
       <div class="toolbar">
         <form>
-          <div class="row row-searchWork">
-            <div class="col-4">
-              <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
-            </div>
-            <div class="col-4">
+            <div class="row row-searchWork">
+              <div class="col-5">
+                <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
+              </div>
+              <div class="col-5">
                 <div class="main main-searchWork">
-                    <div class="input-group fl">
-                            <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
-                                <span></span>
-                            <i class="time_close">X</i>
-                            </button>
-                            <input type="hidden" value="" id="incomeStartDate">
-                            <input type="hidden" value="" id="incomeEndDate">
-                        </div>
-                    </div>
+                  <div class="input-group fl">
+                    <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
+                      <span></span>
+                      <i class="time_close"></i>
+                    </button>
+                    <input type="hidden" value="" id="incomeStartDate">
+                    <input type="hidden" value="" id="incomeEndDate">
+                  </div>
+                </div>
               </div>
-              <div class="col-4 text-right">
-                <button class="btn btn-primary" id="filterByComm" onclick="searchList()">搜索</button>
+              <div class="col-2 text-right">
+                <button class="btn" id="filterByComm" onclick="searchList()">搜索</button>
               </div>
-          </div>
+            </div>
         </form>
       </div>
       <div class="table-searchWork">
