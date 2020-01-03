@@ -14,28 +14,27 @@
     </div>
     <div class="table-container">
       <div class="toolbar">
-        <form>
-            <div class="row row-searchWork">
-              <div class="col-5">
-                <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
-              </div>
-              <div class="col-5">
-                <div class="main main-searchWork">
-                  <div class="input-group fl">
-                    <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
-                      <span></span>
-                      <i class="time_close"></i>
-                    </button>
-                    <input type="hidden" value="" id="incomeStartDate">
-                    <input type="hidden" value="" id="incomeEndDate">
-                  </div>
-                </div>
-              </div>
-              <div class="col-2 text-right">
-                <button class="btn" id="filterByComm" onclick="searchList()">搜索</button>
+        <div class="row row-searchWork">
+          <div class="col-5">
+            <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
+          </div>
+          <div class="col-5">
+            <div class="main main-searchWork">
+              <div class="input-group fl">
+                <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
+                  <span></span>
+                  <i class="time_close"></i>
+                </button>
+                <input type="hidden" value="" id="incomeStartDate">
+                <input type="hidden" value="" id="incomeEndDate">
               </div>
             </div>
-        </form>
+          </div>
+          <div class="col-2 text-right">
+            <span class="screeningClear" onclick="clearSearch()">清空筛选条件</span>
+            <button class="btn" id="filterByComm" onclick="searchList()">搜索</button>
+          </div>
+        </div>
       </div>
       <div class="table-searchWork">
         <table
@@ -97,13 +96,6 @@
         var enableData = {};//显示隐藏的数据
         var deleteData = {};//删除数据储存
         var editData = {};//编辑时的数据
-
-        //点击日期选择的清空按钮
-        const time_close = document.getElementsByClassName('time_close')[0];
-        time_close.addEventListener('click',function(e){
-          $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
-          e.stopPropagation();
-        });
 
         // 关闭提示框
         function toast(message,callBack) {
@@ -176,6 +168,12 @@
               $table.bootstrapTable('load',arr )
           });
         }
+
+          //清空筛选条件
+          function clearSearch(){
+              $("input[name='title']").val('');
+              $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
+          }
           $(function() {
             $table.bootstrapTable({
               toolbar: '.toolbar',

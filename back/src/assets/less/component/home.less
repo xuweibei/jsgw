@@ -435,54 +435,39 @@
 
 
 #recruic-wrap{
-    .search-from{
-        .search-input{
-            width: 60%;
-            display: inline;
-        }
-    }
     .myrow {
         display: flex;
         flex-direction: row;
         /*margin-left:1em;*/
     }
+    .search-right{
+        float:right;
+        color:@tabHeader;
+        font-size:14px;
+        height:32px;
+        line-height:16px;
+        padding-top:22px;
+    }
     .toolbar{
-        form{
-            float:left;
-            input,select,.input-group{
-                background:@radioWhite;
-                border:none;
-                color:@radioFontWhite;
-                font-size:12px;
-            }
-            .input-group{
-                button{
-                    span{
-                        color:@radioFontWhite;
-                        font-size:12px;
-                    }
-                    .time_close{
-                        display: inline-block;
-                        width: 16px;
-                        height: 16px;
-                        line-height: 15px;
-                        text-align: center;
-                        float: right;
-                        border: 1px solid @lightGrayInput;
-                        border-radius: 50%;
-                        font-style: normal;
-                        color: @lightGrayInput;
-                        font-size: 12px;
-                        margin-right: 8px;
-                        margin-top:1px;
-                    }
+        input,select,.input-group{
+            background:@radioWhite;
+            border:none;
+            color:@radioFontWhite;
+            font-size:12px;
+        }
+        .input-group{
+            button{
+                span{
+                    color:@radioFontWhite;
+                    font-size:12px;
                 }
             }
         }
     }
     #filterBy{
         float:right;
-        margin:14px 100px 0 0;
+        margin-top:-8px;
+        margin-left:10px;
         width:64px;
         height:32px;
         line-height:16px;
@@ -926,6 +911,12 @@
         }
     }
     .row-searchWork{
+        .screeningClear{
+            font-size: 14px;
+            color: @tabHeader;
+            cursor: pointer;
+            margin-right:10px;
+        }
         // width: 600px;
         #filterByComm{
             background-color: @white;

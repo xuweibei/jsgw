@@ -20,18 +20,17 @@
   </div>
   <div class="table-container">
     <div class="toolbar">
-      <form>
         <div class="row">
           <div class="col">
             <input type="text" class="form-control" placeholder="请输入职位关键字" name="searchWork">
           </div>
           <div class="col">
-            <select class="form-control" id="job_class" onchange="chooseJobClass(this.value)">
+            <select class="form-control" id="job_class">
               <option value="">请选择职位分类</option>
             </select>
           </div>
           <div class="col">
-            <select class="form-control" id="work_place" onChange="chooseWorkPlace(this.value)">
+            <select class="form-control" id="work_place">
               <option value="">请选择工作地点</option>
             </select>
           </div>
@@ -40,7 +39,6 @@
                   <div class="input-group fl">
                           <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
                               <span></span>
-                          <i class="time_close">X</i>
                           </button>
                           <input type="hidden" value="" id="incomeStartDate">
                           <input type="hidden" value="" id="incomeEndDate">
@@ -49,8 +47,10 @@
               </div>
           </div>
         </div>
-      </form>
-      <button class="btn btn-primary" id="filterBy">搜索</button>
+        <div class="search-right">
+            <span class="screeningClear" onclick="clearSearch()">清空筛选条件</span>
+            <button class="btn btn-primary" id="filterBy">搜索</button>
+        </div>
       <table id="table" class="text-center table table-striped table-borderless"
       {{!-- data-show-pagination-switch="true" --}} data-pagination="true"
       {{!-- data-page-list="[3, 5, 8, 100, all]" --}} {{!-- data-show-footer="true" --}}
@@ -286,19 +286,9 @@
       var province = {}//省
       var city = {};//市;
       var county = {};//县级
-      var jobClass = ''//职位分类
-      var workPlace = ''//工作地点
       var jobEditClass = ''//新增或编辑的  职位分类
       var deleteData = {}; //删除的数据
       var enableData = {}; //停用或启用数据
-      //选择职位分类的时候
-      function chooseJobClass(data){
-        jobClass = data;
-      }
-      //选择工作地点的时候
-      function chooseWorkPlace(data){
-        workPlace = data;
-      }
       //编辑或新增 选择职位分类的时候
       function chooseEditJobClass(data){
         jobEditClass = data;
@@ -338,16 +328,17 @@
       workList('work_place_list li');
       //搜索列表
       function searchList() {
+        console.log($("#work_place").val(),'考虑到法国')
         $table.bootstrapTable("showLoading");
         const post_name = $("input[name='searchWork']").val();
         const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
         const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
         const arr = [];//取值的数组
-        const keyArr = ['post_name','job_class','city_id','start_time','end_time'];
+        const keyArr = ['post_name','job_class','detail_address','start_time','end_time'];
         const obj = {};//发过去的对象
         arr.push(post_name);
-        arr.push(jobClass);
-        arr.push(workPlace)
+        arr.push($("#job_class").val());
+        arr.push($("#work_place").val())
         arr.push(start_time);
         arr.push(end_time);
         keyArr.forEach((item,index)=>{
@@ -366,18 +357,18 @@
           $table.bootstrapTable("hideLoading");
         });
       }
+      function clearSearch(){
+         $("input[name='searchWork']").val('');
+         $("#job_class").val('');
+         $("#work_place").val('');
+         $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间');
+      }
       //点击新增按钮
       const addFromMain = document.getElementById('addFromMain');
       addFromMain.addEventListener('click',function(e){
         $('#exampleModalCenterTitle').html('新增')
         dataMain({})
         $('#exampleModalCenter').modal('show')
-        e.stopPropagation();
-      });
-      //点击日期选择的清空按钮
-      const time_close = document.getElementsByClassName('time_close')[0];
-      time_close.addEventListener('click',function(e){
-        $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
         e.stopPropagation();
       });
 
