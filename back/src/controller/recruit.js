@@ -30,9 +30,9 @@ const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',sta
         }
         if(detail_address != ''){
             if(!where){
-                where =` c.id '${detail_address}'`;
+                where =` c.detail_address = '${detail_address}'`;
             }else{
-                where +=` and c.id '${detail_address}'`;
+                where +=` and c.detail_address = '${detail_address}'`;
             }
         }
         if(start_time != ''){
