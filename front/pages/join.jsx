@@ -163,8 +163,7 @@ export default class Join extends React.Component{
                                     // onShowSizeChange={this.onShowSizeChange}
                                     defaultCurrent={1}
                                     Pagination={5}
-                                    total={(data && data.data && data.data.row)?data.data.rows.length:0}
-                                    total={5}
+                                    total={(data && data.rows)?data.rows.length:0}
                                 />
                             </div>
                         </div>
