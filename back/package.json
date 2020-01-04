@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "start": "set DEBUG=zzkj & nodemon bin/www",
-    "dev": "cross-env NODE_ENV=dev && npm start",
-    "prd": "pm2 start bin/www",
+    "dev": "set NODE_ENV=dev && npm start",
+    "prd": "set NODE_ENV=production && pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
+  "dependencies": { 
     "@chuchur/koa-minify": "^1.0.2",
     "crypto": "^1.0.1",
     "handlebars": "^4.5.3",

@@ -6,7 +6,9 @@ export default () => (
         <div className="about">
             <img className="banner" src="/introduce.png" alt=""/>
             <div className="distance">
+                <div className="">
 
+                </div>
             </div>
         </div>
     </Layout>
