@@ -16,9 +16,12 @@ module.exports = {
             // 获取上传路径
             const readPath = ctx.request.files[item].path;
             //获取上传文件名称
-            const readName = ctx.request.files[item].name;
+            const ext = ctx.request.files[item].name.split('.')[1];
+            let time = Date.now()+parseInt(Math.random()*999)+parseInt(Math.random()*2222);
+            
+            const name = time + '.' + ext
             // 生成写入路径
-            const whritePath = path.join(__dirname,'../', 'assets', 'images','/') + `${Date.now()}-${readName}`;
+            const whritePath = path.join(__dirname,'../', 'assets', 'images','/') + name
             const readStream = fs.createReadStream(readPath);
             const writeStream = fs.createWriteStream(whritePath);
             readStream.pipe(writeStream);

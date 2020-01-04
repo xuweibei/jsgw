@@ -34,7 +34,7 @@ module.exports = {
             readStream.pipe(writeStream);
             // console.log(readStream.pipe(writeStream).path.split('\\'));
             const red = readStream.pipe(writeStream).path.split('\\');
-            const redPath = 'http://localhost:8000/'+ 'assets/' + 'img/' + red[red.length - 1];
+            const redPath = 'http://localhost:8000/'+ 'assets/' + 'image/' + red[red.length - 1];
             arr.push(redPath)
         })
         ctx.request.body.pic_address = arr[0]

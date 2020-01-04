@@ -22,9 +22,9 @@
   </div>
   <div class="editor-content d-none">
     <form class="mt-3 mb-3">
-      <div class="form-group row" style="width: 1200px; margin: 0 auto;">
-        <label for="colFormLabel" class="col-sm-1 col-form-label" style="font-size: 20px; line-height: 19px;">标题</label>
-        <div class="col-sm-11 ">
+      <div class="form-group row" style=" margin: 0 auto;">
+        <div class="col-sm-2 col-form-label text-right pr-5" style="font-size: 20px; line-height: 19px;">标题</div>
+        <div class="col-sm-9">
           <input type="email" class="form-control title" maxlength="50" id="colFormLabel" placeholder="请输入标题">
         </div>
       </div>
@@ -32,14 +32,22 @@
     <div id="editor" style="width: 1000px; margin: 0 auto;"></div>
     <div class="text-center">
       <button class="btn btn-primary btn-edit" onclick="saveHtml()"
-        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;" onclick="saveHtml()">发布</button>
+        style="width: 138px; height: 32px; line-height: 20px; margin: 30px 0; background-color: #0AAFDE;"
+        onclick="saveHtml()">发布</button>
     </div>
   </div>
 </div>
+<script src="../utils/utils.js"></script>
 <script type="text/javascript">
   let editStatus;
   let editId;
-
+  function toast(message) {
+    $('.toast').toast("show")
+    $('.toast-body').text(message);
+    $('.toast').on('hidden.bs.toast', function () {
+      location.reload()
+    })
+  }
   function operateFormatter(value, row, index) {
     let show = row.show === "1" ? "隐藏" : "开启"
     return [
@@ -53,7 +61,8 @@
     let show = $("input[type='checkbox']").is(':checked') ? "1" : "0";
     $.post(url.changeModuleStatus, { status: show, id: 6 }, function (res) {
       if (res && res.status === 0) {
-        console.log('修改成功')
+        $('.toast').toast("show")
+        $('.toast-body').text(res.message);
       }
     })
   })
@@ -132,15 +141,15 @@
         },
         "click #table-hide": function (e, value, row, index) {
           $.post(url.hideInfo, { id: row.id }, function (res) {
-            if (res && res.status === 0) {
-              location.reload();
+            if (res) {
+              toast(res.message);
             }
           })
         },
         "click #table-del": function (e, value, row, index) {
           $.post(url.delInfo, { id: row.id }, function (res) {
-            if (res && res.status === 0) {
-              location.reload()
+            if (res) {
+              toast(res.message)
             }
           })
         }
@@ -151,6 +160,7 @@
     $('.show-home')[0].classList.add('d-none');
     $('.edit-btn')[0].classList.add('d-none');
     $('.info-center-body')[0].classList.add('d-none');
+    $('.form-check-input')[0].classList.add('d-none');
     $('.editor-content')[0].classList.remove('d-none');
   }
   var E = window.wangEditor;
@@ -191,19 +201,21 @@
     var title = $('.title').val();
     var filterHtml = filterXSS(html);
     if (!html || !title) {
+      $('.toast').toast('show');
+      $('.toast-body').text('请写入要上传的内容');
       return
     };
     if (editStatus) {
       $.post(url.editInfo, { id: editId, html, title }, function (res) {
-        if (res && res.status === 0) {
-          location.reload()
+        if (res) {
+          toast(res.message)
         }
       })
       return;
     }
     $.post(url.insertInfo, { html, title }, function (res) {
-      if (res && res.status === 0) {
-        location.reload();
+      if (res) {
+        toast(res.message)
       }
     })
   }

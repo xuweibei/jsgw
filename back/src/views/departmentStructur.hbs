@@ -2,10 +2,6 @@
 <div class="department-structur-container">
   <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center"
     style="min-height: 200px;">
-    <!-- Then put toasts within -->
-    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true">
-      <div class="toast-body"></div>
-    </div>
   </div>
   <div aria-live="polite" aria-atomic="true" class="d-flex justify-content-center align-items-center"
     style="min-height: 200px;">
@@ -51,13 +47,6 @@
                 placeholder="请输入" name="name">
             </div>
           </div>
-          {{!-- <div class="form-group row">
-            <label for="colFormLabel" class="col-sm-3 col-form-label job-form-label">排序:</label>
-            <div class="col-sm-9">
-              <input type="email" class="form-control job-form-input" maxlength="10" id="colFormLabel"
-                placeholder="请输入">
-            </div>
-          </div> --}}
           <div class="modal-footer border-top-0 job-modal-footer justify-content-center">
             <button type="button" class="btn btn-secondary btn-left" data-dismiss="modal">返回</button>
             <button type="submit" class="btn btn-primary btn-right dep-btn" name="submit">保存</button>
@@ -178,7 +167,6 @@
       </div>
     </div>
     <script>
-
       // 定义全局变量保存编辑员工id
       let empId;
       // 关闭提示框
@@ -476,7 +464,7 @@
             }
           }],
         })
-        //操作列表
+        //操作列表  
         function operateFormatter(value, row, index) {
           let start = row.active === "1" ? "禁用" : "启用"
           return [

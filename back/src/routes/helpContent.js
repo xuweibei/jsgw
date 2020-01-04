@@ -1,4 +1,4 @@
-const {saveCententTitle} = require('../controller/depControllor')
+const {saveCententTitle, getCententTitle} = require('../controller/depControllor')
 const {SuccessModel, ErrorModel} = require('../config/model')
 
 module.exports = {
@@ -9,14 +9,19 @@ module.exports = {
     "add_centent_title": async ctx => {
         const data = await saveCententTitle(ctx.request.body)
         if (data) {
-            if (data.status === 0) {
-                ctx.body = new SuccessModel(data, data.message)
-            } else if (data.status === 1) {
-                ctx.body = new ErrorModel(data.message)
-            }
-            return
+            ctx.body = new SuccessModel(data, "存储成功");
         } else {
             ctx.body = new ErrorModel('存储失败')
         }
     },
+    //获取产品中心
+    "get_centent_title": async ctx => {
+        const ret = await getCententTitle();
+        if (ret) {
+            // let checked = ret.dataValues === true ? 'checked' : ''
+            ctx.body = new SuccessModel(ret, "获取成功");
+            return
+        }
+        ctx.body = new ErrorModel('获取失败')
+    }
 }

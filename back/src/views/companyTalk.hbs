@@ -1,40 +1,12 @@
 {{#>default}}
-<style>
-  .active{
-    color: #FF9C39 !important;
-  }
-  .toast {
-      width: 200px !important;
-      background: rgba(0, 0, 0, 0.5);
-      border: none !important;
-      color: #fff;
-      text-align: center;
-      left: 50%;
-      top: 50%;
-      z-index: 100000;
-      transform: translateX(-50%);
-  }
-    #filterByComm{
-        float:right;
-        margin:14px 100px 0 0;
-        width:64px;
-        height:32px;
-        line-height:16px;
-        color:#0AAFDE;
-        border:1px solid #0AAFDE;
-        background:#fff;
-        font-size:14px;
-    }
-</style>
-  <link rel="stylesheet" href="../assets/css/commiucate.css"/>
   <link href="../assets/js/bootstrap-daterangepicker/daterangepicker.css?version"  rel="stylesheet">
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/moment.min.js"  charset="UTF-8"></script>
   <script type="text/javascript"  src="../assets/js/bootstrap-daterangepicker/daterangepicker.js"  charset="UTF-8"></script>
 
 <div class="job-class-container company-talk-container">
-    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
-      <div class="toast-body"></div>
-    </div>
+  <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true" data-delay="1000">
+    <div class="toast-body"></div>
+  </div>
   <div class="mainModal">
     <div class="job-class-top">
       <span>公司交流</span>
@@ -42,56 +14,52 @@
     </div>
     <div class="table-container">
       <div class="toolbar">
-        <form>
-          <div class="row">
-            <div class="col">
-              <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
-            </div>
-            <div class="col">
-                <div class="main">
-                    <div class="input-group fl">
-                            <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
-                                <span></span>
-                            <i class="time_close">X</i>
-                            </button>
-                            <input type="hidden" value="" id="incomeStartDate">
-                            <input type="hidden" value="" id="incomeEndDate">
-                        </div>
-                    </div>
-                </div>
+        <div class="row row-searchWork">
+          <div class="col-5">
+            <input type="text" class="form-control searchWork" placeholder="请输入关键字" name="title">
+          </div>
+          <div class="col-5">
+            <div class="main main-searchWork">
+              <div class="input-group fl">
+                <button type="button" class="btn btn-default form-control daterange-btn" id="daterange-btn">
+                  <span></span>
+                  <i class="time_close"></i>
+                </button>
+                <input type="hidden" value="" id="incomeStartDate">
+                <input type="hidden" value="" id="incomeEndDate">
+              </div>
             </div>
           </div>
-        </form>
-        <button class="btn btn-primary" id="filterByComm" onclick="searchList()">搜索</button>
+          <div class="col-2 text-right btn-group d-flex">
+            <button class="screeningClear btn" onclick="clearSearch()">清空</button>
+            <button class="btn" id="filterByComm" onclick="searchList()">搜索</button>
+          </div>
+        </div>
       </div>
-      <table
-        id="table"
-        class="text-center table table-striped table-borderless"
-        data-pagination="true">
-        {{!-- <thead>
-          <tr>
-            <th data-field="id">ID</th>
-            <th data-field="name">Item Name</th>
-            <th data-field="price">Item Price</th>
-          </tr>
-        </thead> --}}
-      </table>
+      <div class="table-searchWork">
+        <table
+          id="table"
+          class="text-center table table-striped table-borderless"
+          data-pagination="true">
+        </table>
+      </div>
+    </div>
   </div>
   <div class="editor-content d-none editModel">
     <form class="mt-3 mb-3">
-      <div class="form-group row" style="width: 1200px; margin: 0 auto;">
+      <div class="form-group row" style=" margin: 0 auto;">
         <label for="colFormLabel" class="col-sm-1 col-form-label" style="font-size: 20px; line-height: 19px;">标题</label>
         <div class="col-sm-11 ">
           <input type="email" class="form-control title" maxlength="50" id="colFormLabel" placeholder="请输入标题">
         </div>
       </div>
     </form>
-    <div id="editor" style="width: 1200px; margin: 0 auto;"></div>
+    <div id="editor" style="margin: 0 auto;"></div>
     <div class="text-center">
       <button class="btn btn-primary btn-edit" onclick="showOr(true)"
-        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;">返回</button>
+        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE; border-color: #0AAFDE;">返回</button>
       <button class="btn btn-primary btn-edit" onclick="saveHtml()"
-        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE;">发布</button>
+        style="width: 138px; height: 32px; margin: 30px 0; background-color: #0AAFDE; border-color: #0AAFDE;">发布</button>
     </div>
   </div>
     {{!-- 删除按钮的弹框 --}}
@@ -121,7 +89,6 @@
           </div>
         </div>
     </div>
-
   </div>
     <script>
         var $table = $('#table');
@@ -129,20 +96,13 @@
         var deleteData = {};//删除数据储存
         var editData = {};//编辑时的数据
 
-        //点击日期选择的清空按钮
-        const time_close = document.getElementsByClassName('time_close')[0];
-        time_close.addEventListener('click',function(e){
-          $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
-          e.stopPropagation();
-        });
-
         // 关闭提示框
         function toast(message,callBack) {
           $('.toast').toast("show")
           $('.toast-body').text(message);
-        $('.toast').on('hidden.bs.toast', function () {
-           callBack && callBack()
-        })
+          $('.toast').on('hidden.bs.toast', function () {
+            callBack && callBack()
+          })
         }
         //删除某条数据
         function deleteRow(){
@@ -181,6 +141,7 @@
 
         //点击搜索
         function searchList() {
+          $table.bootstrapTable("showLoading");
           const title = $("input[name='title']").val();
           const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
           const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
@@ -202,9 +163,16 @@
             if(resData && resData.data.rows && resData.data.rows.length > 0 ){
               arr = resData.data.rows.reverse();
             }
+              $table.bootstrapTable("hideLoading");
               $table.bootstrapTable('load',arr )
           });
         }
+
+          //清空筛选条件
+          function clearSearch(){
+              $("input[name='title']").val('');
+              $('#daterange-btn span').html('发布开始时间 ~ 发布结束时间')
+          }
           $(function() {
             $table.bootstrapTable({
               toolbar: '.toolbar',
@@ -249,6 +217,12 @@
                   },
                 }
               }],
+              formatLoadingMessage: function () {
+                return '<span style="font-size:20px">加载中...</span>';
+              },
+              formatNoMatches:function(){
+                  return "暂无数据";
+              },
               responseHandler:function(res){
                 const arr = [];
                 if(res && res.status === 0 && res.data.rows.length > 0 ){
@@ -269,10 +243,10 @@
             function operateFormatter(value, row, index) {
               const style = row.status === '1' ? 'aActive' :''
               return [
-                '<a class="like opt" id="table_see" href="javascript:void(0)" title="see">查看</a>',
-                '<a class="like opt" id="table_edit" href="javascript:void(0)" title="edit">编辑</a>',
-                `<a class="like opt ${style}" id="table_hide" href="javascript:void(0)" title="hide">${style ? '显示':'隐藏'}</a>`,
-                '<a class="remove opt" id="table_del" href="javascript:void(0)" title="remove">删除</a>'
+                '<a class="like opt table-see-searchWork" id="table_see" href="javascript:void(0)" title="查看">查看</a>',
+                '<a class="like opt table-see-searchWork" id="table_edit" href="javascript:void(0)" title="编辑">编辑</a>',
+                `<a class="like opt ${style} table-see-searchWork table-del-searchWork" id="table_hide" href="javascript:void(0)" title="显示或隐藏">${style ? '显示':'隐藏'}</a>`,
+                '<a class="remove opt table-see-searchWork table-del-searchWork" id="table_del" href="javascript:void(0)" title="删除">删除</a>'
               ].join('')
             }
         })

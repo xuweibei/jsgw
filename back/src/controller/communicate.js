@@ -14,26 +14,25 @@ const getCommunicateInfo = async ({title = '',create_time = '',end_time = ''}) =
         let date = null;
         let date2 = null;
         if(create_time){
-            date = new Date(data.create_time).getTime();
-            date2 = new Date(data.end_time).getTime();
+            date = new Date(create_time).getTime();
+            date2 = new Date(end_time).getTime();
         }
         let where = '';
-        // console.log(data.post_name,'收到了付款',typeof data.job_class,data.detail_address)
         if(title!=''){
             where=`c.title like '%${title}%'`;
         }
         if(create_time != ''){
             if(!where){
-                where =` c.create_time<='${create_time}'`;
+                where =` c.create_time>='${create_time}'`;
             }else{
-                where +=` and c.create_time<='${create_time}'`;
+                where +=` and c.create_time>='${create_time}'`;
             }
         }
         if(end_time != ''){
             if(!where){
-                where =` c.end_time<='${end_time}'`;
+                where =` c.create_time<='${end_time}'`;
             }else{
-                where +=` and c.end_time<='${end_time}'`;
+                where +=` and c.create_time<='${end_time}'`;
             }
         }
         const sql = `select * from gw_communicate c where ${where}`;
@@ -68,7 +67,6 @@ const editCommuList = async (data) =>{
             title: data.title,
             describe:data.describe,
             create_time:data.create_time,
-            end_time:data.end_time,
             status:0
         }
     })

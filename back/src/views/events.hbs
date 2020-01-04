@@ -1,9 +1,5 @@
 {{#>default}}
 <div class="events">
-    {{!-- TOAST --}}
-    <div class="toast position-fixed" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="toast-body"></div>
-    </div>
     <div class="d-flex justify-content-lg-between">
         <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
         <div class="form-check" style="margin-right: 30px;">
@@ -103,7 +99,8 @@
         let id = window.location.href.includes('intro') ? 2 : 3
         $.post(url.changeModuleStatus, { status: show, id: 5 }, function (res) {
             if (res && res.status === 0) {
-                console.log('修改成功')
+                $('.toast').toast("show")
+                $('.toast-body').text(res.message);
             }
         })
     })
@@ -127,6 +124,7 @@
         openImg.style.position = 'absolute';
         openImg.style.left = "-12px";
         openImg.style.top = "-10px";
+        openImg.style.background = "#ffffff";
         // 开启模态框
         openImg.addEventListener('click', function () {
             $('.event-modal').modal('show')

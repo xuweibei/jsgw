@@ -1,6 +1,4 @@
 {{#>default}}
-<link rel="stylesheet" href="../assets/styles/fileinput.min.css">
-<script src="../assets/js/fileinput.min.js"></script>
 <div class="turn-manage-container">
   <div class="turn-manage-top">
     轮播管理
@@ -39,26 +37,7 @@
     </div>
   </form>
 </div>
-<style>
-  .turn-item-pic{
-    position: relative;
-  }
-  .turn-item-input{
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    opacity: 0;
-    top: 0;
-  }
-  .click-to-upload-input{
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-</style>
+<script src="../utils/utils.js"></script>
 <script>
   $(function(){
     //设置图片高度
@@ -91,7 +70,7 @@
         contentType: false,
         processData: false,
         success: function (res) {
-          location.reload()
+          toast(res.message, 1)
         }
       });
     })
@@ -109,7 +88,7 @@
         contentType: false,
         processData: false,
         success: function (res) {
-          location.reload()
+          toast(res.message, 1)
         }
       });
     })
@@ -124,11 +103,16 @@
     })
     //设置轮播时间
     $('.carousel-timer').on('blur', function(){
-      $.post(url.setCarouselTimer, {carouselTimer: $('.carousel-timer').val()}, function(res){
-        if(res && res.status === 0){
-          console.log('设置成功')
-        }
-      })
+      let str = /^[0-9]{1,}$/
+      if(str.test($(this).val())){
+        $.post(url.setCarouselTimer, {carouselTimer: $(this).val()}, function(res){
+          if(res && res.status === 0){
+            toast(res.message, 0)
+          }
+        })
+      } else {
+        toast('请输入数字', 0)
+      }
     })
   })
 </script>

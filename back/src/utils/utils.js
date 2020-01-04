@@ -11,3 +11,13 @@ function getTime(n) {
     const second = dateTime.getSeconds() > 9 ? dateTime.getSeconds() : '0' + dateTime.getSeconds() + '';
     return `${year} - ${month} - ${date} - ${hour} : ${minute} : ${second}`
 }
+//toast提示语
+function toast(message, status) {
+    $('.toast').toast("show")
+    $('.toast-body').text(message);
+    if(status === 1){
+        $('.toast').on('hidden.bs.toast', function () {
+            location.reload()
+        })
+    }
+}
