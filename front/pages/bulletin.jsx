@@ -77,5 +77,12 @@ class Bulletin extends  React.PureComponent{
     }
 }
 
+// Bulletin.getInitialProps = async () => {
+//     const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
+//     const json = await res.json();
+//     console.log(json);
+//     return { data: json }
+// }
+
 
 export default Bulletin;

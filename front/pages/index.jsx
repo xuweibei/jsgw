@@ -3,8 +3,6 @@ import "../static/style/page/index.less";
 
 class Index extends React.Component {
 
-
-
     render() {
         return(
         <Layout>
