@@ -1,5 +1,6 @@
 import Layout from "../components/layout/layout";
 import "../static/style/page/index.less";
+import fetch from 'isomorphic-unfetch';
 
 class Index extends React.Component {
 
@@ -72,5 +73,13 @@ class Index extends React.Component {
 //     console.log(json)
 //     return { data: json }
 // }
+
+Index.getInitialProps = async () => {
+    const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
+
+    const json = await res.json();
+    console.log(json);
+    return { data: json }
+}
 
 export default Index;

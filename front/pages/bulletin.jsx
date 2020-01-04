@@ -1,5 +1,6 @@
 import Layout from "../components/layout/layout";
 import "../static/style/page/bulletin.less";
+import fetch from 'isomorphic-unfetch';
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
 const {RangePicker} = DatePicker;
 const { Option } = Select;
@@ -77,12 +78,7 @@ class Bulletin extends  React.PureComponent{
     }
 }
 
-// Bulletin.getInitialProps = async () => {
-//     const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
-//     const json = await res.json();
-//     console.log(json);
-//     return { data: json }
-// }
+
 
 
 export default Bulletin;
