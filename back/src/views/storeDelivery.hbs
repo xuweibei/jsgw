@@ -336,14 +336,9 @@
         const post_name = $("input[name='searchWork']").val();
         const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
         const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
-        const arr = [];//取值的数组
+        const arr = [post_name,$("#job_class").val(),$("#work_place").val(),start_time,end_time];//取值的数组
         const keyArr = ['post_name','job_class','address_name','start_time','end_time'];
         const obj = {};//发过去的对象
-        arr.push(post_name);
-        arr.push($("#job_class").val());
-        arr.push($("#work_place").val())
-        arr.push(start_time);
-        arr.push(end_time);
         keyArr.forEach((item,index)=>{
             arr.forEach((data,num)=>{
               if(data && index === num){

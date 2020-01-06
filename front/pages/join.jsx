@@ -26,7 +26,7 @@ export default class Join extends React.Component{
     }
     constructor(props) {
         super(props);
-        const {data,dataJob,workData} = this.props;
+        const {data,dataJob,workData} = props;
         // 定义state数据
         this.state = {
             data,//招聘信息
@@ -104,7 +104,6 @@ export default class Join extends React.Component{
 
     render(){
         const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
-        console.log(data,'就开始地方')
         return (
             <Layout title="人才招聘">
                 <div className="join">
@@ -203,7 +202,7 @@ export default class Join extends React.Component{
                                         </div>
                                         <div>
                                             <label>薪资：</label>
-                                            <span>{detailInfo.salary}</span>
+                                            <span className="money">{detailInfo.salary}</span>
                                         </div>
                                         <div>
                                             <label>电话：</label>
