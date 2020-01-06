@@ -5,12 +5,11 @@ const {
     PcatBak
 } = require('../model/createTables')
 
-const Sequelize = require('sequelize');
 const {sequelize} = require('../db/db');
 // 获取招聘信息
-const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',start_time='',end_time=''}) => {
+const getRecruitInfo = async ({post_name = '',job_class='',address_name='',start_time='',end_time=''}) => {
     let ret = {};
-    if(post_name || job_class || detail_address || start_time || end_time){
+    if(post_name || job_class || address_name || start_time || end_time){
         let date = null;
         let date2 = null;
         if(start_time){
@@ -28,11 +27,11 @@ const getRecruitInfo = async ({post_name = '',job_class='',detail_address='',sta
                 where +=` and c.job_class='${job_class}'`;
             }
         }
-        if(detail_address != ''){
+        if(address_name != ''){
             if(!where){
-                where =` c.detail_address = '${detail_address}'`;
+                where =` c.address_name = '${address_name}'`;
             }else{
-                where +=` and c.detail_address = '${detail_address}'`;
+                where +=` and c.address_name = '${address_name}'`;
             }
         }
         if(start_time != ''){

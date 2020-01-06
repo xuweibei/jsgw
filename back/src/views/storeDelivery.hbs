@@ -332,13 +332,12 @@
       workList('work_place_list li');
       //搜索列表
       function searchList() {
-        console.log($("#work_place").val(),'考虑到法国')
         $table.bootstrapTable("showLoading");
         const post_name = $("input[name='searchWork']").val();
         const start_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[0] : '';
         const end_time = $('#daterange-btn span').html() && $('#daterange-btn span').html()!=='发布开始时间 ~ 发布结束时间' ? $('#daterange-btn span').html().split('~')[1] : '';
         const arr = [];//取值的数组
-        const keyArr = ['post_name','job_class','detail_address','start_time','end_time'];
+        const keyArr = ['post_name','job_class','address_name','start_time','end_time'];
         const obj = {};//发过去的对象
         arr.push(post_name);
         arr.push($("#job_class").val());
@@ -635,14 +634,14 @@
                     })
                     //获取工作地点
                     strArr.push({
-                      value:item.detail_address,
-                      innerHTML:item.detail_address
+                      value:item.address_name,
+                      innerHTML:item.address_name
                     });
                   })
               }
               const option = [];//储存option的列表
               strArr.forEach(item=>{
-                if(!option.some(aa=> item.innerHTML === aa.innerHTML)){
+                if(!option.some(aa=> item.innerHTML === aa)){
                   option.push(item)
                 }
               })
@@ -662,7 +661,7 @@
                 field: 'job_class'
               }, {
                 title: '工作地点',
-                field: 'detail_address'
+                field: 'address_name'
               }, {
                 title: '发布时间',
                 field: 'start_time',

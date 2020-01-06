@@ -1,6 +1,6 @@
 import Layout from "../components/layout/layout";
 import fetch from 'isomorphic-unfetch';
-import {Button, DatePicker, Input, Pagination, Select} from "antd";
+import {Button, DatePicker, Input, Pagination, Select,Modal} from "antd";
 import "../static/style/page/join.less";
 const { Option } = Select;
 const {RangePicker} = DatePicker;
@@ -10,12 +10,11 @@ export default class Join extends React.Component{
     static async getInitialProps(props){
         const res = await fetch('http://localhost:8000/api/get_recruit',{method:'POST'}); //获取招聘信息
         const data = await res.json();
-        console.log(data, '是是是');
         const job = await fetch('http://localhost:8000/api/get_classify',{method:'POST'}); //获取职位分类
         const dataJob = await job.json();
         const workData = [];//储存option的列表
         data.data.rows.forEach(item=>{
-            if(!workData.some(aa=> item.innerHTML === aa.innerHTML)){
+            if(!workData.some(aa=> item.address_name === aa)){
                 workData.push(item)
             }
         })
@@ -30,9 +29,10 @@ export default class Join extends React.Component{
         const {data,dataJob,workData} = this.props;
         // 定义state数据
         this.state = {
-            data,
-            dataJob,
-            workData
+            data,//招聘信息
+            dataJob,//职位分类
+            workData,//工作地点
+            detail:false // 是否显示详情
         }
     }
 
@@ -50,9 +50,9 @@ export default class Join extends React.Component{
 
     //点击搜索
     search = () => {
-        const {post_name,job_class,detail_address,start_time} = this.state;
-        const keyArr = ['post_name','job_class','detail_address','start_time','end_time'];
-        const arr = [post_name,job_class,detail_address];
+        const {post_name,job_class,address_name,start_time} = this.state;
+        const keyArr = ['post_name','job_class','address_name','start_time','end_time'];
+        const arr = [post_name,job_class,address_name];
         const datas = new FormData();
         if(start_time && start_time.length>1){
             arr.push(start_time[0].format('YYYY-MM-DD'));
@@ -82,14 +82,29 @@ export default class Join extends React.Component{
         this.setState({
             post_name:'',
             job_class:'',
-            detail_address:'',
+            address_name:'',
             start_time:''
         });
     }
 
+
+    //查看详情
+    seeDetail = (data) => {
+        this.setState({
+            detail:true,
+            detailInfo:data
+        })
+    }
+
+    handleCancel =()=>{
+        this.setState({
+            detail:false,
+        })
+    }
+
     render(){
-        const {data,dataJob,workData,post_name,job_class,detail_address,start_time} = this.state;
-        console.log(data);
+        const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
+        console.log(data,'就开始地方')
         return (
             <Layout title="人才招聘">
                 <div className="join">
@@ -116,12 +131,12 @@ export default class Join extends React.Component{
                             <Select
                                 placeholder="-请选择工作地点-"
                                 optionFilterProp="children"
-                                value={detail_address}
-                                onChange={(res)=>this.setState({detail_address:res})}
+                                value={address_name}
+                                onChange={(res)=>this.setState({address_name:res})}
                             >
                                 <Option value="">全部</Option>
                                 {
-                                    workData && workData.length >0 && workData.map(item=><Option key={item.start_time} value={item.detail_address}>{item.detail_address}</Option>)
+                                    workData && workData.length >0 && workData.map(item=><Option key={item.start_time} value={item.address_name}>{item.address_name}</Option>)
                                 }
                             </Select>
                             <RangePicker
@@ -154,7 +169,7 @@ export default class Join extends React.Component{
                                             <div>{this.formatDate(item.start_time)}</div>
                                         </div>
                                     </div>
-                                    <div className="details">查看详细<img src={"/arrows.png"} alt=""/></div>
+                                    <div className="details" onClick={()=>this.seeDetail(item)}>查看详细<img src={"/arrows.png"} alt=""/></div>
                                 </div>
                             })
                         }
@@ -168,6 +183,68 @@ export default class Join extends React.Component{
                                 total={(data && data.rows)?data.rows.length:0}
                             />
                         </div>
+                        {
+                            detailInfo && 
+                            <Modal
+                                title="Basic Modal"
+                                visible
+                                visible={detail}
+                                okText="关闭"
+                                closeIcon
+                                title={detailInfo.post_name}
+                                className="detail-main"
+                                onOk={this.handleCancel}
+                            >
+                               <div className="detail-top">
+                                    <div className="detail">
+                                        <div>
+                                            <label>职位类型：</label>
+                                            <span>{detailInfo.job_class}</span>
+                                        </div>
+                                        <div>
+                                            <label>薪资：</label>
+                                            <span>{detailInfo.salary}</span>
+                                        </div>
+                                        <div>
+                                            <label>电话：</label>
+                                            <span>{detailInfo.phone}</span>
+                                        </div>
+                                    </div>
+                                    <div className="detail">
+                                        <div>
+                                            <label>工作地点：</label>
+                                            <span>{detailInfo.address_name}</span>
+                                        </div>
+                                        <div>
+                                            <label>人数：</label>
+                                            <span>{detailInfo.require_num}</span>
+                                        </div>
+                                        <div></div>
+                                    </div>
+                                    <div className="detail">
+                                        <div>
+                                            <label>详细地址：</label>
+                                            <span>{detailInfo.detail_address}</span>
+                                        </div>
+                                        <div>
+                                            <label>邮箱：</label>
+                                            <span>{detailInfo.email}</span>
+                                        </div>
+                                        <div></div>
+                                    </div>
+                               </div>
+                               <div className="detail-bottom">
+                                   <div>
+                                       <label>工作内容：</label>
+                                       <p>{detailInfo.work_content}</p>
+                                   </div>
+                                   <div>
+                                       <label>岗位职责：</label>
+                                       <p>{detailInfo.post_job}</p>
+                                   </div>
+                               </div>
+                            </Modal>
+                        }
                     </div>
                 </div>
             </Layout>
