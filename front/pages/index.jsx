@@ -13,6 +13,37 @@ class Index extends React.Component {
                     {/*最新动态*/}
                     <div className="dynamic">
                         <div className="headline">最新动态</div>
+                        <div className="carousel-wrap">
+                            <div className="carousel-wrap-abs">
+                                <div className="carousel-wrap-list">
+                                    <img className="carousel-img" src="/hong-bg.png" alt=""/>
+                                    <div className="carousel-content">
+                                        <div className="carousel-title">
+                                            标题标题标题标题标题标题标题标题标题标题标题标题
+                                        </div>
+                                        <div className="carousel-time">2019-12-05</div>
+                                        <div className="carousel-btn">立即查看</div>
+                                    </div>
+                                </div>
+                                <div className="carousel-wrap-list">
+
+                                </div>
+                                <div className="carousel-wrap-list">
+
+                                </div>
+                                <div className="carousel-wrap-list">
+
+                                </div>
+                            </div>
+                        </div>
+                        <div className="arrow-left">
+                            <div className="arrow-line"/>
+                            <div className="arrow-lines"/>
+                        </div>
+                        <div className="arrow-right">
+                            <div className="arrow-lines"/>
+                            <div className="arrow-line"/>
+                        </div>
                     </div>
                     {/*产品中心*/}
                     <div className="product">
