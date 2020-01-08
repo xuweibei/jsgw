@@ -1,4 +1,6 @@
 .home {
+    min-width: 1200px;
+    margin:0 auto;
     //banner图
     .banner {
         height:400px;
@@ -14,6 +16,8 @@
     //最新动态
     .dynamic {
         position: relative;
+        width: 1000px;
+        margin:0 auto;
         .carousel-wrap{
             position: relative;
             width: 1000px;
@@ -25,14 +29,16 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                transition:all 1s ease;
                 left: 0;
-                top: 0;
+                top: 8px;
                 .carousel-wrap-list{
                     width: 320px;
                     height: 420px;
                     margin-right: 15px;
                     border-radius: 10px;
                     box-shadow:10px 10px 10px rgba(235, 241, 245, 1);
+                    overflow: hidden;
                     .carousel-img{
                         width: 100%;
                         height: 245px;
@@ -42,27 +48,40 @@
                         padding: 20px 40px;
                         box-sizing: border-box;
                         .carousel-title{
-                            color: #F4B43C;
+                            color: #25608D;
+                            font-size: 16px;
                             width: 100%;
                             height: 44px;
+                            display: -webkit-box;
+                            -webkit-box-orient: vertical;
+                            -webkit-line-clamp: 2;
                             overflow: hidden;
-                            white-space: nowrap;
-                            text-overflow: ellipsis;
                         }
                         .carousel-time{
                             font-size: 12px;
                             color: #999999;
-                            margin-top: 8px;
+                            margin-top: 2px;
                         }
                         .carousel-btn{
+                            width: 100px;
+                            height: 32px;
                             padding: 6px;
+                            margin:0 auto;
+                            margin-top: 20px;
+                            cursor: pointer;
+                            border-radius: 4px;
                             display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 14px;
+                            color: #4FCAFF;
+                            background: rgba(79, 202, 255, 0.1);
                         }
                     }
                 }
             }
         }
-        .arrow-left{
+        .arrow-right{
             position: absolute;
             top: 310px;
             right: -55px;
@@ -84,7 +103,7 @@
                 margin-left: -10px;
             }
         }
-        .arrow-right{
+        .arrow-left{
             position: absolute;
             top: 310px;
             left: -55px;
