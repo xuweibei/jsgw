@@ -6,7 +6,6 @@ const {
 const getClassify = async () => {
     const sql = "select id, classify, sort, status from gw_post_classify order by sort desc";
     const ret = await sequelize.query(sql)
-    console.log('获取职业分类',ret[0])
     return ret[0]
 }
 //添加职业分类
