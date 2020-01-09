@@ -1,5 +1,5 @@
 import Layout from "../components/layout/layout";
-import "../static/style/page/bulletin.less";
+// import "../static/style/page/bulletin.less";
 import fetch from 'isomorphic-unfetch';
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
 const {RangePicker} = DatePicker;

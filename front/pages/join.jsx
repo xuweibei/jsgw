@@ -1,7 +1,7 @@
 import Layout from "../components/layout/layout";
 import fetch from 'isomorphic-unfetch';
 import {Button, DatePicker, Input, Pagination, Select,Modal} from "antd";
-import "../static/style/page/join.less";
+// import "../static/style/page/join.less";
 const { Option } = Select;
 const {RangePicker} = DatePicker;
 

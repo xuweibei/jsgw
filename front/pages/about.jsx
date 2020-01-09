@@ -1,5 +1,5 @@
 import Layout from "../components/layout/layout";
-import "../static/style/page/about.less";
+// import "../static/style/page/about.less";
 import React from "react";
 import { Anchor } from 'antd';
 const { Link } = Anchor;

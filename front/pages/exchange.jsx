@@ -2,7 +2,7 @@ import Layout from "../components/layout/layout";
 import {Button, DatePicker, Input, Select, Pagination} from 'antd';
 const { Option } = Select;
 const {RangePicker} = DatePicker;
-import "../static/style/page/exchange.less";
+// import "../static/style/page/exchange.less";
 
 export default () => (
     <Layout title="部门交流">
