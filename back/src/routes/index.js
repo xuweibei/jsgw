@@ -14,6 +14,7 @@ const carousel = require('./carousel')
 const postApi = require('./postApi')
 const helpContent = require('./helpContent')
 const communicate = require('./communicate')
+// const error = require('./error')
 router.get('/delivery/*', async (ctx, next) => {
         if (ctx.isAuthenticated()) {
             await next()

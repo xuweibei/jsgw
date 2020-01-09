@@ -2,7 +2,7 @@
  * 后台程序入口文件 // 18760660507
  * */
 const Koa = require('koa');
-const path = require('path')
+// const path = require('path')
 const views = require('koa-views'); // 模板插件
 const json = require('koa-json'); // json格式处理中间件
 const onerror = require('koa-onerror'); // 处理koa程序错误
@@ -12,11 +12,10 @@ const session = require('koa-session')
 const cors = require('koa2-cors'); // 跨域中间件
 const logger = require('koa-logger'); // 日志生成中间件
 const koaMinify = require('@chuchur/koa-minify'); // less插件
+// const httpError = require('./middleware/http-error')
 // 创建应用
 const app = new Koa();
-// error handler
 // 代替koa默认错误提示
-onerror(app)
 app.keys = ['zzkj_@123'];
 
 const CONFIG = {
@@ -32,7 +31,8 @@ const CONFIG = {
     rolling: false, // (boolean) 强制在每个响应上设置会话标识符cookie。过期将重置为原始maxAge，重新设置过期倒计时
     renew: false, // (boolean) 当会话快过期时续订会话，这样我们可以始终保持用户登录
 }
-
+// console.log(path.join(__dirname, 'views', 'events'))
+onerror(app)
 // 解析session
 app.use(session(CONFIG, app));
 

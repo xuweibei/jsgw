@@ -5,7 +5,7 @@
   "scripts": {
     "start": "set DEBUG=zzkj & nodemon bin/www",
     "dev": "set NODE_ENV=dev && npm start",
-    "prd": "set NODE_ENV=production && pm2 start bin/www",
+    "prod": "set NODE_ENV=production && pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": { 
