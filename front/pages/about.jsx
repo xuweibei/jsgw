@@ -7,12 +7,6 @@ const { Link } = Anchor;
 export default () => (
     <Layout title="关于我们">
         <div className="about">
-
-            <Anchor className="anchor" affix>
-                <Link href="#brief" title="公司简介" />
-                <Link href="#act" title="大事记" />
-                <Link href="#civil" title="企业文化" />
-            </Anchor>
             <img className="banner" src="/introduce.png" alt="" />
             {/*公司简介*/}
             <div id="brief" className="synopsis distance">
@@ -24,6 +18,11 @@ export default () => (
                     <div className="synopsis-name">中战科技网络有限公司</div>
                     <div className="synopsis-content">中战科技网络有限公司中战科技网络有限公司中战科技网络有限公司中战科技网络有限公司</div>
                 </div>
+                <Anchor className="anchor" affix>
+                    <Link href="#brief" title="公司简介" />
+                    <Link href="#act" title="大事记" />
+                    <Link href="#civil" title="企业文化" />
+                </Anchor>
             </div>
             {/*大事记*/}
             <div id="act" className="deed distance">
