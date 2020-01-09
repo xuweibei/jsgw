@@ -14,11 +14,10 @@ const getCommunicateInfo = async ({title = '',create_time = '',end_time = ''}) =
         let date = null;
         let date2 = null;
         if(create_time){
-            date = new Date(data.create_time).getTime();
-            date2 = new Date(data.end_time).getTime();
+            date = new Date(create_time).getTime();
+            date2 = new Date(end_time).getTime();
         }
         let where = '';
-        // console.log(data.post_name,'收到了付款',typeof data.job_class,data.detail_address)
         if(title!=''){
             where=`c.title like '%${title}%'`;
         }

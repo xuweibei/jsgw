@@ -90,6 +90,7 @@
             line-height: 90px;
             font-size: 14px;
             color: #4FCAFF;
+            cursor: pointer;
             img {
                 margin-left: 13px;
             }
@@ -101,4 +102,65 @@
         text-align: right;
     }
 
+}
+
+.detail-main{
+    width:848px !important;
+    .ant-modal-header{
+        border:none;
+        padding: 16px 32px 0;
+        .ant-modal-title{
+            font-size:24px;
+            color:#25608D;
+        }
+    }
+    .detail-top{
+        .detail{
+            display: flex;
+            // justify-content:center;
+            div{
+                width:600px;
+                margin:10px;
+                font-size:14px;
+                label{
+                    color:#999999;
+                }
+                span{
+                    color:#333333
+                }
+            }
+        }
+        .money{
+            color:#F4B43C !important;
+        }
+    }
+    .detail-bottom{
+        div{
+            display: flex;
+            margin:10px;
+            label{
+                min-width:72px;
+                color:#999999;
+            }
+            p{
+                color:#333333
+            }
+        }
+        margin-bottom: 30px;
+        padding-top:10px;
+    }
+    .detail-bottom div:nth-child(1){
+        border-bottom:1px solid #EEEEEE;
+        border-top:1px solid #EEEEEE;
+        padding:20px 0;
+    }
+    .ant-modal-footer{
+        border:none;
+        div{
+            text-align: center;
+        }
+    }
+    .ant-modal-footer div button:nth-child(1){
+        display: none;
+    }
 }
