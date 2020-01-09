@@ -74,8 +74,8 @@ class Bulletin extends  React.PureComponent{
             <Layout>
                 <div className="bulletin">
                     <div className="banner ">
+                        <div className="join-one">公司公告</div>
                         <div className="join">Company announcement </div>
-                        <div className="join-one">加入我们</div>
                     </div>
                     {/*表单搜索栏*/}
                     <div className="sizer distance">

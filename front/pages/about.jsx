@@ -7,7 +7,11 @@ const { Link } = Anchor;
 export default () => (
     <Layout title="关于我们">
         <div className="about">
-            <img className="banner" src="/introduce.png" alt="" />
+            <div className="banner ">
+                <div className="join-one">公司简介</div>
+                <div className="join">Company announcement </div>
+            </div>
+            {/*<img className="banner" src="/introduce.png" alt="" />*/}
             {/*公司简介*/}
             <div id="brief" className="synopsis distance">
                 <div className="synopsis-left">

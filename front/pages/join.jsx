@@ -109,8 +109,9 @@ export default class Join extends React.Component{
                 <div className="join">
                     {/*banner图*/}
                     <div className="banner">
-                        <div className="join">Join us</div>
                         <div className="join-one">加入我们</div>
+                        <div className="join">Join us</div>
+
                     </div>
                     {/*表单搜索栏*/}
                     <div className="sizer distance">
@@ -183,7 +184,7 @@ export default class Join extends React.Component{
                             />
                         </div>
                         {
-                            detailInfo && 
+                            detailInfo &&
                             <Modal
                                 title="Basic Modal"
                                 visible
