@@ -4,10 +4,31 @@ import fetch from 'isomorphic-unfetch';
 
 class Index extends React.Component {
 
-    state = {
-        spaceNum: 0, //偏移距离
-        spaceAmount: 0, //点击数量
-    };
+    static async getInitialProps(props){
+        const res = await fetch('http://localhost:8000/api/get_products',{method:'POST'});
+        const infoRes = await fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
+            'Content-Type': 'application/json'
+          }, body: JSON.stringify({
+            limit:5,offset:0,page:1
+        })});
+        const ans = await res.json();
+        const infoAns = await infoRes.json();
+        return {
+            products: ans.data,
+            infoAns: infoAns.data ? infoAns.data.rows : []
+        }
+    }
+
+    constructor(props){
+        super(props);
+        const {products, infoAns} = props;
+        this.state = {
+            products,
+            infoAns,
+            spaceNum: 0, //偏移距离
+            spaceAmount: 0, //点击数量
+        }
+    }
 
     removal = (site) => {
         const {spaceNum, spaceAmount} = this.state;
@@ -29,7 +50,8 @@ class Index extends React.Component {
     };
 
     render() {
-        const {spaceNum} = this.state;
+        const {spaceNum, products, infoAns} = this.state;
+        console.log(infoAns)
         return(
         <Layout>
             <div className="home">
@@ -40,56 +62,20 @@ class Index extends React.Component {
                         <div className="headline">最新动态</div>
                         <div className="carousel-wrap">
                             <div className="carousel-wrap-abs" style={{left: spaceNum}}>
-                                <div className="carousel-wrap-list">
-                                    <img className="carousel-img" src="/hong-bg.png" alt=""/>
-                                    <div className="carousel-content">
-                                        <div className="carousel-title">
-                                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
+                                {
+                                    infoAns.map(item => (
+                                        <div className="carousel-wrap-list" key={item.id}>
+                                            <img className="carousel-img" src="/hong-bg.png" alt=""/>
+                                            <div className="carousel-content">
+                                                <div className="carousel-title">
+                                                    {item.info_title}
+                                                </div>
+                                                <div className="carousel-time">{item.createdAt}</div>
+                                                <div className="carousel-btn">立即查看</div>
+                                            </div>
                                         </div>
-                                        <div className="carousel-time">2019-12-05</div>
-                                        <div className="carousel-btn">立即查看</div>
-                                    </div>
-                                </div>
-                                <div className="carousel-wrap-list">
-                                    <img className="carousel-img" src="/hong-bg.png" alt=""/>
-                                    <div className="carousel-content">
-                                        <div className="carousel-title">
-                                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
-                                        </div>
-                                        <div className="carousel-time">2019-12-05</div>
-                                        <div className="carousel-btn">立即查看</div>
-                                    </div>
-                                </div>
-                                <div className="carousel-wrap-list">
-                                    <img className="carousel-img" src="/hong-bg.png" alt=""/>
-                                    <div className="carousel-content">
-                                        <div className="carousel-title">
-                                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
-                                        </div>
-                                        <div className="carousel-time">2019-12-05</div>
-                                        <div className="carousel-btn">立即查看</div>
-                                    </div>
-                                </div>
-                                <div className="carousel-wrap-list">
-                                    <img className="carousel-img" src="/hong-bg.png" alt=""/>
-                                    <div className="carousel-content">
-                                        <div className="carousel-title">
-                                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
-                                        </div>
-                                        <div className="carousel-time">2019-12-05</div>
-                                        <div className="carousel-btn">立即查看</div>
-                                    </div>
-                                </div>
-                                <div className="carousel-wrap-list">
-                                    <img className="carousel-img" src="/hong-bg.png" alt=""/>
-                                    <div className="carousel-content">
-                                        <div className="carousel-title">
-                                            标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题标题
-                                        </div>
-                                        <div className="carousel-time">2019-12-05</div>
-                                        <div className="carousel-btn">立即查看</div>
-                                    </div>
-                                </div>
+                                    ))
+                                }
                             </div>
                         </div>
                         <div className="arrow-left" onClick={() => this.removal('left')}>
@@ -105,22 +91,14 @@ class Index extends React.Component {
                     <div className="product">
                         <div className="headline">产品中心</div>
                         <div className="product-list">
-                            <div className="list">
-                                <img className="list-img" src="/hong-bg.png" alt=""/>
-                                <div className="list-name">中卖网</div>
-                            </div>
-                            <div className="list">
-                                <img className="list-img" src="/hong-bg.png" alt=""/>
-                                <div className="list-name">中卖网</div>
-                            </div>
-                            <div className="list">
-                                <img className="list-img" src="/hong-bg.png" alt=""/>
-                                <div className="list-name">中卖网</div>
-                            </div>
-                            <div className="list">
-                                <img className="list-img" src="/hong-bg.png" alt=""/>
-                                <div className="list-name">中卖网</div>
-                            </div>
+                            {
+                                products.map(item => (
+                                    <div className="list" key={item.id}>
+                                        <img className="list-img" src={item.logo} alt=""/>
+                                        <div className="list-name">{item.pro_name}</div>
+                                    </div>
+                                ))
+                            }
                         </div>
                     </div>
                 </div>
@@ -161,12 +139,12 @@ class Index extends React.Component {
 //     return { data: json }
 // }
 
-Index.getInitialProps = async () => {
-    const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
+// Index.getInitialProps = async () => {
+//     const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
 
-    const json = await res.json();
-    console.log(json);
-    return { data: json }
-}
+//     const json = await res.json();
+//     console.log(json);
+//     return { data: json }
+// }
 
 export default Index;

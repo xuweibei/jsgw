@@ -101,7 +101,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .get('/delivery/postClassify', postApi['postClassify'])
     //产品中心[志强]
     .get('/delivery/helpContent', helpContent['helpContent'])
-    .get('/api/get_products', product['get_products']) //获取产品信息
+    .post('/api/get_products', product['get_products']) //获取产品信息
     // 大事件
     .get('/delivery/events', events['events'])
     .post('/api/insert_event', events['insert_event']) // 插入事件
