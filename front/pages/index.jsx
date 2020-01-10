@@ -1,5 +1,5 @@
 import Layout from "../components/layout/layout";
-import "../static/style/page/index.less";
+// import "../static/style/page/index.less";
 import fetch from 'isomorphic-unfetch';
 
 class Index extends React.Component {
