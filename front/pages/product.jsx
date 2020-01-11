@@ -1,3 +1,4 @@
+//资讯中心
 import Layout from "../components/layout/layout";
 import React from "react";
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';

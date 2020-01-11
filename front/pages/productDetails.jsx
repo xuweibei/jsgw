@@ -1,6 +1,6 @@
+//资讯中心内容页
 import Layout from "../components/layout/layout";
 import React from "react";
-import "../static/style/page/productDetails.less";
 
 class ProductDetails extends React.PureComponent {
     render() {

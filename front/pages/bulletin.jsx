@@ -1,3 +1,4 @@
+//公司公告
 import Layout from "../components/layout/layout";
 // import "../static/style/page/bulletin.less";
 import fetch from 'isomorphic-unfetch';

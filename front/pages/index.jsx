@@ -1,3 +1,4 @@
+//首页
 import Layout from "../components/layout/layout";
 // import "../static/style/page/index.less";
 import fetch from 'isomorphic-unfetch';
