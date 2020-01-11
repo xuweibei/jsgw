@@ -17,6 +17,7 @@ module.exports = {
     },
     "get_info": async ctx => {
         const {limit, offset, page} = ctx.request.body
+        console.log(limit, offset, page, 'dddddd')
         const ret = await getInfo(offset, limit, page)
         if (ret && ret.arr.length > 0) {
             ctx.body = new SuccessModel({rows: ret.arr, total: ret.total}, "获取讯息成功")

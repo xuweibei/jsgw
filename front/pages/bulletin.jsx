@@ -10,7 +10,7 @@ class Bulletin extends  React.PureComponent{
         const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
         const data = await res.json();
         return {
-            data:data.data ? data.data.rows : []
+            data: data.data ? data.data.rows : []
         }
     }
 
