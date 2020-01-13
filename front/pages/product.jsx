@@ -35,15 +35,14 @@ class Product extends React.PureComponent {
 
     //切换页码
     pageChange = (page, pagesize) => {
-        fetch('http://localhost:8000/api/get_info',{method:'POST',headers:{'Content-Type': 'application/json'},body: {
+        fetch('http://localhost:8000/api/get_info',{method:'POST',headers:{'Content-Type': 'application/json'},body: JSON.stringify({
             limit:pagesize,offset:0,page
-        }}).then(res=>{
+        })}).then(res=>{
             res.json().then(res=>{
                 if(res && res.status === 0){
-                    // this.setState({
-                        
-                    // })
-                    console.log(res)
+                    this.setState({
+                        infoAns: res.data
+                    })
                 }
             })
         });
@@ -51,7 +50,6 @@ class Product extends React.PureComponent {
 
     render() {
         const {products, infoAns} = this.state;
-        console.log(infoAns)
         return (
             <Layout>
                 <div className="bulletin">
@@ -91,7 +89,7 @@ class Product extends React.PureComponent {
                             // onShowSizeChange={this.onShowSizeChange}
                             // defaultCurrent={1}
                             total={infoAns.total}
-                            onChange={this.pageChange}
+                            onChange={(page, pagesize) => this.pageChange(page, pagesize)}
                         />
                     </div>
                 </div>
