@@ -1,9 +1,10 @@
 //首页
 import Layout from "../components/layout/layout";
-import { Modal, Button } from 'antd';
+import { Modal, Button} from 'antd';
+import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 
-class Index extends React.PureComponent {
+class Index extends React.Component {
 
     static async getInitialProps(props){
         const res = await fetch('http://localhost:8000/api/get_products',{method:'POST'});
@@ -93,7 +94,7 @@ class Index extends React.PureComponent {
                                                     <div className="carousel-title">
                                                         {item.info_title}
                                                     </div>
-                                                    <div className="carousel-time">{item.createdAt}</div>
+                                                    <div className="carousel-time">{item.createdAt.split('T')[0]}</div>
                                                     <div className="carousel-btn" onClick={this.examine}>立即查看</div>
                                                 </div>
                                             </div>
@@ -129,24 +130,30 @@ class Index extends React.PureComponent {
                     <div>
                         <div className="headline">加入我们</div>
                         <div className="participate">
-                            <div className="possess-box">
-                                <div className="possess">
-                                    <img src="possess.png" alt=""/>
+                            <Link href="/join">
+                                <div className="possess-box">
+                                    <div className="possess">
+                                        <img src="possess.png" alt=""/>
+                                    </div>
+                                    <div>全部岗位</div>
                                 </div>
-                                <div>全部岗位</div>
-                            </div>
-                            <div className="computers-box">
-                                <div className="computers">
-                                    <img src="computers.png" alt=""/>
+                            </Link>
+                            <Link href={{pathname: '/join', query: {jobType: '研发类'}}}>
+                                <div className="computers-box">
+                                    <div className="computers">
+                                        <img src="computers.png" alt=""/>
+                                    </div>
+                                    <div>研发岗位</div>
                                 </div>
-                                <div>研发岗位</div>
-                            </div>
-                            <div className="manage-box">
-                                <div className="manage">
-                                    <img className="manage-img" src="product.png" alt=""/>
+                            </Link>
+                            <Link href={{pathname: '/join', query: {jobType: '行政岗位'}}}>
+                                <div className="manage-box">
+                                    <div className="manage">
+                                        <img className="manage-img" src="product.png" alt=""/>
+                                    </div>
+                                    <div>行政岗位</div>
                                 </div>
-                                <div>行政岗位</div>
-                            </div>
+                            </Link>
                         </div>
                     </div>
                     {

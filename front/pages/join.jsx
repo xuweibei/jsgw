@@ -8,6 +8,27 @@ const {RangePicker} = DatePicker;
 
 export default class Join extends React.Component{
 
+    componentDidMount() {
+        if(this.getJobType()) {
+            fetch('http://localhost:8000/api/get_recruit',{method:'POST',headers:{'Content-Type': 'application/json'},body: JSON.stringify({
+                job_class: decodeURI(this.getJobType())
+            })}).then(res=>{
+                res.json().then(datal=>{
+                    if(datal && datal.status === 0){
+                        this.setState({
+                            data:datal.data
+                        })
+                    }
+                })
+            });
+        }
+    }
+
+    // 首页跳转至此
+    getJobType = () => (
+        window.location.search.substr(1).split('=')[1]
+    )
+
     static async getInitialProps(props){
         const res = await fetch('http://localhost:8000/api/get_recruit',{method:'POST'}); //获取招聘信息
         const data = await res.json();
@@ -105,7 +126,7 @@ export default class Join extends React.Component{
 
     render(){
         const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
-        console.log(data)
+        console.log(data, 'ssssssss')
         return (
             <Layout title="人才招聘">
                 <div className="join">
@@ -181,7 +202,7 @@ export default class Join extends React.Component{
                                 showQuickJumper
                                 // onShowSizeChange={this.onShowSizeChange}
                                 defaultCurrent={1}
-                                Pagination={5}
+                                // Pagination={5}
                                 total={(data && data.rows)?data.rows.length:0}
                             />
                         </div>
