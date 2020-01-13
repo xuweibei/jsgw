@@ -4,13 +4,14 @@ import {Button, DatePicker, Input, Select, Pagination} from 'antd';
 import React from "react";
 import ExchangeDetails from "./exchangeDetails";
 import Link from "next/link";
+import fetch from "./index";
 const { Option } = Select;
 const {RangePicker} = DatePicker;
 
 
 class Exchange extends React.PureComponent {
     // static async getInitialProps(props){
-    //     const res = await fetch('http://localhost:8000/api/companyTalk',{method:'POST'});
+    //     const res = await fetch('http://localhost:8000/api/communicate_list', {method: 'POST'});
     //     const ans = await res.json();
     //     return {
     //         products: ans.data,
@@ -25,9 +26,25 @@ class Exchange extends React.PureComponent {
     //     }
     // }
 
+    static async getInitialProps(props){
+        const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
+        const ans = await res.json();
+        return {
+            products: ans.data,
+        }
+    }
+
+    constructor(props){
+        super(props);
+        const {products} = props;
+        this.state = {
+            products
+        }
+    }
+
     render() {
-        // const {products} = this.state;
-        // console.log(products);
+        const {products} = this.state;
+        console.log(products);
         return(
             <Layout title="部门交流">
                 <div className="exchange distance">
