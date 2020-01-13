@@ -105,6 +105,7 @@ export default class Join extends React.Component{
 
     render(){
         const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
+        console.log(data)
         return (
             <Layout title="人才招聘">
                 <div className="join">

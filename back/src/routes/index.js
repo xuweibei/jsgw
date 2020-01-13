@@ -106,4 +106,5 @@ router.get('/delivery/*', async (ctx, next) => {
     .get('/delivery/events', events['events'])
     .post('/api/insert_event', events['insert_event']) // 插入事件
     .post('/api/del_event', events['del_event']) // 删除事件
+    .post('/api/get_events', events['get_events'])//获取大事记
 module.exports = router

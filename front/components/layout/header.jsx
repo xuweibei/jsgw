@@ -34,7 +34,7 @@ export default () => (
         <img className="header-logo" src="/zzha.png" alt=""/>
         <div className="header-tab">
             {links.map(({ href, label, key, as }) => (
-                <div>
+                <div key={href}>
                     <Link href={href} as={as}>
                         <a key={key}>{label}</a>
                     </Link>
