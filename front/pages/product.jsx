@@ -4,6 +4,7 @@ import React from "react";
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
 const {RangePicker} = DatePicker;
 const { Option } = Select;
+import Paging from '../components/paging/paging'
 
 class Product extends React.PureComponent {
 
@@ -33,20 +34,16 @@ class Product extends React.PureComponent {
         }
     }
 
-    //切换页码
-    pageChange = (page, pagesize) => {
-        fetch('http://localhost:8000/api/get_info',{method:'POST',headers:{'Content-Type': 'application/json'},body: JSON.stringify({
-            limit:pagesize,offset:0,page
-        })}).then(res=>{
-            res.json().then(res=>{
-                if(res && res.status === 0){
-                    this.setState({
-                        infoAns: res.data
-                    })
-                }
-            })
-        });
+    reception = (arr) => {
+        console.log('执行了');
+        console.log(arr);
+        this.setState({
+            infoAns: arr
+        })
     }
+
+
+
 
     render() {
         const {products, infoAns} = this.state;
@@ -82,16 +79,11 @@ class Product extends React.PureComponent {
                         }
                     </div>
                     {/*分页器*/}
-                    <div className="distance">
-                        <Pagination
-                            showSizeChanger
-                            showQuickJumper
-                            // onShowSizeChange={this.onShowSizeChange}
-                            // defaultCurrent={1}
-                            total={infoAns.total}
-                            onChange={(page, pagesize) => this.pageChange(page, pagesize)}
-                        />
-                    </div>
+                    <Paging
+                        pageChange={this.reception.bind(this)}
+                        total={infoAns.total}
+                        port="get_info"
+                    />
                 </div>
             </Layout>
         )
