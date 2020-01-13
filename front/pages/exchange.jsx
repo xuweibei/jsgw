@@ -16,7 +16,7 @@ class Exchange extends React.PureComponent {
             products: ans.data,
         }
     }
-    
+
     constructor(props){
         super(props);
         const {products} = props;
@@ -26,8 +26,8 @@ class Exchange extends React.PureComponent {
     }
 
     render() {
-        const {products} = this.state;
-        console.log(products);
+        // const {products} = this.state;
+        // console.log(products);
         return(
             <Layout title="部门交流">
                 <div className="exchange distance">
