@@ -2,7 +2,8 @@
 import Layout from "../components/layout/layout";
 import fetch from 'isomorphic-unfetch';
 import {Button, DatePicker, Input, Pagination, Select,Modal} from "antd";
-// import "../static/style/page/join.less";
+import Paging from '../components/paging/paging'
+import React from "react";
 const { Option } = Select;
 const {RangePicker} = DatePicker;
 
@@ -103,6 +104,14 @@ export default class Join extends React.Component{
         })
     }
 
+    reception = (arr) => {
+        console.log('执行了');
+        console.log(arr);
+        this.setState({
+            infoAns: arr
+        })
+    }
+
     render(){
         const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
         console.log(data)
@@ -175,7 +184,12 @@ export default class Join extends React.Component{
                                 </div>
                             })
                         }
-                        <div className="distance">
+                        <Paging
+                            pageChange={this.reception.bind(this)}
+                            total={(data && data.rows)?data.rows.length:0}
+                            port="get_recruit"
+                        />
+                        {/*<div className="distance">
                             <Pagination
                                 showSizeChanger
                                 showQuickJumper
@@ -184,7 +198,7 @@ export default class Join extends React.Component{
                                 Pagination={5}
                                 total={(data && data.rows)?data.rows.length:0}
                             />
-                        </div>
+                        </div>*/}
                         {
                             detailInfo &&
                             <Modal
