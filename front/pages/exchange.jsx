@@ -25,9 +25,28 @@ class Exchange extends React.PureComponent {
         }
     }
 
+    //时间格式更改
+    formatDate = (timestamp,pass) => {
+        const date = new Date(timestamp );//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = date.getDate() + ' ';
+        const h = date.getHours() + ':';
+        const m = date.getMinutes() + ':';
+        const s = date.getSeconds();
+        if(pass === 1){
+            console.log(Y,M,D);
+            return Y + M + D
+        }else if(pass === 2){
+            console.log(h,m,s);
+            return h + m + s
+        }
+        return Y + M + D + h + m + s;
+    }
+
     render() {
-        // const {products} = this.state;
-        // console.log(products);
+        const {products} = this.state;
+        console.log(products.rows);
         return(
             <Layout title="部门交流">
                 <div className="exchange distance">
@@ -57,48 +76,23 @@ class Exchange extends React.PureComponent {
                     </div>
 
                     {/*公告栏*/}
-                    <div>
-                        <Link href="/exchangeDetails" as="/exchangeDetails">
-                            <div className="bulletin-board">
-                                <div className="explain">【公告】公告公告公告公告公告公告公告公告...</div>
-                                <div className="time-date">
-                                    <div className="issuer">纸质书</div>
-                                    <div className="data">2019.30.20</div>
-                                    <div className="time">15:30:02</div>
-                                </div>
+                    {
+                        products.rows.map(item => (
+                            <div>
+                                <Link href="/exchangeDetails" as="/exchangeDetails">
+                                    <div key={item.id} className="bulletin-board">
+                                        <div className="explain" >{item.title}</div>
+                                        <div className="time-date">
+                                            <div className="issuer" dangerouslySetInnerHTML={{__html:item.describe}}/>
+                                            <div className="data">{this.formatDate(item.create_time,1)}</div>
+                                            <div className="time">{this.formatDate(item.create_time,2)}</div>
+                                        </div>
+                                    </div>
+                                </Link>
                             </div>
-                        </Link>
-                        <Link href="/exchangeDetails" as="/exchangeDetails">
-                            <div className="bulletin-board">
-                                <div className="explain">【公告】公告公告公告公告公告公告公告公告...</div>
-                                <div className="time-date">
-                                    <div className="issuer">纸质书</div>
-                                    <div className="data">2019.30.20</div>
-                                    <div className="time">15:30:02</div>
-                                </div>
-                            </div>
-                        </Link>
-                        <Link href="/exchangeDetails" as="/exchangeDetails">
-                            <div className="bulletin-board">
-                                <div className="explain">【公告】公告公告公告公告公告公告公告公告...</div>
-                                <div className="time-date">
-                                    <div className="issuer">纸质书</div>
-                                    <div className="data">2019.30.20</div>
-                                    <div className="time">15:30:02</div>
-                                </div>
-                            </div>
-                        </Link>
-                        <Link href="/exchangeDetails" as="/exchangeDetails">
-                            <div className="bulletin-board">
-                                <div className="explain">【公告】公告公告公告公告公告公告公告公告...</div>
-                                <div className="time-date">
-                                    <div className="issuer">纸质书</div>
-                                    <div className="data">2019.30.20</div>
-                                    <div className="time">15:30:02</div>
-                                </div>
-                            </div>
-                        </Link>
-                    </div>
+                        ))
+                    }
+
 
                     {/*分页器*/}
                     <Pagination

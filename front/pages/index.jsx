@@ -29,7 +29,7 @@ class Index extends React.Component {
             infoAns,
             spaceNum: 0, //偏移距离
             spaceAmount: 0, //点击数量
-            visible: true,  //弹窗
+            visible: false,  //弹窗
             type: [
                 {font: '职位类型：', explain: '研发类'},
                 {font: '薪资：', explain: '6k-7k'},
