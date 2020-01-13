@@ -73,8 +73,8 @@ class Product extends React.PureComponent {
                             showSizeChanger
                             showQuickJumper
                             // onShowSizeChange={this.onShowSizeChange}
-                            defaultCurrent={3}
-                            total={500}
+                            defaultCurrent={1}
+                            total={100}
                         />
                     </div>
                 </div>

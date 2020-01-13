@@ -5,73 +5,105 @@ import React from "react";
 import { Anchor } from 'antd';
 const { Link } = Anchor;
 
-export default () => (
-    <Layout title="关于我们">
-        <div className="about">
-            <div className="banner ">
-                <div className="join-one">公司简介</div>
-                <div className="join">Company announcement </div>
-            </div>
-            {/*<img className="banner" src="/introduce.png" alt="" />*/}
-            {/*公司简介*/}
-            <div id="brief" className="synopsis distance">
-                <div className="synopsis-left">
-                    <img className="synopsis-img" src="/introduce.png" alt="" />
-                </div>
-                <div className="synopsis-right">
-                    <div className="across"/>
-                    <div className="synopsis-name">中战科技网络有限公司</div>
-                    <div className="synopsis-content">中战科技网络有限公司中战科技网络有限公司中战科技网络有限公司中战科技网络有限公司</div>
-                </div>
-                <Anchor className="anchor" affix>
-                    <Link href="#brief" title="公司简介" />
-                    <Link href="#act" title="大事记" />
-                    <Link href="#civil" title="企业文化" />
-                </Anchor>
-            </div>
-            {/*大事记*/}
-            <div id="act" className="deed distance">
-                <div className="deed-name">中战大事记</div>
-                <div className="deed-each-box">
-                    <div className="deed-each">
-                        <div className="time">
-                            <div className="circle cycle">
-                                <div className="dot"/>
-                            </div>
-                            <div className="short">2018年</div>
-                        </div>
-                        <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+export default class About extends React.PureComponent {
+    static async getInitialProps(props) {
+        const res = await fetch('http://localhost:8000/api/render_html',{method:'POST',headers: {
+            'Content-Type': 'application/json'
+          }, body: JSON.stringify({
+            id: 2
+        })});
+        const res2 = await fetch('http://localhost:8000/api/render_html',{method:'POST',headers: {
+            'Content-Type': 'application/json'
+          }, body: JSON.stringify({
+            id: 1
+        })});
+        const cultureRes = await res.json();
+        const introRes = await res2.json();
+        return {
+            cultures: cultureRes.data,
+            intros: introRes.data
+        }
+    }
+
+    constructor(props){
+        super(props);
+        const {cultures, intros} = props;
+        this.state = {
+            cultures,
+            intros
+        }
+    }
+
+    render() {
+        const {cultures, intros} = this.state;
+        console.log(intros)
+        return (
+            <Layout title="关于我们">
+                <div className="about">
+                    <div className="banner ">
+                        <div className="join-one">公司简介</div>
+                        <div className="join">Company announcement </div>
                     </div>
-                    <div className="deed-each">
-                        <div className="time">
-                            <div className="circle">
-                                <div className="dot"/>
-                            </div>
-                            <div className="short">2018年</div>
+                    {/*<img className="banner" src="/introduce.png" alt="" />*/}
+                    {/*公司简介*/}
+                    <div id="brief" className="synopsis distance">
+                        <div className="synopsis-left">
+                            <img className="synopsis-img" src="/introduce.png" alt="" />
                         </div>
-                        <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+                        <div className="synopsis-right">
+                            <div className="across"/>
+                            <div className="synopsis-name">中战科技网络有限公司</div>
+                            <div className="synopsis-content" dangerouslySetInnerHTML={{__html:intros.html}}/>
+                        </div>
+                        <Anchor className="anchor" affix>
+                            <Link href="#brief" title="公司简介" />
+                            <Link href="#act" title="大事记" />
+                            <Link href="#civil" title="企业文化" />
+                        </Anchor>
                     </div>
-                    <div className="deed-each">
-                        <div className="time">
-                            <div className="circle">
-                                <div className="dot"/>
+                    {/*大事记*/}
+                    <div id="act" className="deed distance">
+                        <div className="deed-name">中战大事记</div>
+                        <div className="deed-each-box">
+                            <div className="deed-each">
+                                <div className="time">
+                                    <div className="circle cycle">
+                                        <div className="dot"/>
+                                    </div>
+                                    <div className="short">2018年</div>
+                                </div>
+                                <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
                             </div>
-                            <div className="short">2018年</div>
+                            <div className="deed-each">
+                                <div className="time">
+                                    <div className="circle">
+                                        <div className="dot"/>
+                                    </div>
+                                    <div className="short">2018年</div>
+                                </div>
+                                <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+                            </div>
+                            <div className="deed-each">
+                                <div className="time">
+                                    <div className="circle">
+                                        <div className="dot"/>
+                                    </div>
+                                    <div className="short">2018年</div>
+                                </div>
+                                <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+                            </div>
                         </div>
-                        <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
+                    </div>
+                    {/*公司文化*/}
+                    <div id="civil" className="culture distance">
+                        {/* <div dangerouslySetInnerHTML={{__html:cultures.html}}/> */}
+                        <div className="culture-name">公司文化</div>
+                        <div className="across"/>
+                        <div className="culture-content" dangerouslySetInnerHTML={{__html:cultures.html}}/>
+                        <img className="culture-img" src="/introduce.png" alt="" />
                     </div>
                 </div>
-            </div>
-            {/*公司文化*/}
-            <div id="civil" className="culture distance">
-                <div className="culture-name">公司文化</div>
-                <div className="across"/>
-                <div className="culture-content">
-                    我们是一群锐意进取、充满激情的人，客户至上是我们的宗旨，勇于创新是我们的信仰，
-                    真诚服务是我们的态度，致力于创造更优质的产品，最大限度地满足客户的应用需求是我们的终极目标。
-                </div>
-                <img className="culture-img" src="/introduce.png" alt="" />
-            </div>
-        </div>
-    </Layout>
-);
+            </Layout>
+        )
+    }
+}
