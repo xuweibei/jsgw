@@ -17,26 +17,30 @@ export default class About extends React.PureComponent {
           }, body: JSON.stringify({
             id: 1
         })});
+        const eventRes = await fetch('http://localhost:8000/api/get_events', {method: 'POST'});
         const cultureRes = await res.json();
         const introRes = await res2.json();
+        const events = await eventRes.json();
         return {
             cultures: cultureRes.data,
-            intros: introRes.data
+            intros: introRes.data,
+            events: events.data
         }
     }
 
     constructor(props){
         super(props);
-        const {cultures, intros} = props;
+        const {cultures, intros, events} = props;
         this.state = {
             cultures,
-            intros
+            intros,
+            events
         }
     }
 
     render() {
-        const {cultures, intros} = this.state;
-        console.log(intros)
+        const {cultures, intros, events} = this.state;
+        console.log(events)
         return (
             <Layout title="关于我们">
                 <div className="about">
@@ -65,33 +69,19 @@ export default class About extends React.PureComponent {
                     <div id="act" className="deed distance">
                         <div className="deed-name">中战大事记</div>
                         <div className="deed-each-box">
-                            <div className="deed-each">
-                                <div className="time">
-                                    <div className="circle cycle">
-                                        <div className="dot"/>
+                            {
+                                events.map(item => (
+                                    <div className="deed-each">
+                                        <div className="time">
+                                            <div className="circle cycle">
+                                                <div className="dot"/>
+                                            </div>
+                                    <div className="short">{item.time.split('/')[0]}年</div>
+                                        </div>
+                                        <div className="each-content">{item.event_content}</div>
                                     </div>
-                                    <div className="short">2018年</div>
-                                </div>
-                                <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
-                            </div>
-                            <div className="deed-each">
-                                <div className="time">
-                                    <div className="circle">
-                                        <div className="dot"/>
-                                    </div>
-                                    <div className="short">2018年</div>
-                                </div>
-                                <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
-                            </div>
-                            <div className="deed-each">
-                                <div className="time">
-                                    <div className="circle">
-                                        <div className="dot"/>
-                                    </div>
-                                    <div className="short">2018年</div>
-                                </div>
-                                <div className="each-content">内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</div>
-                            </div>
+                                ))
+                            }
                         </div>
                     </div>
                     {/*公司文化*/}

@@ -5,6 +5,14 @@ module.exports = {
         const ret = await getEvent()
         await ctx.render('events', {arr: ret})
     },
+    "get_events": async ctx => {
+        const ret = await getEvent()       
+        if (ret) {
+            ctx.body =  new SuccessModel(ret)
+            return
+        }
+        ctx.body = new ErrorModel("获取失败")
+    },
     "insert_event": async ctx => {
         const {time, title, content} = ctx.request.body
         if (!time) {

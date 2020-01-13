@@ -18,7 +18,7 @@ class Product extends React.PureComponent {
         const infoAns = await infoRes.json();
         return {
             products: ans.data,
-            infoAns: infoAns.data ? infoAns.data.rows : []
+            infoAns: infoAns.data,
         }
     }
 
@@ -31,6 +31,22 @@ class Product extends React.PureComponent {
             spaceNum: 0, //偏移距离
             spaceAmount: 0, //点击数量
         }
+    }
+
+    //切换页码
+    pageChange = (page, pagesize) => {
+        fetch('http://localhost:8000/api/get_info',{method:'POST',headers:{'Content-Type': 'application/json'},body: {
+            limit:pagesize,offset:0,page
+        }}).then(res=>{
+            res.json().then(res=>{
+                if(res && res.status === 0){
+                    // this.setState({
+                        
+                    // })
+                    console.log(res)
+                }
+            })
+        });
     }
 
     render() {
@@ -56,7 +72,7 @@ class Product extends React.PureComponent {
                     {/*公告栏*/}
                     <div>
                         {
-                            infoAns.map(item => (
+                            infoAns.rows && infoAns.rows.map(item => (
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain" dangerouslySetInnerHTML={{__html:item.info_content}}/>
                                     <div className="time-date">
@@ -73,8 +89,9 @@ class Product extends React.PureComponent {
                             showSizeChanger
                             showQuickJumper
                             // onShowSizeChange={this.onShowSizeChange}
-                            defaultCurrent={1}
-                            total={100}
+                            // defaultCurrent={1}
+                            total={infoAns.total}
+                            onChange={this.pageChange}
                         />
                     </div>
                 </div>
