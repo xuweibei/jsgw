@@ -10,26 +10,39 @@ const insertInfo = async (html, title) => {
 }
 
 const getInfo = async (offset, limit, page) => {
-    const ret = await Information.findAll({
-        attributes: {
-            exclude: ['updatedAt']
-        },
-        where: {
-            del_status: "1"
-        },
-        limit: limit,
-        offset: (page - 1) * limit
-    })
-    const total = await Information.count({where: {del_status: "1"}})
-    const arr = []
-    if (ret) {
-        ret.forEach(item => {
-            arr.push(item.dataValues)
+    if(limit){
+        const ret = await Information.findAll({
+            attributes: {
+                exclude: ['updatedAt']
+            },
+            where: {
+                del_status: "1"
+            },
+            limit: limit,
+            offset: (page - 1) * limit
         })
-        // console.log(arr)
-        return {
-            arr,
-            total
+        const total = await Information.count({where: {del_status: "1"}})
+        const arr = []
+        if (ret) {
+            ret.forEach(item => {
+                arr.push(item.dataValues)
+            })
+            // console.log(arr)
+            return {
+                arr,
+                total
+            }
+        }
+    } else {
+        const ret = await Information.findAll()
+        const arr = []
+        if (ret) {
+            ret.forEach(item => {
+                arr.push(item.dataValues)
+            })
+            return {
+                arr
+            }
         }
     }
     return ''
@@ -106,10 +119,23 @@ const editInfo = async (id, html, title) => {
     return ''
 }
 
+const getInfoDetail = async (id) => {
+    const res = await Information.findAll({
+        where: {
+            id
+        }
+    })
+    if(res) {
+        return res
+    }
+    return ''
+}
+
 module.exports = {
     insertInfo,
     getInfo,
     delInfo,
     hideInfo,
-    editInfo
+    editInfo,
+    getInfoDetail
 }

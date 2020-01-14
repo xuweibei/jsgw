@@ -8,11 +8,7 @@ class Index extends React.Component {
 
     static async getInitialProps(props){
         const res = await fetch('http://localhost:8000/api/get_products',{method:'POST'});
-        const infoRes = await fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify({
-                limit:5,offset:0,page:1
-            })});
+        const infoRes = await fetch('http://localhost:8000/api/get_info', {method: 'POST'});
         const ans = await res.json();
         const infoAns = await infoRes.json();
         return {
@@ -29,7 +25,6 @@ class Index extends React.Component {
             infoAns,
             spaceNum: 0, //偏移距离
             spaceAmount: 0, //点击数量
-            visible: false,  //弹窗
             type: [
                 {font: '职位类型：', explain: '研发类'},
                 {font: '薪资：', explain: '6k-7k'},
@@ -43,8 +38,8 @@ class Index extends React.Component {
     }
 
     removal = (site) => {
-        const {spaceNum, spaceAmount} = this.state;
-        console.log(spaceNum);
+        const {spaceNum, spaceAmount, infoAns} = this.state;
+        console.log(infoAns + 'infoAns');
         console.log(spaceAmount);
         if (site === 'left') {
             if (spaceNum >= 0) return;
@@ -53,7 +48,7 @@ class Index extends React.Component {
                 spaceAmount: prevState.spaceAmount - 1,
             }));
         } else {
-            if (spaceAmount >= 2) return;
+            if (spaceAmount >= infoAns.length - 3) return;
             this.setState(prevState => ({
                 spaceNum: prevState.spaceNum - 335,
                 spaceAmount: prevState.spaceAmount + 1,
@@ -61,21 +56,8 @@ class Index extends React.Component {
         }
     };
 
-    examine = () => {
-        console.log('执行了');
-        this.setState({
-            visible: true
-        })
-    };
-
-    close = () => {
-        this.setState({
-            visible: false
-        })
-    };
-
     render() {
-        const {spaceNum, products, infoAns, visible, type} = this.state;
+        const {spaceNum, products, infoAns, type} = this.state;
         return(
             <Layout>
                 <div className="home">
@@ -87,15 +69,17 @@ class Index extends React.Component {
                             <div className="carousel-wrap">
                                 <div className="carousel-wrap-abs" style={{left: spaceNum}}>
                                     {
-                                        infoAns.map((item, index) => (
-                                            <div className="carousel-wrap-list" key={index}>
+                                        infoAns.map(item => (
+                                            <div className="carousel-wrap-list" key={item.id}>
                                                 <img className="carousel-img" src="/hong-bg.png" alt=""/>
                                                 <div className="carousel-content">
                                                     <div className="carousel-title">
                                                         {item.info_title}
                                                     </div>
                                                     <div className="carousel-time">{item.createdAt.split('T')[0]}</div>
-                                                    <div className="carousel-btn" onClick={this.examine}>立即查看</div>
+                                                    <div className="carousel-btn" onClick={this.examine}>
+                                                        <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>立即查看</Link>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))
@@ -156,36 +140,6 @@ class Index extends React.Component {
                             </Link>
                         </div>
                     </div>
-                    {
-                        visible && (
-                            <div >
-                                <Modal
-                                    className="home-window"
-                                    title="Basic Modal"
-                                    closable={false}
-                                    footer={[
-                                        <Button key="submit" type="primary" onClick={this.close}>
-                                            关闭
-                                        </Button>,
-                                    ]}
-                                    visible={this.state.visible}
-                                >
-                                    {
-                                        type.map((item, index) => (
-                                            <div key={index} className={`details ${item.font === '人数：' ? 'num' : ''}`}>
-                                                <span>{item.font}</span>
-                                                <span>{item.explain}</span>
-                                            </div>
-                                        ))
-                                    }
-                                    <div className="work">
-                                        <div>工作内容：</div>
-                                        <div>工作内容工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：</div>
-                                    </div>
-                                </Modal>
-                            </div>
-                        )
-                    }
                 </div>
             </Layout>
         )

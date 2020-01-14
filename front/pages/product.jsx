@@ -13,7 +13,7 @@ class Product extends React.PureComponent {
         const infoRes = await fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
             'Content-Type': 'application/json'
           }, body: JSON.stringify({
-            limit:5,offset:0,page:1
+            limit:10,offset:0,page:1
         })});
         const ans = await res.json();
         const infoAns = await infoRes.json();

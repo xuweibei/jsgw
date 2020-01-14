@@ -65,6 +65,8 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/edit_communicate_list',communicate['edit_communicate_list'])//编辑公司交流列表
     .post('/api/del_communicate_list',communicate['del_communicate_list'])//删除公司交流列表
     .post('/api/enable_commu',communicate['enable_commu'])//隐藏或显示公司交流列表
+    .post('/api/get_communicate_list', communicate['get_communicate_list'])//分页展示资讯列表
+    
     // 招聘信息管理
     .get('/delivery/invite', invite['invite'])
     // 公司简介
@@ -95,6 +97,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/del_info', consult['del_info'])
     .post('/api/hide_info', consult['hide_info'])
     .post('/api/edit_info', consult['edit_info'])
+    .post('/api/get_info_detail', consult['get_info_detail'])//获取资讯详情
     // 轮播管理
     .get('/delivery/carousel', carousel['turnManage'])
     //职业分类

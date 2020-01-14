@@ -1,5 +1,5 @@
 //招聘信息接口
-const {getCommunicateInfo,editCommuList,delCommuList,showOrCommuList} = require('../controller/communicate')
+const {getCommunicateInfo,editCommuList,delCommuList,showOrCommuList, getComunicateList} = require('../controller/communicate')
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "communicate_list": async ctx => {
@@ -33,5 +33,14 @@ module.exports = {
             return;
         }
         ctx.body = new ErrorModel('操作失败')
+    },
+    'get_communicate_list': async ctx => {
+        const {limit, offset, page} = ctx.request.body;
+        const res = await getComunicateList(limit, offset, page);
+        if (res && res.arr.length > 0) {
+            ctx.body = new SuccessModel({rows: res.arr, total: res.total}, "获取讯息成功")
+            return
+        }
+        ctx.body = new ErrorModel( "获取讯息失败")
     }
 }

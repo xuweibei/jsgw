@@ -8,10 +8,12 @@ const {RangePicker} = DatePicker;
 class Bulletin extends  React.PureComponent{
 
     static async getInitialProps(props){
-        const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
+        const res = await fetch('http://localhost:8000/api/get_communicate_list',{method:'POST',
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify({limit:10, offset: 0,page: 1})});
         const data = await res.json();
         return {
-            data: data.data ? data.data.rows : []
+            data: data.data
         }
     }
 
@@ -57,12 +59,12 @@ class Bulletin extends  React.PureComponent{
                 }
             })
         })
-        fetch('http://localhost:8000/api/communicate_list',{method:'POST',body: datas
+        fetch('http://localhost:8000/api/communicate_list',{method:'POST',body: JSON.stringify(datas)
         }).then(res=>{
             res.json().then(datal=>{
                 if(datal && datal.status === 0){
                     this.setState({
-                        data:datal.data ? datal.data.rows : []
+                        data:datal.data
                     })
                 }
             })
@@ -71,6 +73,7 @@ class Bulletin extends  React.PureComponent{
 
     render(){
         const {data,create_time} = this.state;
+        console.log(data)
         return(
             <Layout>
                 <div className="bulletin">
@@ -95,7 +98,7 @@ class Bulletin extends  React.PureComponent{
                     {/*公告栏*/}
                     <div>
                         {
-                            data && data.length>0 && data.map(item=>{
+                           data.rows && data.rows.length>0 && data.rows.map(item=>{
                                 return <div key={item.create_time} className="bulletin-board distance">
                                     <div className="explain">{item.title}</div>
                                     <div className="time-date">

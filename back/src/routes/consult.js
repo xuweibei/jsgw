@@ -1,4 +1,4 @@
-const {insertInfo, getInfo, delInfo, hideInfo, editInfo} = require('../controller/infoControl')
+const {insertInfo, getInfo, delInfo, hideInfo, editInfo, getInfoDetail} = require('../controller/infoControl')
 const {SuccessModel, ErrorModel} = require('../config/model')
 // 资讯
 module.exports = {
@@ -17,7 +17,6 @@ module.exports = {
     },
     "get_info": async ctx => {
         const {limit, offset, page} = ctx.request.body
-        console.log(limit, offset, page, 'dddddd')
         const ret = await getInfo(offset, limit, page)
         if (ret && ret.arr.length > 0) {
             ctx.body = new SuccessModel({rows: ret.arr, total: ret.total}, "获取讯息成功")
@@ -51,5 +50,16 @@ module.exports = {
             return 
         }
         ctx.body = new ErrorModel("更新失败")
+    },
+    'get_info_detail': async ctx => {
+        const {id} = ctx.request.body
+        console.log(id, 'sdasds')
+        const res = await getInfoDetail(id)
+        console.log(res, 'dsaffgfdgf')
+        if(res) {
+            ctx.body = new SuccessModel(res, "获取成功")
+            return
+        }
+        ctx.body = new ErrorModel("获取失败")
     }
 }

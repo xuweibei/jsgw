@@ -51,6 +51,43 @@ const getCommunicateInfo = async ({title = '',create_time = '',end_time = ''}) =
     return ret
 }
 
+//分页展示
+const getComunicateList = async (limit, offset, page) => {
+    if(limit){
+        const ret = await communicate.findAll({
+            limit: limit,
+            offset: (page - 1) * limit
+        })
+        const total = await communicate.count()
+        const arr = []
+        console.log(ret, 'aaaaaa')
+        if (ret) {
+            ret.forEach(item => {
+                arr.push(item.dataValues)
+            })
+            return {
+                arr,
+                total
+            }
+        }
+    } else {
+        const ret = await communicate.findAll()
+        const total = await communicate.count()
+        const arr = []
+        console.log(ret, 'bbbbbbbbbb')
+        if (ret) {
+            ret.forEach(item => {
+                arr.push(item.dataValues)
+            })
+            return {
+                arr,
+                total
+            }
+        }
+    }
+    return ''
+}
+
 //编辑
 const editCommuList = async (data) =>{
     if(data.id){
@@ -95,5 +132,6 @@ module.exports = {
     getCommunicateInfo,
     editCommuList,
     delCommuList,
-    showOrCommuList
+    showOrCommuList,
+    getComunicateList
 }

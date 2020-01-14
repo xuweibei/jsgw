@@ -21,11 +21,11 @@ const menu = (
                 <a>公司公告</a>
             </Link>
         </Menu.Item>
-        {/* <Menu.Item>
+        <Menu.Item>
             <Link href="/exchange" as="/exchange">
                 <a>内部交流</a>
             </Link>
-        </Menu.Item> */}
+        </Menu.Item>
     </Menu>
 );
 
