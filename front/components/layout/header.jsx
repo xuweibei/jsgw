@@ -41,9 +41,9 @@ class Header extends React.Component {
         accountStatus: ''
     };
 
-    componentDidMount() {
-        window.sessionStorage.setItem('statusCode', false);
-    }
+    // componentDidMount() {
+    //     window.sessionStorage.setItem('statusCode', false);
+    // }
 
     examine = () => {
         console.log('执行了');

@@ -11,6 +11,7 @@ class Paging extends React.PureComponent {
                 limit:pagesize,offset:0,page
             })}).then(res=>{
             res.json().then(res=>{
+                console.log(res, '下次');
                 if(res && res.status === 0){
                     this.props.pageChange(res.data)
                 }
@@ -19,6 +20,7 @@ class Paging extends React.PureComponent {
     }
     render() {
         const {total} = this.props;
+        console.log(total);
         return (
             <div className="distance">
                 {/*分页器*/}

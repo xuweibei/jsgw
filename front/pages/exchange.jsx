@@ -3,6 +3,7 @@ import Layout from "../components/layout/layout";
 import {Button, DatePicker, Input, Select, Pagination} from 'antd';
 import React from "react";
 import ExchangeDetails from "./exchangeDetails";
+import Paging from '../components/paging/paging'
 import Link from "next/link";
 const { Option } = Select;
 const {RangePicker} = DatePicker;
@@ -35,13 +36,21 @@ class Exchange extends React.PureComponent {
         const m = date.getMinutes() + ':';
         const s = date.getSeconds();
         if(pass === 1){
-            console.log(Y,M,D);
             return Y + M + D
         }else if(pass === 2){
-            console.log(h,m,s);
             return h + m + s
         }
         return Y + M + D + h + m + s;
+    }
+
+    reception = (arr) => {
+        console.log('执行了');
+        console.log(arr, '1');
+        this.setState({
+            products: arr
+        }, () => {
+            console.log(this.state.products, '数控刀具方式');
+        })
     }
 
     render() {
@@ -95,12 +104,18 @@ class Exchange extends React.PureComponent {
 
 
                     {/*分页器*/}
-                    <Pagination
-                        showSizeChanger
-                        showQuickJumper
-                        // onShowSizeChange={this.onShowSizeChange}
-                        defaultCurrent={3}
-                        total={500}
+                    {/*<Pagination*/}
+                        {/*showSizeChanger*/}
+                        {/*showQuickJumper*/}
+                        {/*// onShowSizeChange={this.onShowSizeChange}*/}
+                        {/*defaultCurrent={3}*/}
+                        {/*total={500}*/}
+                    {/*/>*/}
+
+                    <Paging
+                        pageChange={this.reception.bind(this)}
+                        total={products.count}
+                        port="communicate_list"
                     />
                 </div>
             </Layout>
