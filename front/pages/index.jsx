@@ -3,6 +3,7 @@ import Layout from "../components/layout/layout";
 import { Modal, Button} from 'antd';
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import React from "react";
 
 class Index extends React.Component {
 
@@ -30,15 +31,6 @@ class Index extends React.Component {
             spaceNum: 0, //偏移距离
             spaceAmount: 0, //点击数量
             visible: false,  //弹窗
-            type: [
-                {font: '职位类型：', explain: '研发类'},
-                {font: '薪资：', explain: '6k-7k'},
-                {font: '电话：', explain: '187-9878-0987'},
-                {font: '工作地点：', explain: '福州'},
-                {font: '人数：', explain: '10'},
-                {font: '详细地址：', explain: '福州仓山区山亚大厦B座1218'},
-                {font: '邮箱：', explain: '348957@qq.com'},
-            ]
         }
     }
 
@@ -61,21 +53,13 @@ class Index extends React.Component {
         }
     };
 
-    examine = () => {
-        console.log('执行了');
-        this.setState({
-            visible: true
-        })
-    };
-
-    close = () => {
-        this.setState({
-            visible: false
-        })
-    };
+    sflsd = () => {
+        const xcv = window.sessionStorage.getItem('statusCode')
+        console.log(xcv);
+    }
 
     render() {
-        const {spaceNum, products, infoAns, visible, type} = this.state;
+        const {spaceNum, products, infoAns, visible} = this.state;
         return(
             <Layout>
                 <div className="home">
@@ -128,7 +112,7 @@ class Index extends React.Component {
                     </div>
                     {/*加入我们*/}
                     <div>
-                        <div className="headline">加入我们</div>
+                        <div onClick={this.sflsd} className="headline">加入我们</div>
                         <div className="participate">
                             <Link href="/join">
                                 <div className="possess-box">
@@ -156,36 +140,6 @@ class Index extends React.Component {
                             </Link>
                         </div>
                     </div>
-                    {
-                        visible && (
-                            <div >
-                                <Modal
-                                    className="home-window"
-                                    title="Basic Modal"
-                                    closable={false}
-                                    footer={[
-                                        <Button key="submit" type="primary" onClick={this.close}>
-                                            关闭
-                                        </Button>,
-                                    ]}
-                                    visible={this.state.visible}
-                                >
-                                    {
-                                        type.map((item, index) => (
-                                            <div key={index} className={`details ${item.font === '人数：' ? 'num' : ''}`}>
-                                                <span>{item.font}</span>
-                                                <span>{item.explain}</span>
-                                            </div>
-                                        ))
-                                    }
-                                    <div className="work">
-                                        <div>工作内容：</div>
-                                        <div>工作内容工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：工作内容：</div>
-                                    </div>
-                                </Modal>
-                            </div>
-                        )
-                    }
                 </div>
             </Layout>
         )
