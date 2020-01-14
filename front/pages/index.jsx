@@ -3,6 +3,7 @@ import Layout from "../components/layout/layout";
 import { Modal, Button} from 'antd';
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
+import React from "react";
 
 class Index extends React.Component {
 
@@ -25,15 +26,6 @@ class Index extends React.Component {
             infoAns,
             spaceNum: 0, //偏移距离
             spaceAmount: 0, //点击数量
-            type: [
-                {font: '职位类型：', explain: '研发类'},
-                {font: '薪资：', explain: '6k-7k'},
-                {font: '电话：', explain: '187-9878-0987'},
-                {font: '工作地点：', explain: '福州'},
-                {font: '人数：', explain: '10'},
-                {font: '详细地址：', explain: '福州仓山区山亚大厦B座1218'},
-                {font: '邮箱：', explain: '348957@qq.com'},
-            ]
         }
     }
 
@@ -77,7 +69,7 @@ class Index extends React.Component {
                                                         {item.info_title}
                                                     </div>
                                                     <div className="carousel-time">{item.createdAt.split('T')[0]}</div>
-                                                    <div className="carousel-btn" onClick={this.examine}>
+                                                    <div className="carousel-btn">
                                                         <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>立即查看</Link>
                                                     </div>
                                                 </div>
@@ -112,7 +104,7 @@ class Index extends React.Component {
                     </div>
                     {/*加入我们*/}
                     <div>
-                        <div className="headline">加入我们</div>
+                        <div onClick={this.sflsd} className="headline">加入我们</div>
                         <div className="participate">
                             <Link href="/join">
                                 <div className="possess-box">
