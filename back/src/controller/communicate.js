@@ -128,10 +128,23 @@ const showOrCommuList = async (data) => {
     return res;
 }
 
+const getICommunicateDetail = async (id) => {
+    const res = await communicate.findAll({
+        where: {
+            id
+        }
+    })
+    if(res) {
+        return res
+    }
+    return ''
+}
+
 module.exports = {
     getCommunicateInfo,
     editCommuList,
     delCommuList,
     showOrCommuList,
-    getComunicateList
+    getComunicateList,
+    getICommunicateDetail
 }

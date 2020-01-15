@@ -53,9 +53,7 @@ module.exports = {
     },
     'get_info_detail': async ctx => {
         const {id} = ctx.request.body
-        console.log(id, 'sdasds')
         const res = await getInfoDetail(id)
-        console.log(res, 'dsaffgfdgf')
         if(res) {
             ctx.body = new SuccessModel(res, "获取成功")
             return
