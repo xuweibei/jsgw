@@ -5,8 +5,6 @@ class Paging extends React.PureComponent {
     //切换页码
     pageChange = (page, pagesize) => {
         const {port} = this.props;
-        console.log(port, "111");
-        console.log(page, pagesize);
         fetch(`http://localhost:8000/api/${port}`,{method:'POST',headers:{'Content-Type': 'application/json'},body: JSON.stringify({
                 limit:pagesize,offset:0,page
             })}).then(res=>{
@@ -27,8 +25,6 @@ class Paging extends React.PureComponent {
                 <Pagination
                     showSizeChanger
                     showQuickJumper
-                    // onShowSizeChange={this.onShowSizeChange}
-                    // defaultCurrent={1}
                     total={total}
                     onChange={(page, pagesize) => this.pageChange(page, pagesize)}
                     onShowSizeChange={(page, pagesize) => this.pageChange(page, pagesize)}
