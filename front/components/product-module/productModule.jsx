@@ -4,6 +4,7 @@ import {Input, DatePicker, Button} from 'antd';
 const {RangePicker} = DatePicker;
 import Paging from '../../components/paging/paging'
 import fetch from 'isomorphic-unfetch';
+import Link from 'next/link';
 
 class ProductModule extends React.PureComponent {
     state = {
@@ -84,13 +85,15 @@ class ProductModule extends React.PureComponent {
                 <div>
                     {
                         infoAns.map(item => (
-                            <div key={item.id} className="bulletin-board distance">
-                                <div className="explain" dangerouslySetInnerHTML={{__html:item.info_content}}/>
-                                <div className="time-date">
-                                    <div className="data">{item.createdAt.split('T')[0]}</div>
-                                    <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div>
+                            <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>
+                                <div key={item.id} className="bulletin-board distance">
+                                    <div className="explain" dangerouslySetInnerHTML={{__html:item.info_content}}/>
+                                    <div className="time-date">
+                                        <div className="data">{item.createdAt.split('T')[0]}</div>
+                                        <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div>
+                                    </div>
                                 </div>
-                            </div>
+                            </Link>
                         ))
                     }
                 </div>

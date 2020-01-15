@@ -2,8 +2,9 @@
 
 import Paging from '../../components/paging/paging'
 import fetch from 'isomorphic-unfetch';
-import {Input, Select, DatePicker, Button, Pagination} from 'antd';
+import {Input, DatePicker, Button} from 'antd';
 import React from "react";
+import Link from 'next/link';
 const {RangePicker} = DatePicker;
 
 class Bulletin extends  React.PureComponent{
@@ -34,21 +35,6 @@ class Bulletin extends  React.PureComponent{
         })
     }
 
-    // static async getInitialProps(props){
-    //     const data = await res.json();
-    //     return {
-    //         data: data.data
-    //     }
-    // }
-    //
-    // constructor(props){
-    //     super(props);
-    //     const {data} = props;
-    //     this.state = {
-    //         data
-    //     }
-    // }
-
     //时间格式更改
     formatDate = (timestamp,pass) => {
         const date = new Date(timestamp );//时间戳为10位需*1000，时间戳为13位的话不需乘1000
@@ -69,7 +55,6 @@ class Bulletin extends  React.PureComponent{
 
     sellSearch = () => {
         const{keyWord,create_time} = this.state;
-        console.log(keyWord, '胜多负少的');
         const keyArr = ['title','create_time','end_time'];
         const arr = [keyWord];
         const datas = new FormData();
@@ -80,18 +65,14 @@ class Bulletin extends  React.PureComponent{
         keyArr.forEach((item,index)=>{
             arr.forEach((data,num)=>{
                 if(data && index === num){
-                    console.log(item,data,'会计师对健康')
                     datas.append(item,data);
                 }
             })
         })
-        console.log(datas, '上岛咖啡');
         fetch('http://localhost:8000/api/communicate_list',{method:'POST',body: JSON.stringify(datas)
         }).then(res=>{
             res.json().then(datal=>{
                 if(datal && datal.status === 0){
-                    console.log(datal);
-                    console.log('上到了开机发');
                     this.setState({
                         data:datal.data.rows
                     })
@@ -101,10 +82,7 @@ class Bulletin extends  React.PureComponent{
     }
 
     reception = (arr) => {
-        console.log('执行了');
-        console.log(arr, '1');
         this.setState({
-            // data: arr
             data: arr.rows,
             gross: arr.total
         })
@@ -136,15 +114,17 @@ class Bulletin extends  React.PureComponent{
                 {/*公告栏*/}
                 <div>
                     {
-                        data.map(item=>{
-                            return <div key={item.create_time} className="bulletin-board distance">
-                                <div className="explain">{item.title}</div>
-                                <div className="time-date">
-                                    <div className="data">{this.formatDate(item.create_time,1)}</div>
-                                    <div className="time">{this.formatDate(item.create_time,2)}</div>
+                        data.map(item=>(
+                            <Link href={{pathname: '/bulletinDetail', query: {id: item.id}}}>
+                                <div key={item.create_time} className="bulletin-board distance">
+                                    <div className="explain">{item.title}</div>
+                                    <div className="time-date">
+                                        <div className="data">{this.formatDate(item.create_time,1)}</div>
+                                        <div className="time">{this.formatDate(item.create_time,2)}</div>
+                                    </div>
                                 </div>
-                            </div>
-                        })
+                            </Link>
+                        ))
                     }
                 </div>
                 {/*分页器*/}
