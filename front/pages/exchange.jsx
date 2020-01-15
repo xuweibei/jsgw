@@ -86,7 +86,7 @@ class Exchange extends React.PureComponent {
                     {
                         talks.rows && talks.rows.map(item => (
                             <div>
-                                <Link href="/exchangeDetails" as="/exchangeDetails">
+                                <Link href={{pathname: '/exchangeDetail', query: {id: item.id}}}>
                                     <div key={item.id} className="bulletin-board">
                                         <div className="explain" >{item.title}</div>
                                         <div className="time-date">
