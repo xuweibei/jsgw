@@ -1,9 +1,10 @@
 //公司公告
 import Layout from "../components/layout/layout";
-// import "../static/style/page/bulletin.less";
+import Paging from '../components/paging/paging'
 import fetch from 'isomorphic-unfetch';
 import Link from 'next/link';
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
+import React from "react";
 const {RangePicker} = DatePicker;
 
 class Bulletin extends  React.PureComponent{
@@ -72,9 +73,19 @@ class Bulletin extends  React.PureComponent{
         });
     }
 
+    reception = (arr) => {
+        console.log('执行了');
+        console.log(arr, '1');
+        this.setState({
+            data: arr
+        }, () => {
+            console.log(this.state.data, '数控刀具方式');
+        })
+    }
+
     render(){
         const {data,create_time} = this.state;
-        console.log(data)
+        console.log(data, '2s')
         return(
             <Layout>
                 <div className="bulletin">
@@ -113,16 +124,21 @@ class Bulletin extends  React.PureComponent{
                         }
                     </div>
                     {/*分页器*/}
-                    <div className="distance">
-                        <Pagination
-                            showSizeChanger
-                            showQuickJumper
-                            // onShowSizeChange={this.onShowSizeChange}
-                            defaultCurrent={1}
-                            Pagination={5}
-                            total={data?data.length:0}
-                        />
-                    </div>
+                    <Paging
+                        pageChange={this.reception.bind(this)}
+                        total={data.total}
+                        port="get_communicate_list"
+                    />
+                    {/*<div className="distance">*/}
+                        {/*<Pagination*/}
+                            {/*showSizeChanger*/}
+                            {/*showQuickJumper*/}
+                            {/*// onShowSizeChange={this.onShowSizeChange}*/}
+                            {/*defaultCurrent={1}*/}
+                            {/*Pagination={5}*/}
+                            {/*total={data?data.length:0}*/}
+                        {/*/>*/}
+                    {/*</div>*/}
                 </div>
             </Layout>
         )
