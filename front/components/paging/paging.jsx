@@ -24,8 +24,6 @@ class Paging extends React.PureComponent {
                 <Pagination
                     showSizeChanger
                     showQuickJumper
-                    // onShowSizeChange={this.onShowSizeChange}
-                    // defaultCurrent={1}
                     total={total}
                     onChange={(page, pagesize) => this.pageChange(page, pagesize)}
                     onShowSizeChange={(page, pagesize) => this.pageChange(page, pagesize)}
