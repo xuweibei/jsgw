@@ -8,7 +8,7 @@ import md5 from "md5";
 const links = [
     { href: "/", label: "首页", as: "/home" },
     { href: "/about", label: "关于我们" },
-    { href: "/product", label: "产品资讯" },
+    { href: "/info", label: "资讯中心" },
     { href: "/join", label: "加入我们", as: "/join" },
     // { href: "/exchange", label: "内部交流", as: "/exchange" }
 ].map(link => {
@@ -81,15 +81,15 @@ class Header extends React.Component {
                 account: report ,password: md5(cipher)
             })}).then(res => {
                 return res.json()
-        }).then(res => {
-            if (res && res.status === 0) {
-                window.sessionStorage.setItem('statusCode', true);
-                this.setState({
-                    register: true,
-                    accountName: res.data.name + `(${res.data.identity})`
-                })
-            }
-        })
+            }).then(res => {
+                if (res && res.status === 0) {
+                    window.sessionStorage.setItem('statusCode', true);
+                    this.setState({
+                        register: true,
+                        accountName: res.data.name + `(${res.data.identity})`
+                    })
+                }
+            })
     }
 
     render() {

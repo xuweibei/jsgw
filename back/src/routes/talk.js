@@ -47,11 +47,7 @@ module.exports = {
         // console.log(ret)
 
         if (ret) {
-            const arr = []
-            ret && ret.forEach(item => {
-                arr.push(item)
-            })
-            ctx.body = new SuccessModel(arr, '查询成功')
+            ctx.body = new SuccessModel(ret, '查询成功')
             return
         }
         ctx.body = new ErrorModel('查询失败')

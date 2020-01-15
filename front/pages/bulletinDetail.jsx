@@ -4,7 +4,7 @@ import React from "react";
 import {Input, Button} from 'antd';
 import fetch from 'isomorphic-unfetch';
 
-class InfoDetails extends React.Component {
+class BulletinDetails extends React.Component {
     componentDidMount() {
         this.getJobType()
     }
@@ -19,7 +19,7 @@ class InfoDetails extends React.Component {
 
     getJobType = () => {
         const id = window.location.search.substr(1).split('=')[1]
-        fetch('http://localhost:8000/api/get_info_detail',{method:'POST',
+        fetch('http://localhost:8000/api/get_communicate_detail',{method:'POST',
         headers:{'Content-Type': 'application/json'},
         body: JSON.stringify({id})
         }).then(res => {
@@ -35,25 +35,26 @@ class InfoDetails extends React.Component {
 
     render() {
         const {info} = this.state;
+        console.log(info)
         return (
             <Layout>
                 <div className="exchangeDetails distance">
                     <div className="headline-box">
-                        <div className="headline">{info && info[0].info_title}</div>
+                        <div className="headline">{info && info[0].title}</div>
                     </div>
                     <div className="time-preview">
                         <div className="time">
-                            <span>{info && info[0].updatedAt}</span>
+                            <span>{info && info[0].create_time}</span>
                             <span>11:11</span>
                             <span>产品组：庄宇坤</span>
                         </div>
                     </div>
                     {/* <div className="consult-img"><img src="./consult.png" alt=""/></div> */}
-                    <div className="content" dangerouslySetInnerHTML={{__html: info && info[0].info_content}}></div>
+                    <div className="content" dangerouslySetInnerHTML={{__html: info && info[0].describe}}></div>
                 </div>
             </Layout>
         )
     }
 }
 
-export default InfoDetails;
+export default BulletinDetails;

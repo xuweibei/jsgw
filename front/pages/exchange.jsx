@@ -48,13 +48,15 @@ class Exchange extends React.PureComponent {
         super(props);
         const { products, dep, talk } = props;
         // console.log(talk)
+        // console.log(talk)
         this.state = {
             products,
             visible: false,
             loading: false,
             imageUrl: '',
             dep,
-            talk
+            talk: talk.arr,
+            total: talk.total
         }
     }
 
@@ -75,13 +77,13 @@ class Exchange extends React.PureComponent {
         return Y + M + D + h + m + s;
     }
 
-    reception = (arr) => {
-        // console.log('执行了');
-        // console.log(arr, '1');
-        this.setState({
-            products: arr
-        })
-    }
+    // reception = (arr) => {
+    //     // console.log('执行了');
+    //     // console.log(arr, '1');
+    //     this.setState({
+    //         products: arr
+    //     })
+    // }
 
     changeModal = () => {
         this.setState({
@@ -135,7 +137,7 @@ class Exchange extends React.PureComponent {
     }
 
     render() {
-        const { products, imageUrl, dep, talk } = this.state;
+        const { products, imageUrl, dep, talk, total } = this.state;
         const { getFieldDecorator } = this.props.form;
         const uploadButton = (
             <div>
@@ -287,9 +289,9 @@ class Exchange extends React.PureComponent {
                         </Form>
                     </Modal>
                     <Paging
-                        pageChange={this.reception.bind(this)}
-                        total={products.count}
-                        port="communicate_list"
+                        // pageChange={this.reception.bind(this)}
+                        total={total}
+                        port="get_communicate_list"
                     />
                 </div>
             </Layout>

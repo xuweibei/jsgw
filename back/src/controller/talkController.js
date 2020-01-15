@@ -29,12 +29,21 @@ const reTalk = async (limit, page) => {
         replacements: ['active'],
         type: sequelize.QueryTypes.SELECT
     })
-    // console.log(ret)
-    return ret
+    const total = await Exchange.count()
+    const arr = []
+    ret && ret.forEach(item => {
+        arr.push(item)
+    })
+    // ret.total = total
+    return {arr, total}
 }
 
 const talkDetail = async (id) => {
-    const find = await Exchange.findOne({where: {id}})
+    const find = await Exchange.findOne({
+        where: {
+            id
+        }
+    })
 
     return find
 }
