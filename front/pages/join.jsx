@@ -31,13 +31,15 @@ export default class Join extends React.Component{
     )
 
     static async getInitialProps(props){
-        const res = await fetch('http://localhost:8000/api/get_recruit',{method:'POST'}); //获取招聘信息
+        const res = await fetch('http://localhost:8000/api/get_recruit_List',{method:'POST',
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify({limit:10, offset: 0,page: 1})}); //获取招聘信息
         const data = await res.json();
         const job = await fetch('http://localhost:8000/api/get_classify',{method:'POST'}); //获取职位分类
         const dataJob = await job.json();
         const workData = [];//储存option的列表
         data.data.rows.forEach(item=>{
-            if(!workData.some(aa=> item.address_name === aa)){
+            if(!workData.some(aa=> item.address_name === aa)){-
                 workData.push(item)
             }
         })
@@ -126,16 +128,14 @@ export default class Join extends React.Component{
     }
 
     reception = (arr) => {
-        console.log('执行了');
         console.log(arr);
         this.setState({
-            infoAns: arr
+            data: arr
         })
     }
 
     render(){
         const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
-        console.log(data, 'ssssssss')
         return (
             <Layout title="人才招聘">
                 <div className="join">
@@ -207,8 +207,8 @@ export default class Join extends React.Component{
                         }
                         <Paging
                             pageChange={this.reception.bind(this)}
-                            total={(data && data.rows)?data.rows.length:0}
-                            port="get_recruit"
+                            total={data.total}
+                            port="get_recruit_List"
                         />
                         {/*<div className="distance">
                             <Pagination

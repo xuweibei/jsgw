@@ -122,10 +122,46 @@ const enableRecreit = async(data)=>{
     },{where:{id:data.id}})
     return res;
 }
+
+const getRecruitList = async (limit, offset, page) => {
+    if(limit){
+        const ret = await Invite.findAll({
+            limit: limit,
+            offset: (page - 1) * limit
+        })
+        const total = await Invite.count()
+        const arr = []
+        if (ret) {
+            ret.forEach(item => {
+                arr.push(item.dataValues)
+            })
+            return {
+                arr,
+                total
+            }
+        }
+    } else {
+        const ret = await Invite.findAll()
+        const total = await Invite.count()
+        const arr = []
+        if (ret) {
+            ret.forEach(item => {
+                arr.push(item.dataValues)
+            })
+            return {
+                arr,
+                total
+            }
+        }
+    }
+    return ''
+}
+
 module.exports = {
     getRecruitInfo,
     addRecruitMen,
     getPcatBak,
     deleteRecruic,
-    enableRecreit
+    enableRecreit,
+    getRecruitList
 }

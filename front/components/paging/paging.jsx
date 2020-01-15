@@ -9,7 +9,6 @@ class Paging extends React.PureComponent {
                 limit:pagesize,offset:0,page
             })}).then(res=>{
             res.json().then(res=>{
-                console.log(res, '下次');
                 if(res && res.status === 0){
                     this.props.pageChange(res.data)
                 }
