@@ -13,7 +13,7 @@ class ProductDetails extends React.PureComponent {
                         <span>11:11</span>
                         <span>产品组</span>
                     </div>
-                    <div className="consult-img"><img src="./consult.png" alt=""/></div>
+                    {/* <div className="consult-img"><img src="./consult.png" alt=""/></div> */}
                     <div className="content">空间里奋斗着就爱了看空间里奋斗着就爱了看电视剧的解放路撒娇的弗兰克撒娇的法律框架ADSL咖啡机飞拉萨的会计法拉克圣诞节电视剧的解放路撒娇的弗兰克撒娇的法律框架ADSL咖啡机飞拉萨的会计法拉克圣诞节</div>
                 </div>
             </Layout>

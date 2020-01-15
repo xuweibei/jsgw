@@ -48,7 +48,7 @@ class InfoDetails extends React.Component {
                             <span>产品组：庄宇坤</span>
                         </div>
                     </div>
-                    <div className="consult-img"><img src="./consult.png" alt=""/></div>
+                    {/* <div className="consult-img"><img src="./consult.png" alt=""/></div> */}
                     <div className="content" dangerouslySetInnerHTML={{__html: info && info[0].info_content}}></div>
                 </div>
             </Layout>

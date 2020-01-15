@@ -5,13 +5,10 @@ class Paging extends React.PureComponent {
     //切换页码
     pageChange = (page, pagesize) => {
         const {port} = this.props;
-        console.log(port, "111");
-        console.log(page, pagesize);
         fetch(`http://localhost:8000/api/${port}`,{method:'POST',headers:{'Content-Type': 'application/json'},body: JSON.stringify({
                 limit:pagesize,offset:0,page
             })}).then(res=>{
             res.json().then(res=>{
-                console.log(res, '下次');
                 if(res && res.status === 0){
                     this.props.pageChange(res.data)
                 }

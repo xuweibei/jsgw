@@ -11,18 +11,20 @@ const {RangePicker} = DatePicker;
 
 class Exchange extends React.PureComponent {
     static async getInitialProps(props){
-        const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
+        const res = await fetch('http://localhost:8000/api/get_communicate_list',{method:'POST',
+        headers:{'Content-Type': 'application/json'},
+        body: JSON.stringify({limit:10, offset: 0,page: 1})});
         const ans = await res.json();
         return {
-            products: ans.data,
+            talks: ans.data,
         }
     }
 
     constructor(props){
         super(props);
-        const {products} = props;
+        const {talks} = props;
         this.state = {
-            products
+            talks
         }
     }
 
@@ -44,18 +46,14 @@ class Exchange extends React.PureComponent {
     }
 
     reception = (arr) => {
-        console.log('执行了');
-        console.log(arr, '1');
         this.setState({
-            products: arr
-        }, () => {
-            console.log(this.state.products, '数控刀具方式');
+            talks: arr
         })
     }
 
     render() {
-        const {products} = this.state;
-        console.log(products.rows);
+        const {talks} = this.state;
+        console.log(talks);
         return(
             <Layout title="部门交流">
                 <div className="exchange distance">
@@ -86,7 +84,7 @@ class Exchange extends React.PureComponent {
 
                     {/*公告栏*/}
                     {
-                        products.rows.map(item => (
+                        talks.rows && talks.rows.map(item => (
                             <div>
                                 <Link href="/exchangeDetails" as="/exchangeDetails">
                                     <div key={item.id} className="bulletin-board">
@@ -114,8 +112,8 @@ class Exchange extends React.PureComponent {
 
                     <Paging
                         pageChange={this.reception.bind(this)}
-                        total={products.count}
-                        port="communicate_list"
+                        total={talks.total}
+                        port="get_communicate_list"
                     />
                 </div>
             </Layout>
