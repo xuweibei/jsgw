@@ -40,7 +40,6 @@ export default class About extends React.PureComponent {
 
     render() {
         const {cultures, intros, events} = this.state;
-        console.log(events)
         return (
             <Layout title="关于我们">
                 <div className="about">

@@ -2,6 +2,7 @@
 import Layout from "../components/layout/layout";
 // import "../static/style/page/bulletin.less";
 import fetch from 'isomorphic-unfetch';
+import Link from 'next/link';
 import {Input, Select, DatePicker, Button, Pagination} from 'antd';
 const {RangePicker} = DatePicker;
 
@@ -98,15 +99,17 @@ class Bulletin extends  React.PureComponent{
                     {/*公告栏*/}
                     <div>
                         {
-                           data.rows && data.rows.length>0 && data.rows.map(item=>{
-                                return <div key={item.create_time} className="bulletin-board distance">
-                                    <div className="explain">{item.title}</div>
-                                    <div className="time-date">
-                                        <div className="data">{this.formatDate(item.create_time,1)}</div>
-                                        <div className="time">{this.formatDate(item.create_time,2)}</div>
+                           data.rows && data.rows.length>0 && data.rows.map(item=>(
+                               <Link href={{pathname: '/bulletinDetail', query: {id: item.id}}}>
+                                    <div key={item.create_time} className="bulletin-board distance">
+                                        <div className="explain">{item.title}</div>
+                                        <div className="time-date">
+                                            <div className="data">{this.formatDate(item.create_time,1)}</div>
+                                            <div className="time">{this.formatDate(item.create_time,2)}</div>
+                                        </div>
                                     </div>
-                                </div>
-                            })
+                                </Link>
+                           ))
                         }
                     </div>
                     {/*分页器*/}
