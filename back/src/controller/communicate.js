@@ -60,7 +60,7 @@ const getComunicateList = async (limit, offset, page) => {
         })
         const total = await communicate.count()
         const arr = []
-        console.log(ret, 'aaaaaa')
+        // console.log(ret, 'aaaaaa')
         if (ret) {
             ret.forEach(item => {
                 arr.push(item.dataValues)
@@ -74,7 +74,7 @@ const getComunicateList = async (limit, offset, page) => {
         const ret = await communicate.findAll()
         const total = await communicate.count()
         const arr = []
-        console.log(ret, 'bbbbbbbbbb')
+        // console.log(ret, 'bbbbbbbbbb')
         if (ret) {
             ret.forEach(item => {
                 arr.push(item.dataValues)
