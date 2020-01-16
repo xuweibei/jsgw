@@ -1,7 +1,7 @@
 //资讯中心内容页
 import Layout from "../components/layout/layout";
 import React from "react";
-import { Input, Button } from 'antd';
+import { Input, Button, Form, message } from 'antd';
 
 class ExchangeDetails extends React.PureComponent {
 
@@ -22,11 +22,13 @@ class ExchangeDetails extends React.PureComponent {
     // }
 
     state = {
-        data: {}
+        data: {},
+        evaluate: [] // 评论
     }
 
     componentDidMount() {
-        this.getDetail()
+        this.getDetail();
+        this.getEvaluate();
     }
 
     formatDate = (timestamp, pass) => {
@@ -47,7 +49,7 @@ class ExchangeDetails extends React.PureComponent {
 
     getDetail = () => {
         const id = window.location.search.substr(1).split('=')[1]
-        const data = fetch('http://localhost:8000/api/talk_detail', {
+        fetch('http://localhost:8000/api/talk_detail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -59,19 +61,122 @@ class ExchangeDetails extends React.PureComponent {
                     this.setState({
                         data: res.data
                     })
+                } else {
+
+                }
+            })
+    }
+
+
+    delTalk = () => {
+        const id = window.location.search.substr(1).split('=')[1]
+        fetch('http://localhost:8000/api/del_talk', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        }).then(response => response.json())
+            .then(res => {
+                if (res && res.status === 0) {
+                    window.location.href = '/exchange'
+                }
+            })
+    }
+
+    // 发送评论
+    handleSubmit = () => {
+        this.props.form.validateFields((err, values) => {
+            const userinfo = JSON.parse(sessionStorage.getItem('statusCode'));
+            console.log(userinfo)
+            const id = window.location.search.substr(1).split('=')[1]
+            console.log(userinfo.name)
+            if (!userinfo) {
+                message.error('用户未登录')
+                return
+            }
+            if (!err) {
+                fetch('http://localhost:8000/api/up_evaluate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id,
+                        content: values.evaluate,
+                        username: userinfo && userinfo.name,
+                    }),
+                }).then(response => response.json())
+                    .then(res => {
+                        // console.log(res)
+                        if (res && res.status === 0) {
+                            message.success('评论成功')
+                            location.reload()
+                        } else {
+                            message.error(res.message)
+                        }
+                    })
+            }
+        });
+    }
+
+    // 获取评论
+    getEvaluate = () => {
+        const id = window.location.search.substr(1).split('=')[1];
+        if (!id) {
+            message.error('这条分享不存在')
+            window.location.href = '/exchange'
+        }
+        fetch('http://localhost:8000/api/get_evaluate', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        }).then(response => response.json())
+            .then(res => {
+                console.log(res)
+                if (res && res.status === 0) {
+                    // window.location.href = '/exchange'
+                    this.setState({
+                        evaluate: res.data
+                    })
+                }
+            })
+    }
+
+    // 删除评论
+    delEvaluate = id => {
+        if (!id) {
+            message.error('没有这条评论')
+            return
+        }
+        fetch('http://localhost:8000/api/del_evaluate', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+        }).then(response => response.json())
+            .then(res => {
+                console.log(res)
+                if (res && res.status === 0) {
+                    message.success('删除成功')
+                    location.reload()
+                } else {
+                    message.error(res.message)
                 }
             })
     }
 
     render() {
-        const { data } = this.state;
-        console.log(data)
+        const { data, evaluate } = this.state;
+        // console.log(data)
+        const { getFieldDecorator } = this.props.form;
         return (
             <Layout>
                 <div className="exchangeDetails distance">
                     <div className="headline-box">
                         <div className="headline">{data && data.exchange_title}</div>
-                        <div className="assistant">删除</div>
+                        <div className="assistant" onClick={this.delTalk}>删除</div>
                     </div>
                     <div className="time-preview">
                         <div className="time">
@@ -84,19 +189,37 @@ class ExchangeDetails extends React.PureComponent {
                     <div className="consult-img"><img src={data.exchange_pic} alt="" /></div>
                     <div className="content">{data.exchange_content}</div>
                     <div className="discuss">
-                        <Input placeholder="请输入您要评论的内容" />
-                        <Button type="primary">发送</Button>
+                        <Form wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
+                            <Form.Item wrapperCol={{ span: 23 }}>
+                                {
+                                    getFieldDecorator('evaluate', {
+                                        rules: [
+                                            {
+                                                required: true,
+                                                message: '请输入评论内容!',
+                                            },
+                                        ]
+                                    })(
+                                        <Input placeholder="请输入您要评论的内容"
+                                            maxLength={200}
+                                        />
+                                    )
+                                }
+                            </Form.Item>
+                        </Form>
+                        <Button type="primary" onClick={this.handleSubmit}>发送</Button>
                     </div>
                     <div className="comment-box">
                         <div className="comment-name">评论</div>
-                        <div className="comment-details">
-                            <div>内容圣诞节疯狂送到家了副科级打死了</div>
-                            <div>删除</div>
-                        </div>
-                        <div className="comment-details">
-                            <div>内容圣诞节疯狂送到家了副科级打死了</div>
-                            <div>删除</div>
-                        </div>
+                        {
+                            evaluate && evaluate.length > 0 && evaluate.map(item => (
+                                <div className="comment-details">
+                                    <div>[{item.evaluate_name}]{item.evaluate_content}</div>
+                                    <div onClick={() => this.delEvaluate(item.id)}>删除</div>
+                                </div>
+                            ))
+                        }
+
                     </div>
                 </div>
             </Layout>
@@ -104,4 +227,4 @@ class ExchangeDetails extends React.PureComponent {
     }
 }
 
-export default ExchangeDetails;
+export default Form.create()(ExchangeDetails);

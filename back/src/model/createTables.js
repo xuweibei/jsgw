@@ -601,6 +601,20 @@ const Exchange = db.defineModel('gw_exchange', {
     username: Sequelize.STRING(30)
 })
 
+// 交流评价
+const Evaluate = db.defineModel('gw_evaluate', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    evaluate_content: Sequelize.TEXT,
+    evaluate_name: Sequelize.STRING(50),
+    exchange_id: Sequelize.STRING(255),
+})
+
 module.exports = {
     Users,
     Department,
@@ -624,6 +638,7 @@ module.exports = {
     communicate,
     mainConcat,
     friendConcat,
-    Exchange
+    Exchange,
+    Evaluate
     // Roles
 }

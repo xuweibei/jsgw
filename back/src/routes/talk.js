@@ -3,7 +3,8 @@ const path = require('path')
 const {
     upTalk,
     reTalk,
-    talkDetail
+    talkDetail,
+    delTalk
 } = require('../controller/talkController')
 const {
     SuccessModel,
@@ -15,9 +16,11 @@ module.exports = {
         const {
             pic,
             content,
-            title
+            title,
+            department,
+            username
         } = ctx.request.body
-        const ret = await upTalk(pic, content, title)
+        const ret = await upTalk(pic, content, title, department, username)
         if (ret) {
             ctx.body = new SuccessModel('上传成功')
             return
@@ -63,5 +66,18 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('查询失败')
+    },
+    "del_talk": async ctx => {
+        const { id } = ctx.request.body
+        if (!id) {
+            ctx.body = new ErrorModel('id err')
+            return;
+        }
+        const ret = await delTalk(id)
+        if (ret) {
+            ctx.body = new SuccessModel('删除成功')
+            return
+        }
+        ctx.body = new ErrorModel('删除失败')
     }
 }

@@ -123,15 +123,31 @@ class Exchange extends React.PureComponent {
     handleSubmit = (e) => {
         e.preventDefault();
         const { imageUrl } = this.state;
+        const userinfo = JSON.parse(sessionStorage.getItem('statusCode'));
+        // console.log(userinfo)
+        if (!userinfo) {
+            Message.error('用户未登录')
+            return
+        }
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 fetch('http://localhost:8000/api/up_talk', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ pic: imageUrl, content: values.content, title: values.title }),
+                    body: JSON.stringify({
+                        pic: imageUrl,
+                        content: values.content,
+                        title: values.title,
+                        username: userinfo && userinfo.account,
+                        dapartment: userinfo && userinfo.department
+                    }),
                 }).then(response => response.json())
                     .then(res => {
-                        console.log(res)
+                        // console.log(res)
+                        if (res && res.status === 0) {
+                            message.success('上传成功')
+                            location.reload()
+                        }
                     })
             }
         });
@@ -140,6 +156,7 @@ class Exchange extends React.PureComponent {
     render() {
         const { products, imageUrl, dep, talk, total } = this.state;
         const { getFieldDecorator } = this.props.form;
+        // console.log(talk)
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -183,7 +200,7 @@ class Exchange extends React.PureComponent {
                             <div>
                                 <Link href={{
                                     pathname: '/exchangeDetails', query: {
-                                        id: 1
+                                        id: item.id
                                     }
                                 }}>
                                     <div key={item.id} className="bulletin-board">
@@ -220,7 +237,7 @@ class Exchange extends React.PureComponent {
                     >
                         <Form wrapperCol={{ span: 12 }} onSubmit={this.handleSubmit}>
 
-                            <Form.Item wrapperCol={{ span: 23 }} s>
+                            <Form.Item wrapperCol={{ span: 23 }}>
                                 {
                                     getFieldDecorator(
                                         'pic', {
