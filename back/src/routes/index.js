@@ -15,6 +15,7 @@ const postApi = require('./postApi')
 const helpContent = require('./helpContent')
 const communicate = require('./communicate')
 const talk = require('./talk')
+const evaluate = require('./evaluate')
 // const error = require('./error')
 router.get('/delivery/*', async (ctx, next) => {
         if (ctx.isAuthenticated()) {
@@ -118,4 +119,10 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/talk_pic', talk['talk_pic'])
     .post('/api/re_talk', talk['re_talk'])
     .post('/api/talk_detail', talk['talk_detail'])
+    .post('/api/del_talk', talk['del_talk'])
+    
+    // 分享评论
+    .post('/api/up_evaluate', evaluate['up_evaluate'])
+    .post('/api/get_evaluate', evaluate['get_evaluate'])
+    .post('/api/del_evaluate', evaluate['del_evaluate'])
 module.exports = router

@@ -9,7 +9,6 @@ import AboutRecord from "../components/about-record/aboutRecord"
 import BulletinModule from '../components/bulletin-module/bulletinModule'
 
 class Index extends React.Component {
-
     componentDidMount() {
         this.getModule();
     }
@@ -99,7 +98,7 @@ class Index extends React.Component {
                                                 {
                                                     infoAns.map(item => (
                                                         <div className="carousel-wrap-list" key={item.id}>
-                                                            <img className="carousel-img" src="/hong-bg.png" alt=""/>
+                                                            <img className="carousel-img" src={(item.info_content.split('src=')[1] && item.info_content.split('src=')[1].split('"')[1]) || '/hong-bg.png'} alt=""/>
                                                             <div className="carousel-content">
                                                                 <div className="carousel-title">
                                                                     {item.info_title}

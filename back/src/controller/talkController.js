@@ -6,7 +6,7 @@ const {
 const {
     sequelize
 } = require('../db/db');
-const upTalk = async (pic, content, title) => {
+const upTalk = async (pic, content, title, department, username) => {
     const ret = await Exchange.create({
         username: "lei",
         department_id: '1',
@@ -20,7 +20,7 @@ const upTalk = async (pic, content, title) => {
 
 const reTalk = async (limit, page) => {
     const offset = (page - 1) * limit
-    const sql = `select username, department_id, exchange_title, create_time from gw_exchange limit ${offset}, ${limit}`
+    const sql = `select id, username, department_id, exchange_title, create_time from gw_exchange limit ${offset}, ${limit}`
     // const ret = await Exchange.findAll({
     //     attributes: { exclude: ['exchange_content', 'exchange_pic'] }
     // });
@@ -48,9 +48,23 @@ const talkDetail = async (id) => {
     return find
 }
 
+const delTalk = async id => {
+    const find = Exchange.findOne({where: {id}})
+    console.log(find, "杀菌灯哈师大")
+    if (find) {
+        const ret = Exchange.destroy({where: {id}})
+        console.log(ret)
+        if (ret) {
+            return ret
+        }
+        return ''
+    }
+    return ''
+}
 
 module.exports = {
     upTalk,
     reTalk,
-    talkDetail
+    talkDetail,
+    delTalk
 }
