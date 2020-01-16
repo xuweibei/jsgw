@@ -1,7 +1,7 @@
 //创建公共组件的第一种方式：页头组件
 import React from "react";
 import Link from "next/link";
-import {Menu, Dropdown, Icon, Modal, Input, Form, Button, Checkbox} from 'antd';
+import {Menu, Dropdown, Icon, Modal, Input, Form, Button, message} from 'antd';
 import fetch from 'isomorphic-unfetch';
 import md5 from "md5";
 
@@ -43,40 +43,40 @@ class Header extends React.Component {
 
     componentDidMount() {
         if(sessionStorage.getItem('statusCode')){
+            console.log('进来了');
             this.setState({
-                register: true
+                register: true,
+                accountName: JSON.parse(sessionStorage.getItem('statusCode')).name + `(${JSON.parse(sessionStorage.getItem('statusCode')).identity})`
+            }, () => {
+                console.log('看');
+                console.log(JSON.parse(sessionStorage.getItem('statusCode')).name, 'ddddddddddddddddddd');
             })
         }
     }
 
-    examine = () => {
+    //登录弹窗
+    examine = (arr) => {
         console.log('执行了');
         this.setState({
-            visible: true
+            visible: arr
         })
     };
 
-    close = () => {
-        this.setState({
-            visible: false
-        })
-    };
-
-    account = (e) => {//input输入什么，就监听这个方法，然后再修改state，然后返回到视图
+    //监听账号
+    account = (e) => {
         this.setState({
             report:e.target.value
-        }, () => {
-            console.log(this.state.report);
-        })
-    }
-    password = (e) => {//input输入什么，就监听这个方法，然后再修改state，然后返回到视图
-        this.setState({
-            cipher:e.target.value
-        }, () => {
-            console.log(this.state.cipher);
         })
     }
 
+    //监听密码
+    password = (e) => {
+        this.setState({
+            cipher:e.target.value
+        })
+    }
+
+    //登入
     handleSubmit = () => {
         const {report, cipher} = this.state;
         fetch('http://localhost:8000/api/login', {method: 'POST',headers: {
@@ -84,16 +84,32 @@ class Header extends React.Component {
             }, body: JSON.stringify({
                 account: report ,password: md5(cipher)
             })}).then(res => {
-                return res.json()
-            }).then(res => {
-                if (res && res.status === 0) {
-                   sessionStorage.setItem('statusCode', JSON.stringify(res.data));
-                    this.setState({
-                        register: true,
-                        accountName: res.data.name + `(${res.data.identity})`
-                    })
-                }
-            })
+            return res.json()
+        }).then(res => {
+            if (res && res.status === 0) {
+                sessionStorage.setItem('statusCode', JSON.stringify(res.data));
+                this.setState({
+                    register: true,
+                    visible: false,
+                    accountName: res.data.name + `(${res.data.identity})`
+                },() => {
+                    message.success('登入成功');
+                })
+            } else {
+                message.error('账号或密码错误');
+                this.setState({
+                    visible: false
+                })
+            }
+        })
+    }
+
+    //退出登入
+    quit = () => {
+        sessionStorage.setItem('statusCode', '')
+        this.setState({
+            register: false,
+        })
     }
 
     render() {
@@ -120,27 +136,28 @@ class Header extends React.Component {
                 {
                     register ? (
                         <div className="staff">
-                            <span>{accountName}</span>
-                            <span>退出</span>
+                            <span>{accountName === '' ? accountName : accountName}</span>
+                            <span onClick={this.quit}>退出</span>
                         </div>
-                        ) : (
-                        <div className="staff" onClick={this.examine}>员工登录</div>
+                    ) : (
+                        <div className="staff" onClick={() => this.examine(true)}>员工登录</div>
                     )
                 }
 
                 {
                     visible && (
                         <Modal
-                            title="Basic Modal"
+                            className="enter-window"
+                            title="账号登入"
                             visible={this.state.visible}
-                            onCancel={this.close}
+                            onCancel={() => this.examine(false)}
                             footer={null}
                         >
-                            <Form className="login-form">
+                            <Form className="login-form" onSubmit={this.handleSubmit}>
                                 <Form.Item>
                                     <Input
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                                        placeholder="Username"
+                                        placeholder="请输入登陆账号"
                                         onChange={(e)=>this.account(e)}
                                     />
                                 </Form.Item>
@@ -148,13 +165,13 @@ class Header extends React.Component {
                                     <Input
                                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         type="password"
-                                        placeholder="Password"
+                                        placeholder="请输入密码"
                                         onChange={(e)=>this.password(e)}
                                     />
                                 </Form.Item>
                                 <Form.Item>
                                     <Button  onClick={this.handleSubmit} type="primary" className="login-form-button">
-                                        Log in
+                                        登入
                                     </Button>
                                 </Form.Item>
                             </Form>
