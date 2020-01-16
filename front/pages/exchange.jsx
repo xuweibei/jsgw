@@ -86,6 +86,7 @@ class Exchange extends React.PureComponent {
     }
 
     changeModal = () => {
+        // console.log(window)
         this.setState({
             visible: true
         })
