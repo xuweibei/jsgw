@@ -41,9 +41,13 @@ class Header extends React.Component {
         accountStatus: ''
     };
 
-    // componentDidMount() {
-    //     window.sessionStorage.setItem('statusCode', false);
-    // }
+    componentDidMount() {
+        if(sessionStorage.getItem('statusCode')){
+            this.setState({
+                register: true
+            })
+        }
+    }
 
     examine = () => {
         console.log('执行了');
@@ -83,7 +87,7 @@ class Header extends React.Component {
                 return res.json()
             }).then(res => {
                 if (res && res.status === 0) {
-                    window.sessionStorage.setItem('statusCode', true);
+                   sessionStorage.setItem('statusCode', JSON.stringify(res.data));
                     this.setState({
                         register: true,
                         accountName: res.data.name + `(${res.data.identity})`
@@ -132,7 +136,7 @@ class Header extends React.Component {
                             onCancel={this.close}
                             footer={null}
                         >
-                            <Form className="login-form" onSubmit={this.handleSubmit}>
+                            <Form className="login-form">
                                 <Form.Item>
                                     <Input
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -149,7 +153,7 @@ class Header extends React.Component {
                                     />
                                 </Form.Item>
                                 <Form.Item>
-                                    <Button htmlType="submit" type="primary" className="login-form-button">
+                                    <Button  onClick={this.handleSubmit} type="primary" className="login-form-button">
                                         Log in
                                     </Button>
                                 </Form.Item>
