@@ -37,13 +37,8 @@ class Header extends React.Component {
         report: '',
         cipher: '',
         register: false,
-        accountName: '',
-        accountStatus: ''
+        accountName: ''
     };
-
-    // componentDidMount() {
-    //     window.sessionStorage.setItem('statusCode', false);
-    // }
 
     examine = () => {
         console.log('执行了');
@@ -86,7 +81,8 @@ class Header extends React.Component {
                     window.sessionStorage.setItem('statusCode', true);
                     this.setState({
                         register: true,
-                        accountName: res.data.name + `(${res.data.identity})`
+                        accountName: res.data.name + `(${res.data.identity})`,
+                        visible: false
                     })
                 }
             })
@@ -123,7 +119,6 @@ class Header extends React.Component {
                         <div className="staff" onClick={this.examine}>员工登录</div>
                     )
                 }
-
                 {
                     visible && (
                         <Modal
@@ -132,7 +127,7 @@ class Header extends React.Component {
                             onCancel={this.close}
                             footer={null}
                         >
-                            <Form className="login-form" onSubmit={this.handleSubmit}>
+                            <Form className="login-form">
                                 <Form.Item>
                                     <Input
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
@@ -149,7 +144,7 @@ class Header extends React.Component {
                                     />
                                 </Form.Item>
                                 <Form.Item>
-                                    <Button htmlType="submit" type="primary" className="login-form-button">
+                                    <Button onClick={this.handleSubmit} type="primary" className="login-form-button">
                                         Log in
                                     </Button>
                                 </Form.Item>
