@@ -6,7 +6,7 @@ import Paging from '../../components/paging/paging'
 import fetch from 'isomorphic-unfetch';
 import Link from 'next/link';
 
-class ProductModule extends React.PureComponent {
+class InfoModule extends React.PureComponent {
     state = {
         infoAns: [],  //数据条
         gross: ''   //总共多少条
@@ -66,11 +66,7 @@ class ProductModule extends React.PureComponent {
         const {infoAns, gross} = this.state;
         console.log(infoAns);
         return (
-            <div className="bulletin">
-                <div className="banner">
-                    <div className="join-one">资讯中心</div>
-                    <div className="join">Information Center</div>
-                </div>
+            <div>
                 {/*表单搜索栏*/}
                 <div className="sizer distance">
                     <div className="screen">
@@ -108,4 +104,4 @@ class ProductModule extends React.PureComponent {
     }
 }
 
-export default ProductModule;
+export default InfoModule;
