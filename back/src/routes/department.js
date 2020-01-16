@@ -22,6 +22,7 @@ module.exports = {
         const depObj = await findDep()
         const identity = await findIdentity()
         const dep = await readDep()
+        // console.log(dep)
         await ctx.render('departmentStructur', {
             depObj,
             identity,
@@ -121,5 +122,14 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('状态修改失败')
+    },
+    "give_dep": async ctx => {
+        const dep = await readDep()
+        if (dep && dep.length > 0) {
+            // console.log(dep)
+            ctx.body = new SuccessModel(dep,'获取分组成功')
+            return
+        }
+        ctx.body = new ErrorModel([], '获取分组失败')
     },
 }

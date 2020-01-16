@@ -1,17 +1,27 @@
 //首页
 import Layout from "../components/layout/layout";
-import { Modal, Button} from 'antd';
 import Link from 'next/link';
 import fetch from 'isomorphic-unfetch';
 import React from "react";
+import AboutCulture from "../components/about-culture/aboutCulture"
+import AboutIntros from "../components/about-intros/aboutIntros"
+import AboutRecord from "../components/about-record/aboutRecord"
+import BulletinModule from '../components/bulletin-module/bulletinModule'
+import InfoModule from "../components/info-module/infoModule";
 
 class Index extends React.Component {
+    componentDidMount() {
+        this.getModule();
+    }
 
     static async getInitialProps(props){
         const res = await fetch('http://localhost:8000/api/get_products',{method:'POST'});
         const infoRes = await fetch('http://localhost:8000/api/get_info', {method: 'POST'});
+        // const module = await fetch('http://localhost:8000/api/get_module', {method: 'POST'});
         const ans = await res.json();
         const infoAns = await infoRes.json();
+        // const getModule = await module.json();
+        // console.log(getModule);
         return {
             products: ans.data,
             infoAns: infoAns.data ? infoAns.data.rows : []
@@ -47,10 +57,22 @@ class Index extends React.Component {
             }));
         }
     };
+    getModule = () => {
+        fetch('http://localhost:8000/api/get_module').then(res => {
+            res.json().then(datal => {
+                if (datal && datal.status === 0) {
+                    console.log(datal);
+                    this.setState({
+                        // infoAns: datal.data.rows,
+                        // gross: datal.data.total
+                    })
+                }
+            })
+        })
+    }
 
     render() {
-        const {spaceNum, products, infoAns, type} = this.state;
-        console.log(infoAns)
+        const {spaceNum, products, infoAns} = this.state;
         return(
             <Layout>
                 <div className="home">
@@ -105,7 +127,7 @@ class Index extends React.Component {
                     </div>
                     {/*加入我们*/}
                     <div>
-                        <div onClick={this.sflsd} className="headline">加入我们</div>
+                        <div className="headline">加入我们</div>
                         <div className="participate">
                             <Link href="/join">
                                 <div className="possess-box">
@@ -133,25 +155,18 @@ class Index extends React.Component {
                             </Link>
                         </div>
                     </div>
+                    {/*公司简介*/}
+                    <AboutIntros appear={false}/>
+                    {/*大事记*/}
+                    <AboutRecord/>
+                    {/*公司文化*/}
+                    <AboutCulture/>
+                    <BulletinModule/>
+                    <InfoModule/>
                 </div>
             </Layout>
         )
     }
 }
-
-// Index.getInitialProps = async () => {
-//     const res = await fetch('http://localhost:8000/api/get_tab',{method:'POST'})
-//     const json = await res.json()
-//     console.log(json)
-//     return { data: json }
-// }
-
-// Index.getInitialProps = async () => {
-//     const res = await fetch('http://localhost:8000/api/communicate_list',{method:'POST'});
-
-//     const json = await res.json();
-//     console.log(json);
-//     return { data: json }
-// }
 
 export default Index;

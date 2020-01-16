@@ -40,13 +40,6 @@ class Header extends React.Component {
         accountName: ''
     };
 
-    examine = () => {
-        console.log('执行了');
-        this.setState({
-            visible: true
-        })
-    };
-
     close = () => {
         this.setState({
             visible: false
@@ -78,7 +71,7 @@ class Header extends React.Component {
                 return res.json()
             }).then(res => {
                 if (res && res.status === 0) {
-                    window.sessionStorage.setItem('statusCode', true);
+                   sessionStorage.setItem('statusCode', JSON.stringify(res.data));
                     this.setState({
                         register: true,
                         accountName: res.data.name + `(${res.data.identity})`,

@@ -416,6 +416,7 @@
   function commitNewProduct() {
     let formData = new FormData();
     const logo = $('#dawnload-logo')[0].files;
+    console.log(logo)
     const link_code = $('#dawnload-way')[0].files;
     const serial_number = $('#serial-number').val();
     const product_desc = $('#message-text').val();

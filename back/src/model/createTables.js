@@ -8,7 +8,10 @@ const Users = db.defineModel('gw_users', {
         allowNull: false,
         autoIncrement: true
     },
-    account : {type: Sequelize.STRING(50),unique: 'column'},
+    account: {
+        type: Sequelize.STRING(50),
+        unique: 'column'
+    },
     password: Sequelize.STRING(50),
     identity_id: Sequelize.BOOLEAN(4),
     status: Sequelize.BOOLEAN(4)
@@ -28,7 +31,7 @@ const Users = db.defineModel('gw_users', {
 
 //账户表
 const Account = db.defineModel('gw_account', {
-     id: {
+    id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
         allowNull: false,
@@ -134,7 +137,7 @@ const Second_broad = db.defineModel('gw_second_broad', {
         type: Sequelize.STRING(50)
     },
     //一级导航id
-    first_id:{
+    first_id: {
         type: Sequelize.INTEGER(11)
     }
 });
@@ -147,11 +150,16 @@ const Employee = db.defineModel('gw_employee', {
         autoIncrement: true
     },
     //员工姓名
-    name : {type: Sequelize.STRING(30), unique: 'column'},
+    name: {
+        type: Sequelize.STRING(30),
+        unique: 'column'
+    },
     //联系电话
-    phone: {type: Sequelize.STRING(11)},
+    phone: {
+        type: Sequelize.STRING(11)
+    },
     //状态：1使用中，0禁用中
-    status:{
+    status: {
         type: Sequelize.STRING(1),
         defaultValue: '1'
     },
@@ -220,10 +228,10 @@ const PcatBak = db.defineModel('gw_pcat_bak', {
         allowNull: false,
         autoIncrement: true
     },
-    code:{
+    code: {
         type: Sequelize.STRING(20)
     },
-    parentId:{
+    parentId: {
         type: Sequelize.STRING(20)
     },
     //名称
@@ -296,16 +304,16 @@ const Invite = db.defineModel('gw_invite_info', {
         type: Sequelize.STRING(50)
     },
     //职位类型
-    job_class:{
-        type:Sequelize.STRING(10)
+    job_class: {
+        type: Sequelize.STRING(10)
     },
     //是否启用类型  0 未启用 1启用
-    enable:{
-        type:Sequelize.STRING(1)
+    enable: {
+        type: Sequelize.STRING(1)
     },
     //排序
-    sort:{
-        type:Sequelize.STRING(11)
+    sort: {
+        type: Sequelize.STRING(11)
     }
 })
 //产品表
@@ -345,14 +353,14 @@ const Product = db.defineModel('gw_product', {
         type: Sequelize.STRING(128)
     },
     //是否启用
-    status:{
+    status: {
         type: Sequelize.STRING(1),
         defaultValue: '0'
     },
 })
 
 // 公司级简介
-const Intro = db.defineModel('gw_intro',  {
+const Intro = db.defineModel('gw_intro', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -383,8 +391,14 @@ const Information = db.defineModel('gw_information', {
         type: Sequelize.STRING(1),
         defaultValue: "1"
     },
-    createdAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW},
-    updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
+    createdAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    }
 }, {
     timestamps: true,
 })
@@ -400,9 +414,15 @@ const Events = db.defineModel('gw_events', {
     time: Sequelize.STRING(30),
     event_title: Sequelize.STRING(50),
     event_content: Sequelize.TEXT,
-    createdAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW},
-    updatedAt: {type: Sequelize.DATE, defaultValue: Sequelize.NOW}
-},{
+    createdAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    },
+    updatedAt: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    }
+}, {
     timestamps: true,
 })
 
@@ -425,7 +445,7 @@ const Carousel = db.defineModel('gw_carousel', {
     },
     //跳转地址
     link: {
-        type:Sequelize.STRING(128),
+        type: Sequelize.STRING(128),
         allowNull: true
     },
     //轮播时间
@@ -446,11 +466,11 @@ const IndexModule = db.defineModel('gw_index_module', {
     //模块名称
     module_name: {
         type: Sequelize.STRING(128),
-        allowNull:false
+        allowNull: false
     },
     //序号
     module_number: {
-        type:Sequelize.STRING(128),
+        type: Sequelize.STRING(128),
         allowNull: false
     },
     //状态
@@ -461,7 +481,7 @@ const IndexModule = db.defineModel('gw_index_module', {
 })
 
 //公司交流表
-const communicate = db.defineModel('gw_communicate',{
+const communicate = db.defineModel('gw_communicate', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -517,7 +537,7 @@ const Company = db.defineModel('gw_company', {
 })
 
 //主要联络方式表
-const mainConcat = db.defineModel('gw_main_concat',{
+const mainConcat = db.defineModel('gw_main_concat', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -530,16 +550,16 @@ const mainConcat = db.defineModel('gw_main_concat',{
     },
     //页面名称
     page_name: {
-    type: Sequelize.STRING(255)
-},
-     // 跳转链接
+        type: Sequelize.STRING(255)
+    },
+    // 跳转链接
     page_link: {
-    type: Sequelize.STRING(255)
-}
+        type: Sequelize.STRING(255)
+    }
 })
 
 //友情链接表
-const friendConcat = db.defineModel('gw_friend_concat',{
+const friendConcat = db.defineModel('gw_friend_concat', {
     id: {
         type: Sequelize.INTEGER(11),
         primaryKey: true,
@@ -550,16 +570,50 @@ const friendConcat = db.defineModel('gw_friend_concat',{
     comp_id: {
         type: Sequelize.INTEGER(11),
     },
-//友情页面
+    //友情页面
     friend_page: {
         type: Sequelize.STRING(255)
     },
-//友情链接
+    //友情链接
     friend_link: {
         type: Sequelize.STRING(255)
     }
 })
+// 部门交流
+const Exchange = db.defineModel('gw_exchange', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    exchange_content: Sequelize.TEXT,
+    exchange_title: Sequelize.STRING(50),
+    exchange_pic: {
+        type: Sequelize.STRING(255)
+    },
+    create_time: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW
+    },
+    department_id: Sequelize.STRING(11),
+    username: Sequelize.STRING(30)
+})
 
+// 交流评价
+const Evaluate = db.defineModel('gw_evaluate', {
+    id: {
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true,
+        unique: 'column'
+    },
+    evaluate_content: Sequelize.TEXT,
+    evaluate_name: Sequelize.STRING(50),
+    exchange_id: Sequelize.STRING(255),
+})
 
 module.exports = {
     Users,
@@ -583,6 +637,8 @@ module.exports = {
     IndexModule,
     communicate,
     mainConcat,
-    friendConcat
+    friendConcat,
+    Exchange,
+    Evaluate
     // Roles
 }

@@ -29,7 +29,9 @@ module.exports = {
                     return ctx.login({
                         id: data.id,
                         username: data.account,
-                        password
+                        dep: data.name,
+                        department: data.department
+                        // password
                     })
                 })(ctx)
         }

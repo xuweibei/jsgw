@@ -1,13 +1,25 @@
 //公司简介
 import React from "react";
-import AboutModule from "../components/about-module/aboutModule";
+import AboutCulture from "../components/about-culture/aboutCulture"
+import AboutIntros from "../components/about-intros/aboutIntros"
+import AboutRecord from "../components/about-record/aboutRecord"
 import Layout from "../components/layout/layout";
 
 export default class About extends React.PureComponent {
     render() {
         return (
             <Layout title="关于我们">
-                <AboutModule/>
+                <div className="about">
+                    <div className="banner ">
+                        <div className="join-one">公司简介</div>
+                        <div className="join">Company announcement </div>
+                    </div>
+                    <AboutIntros
+                        appear={true}
+                    />
+                    <AboutRecord/>
+                    <AboutCulture/>
+                </div>
             </Layout>
         )
     }

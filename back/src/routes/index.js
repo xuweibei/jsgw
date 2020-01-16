@@ -14,6 +14,8 @@ const carousel = require('./carousel')
 const postApi = require('./postApi')
 const helpContent = require('./helpContent')
 const communicate = require('./communicate')
+const talk = require('./talk')
+const evaluate = require('./evaluate')
 // const error = require('./error')
 router.get('/delivery/*', async (ctx, next) => {
         if (ctx.isAuthenticated()) {
@@ -29,6 +31,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .get('/delivery/department-structur', department['departmentStructur'])
     .post('/api/add_dep', department["add-dep"])
     .post('/api/del_dep', department["del_dep"])
+    .post('/api/give_dep', department["give_dep"])
     .post('/api/edit_dep', department["edit_dep"])
     .post('/api/insert_stf', department["insert_stf"])
     .post('/api/get_tab', department["get_tab"])
@@ -111,4 +114,15 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/insert_event', events['insert_event']) // 插入事件
     .post('/api/del_event', events['del_event']) // 删除事件
     .post('/api/get_events', events['get_events'])//获取大事记
+    // 公司交流 上传分享
+    .post('/api/up_talk', talk['up_talk'])
+    .post('/api/talk_pic', talk['talk_pic'])
+    .post('/api/re_talk', talk['re_talk'])
+    .post('/api/talk_detail', talk['talk_detail'])
+    .post('/api/del_talk', talk['del_talk'])
+    
+    // 分享评论
+    .post('/api/up_evaluate', evaluate['up_evaluate'])
+    .post('/api/get_evaluate', evaluate['get_evaluate'])
+    .post('/api/del_evaluate', evaluate['del_evaluate'])
 module.exports = router
