@@ -14,7 +14,9 @@ export default class About extends React.PureComponent {
                         <div className="join-one">公司简介</div>
                         <div className="join">Company announcement </div>
                     </div>
-                    <AboutIntros/>
+                    <AboutIntros
+                        appear={true}
+                    />
                     <AboutRecord/>
                     <AboutCulture/>
                 </div>

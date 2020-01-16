@@ -32,7 +32,7 @@ class AboutIntros extends React.Component {
 
     render() {
         const {intros, events} = this.state;
-        console.log(events)
+        const {appear} = this.props;
         return (
             <div className="about">
                 {/*公司简介*/}
@@ -45,11 +45,15 @@ class AboutIntros extends React.Component {
                         <div className="synopsis-name">中战科技网络有限公司</div>
                         <div className="synopsis-content" dangerouslySetInnerHTML={{__html:intros}}/>
                     </div>
-                    <Anchor className="anchor" affix>
-                        <Link href="#brief" title="公司简介" />
-                        <Link href="#act" title="大事记" />
-                        <Link href="#civil" title="企业文化" />
-                    </Anchor>
+                    {
+                        appear && (
+                            <Anchor className="anchor" affix>
+                                <Link href="#brief" title="公司简介" />
+                                <Link href="#act" title="大事记" />
+                                <Link href="#civil" title="企业文化" />
+                            </Anchor>
+                        )
+                    }
                 </div>
             </div>
         )
