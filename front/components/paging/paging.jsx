@@ -17,7 +17,6 @@ class Paging extends React.PureComponent {
     }
     render() {
         const {total} = this.props;
-        console.log(total);
         return (
             <div className="distance">
                 {/*分页器*/}

@@ -46,10 +46,8 @@ module.exports = {
         }, '上传成功')
     },
     "re_talk": async ctx => {
-        const {limit, page } = ctx.request.body;
-        const ret = await reTalk(limit, page)
-        // console.log(ret)
-
+        const {limit, page, key_val, job, start_time} = ctx.request.body;
+        const ret = await reTalk(limit, page, key_val, job, start_time)
         if (ret) {
             ctx.body = new SuccessModel(ret, '查询成功')
             return

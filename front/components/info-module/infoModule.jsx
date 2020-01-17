@@ -8,8 +8,7 @@ import Link from 'next/link';
 
 class InfoModule extends React.PureComponent {
     state = {
-        infoAns: [],  //数据条
-        gross: '' ,  //总共多少条
+        infoAns: {},  //数据
         key_val: '',
         start_time: []
     }
@@ -26,10 +25,8 @@ class InfoModule extends React.PureComponent {
             })}).then(res => {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
-                    console.log(datal);
                     this.setState({
-                        infoAns: datal.data.rows,
-                        gross: datal.data.total
+                        infoAns: datal.data
                     })
                 }
             })
@@ -39,26 +36,24 @@ class InfoModule extends React.PureComponent {
     //筛选按钮
     getSelect = () => {
         const {key_val, start_time} = this.state;
-        const arr = []
+        const timeArr = []
         if(start_time && start_time.length > 1){
-            arr.push(start_time[0].format('YYYY-MM-DD'))
-            arr.push(start_time[1].format('YYYY-MM-DD'))
+            timeArr.push(new Date(start_time[0]).getTime())
+            timeArr.push(new Date(start_time[1]).getTime())
         }
         const datas = {
-            post_name: key_val,
-            arr
+            key_val,
+            timeArr
         }
         console.log(key_val);
-        console.log(start_time);
+        console.log(timeArr);
         fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(datas)}).then(res => {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
-                    console.log(datal);
                     this.setState({
-                        infoAns: datal.data.rows,
-                        gross: datal.data.total
+                        infoAns: datal.data
                     })
                 }
             })
@@ -87,15 +82,14 @@ class InfoModule extends React.PureComponent {
     }*/
 
     reception = (arr) => {
+        console.log(arr, 'ddd')
         this.setState({
-            infoAns: arr.rows,
-            gross: arr.total
+            infoAns: arr
         })
     }
 
     render() {
-        const {infoAns, gross, key_val, start_time} = this.state;
-        console.log(infoAns.rows);
+        const {infoAns, key_val, start_time} = this.state;
         return (
             <div>
                 {/*表单搜索栏*/}
@@ -109,7 +103,7 @@ class InfoModule extends React.PureComponent {
                                 value={start_time}
                             />
                         </div>
-                        <Button onClick={() => this.getSelect()} type="primary">搜索</Button>
+                        <Button type="primary" onClick={this.getSelect}>搜索</Button>
                     </div>
                 </div>
                 {/*公告栏*/}
@@ -120,8 +114,8 @@ class InfoModule extends React.PureComponent {
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain">{item.info_title}</div>
                                     <div className="time-date">
-                                        <div className="data">{item.updatedAt.split('T')[0]}</div>
-                                        <div className="time">{item.updatedAt.split('T')[1].split('.')[0]}</div>
+                                        {/* <div className="data">{item.createdAt.split('T')[0]}</div> */}
+                                        {/* <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div> */}
                                     </div>
                                 </div>
                             </Link>
@@ -131,7 +125,7 @@ class InfoModule extends React.PureComponent {
                 {/*分页器*/}
                 <Paging
                     pageChange={this.reception.bind(this)}
-                    total={gross.total}
+                    total={infoAns.total}
                     port="get_info"
                 />
             </div>

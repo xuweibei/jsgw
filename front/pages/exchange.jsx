@@ -45,6 +45,26 @@ class Exchange extends React.PureComponent {
         }
     }
 
+    componentDidMount() {
+        this.getTalks()
+    }
+
+    getTalks = () => {
+        fetch('http://localhost:8000/api/re_talk', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify({
+                key_val: 'as'
+            })
+        }).then(res => {
+            res.json().then(ret => {
+                if(ret && ret.status === 0) {
+                    console.log(ret, 'dddddddssssssss')
+                }
+            })
+        })
+    }
+
     constructor(props) {
         super(props);
         const { products, dep, talk } = props;

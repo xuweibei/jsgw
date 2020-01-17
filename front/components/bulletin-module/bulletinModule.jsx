@@ -56,8 +56,8 @@ class Bulletin extends  React.PureComponent{
         const arr = [keyWord];
         const datas = new FormData();
         if(create_time && create_time.length >0){
-            arr.push(create_time[0].format('YYYY-MM-DD'));
-            arr.push(create_time[1].format('YYYY-MM-DD'));
+            arr.push(new Date(create_time[0]).getTime());
+            arr.push(new Date(create_time[1]).getTime());
         }
         keyArr.forEach((item,index)=>{
             arr.forEach((data,num)=>{
