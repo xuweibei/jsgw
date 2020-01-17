@@ -28,7 +28,7 @@ class InfoModule extends React.PureComponent {
                 if (datal && datal.status === 0) {
                     console.log(datal);
                     this.setState({
-                        infoAns: datal.data.rows,
+                        infoAns: datal.data,
                         gross: datal.data.total
                     })
                 }
@@ -45,10 +45,7 @@ class InfoModule extends React.PureComponent {
             arr.push(start_time[1].format('YYYY-MM-DD'))
         }
         const datas = {
-            limit:10,
-            offset:0,
-            page:1,
-            key_val,
+            post_name: key_val,
             arr
         }
         console.log(key_val);
@@ -60,7 +57,7 @@ class InfoModule extends React.PureComponent {
                 if (datal && datal.status === 0) {
                     console.log(datal);
                     this.setState({
-                        infoAns: datal.data.rows,
+                        infoAns: datal.data,
                         gross: datal.data.total
                     })
                 }
@@ -91,7 +88,7 @@ class InfoModule extends React.PureComponent {
 
     reception = (arr) => {
         this.setState({
-            infoAns: arr.rows,
+            infoAns: arr,
             gross: arr.total
         })
     }
@@ -111,13 +108,13 @@ class InfoModule extends React.PureComponent {
                                 value={start_time}
                             />
                         </div>
-                        <Button type="primary">搜索</Button>
+                        <Button onClick={() => this.getSelect()} type="primary">搜索</Button>
                     </div>
                 </div>
                 {/*公告栏*/}
                 <div>
                     {
-                        infoAns.map(item => (
+                        infoAns.rows && infoAns.rows.length > 0 && infoAns.rows.map(item => (
                             <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain">{item.info_title}</div>

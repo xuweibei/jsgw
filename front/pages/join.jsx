@@ -77,12 +77,14 @@ export default class Join extends React.Component{
     search = () => {
         const {post_name,job_class,address_name,start_time} = this.state;
         const keyArr = ['post_name','job_class','address_name','start_time','end_time'];
+        console.log(keyArr);
         const arr = [post_name,job_class,address_name];
         const datas = new FormData();
         if(start_time && start_time.length>1){
             arr.push(start_time[0].format('YYYY-MM-DD'));
             arr.push(start_time[1].format('YYYY-MM-DD'));
         }
+        console.log(arr, 'ddddddddddddd');
         keyArr.forEach((item,index)=>{
             arr.forEach((data,num)=>{
                 if(data && index === num){
@@ -90,6 +92,7 @@ export default class Join extends React.Component{
                 }
             })
         })
+        console.log(datas);
         fetch('http://localhost:8000/api/get_recruit',{method:'POST',body: datas
         }).then(res=>{
             res.json().then(datal=>{
