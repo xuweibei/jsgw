@@ -23,7 +23,7 @@ class AboutIntros extends React.Component {
                 if(datal && datal.status === 0){
                     console.log(datal);
                     this.setState({
-                        intros:datal.data.html
+                        intros:datal.data
                     })
                 }
             })
@@ -43,7 +43,7 @@ class AboutIntros extends React.Component {
                     <div className="synopsis-right">
                         <div className="across"/>
                         <div className="synopsis-name">中战科技网络有限公司</div>
-                        <div className="synopsis-content" dangerouslySetInnerHTML={{__html:intros}}/>
+                        <div className="synopsis-content" dangerouslySetInnerHTML={{__html:intros.html}}/>
                     </div>
                     {
                         appear && (
