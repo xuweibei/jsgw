@@ -13,7 +13,7 @@
 @import "./page/exchange";
 @import "./page/index";
 @import "./page/join";
-@import "./page/productDetails";
+@import "page/product";
 @import "./page/exchangeDetails";
 
 //公用的左右编剧
@@ -63,11 +63,23 @@
             margin-left: 120px;
             color: #4FCAFF;
             font-size: 14px;
+            cursor:pointer;
             span:nth-child(1) {
                 color: #666;
+                margin-right: 10px;
             }
         }
     }
+}
+.enter-window {
+    width: 375px !important;
+    .ant-form-item {
+        text-align: center;
+        .login-form-button {
+            width: 100%;
+        }
+    }
+
 }
 
 //底部样式

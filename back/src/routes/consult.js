@@ -16,8 +16,8 @@ module.exports = {
         ctx.body = new ErrorModel('添加资讯失败')
     },
     "get_info": async ctx => {
-        const {limit, offset, page} = ctx.request.body
-        const ret = await getInfo(offset, limit, page)
+        const {limit, offset, page, key_val, arr} = ctx.request.body
+        const ret = await getInfo(offset, limit, page, key_val, arr)
         if (ret && ret.arr.length > 0) {
             ctx.body = new SuccessModel({rows: ret.arr, total: ret.total}, "获取讯息成功")
             return
