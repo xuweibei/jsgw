@@ -1,7 +1,7 @@
 const {
     Information
 } = require('../model/createTables')
-const {sequelize} = require('../db/db');
+const Sequelize = require('sequelize')
 const insertInfo = async (html, title) => {
     const insert = await Information.create({
         info_title: title,
@@ -12,37 +12,38 @@ const insertInfo = async (html, title) => {
 
 const getInfo = async (offset, limit, page, key_val, arr) => {
     if(limit){
-        // if(key_val && arr) {
+        if(key_val && arr && arr.length > 1) {
 
-        // }
-        // if(key_val && arr) {
-        //     const Op = sequelize.Op
-        //     const ret = await Information.findAll({
-        //         where: {
-        //             del_status: "1",
-        //             info_title: {
-        //                 [Op.like]: `%${key_val}%`
-        //             }
-        //         },
-        //         limit: limit,
-        //         offset: (page - 1) * limit
-        //     })
-        //     const total = await Information.count({where: {del_status: "1"}})
-        //     const arr = []
-        //     if (ret) {
-        //         ret.forEach(item => {
-        //             arr.push(item.dataValues)
-        //         })
-        //         // console.log(arr)
-        //         return {
-        //             arr,
-        //             total
-        //         }
-        //     }
-        // }
-        // if(!key_val && arr) {
-        //     console.log('sadas')
-        // }
+        }
+        if(key_val && arr && arr.length < 1) {
+            const Op = Sequelize.Op;
+            const conditions = {
+                del_status: "1",
+                info_title: {
+                    [Op.like]: `%${key_val}%`
+                }
+            };
+            const ret = await Information.findAll({
+                where: conditions,
+                limit: limit,
+                offset: (page - 1) * limit
+            })
+            const total = await Information.count({where: conditions})
+            const arr = []
+            if (ret) {
+                ret.forEach(item => {
+                    arr.push(item.dataValues)
+                })
+                // console.log(arr)
+                return {
+                    arr,
+                    total
+                }
+            }
+        }
+        if(!key_val && arr) {
+            
+        }
         if(!key_val && !arr){
             const ret = await Information.findAll({
                 where: {

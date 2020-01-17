@@ -74,7 +74,7 @@ class Bulletin extends  React.PureComponent{
             res.json().then(datal=>{
                 if(datal && datal.status === 0){
                     this.setState({
-                        data:datal.data.rows
+                        data:datal.data
                     })
                 }
             })

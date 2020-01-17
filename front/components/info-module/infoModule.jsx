@@ -8,8 +8,7 @@ import Link from 'next/link';
 
 class InfoModule extends React.PureComponent {
     state = {
-        infoAns: [],  //数据条
-        gross: '' ,  //总共多少条
+        infoAns: {},  //数据
         key_val: '',
         start_time: []
     }
@@ -26,10 +25,8 @@ class InfoModule extends React.PureComponent {
             })}).then(res => {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
-                    console.log(datal);
                     this.setState({
-                        infoAns: datal.data.rows,
-                        gross: datal.data.total
+                        infoAns: datal.data
                     })
                 }
             })
@@ -58,10 +55,8 @@ class InfoModule extends React.PureComponent {
             }, body: JSON.stringify(datas)}).then(res => {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
-                    console.log(datal);
                     this.setState({
-                        infoAns: datal.data.rows,
-                        gross: datal.data.total
+                        infoAns: datal.data
                     })
                 }
             })
@@ -91,13 +86,12 @@ class InfoModule extends React.PureComponent {
 
     reception = (arr) => {
         this.setState({
-            infoAns: arr.rows,
-            gross: arr.total
+            infoAns: arr
         })
     }
 
     render() {
-        const {infoAns, gross, key_val, start_time} = this.state;
+        const {infoAns, key_val, start_time} = this.state;
         return (
             <div>
                 {/*表单搜索栏*/}
@@ -111,7 +105,7 @@ class InfoModule extends React.PureComponent {
                                 value={start_time}
                             />
                         </div>
-                        <Button type="primary">搜索</Button>
+                        <Button type="primary" onClick={this.getSelect}>搜索</Button>
                     </div>
                 </div>
                 {/*公告栏*/}
@@ -133,7 +127,7 @@ class InfoModule extends React.PureComponent {
                 {/*分页器*/}
                 <Paging
                     pageChange={this.reception.bind(this)}
-                    total={gross}
+                    total={infoAns.total}
                     port="get_info"
                 />
             </div>
