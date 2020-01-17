@@ -6,50 +6,30 @@ import fetch from 'isomorphic-unfetch';
 import md5 from "md5";
 
 const links = [
-    { href: "/", label: "首页", as: "/home" },
+    { href: "/", label: "首页"},
     { href: "/about", label: "关于我们" },
     { href: "/info", label: "资讯中心" },
-    { href: "/join", label: "加入我们", as: "/join" },
-    // { href: "/exchange", label: "内部交流", as: "/exchange" }
+    { href: "/join", label: "加入我们"},
+    { href: "/product", label: "产品中心"}
 ].map(link => {
     link.key = `nav-link-${link.href}-${link.label}`;
     return link;
 });
 
-const menu = (
-    <Menu>
-        <Menu.Item>
-            <Link href="/bulletin" as="/bulletin">
-                <a>公司公告</a>
-            </Link>
-        </Menu.Item>
-        <Menu.Item>
-            <Link href="/exchange" as="/exchange">
-                <a>内部交流</a>
-            </Link>
-        </Menu.Item>
-    </Menu>
-);
-
 class Header extends React.Component {
     state = {
-        visible: false,
-        report: '',
-        cipher: '',
-        register: false,
-        accountName: '',
-        accountStatus: ''
+        visible: false,   //登入弹窗
+        report: '',         //账号存储
+        cipher: '',         //密码存储
+        register: false,       //账号密码弹窗
+        accountName: '',        //账户名
     };
 
     componentDidMount() {
         if(sessionStorage.getItem('statusCode')){
-            console.log('进来了');
             this.setState({
                 register: true,
-                accountName: JSON.parse(sessionStorage.getItem('statusCode')).name + `(${JSON.parse(sessionStorage.getItem('statusCode')).identity})`
-            }, () => {
-                console.log('看');
-                console.log(JSON.parse(sessionStorage.getItem('statusCode')).name, 'ddddddddddddddddddd');
+                accountName: JSON.parse(sessionStorage.getItem('statusCode')).name + `(${JSON.parse(sessionStorage.getItem('statusCode')).identity})`,
             })
         }
     }
@@ -91,7 +71,7 @@ class Header extends React.Component {
                 this.setState({
                     register: true,
                     visible: false,
-                    accountName: res.data.name + `(${res.data.identity})`
+                    accountName: res.data.name + `(${res.data.identity})`,
                 },() => {
                     message.success('登入成功');
                 })
@@ -114,6 +94,25 @@ class Header extends React.Component {
 
     render() {
         const {visible, register, accountName} = this.state;
+        const menu = (
+            <Menu>
+                <Menu.Item>
+                    <Link href="/bulletin">
+                        <a>公司公告</a>
+                    </Link>
+                </Menu.Item>
+                {
+                    register && (
+                        <Menu.Item>
+                            <Link href="/exchange">
+                                <a>内部交流</a>
+                            </Link>
+                        </Menu.Item>
+                    )
+                }
+
+            </Menu>
+        );
         return (
             <div className="header distance">
                 <img className="header-logo" src="/zzha.png" alt=""/>
@@ -136,7 +135,7 @@ class Header extends React.Component {
                 {
                     register ? (
                         <div className="staff">
-                            <span>{accountName === '' ? accountName : accountName}</span>
+                            <span>{accountName}</span>
                             <span onClick={this.quit}>退出</span>
                         </div>
                     ) : (

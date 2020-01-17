@@ -61,16 +61,13 @@ class Index extends React.Component {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
                     const arr = [];
-                    datal.data.map((item, index) => {
+                    datal.data.map(item => {
                         if (item.status === 1) {
                             arr.push ({
                                 moduleName: item.module_name
                             })
-
                         }
-
-                    })
-                    console.log(arr);
+                    });
                     this.setState({
                         module:arr
                     })
@@ -81,7 +78,6 @@ class Index extends React.Component {
 
     render() {
         const {spaceNum, products, infoAns, module} = this.state;
-        console.log(module);
         return(
             <Layout>
                 <div className="home">
