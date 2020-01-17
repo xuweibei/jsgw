@@ -8,6 +8,7 @@ import Link from "next/link";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+import fetch from 'isomorphic-unfetch';
 
 function beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -56,7 +57,10 @@ class Exchange extends React.PureComponent {
             imageUrl: '',
             dep,
             talk: talk.arr,
-            total: talk.total
+            total: talk.total,
+            key_val: '',   //关键字
+            start_time: [],   //时间
+            start_job: ''
         }
     }
 
@@ -154,10 +158,41 @@ class Exchange extends React.PureComponent {
         });
     }
 
+    //筛选按钮
+    getSelect = () => {
+        const {key_val, start_time, start_job} = this.state;
+        const arr = []
+        if(start_time && start_time.length > 1){
+            arr.push(start_time[0].format('YYYY-MM-DD'))
+            arr.push(start_time[1].format('YYYY-MM-DD'))
+        }
+        const datas = {
+            post_name: key_val,
+            arr,
+            job: start_job
+        }
+        console.log(key_val);
+        console.log(start_time);
+        console.log(start_job);
+        fetch('http://localhost:8000/api/re_talk', {method: 'POST',headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(datas)}).then(res => {
+            res.json().then(datal => {
+                if (datal && datal.status === 0) {
+                    console.log(datal, 'dddddddddddddd');
+                    this.setState({
+                        // infoAns: datal.data.rows,
+                        // gross: datal.data.total
+                    })
+                }
+            })
+        })
+    }
+
     render() {
-        const { products, imageUrl, dep, talk, total } = this.state;
+        const { products, imageUrl, dep, talk, total, key_val, start_time} = this.state;
         const { getFieldDecorator } = this.props.form;
-        // console.log(talk)
+        console.log(talk)
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />
@@ -178,6 +213,7 @@ class Exchange extends React.PureComponent {
                                 <Select
                                     placeholder="-请选择职位分类-"
                                     optionFilterProp="children"
+                                    onChange={(res)=>this.setState({start_job:res})}
                                 >
                                     {
                                         dep && dep.length > 0 && dep.map(item => (
@@ -185,10 +221,14 @@ class Exchange extends React.PureComponent {
                                         ))
                                     }
                                 </Select>
-                                <Input className="fill" placeholder="Basic usage" />
-                                <RangePicker />
+                                <Input className="fill" value={key_val} onChange={(res)=>this.setState({key_val:res.target.value})} placeholder="输入关键字" />
+                                <RangePicker
+                                    placeholder={['发布开始时间','发布结束时间']}
+                                    onChange={(res)=>this.setState({start_time:res})}
+                                    value={start_time}
+                                />
                             </div>
-                            <div className="search">
+                            <div onClick={this.getSelect} className="search">
                                 <Button type="primary">搜索</Button>
                             </div>
                         </div>
