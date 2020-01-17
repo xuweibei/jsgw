@@ -13,26 +13,27 @@ const getCommunicateInfo = async ({title = '',create_time = '',end_time = ''}) =
     if(title || create_time || end_time){
         let date = null;
         let date2 = null;
-        if(create_time){
-            date = new Date(create_time).getTime();
-            date2 = new Date(end_time).getTime();
-        }
+        // if(create_time){
+        //     date = new Date(create_time).getTime();
+        //     date2 = new Date(end_time).getTime();
+        //     console.log(date, date2)
+        // }
         let where = '';
         if(title!=''){
             where=`c.title like '%${title}%'`;
         }
         if(create_time != ''){
             if(!where){
-                where =` c.create_time>='${create_time}'`;
+                where =` c.create_time>${create_time}`;
             }else{
-                where +=` and c.create_time>='${create_time}'`;
+                where +=` and c.create_time>${create_time}`;
             }
         }
         if(end_time != ''){
             if(!where){
-                where =` c.create_time<='${end_time}'`;
+                where =` c.create_time<${end_time}`;
             }else{
-                where +=` and c.create_time<='${end_time}'`;
+                where +=` and c.create_time<${end_time}`;
             }
         }
         const sql = `select * from gw_communicate c where ${where}`;

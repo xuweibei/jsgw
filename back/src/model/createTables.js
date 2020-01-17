@@ -594,8 +594,8 @@ const Exchange = db.defineModel('gw_exchange', {
         type: Sequelize.STRING(255)
     },
     create_time: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
+        type: Sequelize.BIGINT(200),
+        defaultValue: Date.now()
     },
     department_id: Sequelize.STRING(11),
     username: Sequelize.STRING(30),

@@ -44,6 +44,26 @@ class Exchange extends React.PureComponent {
         }
     }
 
+    componentDidMount() {
+        this.getTalks()
+    }
+
+    getTalks = () => {
+        fetch('http://localhost:8000/api/re_talk', {
+            method: 'POST', headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify({
+                key_val: 'as'
+            })
+        }).then(res => {
+            res.json().then(ret => {
+                if(ret && ret.status === 0) {
+                    console.log(ret, 'dddddddssssssss')
+                }
+            })
+        })
+    }
+
     constructor(props) {
         super(props);
         const { products, dep, talk } = props;
@@ -157,7 +177,7 @@ class Exchange extends React.PureComponent {
     render() {
         const { products, imageUrl, dep, talk, total } = this.state;
         const { getFieldDecorator } = this.props.form;
-        // console.log(talk)
+        console.log(talk)
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />

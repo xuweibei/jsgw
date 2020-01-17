@@ -23,7 +23,7 @@ class Bulletin extends  React.PureComponent{
                     console.log(datal);
                     this.setState({
                         data: datal.data,
-                        gross: datal.data.total
+                        gross: datal.data
                     })
                 }
             })
@@ -56,8 +56,8 @@ class Bulletin extends  React.PureComponent{
         const arr = [keyWord];
         const datas = new FormData();
         if(create_time && create_time.length >0){
-            arr.push(create_time[0].format('YYYY-MM-DD'));
-            arr.push(create_time[1].format('YYYY-MM-DD'));
+            arr.push(new Date(create_time[0]).getTime());
+            arr.push(new Date(create_time[1]).getTime());
         }
         keyArr.forEach((item,index)=>{
             arr.forEach((data,num)=>{
@@ -81,7 +81,7 @@ class Bulletin extends  React.PureComponent{
     reception = (arr) => {
         this.setState({
             data: arr,
-            gross: arr.total
+            gross: arr
         })
     }
 
@@ -136,7 +136,7 @@ class Bulletin extends  React.PureComponent{
                 {/*分页器*/}
                 <Paging
                     pageChange={this.reception.bind(this)}
-                    total={gross}
+                    total={gross.total}
                     port="get_communicate_list"
                 />
             </div>
