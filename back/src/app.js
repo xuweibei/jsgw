@@ -63,10 +63,8 @@ app.use(koaBody({
 }));
 app.use(json())
 app.use(logger())
-
-const ENV = process.env.NODE_ENV
-
-if (ENV === 'dev') {
+console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV.indexOf('dev') > -1 ) {
     // console.log("萨科技大哈萨克讲得好")
     require('events').EventEmitter.defaultMaxListeners = 0; // 解决less文件栈溢出
     app.use(morgan('dev'));

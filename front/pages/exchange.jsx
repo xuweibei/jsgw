@@ -129,6 +129,7 @@ class Exchange extends React.PureComponent {
             Message.error('用户未登录')
             return
         }
+        console.log(userinfo)
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 fetch('http://localhost:8000/api/up_talk', {
@@ -138,8 +139,8 @@ class Exchange extends React.PureComponent {
                         pic: imageUrl,
                         content: values.content,
                         title: values.title,
-                        username: userinfo && userinfo.account,
-                        dapartment: userinfo && userinfo.department
+                        username: userinfo && userinfo.name,
+                        department: userinfo && userinfo.department
                     }),
                 }).then(response => response.json())
                     .then(res => {

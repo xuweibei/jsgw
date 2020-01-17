@@ -598,7 +598,11 @@ const Exchange = db.defineModel('gw_exchange', {
         defaultValue: Sequelize.NOW
     },
     department_id: Sequelize.STRING(11),
-    username: Sequelize.STRING(30)
+    username: Sequelize.STRING(30),
+    exchange_count: {
+        type: Sequelize.BIGINT,
+        defaultValue: 0
+    }
 })
 
 // 交流评价

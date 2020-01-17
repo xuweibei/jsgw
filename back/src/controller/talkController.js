@@ -1,6 +1,7 @@
 // 公司交流
 const {
-    Exchange
+    Exchange,
+    Evaluate
 } = require('../model/createTables')
 
 const {
@@ -8,8 +9,8 @@ const {
 } = require('../db/db');
 const upTalk = async (pic, content, title, department, username) => {
     const ret = await Exchange.create({
-        username: "lei",
-        department_id: '1',
+        username: username,
+        department_id: department,
         exchange_content: content,
         exchange_pic: pic,
         exchange_title: title
@@ -50,14 +51,22 @@ const talkDetail = async (id) => {
 
 const delTalk = async id => {
     const find = Exchange.findOne({where: {id}})
-    console.log(find, "杀菌灯哈师大")
+    // console.log(find, "杀菌灯哈师大")
     if (find) {
-        const ret = Exchange.destroy({where: {id}})
-        console.log(ret)
-        if (ret) {
-            return ret
-        }
-        return ''
+        // const ret = Exchange.destroy({where: {id}})
+        // // console.log(ret)
+        // const eva = Evaluate.destroy({where: {exchange_id: id}})
+        return sequelize.transaction(function (t) {
+            // 要确保所有的查询链都有return返回
+            return Exchange.destroy({where: {id}}, {
+                transaction: t
+            }).then(function () {
+                return Evaluate.destroy({where: {exchange_id: id}}, {
+                    transaction: t
+                });
+            });
+
+        })
     }
     return ''
 }
