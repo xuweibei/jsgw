@@ -9,11 +9,6 @@ const {RangePicker} = DatePicker;
 
 class Bulletin extends  React.PureComponent{
 
-    state = {
-        data: [], //数据条
-        gross: ''  //数据总条数
-    }
-
     componentDidMount() {
         this.getNotice()
     }
@@ -27,13 +22,15 @@ class Bulletin extends  React.PureComponent{
                 if (datal && datal.status === 0) {
                     console.log(datal);
                     this.setState({
-                        data: datal.data.rows,
+                        data: datal.data,
                         gross: datal.data.total
                     })
                 }
             })
         })
     }
+
+
 
     //时间格式更改
     formatDate = (timestamp,pass) => {
@@ -69,12 +66,12 @@ class Bulletin extends  React.PureComponent{
                 }
             })
         })
-        fetch('http://localhost:8000/api/communicate_list',{method:'POST',body: JSON.stringify(datas)
+        fetch('http://localhost:8000/api/communicate_list',{method:'POST',body: datas
         }).then(res=>{
             res.json().then(datal=>{
                 if(datal && datal.status === 0){
                     this.setState({
-                        data:datal.data.rows
+                        data:datal.data
                     })
                 }
             })
@@ -83,9 +80,18 @@ class Bulletin extends  React.PureComponent{
 
     reception = (arr) => {
         this.setState({
-            data: arr.rows,
+            data: arr,
             gross: arr.total
         })
+    }
+
+    constructor(props) {
+        super(props);
+        // 定义state数据
+        this.state = {
+            data: [], //数据条
+            gross: ''  //数据总条数
+        }
     }
 
     render(){
@@ -108,13 +114,13 @@ class Bulletin extends  React.PureComponent{
                                 placeholder={['发布开始时间','发布结束时间']}
                             />
                         </div>
-                        <Button type="primary" onClick={this.sellSearch}>搜索</Button>
+                        <Button type="primary" onClick={() => this.sellSearch()}>搜索</Button>
                     </div>
                 </div>
                 {/*公告栏*/}
                 <div>
                     {
-                        data.map(item=>(
+                        data.rows && data.rows.length > 0 && data.rows.map(item=>(
                             <Link href={{pathname: '/bulletinDetail', query: {id: item.id}}}>
                                 <div key={item.create_time} className="bulletin-board distance">
                                     <div className="explain">{item.title}</div>
