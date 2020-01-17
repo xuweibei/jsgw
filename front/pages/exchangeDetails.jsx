@@ -169,7 +169,7 @@ class ExchangeDetails extends React.PureComponent {
 
     render() {
         const { data, evaluate } = this.state;
-        // console.log(data)
+        console.log(data)
         const { getFieldDecorator } = this.props.form;
         return (
             <Layout>

@@ -20,6 +20,7 @@ module.exports = {
             department,
             username
         } = ctx.request.body
+        console.log(department)
         const ret = await upTalk(pic, content, title, department, username)
         if (ret) {
             ctx.body = new SuccessModel('上传成功')
@@ -61,6 +62,7 @@ module.exports = {
             throw new Error('id Error')
         }
         const data = await talkDetail(id)
+        // console.log(data)
         if (data) {
             ctx.body = new SuccessModel(data.dataValues, '查询成功')
             return
