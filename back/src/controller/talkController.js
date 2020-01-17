@@ -45,8 +45,16 @@ const talkDetail = async (id) => {
             id
         }
     })
-
-    return find
+    // console.log(find)
+    let data
+    if (find) {
+        let count = find.dataValues.exchange_count;
+        // console.log(count, typeof count)
+        count++
+        const up = await Exchange.update({exchange_count: count}, {where: {id}})
+        return find
+    }
+    return null
 }
 
 const delTalk = async id => {

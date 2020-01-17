@@ -184,7 +184,7 @@ class ExchangeDetails extends React.PureComponent {
                             <span>{this.formatDate(data.create_time, 2)}</span>
                             <span>{`${data.department_id} ${data.username}`}</span>
                         </div>
-                        <div className="preview">浏览量：1000</div>
+                        <div className="preview">浏览量：{data && data.exchange_count}</div>
                     </div>
                     <div className="consult-img"><img src={data.exchange_pic} alt="" /></div>
                     <div className="content">{data.exchange_content}</div>

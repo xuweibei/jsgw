@@ -392,8 +392,8 @@ const Information = db.defineModel('gw_information', {
         defaultValue: "1"
     },
     createdAt: {
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW
+        type: Sequelize.BIGINT(200),
+        defaultValue: Date.now()
     },
     updatedAt: {
         type: Sequelize.DATE,

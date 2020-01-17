@@ -23,7 +23,7 @@ class AboutCulture extends React.Component {
                 if(datal && datal.status === 0){
                     console.log(datal.data.html);
                     this.setState({
-                        cultures:datal.data.html
+                        cultures:datal.data
                     })
                 }
             })
@@ -36,10 +36,9 @@ class AboutCulture extends React.Component {
             <div className="about">
                 {/*公司文化*/}
                 <div id="civil" className="culture distance">
-                    {/* <div dangerouslySetInnerHTML={{__html:cultures.html}}/> */}
                     <div className="culture-name">公司文化</div>
                     <div className="across"/>
-                    <div className="culture-content" dangerouslySetInnerHTML={{__html:cultures}}/>
+                    <div className="culture-content" dangerouslySetInnerHTML={{__html:cultures.html}}/>
                     <img className="culture-img" src="/introduce.png" alt="" />
                 </div>
             </div>

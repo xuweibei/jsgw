@@ -10,72 +10,108 @@ const insertInfo = async (html, title) => {
     return insert && insert.dataValues
 }
 
-const getInfo = async (offset, limit, page, key_val, arr) => {
+const getInfo = async (offset, limit, page, key_val, timeArr) => {
     if(limit){
-        if(key_val && arr && arr.length > 1) {
-
-        }
-        if(key_val && arr && arr.length < 1) {
-            const Op = Sequelize.Op;
-            const conditions = {
-                del_status: "1",
-                info_title: {
-                    [Op.like]: `%${key_val}%`
-                }
-            };
-            const ret = await Information.findAll({
-                where: conditions,
-                limit: limit,
-                offset: (page - 1) * limit
-            })
-            const total = await Information.count({where: conditions})
-            const arr = []
-            if (ret) {
-                ret.forEach(item => {
-                    arr.push(item.dataValues)
-                })
-                // console.log(arr)
-                return {
-                    arr,
-                    total
-                }
-            }
-        }
-        if(!key_val && arr) {
-            
-        }
-        if(!key_val && !arr){
-            const ret = await Information.findAll({
-                where: {
-                    del_status: "1"
-                },
-                limit: limit,
-                offset: (page - 1) * limit
-            })
-            const total = await Information.count({where: {del_status: "1"}})
-            const arr = []
-            if (ret) {
-                ret.forEach(item => {
-                    arr.push(item.dataValues)
-                })
-                // console.log(arr)
-                return {
-                    arr,
-                    total
-                }
-            }
-        }
-    } else {
-        const ret = await Information.findAll()
+        const ret = await Information.findAll({
+            where: {
+                del_status: "1"
+            },
+            limit: limit,
+            offset: (page - 1) * limit
+        })
+        const total = await Information.count({where: {del_status: "1"}})
         const arr = []
         if (ret) {
             ret.forEach(item => {
                 arr.push(item.dataValues)
             })
             return {
-                arr
+                arr,
+                total
             }
         }
+        
+    } else {
+        const Op = Sequelize.Op;
+        if(key_val &&  timeArr && timeArr.length > 1){
+            const ret = await Information.findAll({
+                where: {
+                    del_status: '1',
+                    info_title: {
+                        [Op.like]: `%${key_val}%`
+                    },
+                    createdAt: {
+                        [Op.gt]: timeArr[0],
+                        [Op.lt]: timeArr[1]
+                    }
+                }
+            })
+            const arr = []
+            if (ret) {
+                ret.forEach(item => {
+                    arr.push(item.dataValues)
+                })
+                return {
+                    arr
+                }
+            }
+        }
+        if(key_val && timeArr && timeArr.length < 1){
+            const ret = await Information.findAll({
+                where: {
+                    del_status: '1',
+                    info_title: {
+                        [Op.like]: `%${key_val}%`
+                    }
+                }
+            })
+            const arr = []
+            if (ret) {
+                ret.forEach(item => {
+                    arr.push(item.dataValues)
+                })
+                return {
+                    arr
+                }
+            }
+        }
+        if(!key_val && timeArr && timeArr.length > 1){
+            const ret = await Information.findAll({
+                where: {
+                    del_status: '1',
+                    createdAt: {
+                        [Op.gt]: timeArr[0],
+                        [Op.lt]: timeArr[1]
+                    }
+                }
+            })
+            const arr = []
+            if (ret) {
+                ret.forEach(item => {
+                    arr.push(item.dataValues)
+                })
+                return {
+                    arr
+                }
+            }
+        }
+        if(!key_val && !timeArr){
+            const ret = await Information.findAll({
+                where: {
+                    del_status: '1'
+                }
+            })
+            const arr = []
+            if (ret) {
+                ret.forEach(item => {
+                    arr.push(item.dataValues)
+                })
+                return {
+                    arr
+                }
+            }
+        }
+        
     }
     return ''
 }

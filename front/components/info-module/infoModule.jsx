@@ -36,20 +36,17 @@ class InfoModule extends React.PureComponent {
     //筛选按钮
     getSelect = () => {
         const {key_val, start_time} = this.state;
-        const arr = []
+        const timeArr = []
         if(start_time && start_time.length > 1){
-            arr.push(start_time[0].format('YYYY-MM-DD'))
-            arr.push(start_time[1].format('YYYY-MM-DD'))
+            timeArr.push(new Date(start_time[0]).getTime())
+            timeArr.push(new Date(start_time[1]).getTime())
         }
         const datas = {
-            limit:10,
-            offset:0,
-            page:1,
             key_val,
-            arr
+            timeArr
         }
         console.log(key_val);
-        console.log(start_time);
+        console.log(timeArr);
         fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(datas)}).then(res => {
@@ -85,6 +82,7 @@ class InfoModule extends React.PureComponent {
     }*/
 
     reception = (arr) => {
+        console.log(arr, 'ddd')
         this.setState({
             infoAns: arr
         })
@@ -111,13 +109,13 @@ class InfoModule extends React.PureComponent {
                 {/*公告栏*/}
                 <div>
                     {
-                        infoAns.map(item => (
+                        infoAns.rows && infoAns.rows.length > 0 && infoAns.rows.map(item => (
                             <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain">{item.info_title}</div>
                                     <div className="time-date">
-                                        <div className="data">{item.createdAt.split('T')[0]}</div>
-                                        <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div>
+                                        {/* <div className="data">{item.createdAt.split('T')[0]}</div> */}
+                                        {/* <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div> */}
                                     </div>
                                 </div>
                             </Link>
