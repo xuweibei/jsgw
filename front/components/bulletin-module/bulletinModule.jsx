@@ -23,7 +23,7 @@ class Bulletin extends  React.PureComponent{
                     console.log(datal);
                     this.setState({
                         data: datal.data,
-                        gross: datal.data.total
+                        gross: datal.data
                     })
                 }
             })
@@ -81,7 +81,7 @@ class Bulletin extends  React.PureComponent{
     reception = (arr) => {
         this.setState({
             data: arr,
-            gross: arr.total
+            gross: arr
         })
     }
 
@@ -136,7 +136,7 @@ class Bulletin extends  React.PureComponent{
                 {/*分页器*/}
                 <Paging
                     pageChange={this.reception.bind(this)}
-                    total={gross}
+                    total={gross.total}
                     port="get_communicate_list"
                 />
             </div>
