@@ -28,8 +28,8 @@ class InfoModule extends React.PureComponent {
                 if (datal && datal.status === 0) {
                     console.log(datal);
                     this.setState({
-                        infoAns: datal.data,
-                        gross: datal.data
+                        infoAns: datal.data.rows,
+                        gross: datal.data.total
                     })
                 }
             })
@@ -57,8 +57,8 @@ class InfoModule extends React.PureComponent {
                 if (datal && datal.status === 0) {
                     console.log(datal);
                     this.setState({
-                        infoAns: datal.data,
-                        gross: datal.data
+                        infoAns: datal.data.rows,
+                        gross: datal.data.total
                     })
                 }
             })
@@ -88,13 +88,14 @@ class InfoModule extends React.PureComponent {
 
     reception = (arr) => {
         this.setState({
-            infoAns: arr,
-            gross: arr
+            infoAns: arr.rows,
+            gross: arr.total
         })
     }
 
     render() {
         const {infoAns, gross, key_val, start_time} = this.state;
+        console.log(infoAns.rows);
         return (
             <div>
                 {/*表单搜索栏*/}
@@ -119,8 +120,8 @@ class InfoModule extends React.PureComponent {
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain">{item.info_title}</div>
                                     <div className="time-date">
-                                        <div className="data">{item.createdAt.split('T')[0]}</div>
-                                        <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div>
+                                        <div className="data">{item.updatedAt.split('T')[0]}</div>
+                                        <div className="time">{item.updatedAt.split('T')[1].split('.')[0]}</div>
                                     </div>
                                 </div>
                             </Link>
