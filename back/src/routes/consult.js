@@ -18,18 +18,18 @@ module.exports = {
     "get_info": async ctx => {
         const {limit, offset, page, key_val, timeArr} = ctx.request.body
         const ret = await getInfo(offset, limit, page, key_val, timeArr)
-        if (ret && ret.arr.length > 0) {
+        if (ret) {
             ctx.body = new SuccessModel({rows: ret.arr, total: ret.total}, "获取讯息成功")
             return
         }
-        ctx.body = new ErrorModel( "获取讯息失败")
+        ctx.body = new ErrorModel( [], "获取讯息失败")
     },
     "del_info": async ctx => {
         const {id} = ctx.request.body
         const ret = await delInfo(id)
         if (ret) {
             ctx.body = new SuccessModel("删除资讯成功")
-            return 
+            return
         }
         ctx.body = new ErrorModel("删除失败")
     },
@@ -38,7 +38,7 @@ module.exports = {
         const ret = await hideInfo(id)
         if (ret) {
             ctx.body = new SuccessModel("资讯状态修改成功")
-            return 
+            return
         }
         ctx.body = new ErrorModel("资讯状态修改失败")
     },
@@ -47,7 +47,7 @@ module.exports = {
         const ret = await editInfo(id, html, title)
         if (ret) {
             ctx.body = new SuccessModel("更新成功")
-            return 
+            return
         }
         ctx.body = new ErrorModel("更新失败")
     },

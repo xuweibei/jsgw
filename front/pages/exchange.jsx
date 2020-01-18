@@ -3,6 +3,7 @@ import Layout from "../components/layout/layout";
 import { Button, DatePicker, Input, Select, Pagination, Modal, Upload, Form, Icon, message } from 'antd';
 import React from "react";
 import ExchangeDetails from "./exchangeDetails";
+
 import Paging from '../components/paging/paging'
 import Link from "next/link";
 const { Option } = Select;
@@ -22,42 +23,52 @@ function beforeUpload(file) {
     return isJpgOrPng && isLt2M;
 }
 class Exchange extends React.PureComponent {
+    componentDidMount() {
+        this.getTalk();
+    }
     static async getInitialProps(props) {
         const data = await fetch('http://localhost:8000/api/give_dep', { method: 'POST' });
-
         const res = await fetch('http://localhost:8000/api/communicate_list', { method: 'POST' });
-        const talkData = await fetch('http://localhost:8000/api/re_talk', {
+        const ans = await res.json();
+        const dep = await data.json();
+        // const talk = await talkData.json();
+        return {
+            products: ans.data,
+            dep: dep.data,
+        }
+    }
+
+    getTalk = () => {
+        fetch('http://localhost:8000/api/re_talk', {
             method: 'POST', headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({
                 limit: 10,
                 page: 1
+            })}).then(res => {
+            res.json().then(datal => {
+                if (datal && datal.status === 0) {
+                    this.setState({
+                        talk: datal.data,
+                        key_val: '',   //关键字筛选
+                        start_time: [],   //时间筛选
+                        start_job: ''   //职业分类筛选
+                    })
+                }
             })
-        });
-        // console.log(dep.data)
-        const ans = await res.json();
-        const dep = await data.json();
-        const talk = await talkData.json();
-        return {
-            products: ans.data,
-            dep: dep.data,
-            talk: talk.data
-        }
+        })
     }
 
     constructor(props) {
         super(props);
-        const { products, dep, talk } = props;
-        // console.log(talk)
-        // console.log(talk)
+        const { products, dep } = props;
         this.state = {
             products,
             visible: false,
             loading: false,
             imageUrl: '',
             dep,
-            talk: talk,
-            total: talk.total,
+            talk: '',
             key_val: '',   //关键字筛选
             start_time: [],   //时间筛选
             start_job: ''   //职业分类筛选
@@ -82,22 +93,18 @@ class Exchange extends React.PureComponent {
     }
 
     reception = (arr) => {
-        // console.log('执行了');
-        // console.log(arr, '1');
         this.setState({
             talk: arr
         })
     }
 
     changeModal = () => {
-        // console.log(window)
         this.setState({
             visible: true
         })
     }
 
-    handleCancel = e => {
-        // console.log(e);
+    handleCancel = () => {
         this.setState({
             visible: false,
         });
@@ -189,7 +196,7 @@ class Exchange extends React.PureComponent {
     }
 
     render() {
-        const { products, imageUrl, dep, talk, total, key_val, start_time} = this.state;
+        const { products, imageUrl, dep, talk, key_val, start_time, start_job} = this.state;
         const { getFieldDecorator } = this.props.form;
         console.log(talk)
         const uploadButton = (
@@ -212,6 +219,7 @@ class Exchange extends React.PureComponent {
                                 <Select
                                     placeholder="-请选择职位分类-"
                                     optionFilterProp="children"
+                                    // value={start_job}
                                     onChange={(res)=>this.setState({start_job:res})}
                                 >
                                     {
@@ -227,8 +235,9 @@ class Exchange extends React.PureComponent {
                                     value={start_time}
                                 />
                             </div>
-                            <div onClick={this.getSelect} className="search">
-                                <Button type="primary">搜索</Button>
+                            <div  className="search">
+                                <div onClick={this.getTalk} className="empty">清空筛选条件</div>
+                                <Button onClick={this.getSelect} type="primary">搜索</Button>
                             </div>
                         </div>
 
@@ -281,13 +290,13 @@ class Exchange extends React.PureComponent {
                                 {
                                     getFieldDecorator(
                                         'pic', {
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message: 'Input something!',
-                                            },
-                                        ]
-                                    }
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: 'Input something!',
+                                                },
+                                            ]
+                                        }
                                     )(
                                         <Upload
                                             name="avatar"
@@ -307,18 +316,18 @@ class Exchange extends React.PureComponent {
                                 {
                                     getFieldDecorator(
                                         'title', {
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message: '请输入标题!',
-                                            },
-                                        ]
-                                    }
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: '请输入标题!',
+                                                },
+                                            ]
+                                        }
                                     )(
                                         <Input
                                             placeholder="输入分享标题"
                                             maxLength={20}
-                                        // autoSize
+                                            // autoSize
                                         />
                                     )
                                 }
@@ -327,13 +336,13 @@ class Exchange extends React.PureComponent {
                                 {
                                     getFieldDecorator(
                                         'content', {
-                                        rules: [
-                                            {
-                                                required: true,
-                                                message: '请输入分享内容!',
-                                            },
-                                        ]
-                                    }
+                                            rules: [
+                                                {
+                                                    required: true,
+                                                    message: '请输入分享内容!',
+                                                },
+                                            ]
+                                        }
                                     )(
                                         <TextArea
                                             placeholder="输入分享内容"
@@ -348,7 +357,7 @@ class Exchange extends React.PureComponent {
                     </Modal>
                     <Paging
                         pageChange={this.reception.bind(this)}
-                        total={total}
+                        total={talk.total}
                         port="re_talk"
                     />
                 </div>
