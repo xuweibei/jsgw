@@ -60,26 +60,22 @@ class InfoModule extends React.PureComponent {
         })
     }
 
-/*    static async getInitialProps(props){
-        const res = await fetch('http://localhost:8000/api/get_products',{method:'POST'});   //产品接口
-        const ans = await res.json();
-        const infoAns = await infoRes.json();
-        return {
-            products: ans.data,
-            infoAns: infoAns.data,
+//时间格式更改
+    formatDate = (timestamp, pass) => {
+        const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = date.getDate() + ' ';
+        const h = date.getHours() + ':';
+        const m = date.getMinutes() + ':';
+        const s = date.getSeconds();
+        if (pass === 1) {
+            return Y + M + D
+        } else if (pass === 2) {
+            return h + m + s
         }
+        return Y + M + D + h + m + s;
     }
-
-    constructor(props){
-        super(props);
-        const {products, infoAns} = props;
-        this.state = {
-            products,
-            infoAns,
-            spaceNum: 0, //偏移距离
-            spaceAmount: 0, //点击数量
-        }
-    }*/
 
     reception = (arr) => {
         console.log(arr, 'ddd')
@@ -114,8 +110,8 @@ class InfoModule extends React.PureComponent {
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain">{item.info_title}</div>
                                     <div className="time-date">
-                                        {/* <div className="data">{item.createdAt.split('T')[0]}</div> */}
-                                        {/* <div className="time">{item.createdAt.split('T')[1].split('.')[0]}</div> */}
+                                         <div className="data">{this.formatDate(item.createdAt, 1)}</div>
+                                         <div className="time">{this.formatDate(item.createdAt, 2)}</div>
                                     </div>
                                 </div>
                             </Link>

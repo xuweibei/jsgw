@@ -45,26 +45,6 @@ class Exchange extends React.PureComponent {
         }
     }
 
-    componentDidMount() {
-        this.getTalks()
-    }
-
-    getTalks = () => {
-        fetch('http://localhost:8000/api/re_talk', {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify({
-                key_val: 'as'
-            })
-        }).then(res => {
-            res.json().then(ret => {
-                if(ret && ret.status === 0) {
-                    console.log(ret, 'dddddddssssssss')
-                }
-            })
-        })
-    }
-
     constructor(props) {
         super(props);
         const { products, dep, talk } = props;
@@ -76,11 +56,11 @@ class Exchange extends React.PureComponent {
             loading: false,
             imageUrl: '',
             dep,
-            talk: talk.arr,
+            talk: talk,
             total: talk.total,
-            key_val: '',   //关键字
-            start_time: [],   //时间
-            start_job: ''
+            key_val: '',   //关键字筛选
+            start_time: [],   //时间筛选
+            start_job: ''   //职业分类筛选
         }
     }
 
@@ -105,7 +85,7 @@ class Exchange extends React.PureComponent {
         // console.log('执行了');
         // console.log(arr, '1');
         this.setState({
-            talk: arr.arr
+            talk: arr
         })
     }
 
@@ -181,14 +161,14 @@ class Exchange extends React.PureComponent {
     //筛选按钮
     getSelect = () => {
         const {key_val, start_time, start_job} = this.state;
-        const arr = []
+        const timeArr = []
         if(start_time && start_time.length > 1){
-            arr.push(start_time[0].format('YYYY-MM-DD'))
-            arr.push(start_time[1].format('YYYY-MM-DD'))
+            timeArr.push(start_time[0].format('YYYY-MM-DD'))
+            timeArr.push(start_time[1].format('YYYY-MM-DD'))
         }
         const datas = {
-            post_name: key_val,
-            arr,
+            key_val,
+            timeArr,
             job: start_job
         }
         console.log(key_val);
@@ -201,8 +181,7 @@ class Exchange extends React.PureComponent {
                 if (datal && datal.status === 0) {
                     console.log(datal, 'dddddddddddddd');
                     this.setState({
-                        // infoAns: datal.data.rows,
-                        // gross: datal.data.total
+                        talk: datal.data
                     })
                 }
             })
@@ -257,7 +236,7 @@ class Exchange extends React.PureComponent {
 
                     {/*公告栏*/}
                     {
-                        talk && talk.length > 0 && talk.map(item => (
+                        talk && talk.arr.length > 0 && talk.arr.map(item => (
                             <div>
                                 <Link href={{
                                     pathname: '/exchangeDetails', query: {
