@@ -120,7 +120,7 @@ class Header extends React.Component {
                     {links.map(({ href, label, key, as }) => (
                         <div key={href}>
                             <Link href={href} as={as}>
-                                <a key={key}>{label}</a>
+                                <a key={key} style={{color: 'red'}}>{label}</a>
                             </Link>
                         </div>
                     ))}
