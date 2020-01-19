@@ -74,7 +74,24 @@ class Index extends React.Component {
                 }
             })
         })
-    }
+    };
+
+    //时间格式更改
+    formatDate = (timestamp, pass) => {
+        const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        const Y = date.getFullYear() + '-';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
+        const D = date.getDate() + ' ';
+        const h = date.getHours() + ':';
+        const m = date.getMinutes() + ':';
+        const s = date.getSeconds();
+        if (pass === 1) {
+            return Y + M + D
+        } else if (pass === 2) {
+            return h + m + s
+        }
+        return Y + M + D + h + m + s;
+    };
 
     render() {
         const {spaceNum, products, infoAns, module} = this.state;
@@ -99,7 +116,7 @@ class Index extends React.Component {
                                                                 <div className="carousel-title">
                                                                     {item.info_title}
                                                                 </div>
-                                                                <div className="carousel-time">{item.createdAt.split('T')[0]}</div>
+                                                                <div className="carousel-time">{this.formatDate(item.createdAt, 1)}</div>
                                                                 <div className="carousel-btn">
                                                                     <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>立即查看</Link>
                                                                 </div>

@@ -26,6 +26,8 @@ class Header extends React.Component {
     };
 
     componentDidMount() {
+        const test = window.location.href;
+        console.log(test);
         if(sessionStorage.getItem('statusCode')){
             this.setState({
                 register: true,
@@ -117,10 +119,10 @@ class Header extends React.Component {
             <div className="header distance">
                 <img className="header-logo" src="/zzha.png" alt=""/>
                 <div className="header-tab">
-                    {links.map(({ href, label, key, as }) => (
+                    {links.map(({ href, label, key}) => (
                         <div key={href}>
-                            <Link href={href} as={as}>
-                                <a key={key} style={{color: 'red'}}>{label}</a>
+                            <Link href={href}>
+                                <a key={key}>{label}</a>
                             </Link>
                         </div>
                     ))}

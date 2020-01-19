@@ -8,6 +8,7 @@ import Link from "next/link";
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+import fetch from 'isomorphic-unfetch';
 
 function beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
@@ -44,26 +45,6 @@ class Exchange extends React.PureComponent {
         }
     }
 
-    componentDidMount() {
-        this.getTalks()
-    }
-
-    getTalks = () => {
-        fetch('http://localhost:8000/api/re_talk', {
-            method: 'POST', headers: {
-                'Content-Type': 'application/json'
-            }, body: JSON.stringify({
-                key_val: 'as'
-            })
-        }).then(res => {
-            res.json().then(ret => {
-                if(ret && ret.status === 0) {
-                    console.log(ret, 'dddddddssssssss')
-                }
-            })
-        })
-    }
-
     constructor(props) {
         super(props);
         const { products, dep, talk } = props;
@@ -75,8 +56,11 @@ class Exchange extends React.PureComponent {
             loading: false,
             imageUrl: '',
             dep,
-            talk: talk.arr,
-            total: talk.total
+            talk: talk,
+            total: talk.total,
+            key_val: '',   //关键字筛选
+            start_time: [],   //时间筛选
+            start_job: ''   //职业分类筛选
         }
     }
 
@@ -101,7 +85,7 @@ class Exchange extends React.PureComponent {
         // console.log('执行了');
         // console.log(arr, '1');
         this.setState({
-            talk: arr.arr
+            talk: arr
         })
     }
 
@@ -174,8 +158,38 @@ class Exchange extends React.PureComponent {
         });
     }
 
+    //筛选按钮
+    getSelect = () => {
+        const {key_val, start_time, start_job} = this.state;
+        const timeArr = []
+        if(start_time && start_time.length > 1){
+            timeArr.push(start_time[0].format('YYYY-MM-DD'))
+            timeArr.push(start_time[1].format('YYYY-MM-DD'))
+        }
+        const datas = {
+            key_val,
+            timeArr,
+            job: start_job
+        }
+        console.log(key_val);
+        console.log(start_time);
+        console.log(start_job);
+        fetch('http://localhost:8000/api/re_talk', {method: 'POST',headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(datas)}).then(res => {
+            res.json().then(datal => {
+                if (datal && datal.status === 0) {
+                    console.log(datal, 'dddddddddddddd');
+                    this.setState({
+                        talk: datal.data
+                    })
+                }
+            })
+        })
+    }
+
     render() {
-        const { products, imageUrl, dep, talk, total } = this.state;
+        const { products, imageUrl, dep, talk, total, key_val, start_time} = this.state;
         const { getFieldDecorator } = this.props.form;
         console.log(talk)
         const uploadButton = (
@@ -198,6 +212,7 @@ class Exchange extends React.PureComponent {
                                 <Select
                                     placeholder="-请选择职位分类-"
                                     optionFilterProp="children"
+                                    onChange={(res)=>this.setState({start_job:res})}
                                 >
                                     {
                                         dep && dep.length > 0 && dep.map(item => (
@@ -205,10 +220,14 @@ class Exchange extends React.PureComponent {
                                         ))
                                     }
                                 </Select>
-                                <Input className="fill" placeholder="Basic usage" />
-                                <RangePicker />
+                                <Input className="fill" value={key_val} onChange={(res)=>this.setState({key_val:res.target.value})} placeholder="输入关键字" />
+                                <RangePicker
+                                    placeholder={['发布开始时间','发布结束时间']}
+                                    onChange={(res)=>this.setState({start_time:res})}
+                                    value={start_time}
+                                />
                             </div>
-                            <div className="search">
+                            <div onClick={this.getSelect} className="search">
                                 <Button type="primary">搜索</Button>
                             </div>
                         </div>
@@ -217,7 +236,7 @@ class Exchange extends React.PureComponent {
 
                     {/*公告栏*/}
                     {
-                        talk && talk.length > 0 && talk.map(item => (
+                        talk && talk.arr.length > 0 && talk.arr.map(item => (
                             <div>
                                 <Link href={{
                                     pathname: '/exchangeDetails', query: {
