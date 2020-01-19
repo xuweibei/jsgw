@@ -26,7 +26,9 @@ class InfoModule extends React.PureComponent {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
                     this.setState({
-                        infoAns: datal.data
+                        infoAns: datal.data,
+                        key_val: '',
+                        start_time: ''
                     })
                 }
             })
@@ -35,6 +37,7 @@ class InfoModule extends React.PureComponent {
 
     //筛选按钮
     getSelect = () => {
+        console.log('执行了');
         const {key_val, start_time} = this.state;
         const timeArr = []
         if(start_time && start_time.length > 1){
@@ -45,8 +48,6 @@ class InfoModule extends React.PureComponent {
             key_val,
             timeArr
         }
-        console.log(key_val);
-        console.log(timeArr);
         fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(datas)}).then(res => {
@@ -78,7 +79,6 @@ class InfoModule extends React.PureComponent {
     }
 
     reception = (arr) => {
-        console.log(arr, 'ddd')
         this.setState({
             infoAns: arr
         })
@@ -99,7 +99,10 @@ class InfoModule extends React.PureComponent {
                                 value={start_time}
                             />
                         </div>
-                        <Button type="primary" onClick={this.getSelect}>搜索</Button>
+                        <div className="empty-select">
+                            <div className="empty" onClick={() => this.getNotice()}>清空筛选条件</div>
+                            <Button type="primary" onClick={this.getSelect}>搜索</Button>
+                        </div>
                     </div>
                 </div>
                 {/*公告栏*/}

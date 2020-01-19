@@ -6,7 +6,7 @@ import fetch from 'isomorphic-unfetch';
 import md5 from "md5";
 
 const links = [
-    { href: "/", label: "首页"},
+    { href: "/index", label: "首页"},
     { href: "/about", label: "关于我们" },
     { href: "/info", label: "资讯中心" },
     { href: "/join", label: "加入我们"},
@@ -23,11 +23,14 @@ class Header extends React.Component {
         cipher: '',         //密码存储
         register: false,       //账号密码弹窗
         accountName: '',        //账户名
+        test: '',     //当前浏览地址
+
     };
 
     componentDidMount() {
-        const test = window.location.href;
-        console.log(test);
+        this.setState({
+            test: window.location.href
+        });
         if(sessionStorage.getItem('statusCode')){
             this.setState({
                 register: true,
@@ -49,14 +52,14 @@ class Header extends React.Component {
         this.setState({
             report:e.target.value
         })
-    }
+    };
 
     //监听密码
     password = (e) => {
         this.setState({
             cipher:e.target.value
         })
-    }
+    };
 
     //登入
     handleSubmit = () => {
@@ -84,7 +87,7 @@ class Header extends React.Component {
                 })
             }
         })
-    }
+    };
 
     //退出登入
     quit = () => {
@@ -92,10 +95,11 @@ class Header extends React.Component {
         this.setState({
             register: false,
         })
-    }
+    };
 
     render() {
-        const {visible, register, accountName} = this.state;
+        const {visible, register, accountName, test} = this.state;
+        console.log(test);
         const menu = (
             <Menu>
                 <Menu.Item>
@@ -116,11 +120,11 @@ class Header extends React.Component {
             </Menu>
         );
         return (
-            <div className="header distance">
+            <div className="header distance test">
                 <img className="header-logo" src="/zzha.png" alt=""/>
                 <div className="header-tab">
                     {links.map(({ href, label, key}) => (
-                        <div key={href}>
+                        <div className={test.includes(href) ? 'select' : ''} key={href}>
                             <Link href={href}>
                                 <a key={key}>{label}</a>
                             </Link>

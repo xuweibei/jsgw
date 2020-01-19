@@ -23,7 +23,9 @@ class Bulletin extends  React.PureComponent{
                     console.log(datal);
                     this.setState({
                         data: datal.data,
-                        gross: datal.data
+                        gross: datal.data,
+                        keyWord: '',
+                        create_time: ''
                     })
                 }
             })
@@ -90,12 +92,13 @@ class Bulletin extends  React.PureComponent{
         // 定义state数据
         this.state = {
             data: [], //数据条
-            gross: ''  //数据总条数
+            gross: '',  //数据总条数
+            keyWord: ''
         }
     }
 
     render(){
-        const {data, create_time, gross} = this.state;
+        const {data, create_time, gross, keyWord} = this.state;
         console.log(data);
         return(
             <div className="bulletin">
@@ -107,14 +110,17 @@ class Bulletin extends  React.PureComponent{
                 <div className="sizer distance">
                     <div className="screen">
                         <div>
-                            <Input className="fill" placeholder="请输入关键字" onChange={(res)=>this.setState({keyWord:res.target.value})} />
+                            <Input className="fill" value={keyWord} placeholder="请输入关键字" onChange={(res)=>this.setState({keyWord:res.target.value})} />
                             <RangePicker
                                 onChange={(res)=>this.setState({create_time:res})}
                                 value={create_time}
                                 placeholder={['发布开始时间','发布结束时间']}
                             />
                         </div>
-                        <Button type="primary" onClick={() => this.sellSearch()}>搜索</Button>
+                        <div className="empty-select">
+                            <div className="empty" onClick={() => this.getNotice()}>清空筛选条件</div>
+                            <Button type="primary" onClick={() => this.sellSearch()}>搜索</Button>
+                        </div>
                     </div>
                 </div>
                 {/*公告栏*/}
