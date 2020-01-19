@@ -1,8 +1,8 @@
 {{#>default}}
 <div class="events">
-    <div class="d-flex justify-content-lg-between">
-        <div class="event-header h2 font-weight-bold mb-5">中战大事记</div>
-        <div class="form-check" style="margin-right: 30px;">
+    <div class="event-header-container d-flex justify-content-lg-between">
+        <div class="event-header h4 font-weight-bold">中战大事记</div>
+        <div class="form-check">
             <input class="form-check-input ml-0" type="checkbox" id="defaultCheck1" style="margin-top: 8px;">
             <label class="form-check-label show-home ml-3" style="color: #0AAFDE" for="defaultCheck1">
                 展示在首页
@@ -10,28 +10,31 @@
         </div>
     </div>
     <div class="add-event"></div>
-    {{#if arr.length}}
-    {{#each arr}}
-    <div class="enent d-flex card-container" id="{{this.year}}">
-        <div class="date">{{this.titleTime}}</div>
-        <div class="line">
-            <div class="cle"></div>
-        </div>
-        <div class="card">
-            <div class="card-header">
-                {{this.time}}
+    <div style="margin-left: 80px">
+        {{#if arr.length}}
+        {{#each arr}}
+            <div class="enent d-flex card-container" id="{{this.year}}">
+                <div class="date">{{this.titleTime}}</div>
+                <div class="line">
+                    <div class="cle"></div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        {{this.time}}
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{this.event_title}}t</h5>
+                        <p class="card-text">{{this.event_content}}</p>
+                    </div>
+                    <div class="close close-btn" data-container="body" data-toggle="popover" data-placement="left"
+                        data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
+                        onclick="delEvent({{this.id}})">&times;</div>
+                </div>
             </div>
-            <div class="card-body">
-                <h5 class="card-title">{{this.event_title}}t</h5>
-                <p class="card-text">{{this.event_content}}</p>
-            </div>
-            <div class="close close-btn" data-container="body" data-toggle="popover" data-placement="left"
-                data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus."
-                onclick="delEvent({{this.id}})">&times;</div>
-        </div>
-    </div>
     {{/each}}
     {{/if}}
+    </div>
+    
 
     {{!-- 删除事件 --}}
     <div class="modal modal-del fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -56,7 +59,7 @@
                     <h5 class="modal-title" id="exampleModalCenterTitle">添加</h5>
                 </div>
                 <form>
-                    <div class="form-group row p-3">
+                    <div class="form-group row">
                         <label for="colFormLabel" class="col-sm-2 col-form-label">大事记节点:</label>
                         <div class="col-sm-10 d-flex justify-content-lg-around">
                             <select class="form-control year w-25" aria-placeholder="请选择"></select>
@@ -66,19 +69,19 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row p-3">
+                    <div class="form-group row">
                         <label for="" class="col-sm-2 col-form-label">事件标题:</label>
                         <input type="text" class="col-sm-9 form-control event-title" placeholder="请输入事件标题"
                             maxlength="50">
                     </div>
-                    <div class="mb-3 p-3 row form-group">
+                    <div class="mb-3 row form-group">
                         <label for="validationTextarea" class="col-form-label col-2">大事概述:</label>
                         <textarea class="form-control col-9 event-content" id="validationTextarea"
                             placeholder="请输入事件内容"></textarea>
                     </div>
                 </form>
                 <div class="modal-footer justify-content-center border-0">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-right: 24px">返回</button>
                     <button type="button" class="btn btn-primary commitEvent">保存</button>
                 </div>
             </div>

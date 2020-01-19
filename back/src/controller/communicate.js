@@ -129,8 +129,15 @@ const showOrCommuList = async (data) => {
     return res;
 }
 
-const getICommunicateDetail = async (id) => {
-    const res = await communicate.findAll({
+const getICommunicateDetail = async (id, is_read) => {
+    if(is_read) {
+        communicate.update({is_read}, {
+            where: {
+                id: id
+            }
+        })
+    }
+    const res = await communicate.findOne({
         where: {
             id
         }

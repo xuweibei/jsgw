@@ -9,10 +9,6 @@
       id="table"
       class="text-center table table-striped table-borderless"
       data-pagination="true">
-      <thead> 
-        <tr>
-        </tr>
-      </thead>
     </table>
     <script src="../utils/utils.js"></script>
     <script>
@@ -66,7 +62,7 @@
                 "change .custom-control-input": function(e, value, row, index){
                   $.post(url.changeModuleStatus, {status: e.target.checked, id: row.id}, function(res){
                     if(res && res.status === 0){
-                      toast(res.message, 0)
+                      toast(res.message, 1)
                     }
                   })
                 }
@@ -79,7 +75,8 @@
               </form>`
           }
           function operateFormatter2(value, row, index){
-            return `<div class="custom-control custom-switch">
+            return `<div class="custom-control custom-switch" style="padding-left: 0">
+              <span style="position: absolute">${row.status === 0 ? '未展示' : '已展示'}</span>
               <input type="checkbox" ${row.status === 0 ? '' : 'checked'} class="custom-control-input" id="customSwitch${row.id}">
               <label class="custom-control-label" for="customSwitch${row.id}"></label>
             </div>`
