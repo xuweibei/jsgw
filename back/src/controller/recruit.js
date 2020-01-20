@@ -2,7 +2,8 @@
 
 const {
     Invite,
-    PcatBak
+    PcatBak,
+    Adress
 } = require('../model/createTables')
 
 const {sequelize} = require('../db/db');
@@ -157,11 +158,33 @@ const getRecruitList = async (limit, offset, page) => {
     return ''
 }
 
+//招聘地区管理列表
+const getAfressInfo = async()=>{
+    const res = await Adress.findAll({
+        'order': [
+            ['sort', 'ASC']
+        ]
+    });
+    return res
+}
+
+//删除招聘信息
+const deleteAfressInfo = async(data)=>{
+    const res = await Adress.destroy({
+        where:{
+            id : data.id
+        }
+    })
+    return res;
+}
+
 module.exports = {
     getRecruitInfo,
     addRecruitMen,
     getPcatBak,
     deleteRecruic,
     enableRecreit,
-    getRecruitList
+    getRecruitList,
+    getAfressInfo,
+    deleteAfressInfo
 }

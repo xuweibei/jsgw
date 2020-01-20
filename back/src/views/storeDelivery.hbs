@@ -567,7 +567,7 @@
             return [
               '<a class="like opt" id="table-edit" href="javascript:void(0)" title="编辑">编辑</a>',
               '<a class="remove opt aActive" id="table-del" href="javascript:void(0)" title="删除">删除</a>',
-              row.enable === 0 ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="启用或停用">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
+              row.enable === '0' ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="启用或停用">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
               '<a class="like opt" id="table-see" href="javascript:void(0)" title="预览">预览</a>'
             ].join('')
           }
@@ -697,7 +697,7 @@
           $('#delete_list').click(function(){
             $.post(url.deleteRecreit,deleteData,function(res){
               if(res && res.status === 0){
-                alert('删除成功');
+                toast('删除成功')
                 $('#deletetable').modal('hide')
                 searchList();//重新请求数据
               }
@@ -706,7 +706,7 @@
           $('#enable_btn').click(function(data){
             $.post(url.enable,enableData,function(res){
               if(res && res.status === 0){
-                alert('操作成功');
+                toast('操作成功')
                 $('#enable').modal('hide')
                 searchList();//重新请求数据
               }

@@ -243,6 +243,7 @@ const PcatBak = db.defineModel('gw_pcat_bak', {
         type: Sequelize.STRING(5)
     }
 })
+
 //招聘信息表（加入我们）
 const Invite = db.defineModel('gw_invite_info', {
     id: {
@@ -314,6 +315,28 @@ const Invite = db.defineModel('gw_invite_info', {
     //排序
     sort: {
         type: Sequelize.STRING(11)
+    }
+})
+
+//招聘地区管理
+const Adress = db.defineModel('gw_adress',{
+    id:{
+        type: Sequelize.INTEGER(11),
+        primaryKey: true,
+        allowNull: false,
+        autoIncrement: true
+    },
+    //排序
+    name: {
+        type: Sequelize.STRING(2000)
+    },
+    //是否启用类型  0 未启用 1启用
+    enable: {
+        type: Sequelize.STRING(1)
+    },
+    //排序
+    sort: {
+        type: Sequelize.INTEGER(11)
     }
 })
 //产品表
@@ -634,6 +657,7 @@ module.exports = {
     Account,
     Post,
     Invite,
+    Adress,
     Company,
     Product,
     Post_classify,

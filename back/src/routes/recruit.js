@@ -1,5 +1,8 @@
 //招聘信息接口
-const {getRecruitInfo,addRecruitMen,getPcatBak,deleteRecruic,enableRecreit, getRecruitList} = require('../controller/recruit')
+const {getRecruitInfo,addRecruitMen,getPcatBak,
+    deleteRecruic,enableRecreit, getRecruitList,
+    getAfressInfo,deleteAfressInfo
+} = require('../controller/recruit')
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
     "get_recruit": async ctx => {
@@ -51,5 +54,21 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel( "获取讯息失败")
+    },
+    'adress_list': async ctx => {
+        const ret = await getAfressInfo(ctx.request.body);
+        if (ret) {
+            ctx.body = new SuccessModel(ret,'获取成功')
+            return
+        }
+        ctx.body = new ErrorModel('获取失败')
+    },
+    'adress_delete': async ctx => {
+        const ret = await deleteAfressInfo(ctx.request.body);
+        if (ret) {
+            ctx.body = new SuccessModel(ret,'删除成功')
+            return
+        }
+        ctx.body = new ErrorModel('删除失败')
     }
 }

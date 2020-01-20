@@ -44,6 +44,8 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
     .post('/api/detelte_recreit', resuirc["detelte_recreit"]) //删除招聘信息
     .post('/api/enable_recreit', resuirc["enable_recreit"]) //启用或停用
+    .post('/api/adress_list', resuirc["adress_list"]) //获取地区管理列表
+    .post('/api/adress_delete', resuirc["adress_delete"]) //地区管理 删除
     .post('/api/get_recruit_List', resuirc['get_recruit_List'])//招聘信息分页
     .post('/api/get_classify', postApi["get_classify"])
     .post('/api/add_centent_title', helpContent["add_centent_title"])
