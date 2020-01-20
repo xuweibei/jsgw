@@ -11,7 +11,6 @@
       </div>
       <div class="card-body-btn">
         <button type="button" class="btn">展示在首页</button>
-
         <button id="addFromMain" type="button" class="btn btn-info" data-toggle="modal" data-target="#exampleModalCenter">
           新增
         </button>
@@ -98,6 +97,12 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label>工作地点：</label>
+                        <select class="form-control edit_select" id="edit_job_work" onchange="chooseEditwork(this.value)">
+                          <option value="">请选择工作地点</option>
+                        </select>
+                    </div>
+                    {{!-- <div class="form-group">
+                        <label>工作地点：</label>
                         <div class="edit_select" title="请选择工作地点">请选择工作地点</div>
                         <div class="scroll_work">
                           <div class="scroll_wrap">
@@ -117,7 +122,7 @@
                             </ul>
                           </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="form-group">
                         <label>排序：</label>
                         <input class="form-control recSort" placeholder="请输入" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}" onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}">
@@ -291,11 +296,45 @@
       var city = {};//市;
       var county = {};//县级
       var jobEditClass = ''//新增或编辑的  职位分类
+      var workPlace = ''//新增或编辑的  工作地点
       var deleteData = {}; //删除的数据
       var enableData = {}; //停用或启用数据
+      var infoId = ''; //编辑数据的id
+      var editSelect =  document.getElementsByClassName('edit_select')[0]
+
+      //获取工作地点
+      function wordMain(){
+           $.post(url.adressAdmin,{},function(resData){
+             if(resData && resData.status===0){
+                const option = [];//储存option的列表
+                resData.data.rows.forEach(item=>{
+                  if(!option.some(aa=> item.name === aa)){
+                    option.push(item)
+                  }
+                })
+                option.forEach(item=>{//赋值地址选择
+                      const str = document.createElement('option');
+                      str.value = item.name;
+                      str.innerHTML = item.name;
+                      $('#work_place').append(str);
+                })
+                option.forEach(item=>{//赋值地址选择
+                      const str = document.createElement('option');
+                      str.value = item.name;
+                      str.innerHTML = item.name;
+                      $('#edit_job_work').append(str);
+                })
+             }
+            });
+      }
+      wordMain()
       //编辑或新增 选择职位分类的时候
       function chooseEditJobClass(data){
         jobEditClass = data;
+      }
+      //编辑或新增 选择职位分类的时候
+      function chooseEditwork(data){
+        workPlace = data;
       }
 
       // 关闭提示框
@@ -373,7 +412,9 @@
       var $table = $('#table')
       //新增保存
       function addRecruit(){
-        if($('.recJob').val() && $('.recMoney').val() && $('.recNum').val() && $('.recEmial').val() && jobEditClass && $('.recPhone').val() && $('.recSort').val() && province.id && $('.recContent').val() && $('.recTask').val()){
+        const srt = $('#exampleModalCenterTitle').html()
+        console.log(jobEditClass,workPlace,$('.recJob').val(),$('.edit_select').val() , $('.recMoney').val() , $('.recNum').val() , $('.recEmial').val() , jobEditClass, $('.recPhone').val() , $('.recSort').val(), $('.recContent').val() , $('.recTask').val(),'进口量水电费')
+        if(workPlace && $('.recJob').val() && $('.recMoney').val() && $('.recNum').val() && $('.recEmial').val() && jobEditClass && $('.recPhone').val() && $('.recSort').val() && $('.recContent').val() && $('.recTask').val()){
             const data = {
               post_name:$('.recJob').val(),
               email:$('.recEmial').val(),
@@ -382,7 +423,7 @@
               province_id:province.id,
               city_id:city.id,
               county_id:county.id,
-              address_name:province?province.name+'-'+city.name+'-'+county.name:'',
+              address_name:$('.edit_select').val(),
               sort:$('.recSort').val(),
               detail_address:$('.recAdress').val(),
               work_content:$('.recContent').val(),
@@ -391,15 +432,27 @@
               salary:$('.recMoney').val(),
               start_time:new Date().getTime()
             }
-            $.post(url.addMen, data, function(res) {
-              if(res && res.status === 0){
-                  province = city = county = {};
-                  toast($('#exampleModalCenterTitle').html()+'成功',()=>{
-                    $('#exampleModalCenter').modal('hide')
-                    searchList();//重新请求数据
-                  })
-              }
-            })
+            if(srt === '新增'){
+              $.post(url.addMen, data, function(res) {
+                if(res && res.status === 0){
+                    province = city = county = {};
+                    toast($('#exampleModalCenterTitle').html()+'成功',()=>{
+                      $('#exampleModalCenter').modal('hide')
+                      searchList();//重新请求数据
+                    })
+                }
+              })
+            }else{
+              $.post(url.editMen, {...data,id:infoId}, function(res) {
+                if(res && res.status === 0){
+                    province = city = county = {};
+                    toast($('#exampleModalCenterTitle').html()+'成功',()=>{
+                      $('#exampleModalCenter').modal('hide')
+                      searchList();//重新请求数据
+                    })
+                }
+              })
+            }
         }else{
             toast('内容未填或格式不正确')
         }
@@ -498,7 +551,6 @@
                 workList('edit_work_place_list li')
             }
           })
-          var editSelect =  document.getElementsByClassName('edit_select')[0]
           //点击省份，然后请求下面的地区
           function getCity(data,ev){
             const cityPlace = document.getElementsByClassName('city_place')[0];
@@ -550,24 +602,24 @@
             editSelect.title = data.name+'-'+value.name + '-' +res.name;
           }
           
-          document.addEventListener('click',function(){
+          {{!-- document.addEventListener('click',function(){
               const scrollWork = document.getElementsByClassName('scroll_work')[0];
               const cityPlace = document.getElementsByClassName('city_place')[0];
               const countyPlace = document.getElementsByClassName('county_place')[0];
               scrollWork.style.display = cityPlace.style.display = countyPlace.style.display ='none';
-          })
+          }) --}}
           //编辑或添加的时候地址的点击
-          editSelect.onclick = function(e){
+          {{!-- editSelect.onclick = function(e){
             const scrollWork = document.getElementsByClassName('scroll_work')[0];
             scrollWork.style.display = 'block';
             e.stopPropagation();
-          }
+          } --}}
           //操作列表
           function operateFormatter(value, row, index) {
             return [
               '<a class="like opt" id="table-edit" href="javascript:void(0)" title="编辑">编辑</a>',
               '<a class="remove opt aActive" id="table-del" href="javascript:void(0)" title="删除">删除</a>',
-              row.enable === 0 ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="启用或停用">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
+              row.enable === '0' ? '<a class="like opt" id="table-start" href="javascript:void(0)" title="启用或停用">启用</a>':'<a class="like opt aActive" id="table-start" href="javascript:void(0)" title="Remove">停用</a>',
               '<a class="like opt" id="table-see" href="javascript:void(0)" title="预览">预览</a>'
             ].join('')
           }
@@ -630,24 +682,12 @@
                       enable: item.enable
                     })
                     //获取工作地点
-                    strArr.push({
+                    {{!-- strArr.push({
                       value:item.address_name,
                       innerHTML:item.address_name
-                    });
+                    }); --}}
                   })
               }
-              const option = [];//储存option的列表
-              strArr.forEach(item=>{
-                if(!option.some(aa=> item.innerHTML === aa)){
-                  option.push(item)
-                }
-              })
-              option.forEach(item=>{//赋值地址选择
-                    const str = document.createElement('option');
-                    str.value = item.value;
-                    str.innerHTML = item.innerHTML;
-                    $('#work_place').append(str)
-              })
               return arr;
             },
             columns: [{
@@ -675,7 +715,7 @@
                     $('#exampleModalCenterTitle').html('编辑')
                     dataMain(row)
                     e.preventDefault();
-                    editSelect.title = row.address_name;
+                    {{!-- editSelect.title = row.address_name; --}}
                     $('#exampleModalCenter').modal('show')
                   },
                   "click #table-del": function (e, value, row, index) {
@@ -697,7 +737,7 @@
           $('#delete_list').click(function(){
             $.post(url.deleteRecreit,deleteData,function(res){
               if(res && res.status === 0){
-                alert('删除成功');
+                toast('删除成功')
                 $('#deletetable').modal('hide')
                 searchList();//重新请求数据
               }
@@ -706,7 +746,7 @@
           $('#enable_btn').click(function(data){
             $.post(url.enable,enableData,function(res){
               if(res && res.status === 0){
-                alert('操作成功');
+                toast('操作成功')
                 $('#enable').modal('hide')
                 searchList();//重新请求数据
               }
@@ -715,7 +755,10 @@
       })
       //表达数据集合
       function dataMain(row){
+        console.log(row,'健康的说法')
           $(".recJob").val(row.post_name);
+          $(".recNum").val(row.require_num);
+          $(".recMoney").val(row.salary);
           $(".recEmial").val(row.email);
           $(".recPhone").val(row.phone);
           $(".recSort").val(row.post_name);
@@ -724,10 +767,10 @@
           $(".recContent").val(row.work_content);
           $(".recTask").val(row.post_job);
           $("#edit_job_class").val(row.job_class);
-          $(".edit_select").html(row.address_name);
-          province.id = row.province_id;
-          city.id = row.city_id;
-          county.id = row.county_id;
+          $("#edit_job_work").val(row.address_name);
+          workPlace = row.address_name;
+          jobEditClass = row.job_class;
+          infoId = row.id;
       }
       //预览弹框结构
       function prevSee(data) {
