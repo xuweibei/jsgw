@@ -1,6 +1,8 @@
 const {
     sequelize
 } = require('../db/db');
+const fs = require('fs');
+const path = require('path');
 
 
 const {
@@ -383,6 +385,18 @@ const saveCententTitle = async (obj) => {
             id: 1
         }
     });
+    let red = '';
+    if (obj.pic_rul) {
+        const readPath = obj.pic_rul
+        let time = Date.now() + parseInt(Math.random() * 999) + parseInt(Math.random() * 2222);
+        const name = time + '.' + 'png'
+        const whritePath = path.join(__dirname, '../', 'assets', 'images', '/') + name
+        const readStream = fs.createReadStream(readPath)
+        const writeStream = fs.createWriteStream(whritePath)
+        red = readStream.pipe(writeStream).path.split('\\');
+        const redPath = 'http://localhost:8000/' + 'assets/' + 'images/' + red[red.length - 1];
+    }
+    // console.log(redPath, "的手机卡和第三届啊哈")
     if (company) {
         return sequelize.transaction(function (t) {
             return Company.update({
@@ -392,7 +406,7 @@ const saveCententTitle = async (obj) => {
                 intro: obj.intro,
                 link_phone: obj.link_phone,
                 address: obj.address,
-                pic_rul: '',
+                pic_rul: obj.pic_rul ? 'http://localhost:8000/' + 'assets/' + 'images/' + red[red.length - 1] : '',
             }, {
                 where: {
                     id: 1
@@ -500,7 +514,7 @@ const saveCententTitle = async (obj) => {
                 intro: obj.intro,
                 link_phone: obj.link_phone,
                 address: obj.address,
-                pic_rul: '',
+                pic_rul: obj.pic_rul ? 'http://localhost:8000/' + 'assets/' + 'images/' + red[red.length - 1] : '',
             }, {
                 transaction: t
             }).then(function () {

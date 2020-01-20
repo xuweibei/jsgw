@@ -2,6 +2,9 @@
     <div class="department-help-content">
         <div class="help-content-top">底部栏</div>
         <div class="content-bottom-right">
+            <div class="content-bottom-right-dinwei">
+                <input type="file" id="Bank-card-photo" class="click-img-inp"/>
+            </div>
             <img class="bottom-right-img" src="../assets/img/login-bg.png" alt="">
         </div>
         <div class="help-content-bottom">
@@ -127,8 +130,10 @@
                 <div class="text-wrap">
                     <div class="text-wrap-list">
                         <div class="text-wrap-top">关注我们</div>
-                        <!--<input type="file" id="file" class="filepath" onchange="changepic(this)" accept="image/jpg,image/jpeg,image/png,image/PNG">-->
-                        <img id="img3" class="bottom-right-imgs" src="../assets/img/login-bg.png" alt="">
+                        <div class="content-bottom-right-dinwei">
+                            <input type="file" id="Bank-card-photos" class="click-img-inp"/>
+                            <img id="img3" class="bottom-right-imgs" src="../assets/img/login-bg.png" alt="">
+                        </div>
                     </div>
                 </div>
                 <div id="sumbit" class="preserve">保存</div>
@@ -161,6 +166,8 @@
                     friendSkipJoin1: '', //友情链接 跳转链接1
                     listNum: 0, //增加减少 （联络我们）
                     listNums: 0, //增加减少 （友情链接）
+                    facadeImg: '', //logo图片路径
+                    facadeImgUrl: '', //二维码图片保存
                 };
 
                 //获取初始值
@@ -274,12 +281,51 @@
                     }
                 });
 
+                //logo图片上传
+                $("#Bank-card-photo").change(function(e) {
+                    var imgBox = e.target;
+                    uploadImg('#Bank-card-photo', imgBox)
+                });
+
+                //二维码图片上传图片上传
+                $("#Bank-card-photos").change(function(e) {
+                    var imgBox = e.target;
+                    uploadImg('#Bank-card-photos', imgBox)
+                });
+
+                //公用上传图片方法
+                function uploadImg(element, tag) {
+                    var file = tag.files[0];
+                    var imgSrc;
+                    if (!/image\/\w+/.test(file.type)) {
+                        alert("看清楚，这个需要图片！");
+                        return false;
+                    }
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    reader.onload = function() {
+                        imgSrc = this.result;
+                        switch(element) {
+                            case '#Bank-card-photo': //logo图片路径
+                                state.facadeImg = imgSrc;
+                                $(".bottom-right-img").attr("src", imgSrc);
+                                break;
+                            case '#Bank-card-photos': //二维码图片保存
+                                state.facadeImgUrl = imgSrc;
+                                $(".bottom-right-imgs").attr("src", imgSrc);
+                                break;
+                            default:
+                                alert("传图有误，请重新上传图片");
+                        }
+                    };
+                }
+
                 //提交
                 $("#sumbit").bind('click', function () {
                     const {companyName, contactInfo, contactAddress,
                         myPageName, myPageName1,myPageName2, myPageName3, myPageName4, myPageName5,
                         mySkipJoin, mySkipJoin1, mySkipJoin2, mySkipJoin3, mySkipJoin4, mySkipJoin5,
-                        friendPageName, friendPageName1, friendSkipJoin, friendSkipJoin1} = state;
+                        friendPageName, friendPageName1, friendSkipJoin, friendSkipJoin1, facadeImg, facadeImgUrl} = state;
                     if (!(/^([\u2E80-\u9FFF]+){6}$/.test(companyName))) {
                         alert('公司名称最少为6个中文字')
                     } else if (!(/^1[34578]\d{9}$/.test(contactInfo))) {
@@ -310,6 +356,7 @@
                                 friend_link1: friendSkipJoin,
                                 friend_page2: friendPageName1,
                                 friend_link2: friendSkipJoin1,
+                                pic_rul: facadeImg,
                             },
                             function(res) {
                                 if (res) {
