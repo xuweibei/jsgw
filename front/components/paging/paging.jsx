@@ -17,7 +17,9 @@ class Paging extends React.PureComponent {
             })}).then(res=>{
             res.json().then(res=>{
                 if(res && res.status === 0){
-                    console.log(res, 'ssssssssssss');
+                    this.setState({
+                        whichPage: page
+                    })
                     this.props.pageChange(res.data)
                 }
             })

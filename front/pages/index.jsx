@@ -241,7 +241,10 @@ class Index extends React.Component {
                     {
                         module.map(item => (
                             item.moduleName === "公告管理" && (
-                                <BulletinModule/>
+                                <div className="index-synopsis">
+                                    <div className="headline">公告管理</div>
+                                    <BulletinModule/>
+                                </div>
                             )
                         ))
                     }

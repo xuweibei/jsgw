@@ -10,10 +10,11 @@ const {RangePicker} = DatePicker;
 export default class Join extends React.Component{
 
     componentDidMount() {
+        this.getNotice();
         if(this.getJobType()) {
             fetch('http://localhost:8000/api/get_recruit',{method:'POST',headers:{'Content-Type': 'application/json'},body: JSON.stringify({
-                job_class: decodeURI(this.getJobType())
-            })}).then(res=>{
+                    job_class: decodeURI(this.getJobType())
+                })}).then(res=>{
                 res.json().then(datal=>{
                     if(datal && datal.status === 0){
                         this.setState({
@@ -30,35 +31,47 @@ export default class Join extends React.Component{
         window.location.search.substr(1).split('=')[1]
     )
 
+    getNotice = () => {
+        fetch('http://localhost:8000/api/get_recruit_List', {method: 'POST',headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify({
+                limit:10,offset:0,page:1
+            })}).then(res => {
+            res.json().then(datal => {
+                if (datal && datal.status === 0) {
+                    const workData = [];//储存option的列表
+                    datal.data.rows.forEach(item=>{
+                        if(!workData.some(aa=> item.address_name === aa)){-
+                            workData.push(item)
+                        }
+                    });
+                    this.setState({
+                        workData: workData,
+                        data: datal.data
+                    })
+                }
+            })
+        })
+    }
+
     static async getInitialProps(props){
-        const res = await fetch('http://localhost:8000/api/get_recruit_List',{method:'POST',
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({limit:10, offset: 0,page: 1})}); //获取招聘信息
-        const data = await res.json();
         const job = await fetch('http://localhost:8000/api/get_classify',{method:'POST'}); //获取职位分类
         const dataJob = await job.json();
-        const workData = [];//储存option的列表
-        data.data.rows.forEach(item=>{
-            if(!workData.some(aa=> item.address_name === aa)){-
-                workData.push(item)
-            }
-        })
         return {
-            data:data.data,
             dataJob,
-            workData
         }
     }
     constructor(props) {
         super(props);
-        const {data,dataJob,workData} = props;
+        const {dataJob} = props;
         // 定义state数据
         this.state = {
-            data,//招聘信息
+            data: [],//招聘信息
             dataJob,//职位分类
-            workData,//工作地点
+            workData: [],//工作地点
             detail:false, // 是否显示详情
-            focus: false
+            focus: false,
+            pagingShow: 10
         }
     }
 
@@ -77,6 +90,9 @@ export default class Join extends React.Component{
     //点击搜索
     search = () => {
         const {post_name,job_class,address_name,start_time} = this.state;
+        if(!post_name && !job_class && !address_name && !start_time) {
+            return
+        }
         const keyArr = ['post_name','job_class','address_name','start_time','end_time'];
         const arr = [post_name,job_class,address_name];
         const datas = new FormData();
@@ -91,6 +107,7 @@ export default class Join extends React.Component{
                 }
             })
         })
+
         fetch('http://localhost:8000/api/get_recruit',{method:'POST',body: datas
         }).then(res=>{
             res.json().then(datal=>{
@@ -129,7 +146,6 @@ export default class Join extends React.Component{
     }
 
     reception = (arr) => {
-        console.log(arr);
         this.setState({
             data: arr
         })
@@ -194,7 +210,7 @@ export default class Join extends React.Component{
                         <div className="search">
                             <span className="empty" onClick={this.clearSearch}>清空筛选条件</span>
                             {/*<Button type="primary" onClick={this.search}>搜索</Button>*/}
-                            <div className='search-button'>搜索</div>
+                            <div onClick={this.search} className='search-button'>搜索</div>
                         </div>
                     </div>
                     {/*每项数据内容*/}
@@ -220,11 +236,16 @@ export default class Join extends React.Component{
                                 </div>
                             })
                         }
-                        <Paging
-                            pageChange={this.reception.bind(this)}
-                            total={data.total}
-                            port="get_recruit_List"
-                        />
+                        {
+                            data.total && (
+                                <Paging
+                                    pageChange={this.reception.bind(this)}
+                                    total={data.total}
+                                    port="get_recruit_List"
+                                />
+                            )
+                        }
+
                         {
                             detailInfo &&
                             <Modal
@@ -237,7 +258,7 @@ export default class Join extends React.Component{
                                 className="detail-main"
                                 onOk={this.handleCancel}
                             >
-                               <div className="detail-top">
+                                <div className="detail-top">
                                     <div className="detail">
                                         <div>
                                             <label>职位类型：</label>
@@ -274,17 +295,17 @@ export default class Join extends React.Component{
                                         </div>
                                         <div></div>
                                     </div>
-                               </div>
-                               <div className="detail-bottom">
-                                   <div>
-                                       <label>工作内容：</label>
-                                       <p>{detailInfo.work_content}</p>
-                                   </div>
-                                   <div>
-                                       <label>岗位职责：</label>
-                                       <p>{detailInfo.post_job}</p>
-                                   </div>
-                               </div>
+                                </div>
+                                <div className="detail-bottom">
+                                    <div>
+                                        <label>工作内容：</label>
+                                        <p>{detailInfo.work_content}</p>
+                                    </div>
+                                    <div>
+                                        <label>岗位职责：</label>
+                                        <p>{detailInfo.post_job}</p>
+                                    </div>
+                                </div>
                             </Modal>
                         }
                     </div>

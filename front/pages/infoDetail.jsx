@@ -33,8 +33,28 @@ class InfoDetails extends React.Component {
         })
     }
 
+    //时间格式更改
+    formatDate = (timestamp,pass) => {
+        const date = new Date(timestamp );//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+        const Y = date.getFullYear() + '年';
+        const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '月';
+        const D = date.getDate() + '日';
+        const h = date.getHours() + ':';
+        const m = date.getMinutes() + ':';
+        const s = date.getSeconds();
+        if(pass === 1){
+            return Y + M + D
+        }else if(pass === 2){
+            const mm = m.length === 2 ? '0' + m : m;
+            const ss = String(s).length === 1 ? '0' + s : s;
+            return h + mm + ss
+        }
+        return Y + M + D + h + m + s;
+    };
+
     render() {
         const {info} = this.state;
+        console.log(info);
         return (
             <Layout>
                 <div className="exchangeDetails distance">
@@ -43,9 +63,9 @@ class InfoDetails extends React.Component {
                     </div>
                     <div className="time-preview">
                         <div className="time">
-                            <span>{info && info[0].updatedAt}</span>
-                            <span>11:11</span>
-                            <span>产品组：庄宇坤</span>
+                            <span>{this.formatDate(info && info[0].createdAt,1)}</span>
+                            <span>{this.formatDate(info && info[0].createdAt,2)}</span>
+                            {/*<span>产品组：庄宇坤</span>*/}
                         </div>
                     </div>
                     {/* <div className="consult-img"><img src="./consult.png" alt=""/></div> */}

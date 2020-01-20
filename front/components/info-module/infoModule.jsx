@@ -39,7 +39,10 @@ class InfoModule extends React.PureComponent {
     getSelect = () => {
         console.log('执行了');
         const {key_val, start_time} = this.state;
-        const timeArr = []
+        const timeArr = [];
+        if(!key_val && !start_time) {
+            return
+        }
         if(start_time && start_time.length > 1){
             timeArr.push(new Date(start_time[0]).getTime())
             timeArr.push(new Date(start_time[1]).getTime())
@@ -47,7 +50,7 @@ class InfoModule extends React.PureComponent {
         const datas = {
             key_val,
             timeArr
-        }
+        };
         fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(datas)}).then(res => {
@@ -59,7 +62,7 @@ class InfoModule extends React.PureComponent {
                 }
             })
         })
-    }
+    };
 
 //时间格式更改
     formatDate = (timestamp, pass) => {
@@ -85,6 +88,14 @@ class InfoModule extends React.PureComponent {
             infoAns: arr
         })
     };
+
+    //清除筛选条件
+    clearSearch = () => {
+        this.setState({
+            key_val:'',
+            start_time:'',
+        });
+    }
 
     getFocus = (e) => {
         console.log(e);
@@ -115,22 +126,22 @@ class InfoModule extends React.PureComponent {
                             />
                         </div>
                         <div className="empty-select">
-                            <div className="empty" onClick={() => this.getNotice()}>清空筛选条件</div>
+                            <div className="empty" onClick={this.clearSearch}>清空筛选条件</div>
                             <div className="search" onClick={this.getSelect}>搜索</div>
                             {/*<Button type="primary" >搜索</Button>*/}
                         </div>
                     </div>
                 </div>
                 {/*公告栏*/}
-                <div>
+                <div className="list-box">
                     {
                         infoAns.rows && infoAns.rows.length > 0 && infoAns.rows.map(item => (
                             <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>
                                 <div key={item.id} className="bulletin-board distance">
                                     <div className="explain">{item.info_title}</div>
                                     <div className="time-date">
-                                         <div className="data">{this.formatDate(item.createdAt, 1)}</div>
-                                         <div className="time">{this.formatDate(item.createdAt, 2)}</div>
+                                        <div className="data">{this.formatDate(item.createdAt, 1)}</div>
+                                        <div className="time">{this.formatDate(item.createdAt, 2)}</div>
                                     </div>
                                 </div>
                             </Link>
@@ -138,11 +149,16 @@ class InfoModule extends React.PureComponent {
                     }
                 </div>
                 {/*分页器*/}
-                <Paging
-                    pageChange={this.reception.bind(this)}
-                    total={infoAns.total}
-                    port="get_info"
-                />
+                {
+                    infoAns.total && (
+                        <Paging
+                            pageChange={this.reception.bind(this)}
+                            total={infoAns.total}
+                            port="get_info"
+                        />
+                    )
+                }
+
             </div>
         )
     }

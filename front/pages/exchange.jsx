@@ -71,7 +71,8 @@ class Exchange extends React.PureComponent {
             talk: '',
             key_val: '',   //关键字筛选
             start_time: [],   //时间筛选
-            start_job: ''   //职业分类筛选
+            start_job: '',   //职业分类筛选
+            focus: false
         }
     }
 
@@ -195,8 +196,15 @@ class Exchange extends React.PureComponent {
         })
     }
 
+    getFocus = (e) => {
+        console.log(e);
+        this.setState({
+            focus: e
+        })
+    }
+
     render() {
-        const { products, imageUrl, dep, talk, key_val, start_time, start_job} = this.state;
+        const { products, imageUrl, dep, talk, key_val, start_time, start_job, focus} = this.state;
         const { getFieldDecorator } = this.props.form;
         console.log(talk)
         const uploadButton = (
@@ -228,7 +236,13 @@ class Exchange extends React.PureComponent {
                                         ))
                                     }
                                 </Select>
-                                <Input className="fill" value={key_val} onChange={(res)=>this.setState({key_val:res.target.value})} placeholder="输入关键字" />
+                                <Input
+                                    className={`fill ${focus ? 'focus' : ''}`}
+                                    value={key_val}
+                                    onChange={(res)=>this.setState({key_val:res.target.value})} placeholder="输入关键字"
+                                    onBlur={() => this.getFocus(false)}
+                                    onFocus={() => this.getFocus(true)}
+                                />
                                 <RangePicker
                                     placeholder={['发布开始时间','发布结束时间']}
                                     onChange={(res)=>this.setState({start_time:res})}
@@ -237,7 +251,8 @@ class Exchange extends React.PureComponent {
                             </div>
                             <div  className="search">
                                 <div onClick={this.getTalk} className="empty">清空筛选条件</div>
-                                <Button onClick={this.getSelect} type="primary">搜索</Button>
+                                {/*<Button  type="primary">搜索</Button>*/}
+                                <div className="search-button" onClick={this.getSelect}>搜索</div>
                             </div>
                         </div>
 
@@ -253,7 +268,7 @@ class Exchange extends React.PureComponent {
                                     }
                                 }}>
                                     <div key={item.id} className="bulletin-board">
-                                        <div className="explain" >{item.exchange_title}</div>
+                                        <div className={`explain ${item.is_read ? 'name-read' : ''}`} >{item.exchange_title}</div>
                                         <div className="time-date">
                                             <div className="issuer">
                                                 {item.username}
@@ -355,12 +370,12 @@ class Exchange extends React.PureComponent {
                             </Form.Item>
                         </Form>
                     </Modal>
-                    <Paging
-                        pageChange={this.reception.bind(this)}
-                        total={talk.total}
-                        port="re_talk"
-                    />
                 </div>
+                <Paging
+                    pageChange={this.reception.bind(this)}
+                    total={talk.total}
+                    port="re_talk"
+                />
             </Layout>
         )
     }
