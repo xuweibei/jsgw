@@ -5,7 +5,7 @@ import fetch from 'isomorphic-unfetch';
 
 class AboutRecord extends React.Component {
     state = {
-        events: []  //大事记
+        events: [],  //大事记
     }
     componentDidMount() {
         this.getRecord();
@@ -26,18 +26,22 @@ class AboutRecord extends React.Component {
 
     render() {
         const {events} = this.state;
-        console.log(events)
+        const {appearName} = this.props;
         return (
             <div className="about">
                 {/*大事记*/}
                 <div id="act" className="deed distance">
-                    <div className="deed-name">中战大事记</div>
+                    {
+                        appearName && (
+                            <div className="deed-name">中战大事记</div>
+                        )
+                    }
                     <div className="deed-each-box">
                         {
-                            events.map(item => (
+                            events.map((item, index) => (
                                 <div className="deed-each">
                                     <div className="time">
-                                        <div className="circle cycle">
+                                        <div className={`circle ${index === 0 ? 'cycle' : ''}`}>
                                             <div className="dot"/>
                                         </div>
                                         <div className="short">{item.time.split('/')[0]}年</div>

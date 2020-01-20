@@ -38,7 +38,7 @@ class AboutIntros extends React.Component {
                 {/*公司简介*/}
                 <div id="brief" className="synopsis distance">
                     <div className="synopsis-left">
-                        <img className="synopsis-img" src="/introduce.png" alt="" />
+                        <img className="synopsis-img" src="/environment.png" alt="" />
                     </div>
                     <div className="synopsis-right">
                         <div className="across"/>
@@ -48,7 +48,10 @@ class AboutIntros extends React.Component {
                     {
                         appear && (
                             <Anchor className="anchor" affix>
-                                <Link href="#brief" title="公司简介" />
+                                <div>
+                                    <Link href="#brief" title="公司简介" />
+                                </div>
+
                                 <Link href="#act" title="大事记" />
                                 <Link href="#civil" title="企业文化" />
                             </Anchor>
