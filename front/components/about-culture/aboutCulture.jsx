@@ -32,14 +32,22 @@ class AboutCulture extends React.Component {
 
     render() {
         const {cultures} = this.state;
+        const {appearName} = this.props;
         return (
             <div className="about">
                 {/*公司文化*/}
                 <div id="civil" className="culture distance">
-                    <div className="culture-name">公司文化</div>
-                    <div className="across"/>
+                    {
+                        appearName && (
+                            <div>
+                                <div className="culture-name">公司文化</div>
+                                <div className="across"/>
+                            </div>
+
+                        )
+                    }
                     <div className="culture-content" dangerouslySetInnerHTML={{__html:cultures.html}}/>
-                    <img className="culture-img" src="/introduce.png" alt="" />
+                    <img className="culture-img" src="/environment.png" alt="" />
                 </div>
             </div>
         )

@@ -7,7 +7,13 @@ class Bulletin extends  React.PureComponent{
     render(){
         return(
             <Layout>
-                <BulletinModule/>
+                <div className="bulletin">
+                    <div className="banner ">
+                        <div className="join-one">公司公告</div>
+                        <div className="join">Company announcement </div>
+                    </div>
+                    <BulletinModule/>
+                </div>
             </Layout>
         )
     }

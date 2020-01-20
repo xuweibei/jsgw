@@ -12,13 +12,13 @@ export default class About extends React.PureComponent {
                 <div className="about">
                     <div className="banner ">
                         <div className="join-one">公司简介</div>
-                        <div className="join">Company announcement </div>
+                        <div className="join">Company profile</div>
                     </div>
                     <AboutIntros
                         appear={true}
                     />
-                    <AboutRecord/>
-                    <AboutCulture/>
+                    <AboutRecord appearName={true}/>
+                    <AboutCulture appearName={true}/>
                 </div>
             </Layout>
         )

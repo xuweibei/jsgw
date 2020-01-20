@@ -138,11 +138,15 @@ class Index extends React.Component {
                                 )
                             ))
                         }
-                        {/*产品中心*/}
+
+
+                    </div>
+                    {/*产品中心*/}
+                    <div className="distance">
                         {
                             module.map(item => (
                                 item.moduleName === "产品中心" && (
-                                    <div className="product">
+                                    <div className="index-product">
                                         <div className="headline">产品中心</div>
                                         <div className="product-list">
                                             {
@@ -158,7 +162,6 @@ class Index extends React.Component {
                                 )
                             ))
                         }
-
                     </div>
                     {/*加入我们*/}
                     {
@@ -201,7 +204,11 @@ class Index extends React.Component {
                     {
                         module.map(item => (
                             item.moduleName === "公司简介" && (
-                                <AboutIntros appear={false}/>
+                                <div className="index-synopsis">
+                                    <div className="headline">公司简介</div>
+                                    <AboutIntros appear={false}/>
+                                </div>
+
                             )
                         ))
                     }
@@ -210,7 +217,11 @@ class Index extends React.Component {
                     {
                         module.map(item => (
                             item.moduleName === "大事记" && (
-                                <AboutRecord/>
+                                <div className="index-synopsis">
+                                    <div className="headline">大事记</div>
+                                    <AboutRecord appearName={false}/>
+                                </div>
+
                             )
                         ))
                     }
@@ -218,7 +229,10 @@ class Index extends React.Component {
                     {
                         module.map(item => (
                             item.moduleName === "企业文化" && (
-                                <AboutCulture/>
+                                <div className="index-synopsis">
+                                    <div className="headline">企业文化</div>
+                                    <AboutCulture appearName={false}/>
+                                </div>
                             )
                         ))
                     }
