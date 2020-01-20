@@ -630,6 +630,10 @@ const Exchange = db.defineModel('gw_exchange', {
     exchange_count: {
         type: Sequelize.BIGINT,
         defaultValue: 0
+    },
+    is_read: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: 0
     }
 })
 

@@ -25,7 +25,7 @@ const upTalk = async (pic, content, title, department, username) => {
 const reTalk = async (limit, page, key_val, job, timeArr) => {
     if(limit) {
         const offset = (page - 1) * limit
-        const sql = `select id, username, department_id, exchange_title, create_time from gw_exchange limit ${offset}, ${limit}`
+        const sql = `select * from gw_exchange limit ${offset}, ${limit}`
         // const ret = await Exchange.findAll({
         //     attributes: { exclude: ['exchange_content', 'exchange_pic'] }
         // });
@@ -89,7 +89,14 @@ const reTalk = async (limit, page, key_val, job, timeArr) => {
     }
 }
 
-const talkDetail = async (id) => {
+const talkDetail = async (id, is_read) => {
+    if(is_read) {
+        Exchange.update({is_read}, {
+            where: {
+                id: id
+            }
+        })
+    }
     const find = await Exchange.findOne({
         where: {
             id

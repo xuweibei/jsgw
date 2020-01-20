@@ -55,11 +55,11 @@ module.exports = {
         ctx.body = new ErrorModel('查询失败')
     },
     "talk_detail": async ctx => {
-        const { id } = ctx.request.body
+        const { id, is_read } = ctx.request.body
         if (!id) {
             throw new Error('id Error')
         }
-        const data = await talkDetail(id)
+        const data = await talkDetail(id, is_read)
         // console.log(data)
         if (data) {
             ctx.body = new SuccessModel(data.dataValues, '查询成功')
