@@ -20,12 +20,11 @@ class Bulletin extends  React.PureComponent{
             body: JSON.stringify({limit:10, offset: 0,page: 1})}).then(res => {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
-                    console.log(datal);
                     this.setState({
                         data: datal.data,
                         gross: datal.data,
                         keyWord: '',
-                        create_time: ''
+                        create_time: '',
                     })
                 }
             })
@@ -95,12 +94,20 @@ class Bulletin extends  React.PureComponent{
         this.state = {
             data: [], //数据条
             gross: '',  //数据总条数
-            keyWord: ''
+            keyWord: '',
+            focus: false
         }
     }
 
+    getFocus = (e) => {
+        console.log(e);
+        this.setState({
+            focus: e
+        })
+    }
+
     render(){
-        const {data, create_time, gross, keyWord} = this.state;
+        const {data, create_time, gross, keyWord, focus} = this.state;
         console.log(data);
         return(
             <div className="bulletin">
@@ -108,7 +115,13 @@ class Bulletin extends  React.PureComponent{
                 <div className="sizer distance">
                     <div className="screen">
                         <div>
-                            <Input className="fill" value={keyWord} placeholder="请输入关键字" onChange={(res)=>this.setState({keyWord:res.target.value})} />
+                            <Input
+                                className={`fill ${focus ? 'focus' : ''}`}
+                                value={keyWord} placeholder="请输入关键字"
+                                onChange={(res)=>this.setState({keyWord:res.target.value})}
+                                onBlur={() => this.getFocus(false)}
+                                onFocus={() => this.getFocus(true)}
+                            />
                             <RangePicker
                                 onChange={(res)=>this.setState({create_time:res})}
                                 value={create_time}
@@ -117,7 +130,8 @@ class Bulletin extends  React.PureComponent{
                         </div>
                         <div className="empty-select">
                             <div className="empty" onClick={() => this.getNotice()}>清空筛选条件</div>
-                            <Button type="primary" onClick={() => this.sellSearch()}>搜索</Button>
+                            {/*<Button type="primary" onClick={() => this.sellSearch()}>搜索</Button>*/}
+                            <div className="search" onClick={this.sellSearch}>搜索</div>
                         </div>
                     </div>
                 </div>
@@ -127,7 +141,7 @@ class Bulletin extends  React.PureComponent{
                         data.rows && data.rows.length > 0 && data.rows.map(item=>(
                             <Link href={{pathname: '/bulletinDetail', query: {id: item.id}}}>
                                 <div key={item.create_time} className="bulletin-board distance">
-                                    <div className="explain">{item.title}</div>
+                                    <div className={`explain ${item.is_read ? 'name-read' : ''}`}>{item.title}</div>
                                     <div className="time-date">
                                         <div className="data">{this.formatDate(item.create_time,1)}</div>
                                         <div className="time">{this.formatDate(item.create_time,2)}</div>

@@ -24,21 +24,52 @@
         .screen {
             display: flex;
             margin-bottom: 24px;
-            .fill, .ant-select-enabled {
+            .fill {
                 flex: 1;
-                margin-right: 20px;
-                width: auto;
+                background-color: #F3F6FA;
+                font-size: 12px;
+                margin-right: 40px;
+                border: none;
+            }
+            .ant-select-enabled {
+                width: 180px;
+                font-size: 12px;
+                margin-right: 40px;
+                .ant-select-selection {
+                    background: #F3F6FA;
+                    border: none;
+                }
             }
             .ant-calendar-picker {
-                width: 280px;
+                //width: 280px;
+                .ant-calendar-picker-input {
+                    border: none;
+                    background: #F3F6FA;
+                    font-size: 12px;
+                }
+            }
+            .focus {
+                background: #fff;
             }
         }
         .search {
             text-align: right;
+            display: flex;
+            justify-content: flex-end;
             .empty {
                 font-size: 14px;
                 color: #999;
                 margin-right: 24px;
+                line-height: 32px;
+                font-family:Source Han Sans CN;
+            }
+            .search-button {
+                width: 80px;
+                line-height: 30px;
+                color: #4FCAFF;
+                border: 1px solid #4FCAFF;
+                text-align: center;
+                border-radius: 4px;
             }
             .ant-btn-primary {
                 background: #4FCAFF;
@@ -51,11 +82,13 @@
         display: flex;
         justify-content: space-between;
         align-content: center;
-        padding: 0 270px;
+        padding: 14px 270px;
+        margin-bottom: 40px;
         .datum {
             .position {
                 display: flex;
                 font-size: 16px;
+                font-family:Source Han Sans CN;
                 div:nth-child(1) {
                     color: #25608D;
                     margin-right: 24px;
@@ -69,6 +102,7 @@
                 color: #999;
                 margin: 14px 0;
                 display: flex;
+                font-family:Source Han Sans CN;
                 div {
                     padding: 0 10px;
                     border-right: 1px solid #999;
@@ -84,6 +118,7 @@
                 display: flex;
                 font-size: 12px;
                 color: #999;
+                font-family:Source Han Sans CN;
                 div {
                     margin-right: 15px;
                 }
@@ -95,7 +130,7 @@
             color: #4FCAFF;
             cursor: pointer;
             img {
-                margin-left: 13px;
+                margin: -4px 0 0 13px;
             }
         }
     }
@@ -106,10 +141,11 @@
     width:848px !important;
     .ant-modal-header{
         border:none;
-        padding: 16px 32px 0;
+        padding: 40px 24px 16px;
         .ant-modal-title{
             font-size:24px;
             color:#25608D;
+            font-family:Source Han Sans CN;
         }
     }
     .detail-top{
@@ -135,7 +171,8 @@
     .detail-bottom{
         div{
             display: flex;
-            margin:10px;
+            //margin:10px;
+            padding: 24px 0;
             label{
                 min-width:72px;
                 color:#999999;
@@ -144,19 +181,30 @@
                 color:#333333
             }
         }
-        margin-bottom: 30px;
         padding-top:10px;
     }
     .detail-bottom div:nth-child(1){
         border-bottom:1px solid #EEEEEE;
         border-top:1px solid #EEEEEE;
-        padding:20px 0;
+        //padding:20px 0;
     }
     .ant-modal-footer{
         border:none;
+        padding: 40px 16px;
         div{
             text-align: center;
+            .ant-btn-primary {
+                margin: 0;
+                width: 128px;
+                border-radius: 4px;
+            }
         }
+    }
+    .ant-modal-body {
+        padding-bottom: 0;
+    }
+    p {
+        margin-bottom: 0;
     }
     .ant-modal-footer div button:nth-child(1){
         display: none;

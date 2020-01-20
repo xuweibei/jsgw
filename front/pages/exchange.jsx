@@ -210,7 +210,7 @@ class Exchange extends React.PureComponent {
             <Layout title="部门交流">
                 <div className="exchange distance">
                     <div className="exchange-head">
-                        <div>部门交流</div>
+                        <div className="exchange-head-name">部门交流</div>
                         <Button className="exchange-button" type="primary" onClick={this.changeModal}>发布新分享</Button>
                     </div>
                     <div className="sizer">

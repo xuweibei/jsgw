@@ -57,7 +57,8 @@ export default class Join extends React.Component{
             data,//招聘信息
             dataJob,//职位分类
             workData,//工作地点
-            detail:false // 是否显示详情
+            detail:false, // 是否显示详情
+            focus: false
         }
     }
 
@@ -134,8 +135,15 @@ export default class Join extends React.Component{
         })
     }
 
+    getFocus = (e) => {
+        console.log(e);
+        this.setState({
+            focus: e
+        })
+    }
+
     render(){
-        const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo} = this.state;
+        const {data,dataJob,workData,post_name,job_class,address_name,start_time,detail,detailInfo, focus} = this.state;
         return (
             <Layout title="人才招聘">
                 <div className="join">
@@ -148,7 +156,13 @@ export default class Join extends React.Component{
                     {/*表单搜索栏*/}
                     <div className="sizer distance">
                         <div className="screen">
-                            <Input className="fill" value={post_name} placeholder="请输入职位关键字" onChange={(res)=>this.setState({post_name:res.target.value})} />
+                            <Input
+                                className={`fill ${focus ? 'focus' : ''}`}
+                                value={post_name}
+                                placeholder="请输入职位关键字" onChange={(res)=>this.setState({post_name:res.target.value})}
+                                onBlur={() => this.getFocus(false)}
+                                onFocus={() => this.getFocus(true)}
+                            />
                             <Select
                                 placeholder="-请选择职位分类-"
                                 optionFilterProp="children"
@@ -179,7 +193,8 @@ export default class Join extends React.Component{
                         </div>
                         <div className="search">
                             <span className="empty" onClick={this.clearSearch}>清空筛选条件</span>
-                            <Button type="primary" onClick={this.search}>搜索</Button>
+                            {/*<Button type="primary" onClick={this.search}>搜索</Button>*/}
+                            <div className='search-button'>搜索</div>
                         </div>
                     </div>
                     {/*每项数据内容*/}
@@ -210,16 +225,6 @@ export default class Join extends React.Component{
                             total={data.total}
                             port="get_recruit_List"
                         />
-                        {/*<div className="distance">
-                            <Pagination
-                                showSizeChanger
-                                showQuickJumper
-                                // onShowSizeChange={this.onShowSizeChange}
-                                defaultCurrent={1}
-                                // Pagination={5}
-                                total={(data && data.rows)?data.rows.length:0}
-                            />
-                        </div>*/}
                         {
                             detailInfo &&
                             <Modal
