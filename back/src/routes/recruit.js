@@ -1,7 +1,8 @@
 //招聘信息接口
-const {getRecruitInfo,addRecruitMen,getPcatBak,
+const {getRecruitInfo,addRecruitMen,getPcatBak,editRecruitMen,
     deleteRecruic,enableRecreit, getRecruitList,
-    getAfressInfo,deleteAfressInfo
+    getAfressInfo,deleteAfressInfo,enableAfressInfo,addAdress,
+    editAdress
 } = require('../controller/recruit')
 const {SuccessModel, ErrorModel} = require('../config/model')
 module.exports = {
@@ -20,6 +21,14 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('添加失败')
+    },
+    "edit_recruiter":async ctx =>{
+        const res =  await editRecruitMen(ctx.request.body);
+        if(res){
+            ctx.body = new SuccessModel('编辑成功')
+            return
+        }
+        ctx.body = new ErrorModel('编辑失败')
     },
     "pcat_bak":async ctx =>{
         const res =  await getPcatBak(ctx.request.body);
@@ -70,5 +79,29 @@ module.exports = {
             return
         }
         ctx.body = new ErrorModel('删除失败')
-    }
+    },
+    'adress_enable': async ctx => {
+        const ret = await enableAfressInfo(ctx.request.body);
+        if (ret) {
+            ctx.body = new SuccessModel(ret,'操作成功')
+            return
+        }
+        ctx.body = new ErrorModel('操作失败')
+    },
+    "adress_add":async ctx =>{
+        const res =  await addAdress(ctx.request.body);
+        if(res){
+            ctx.body = new SuccessModel('添加成功')
+            return
+        }
+        ctx.body = new ErrorModel('添加失败')
+    },
+    "adress_edit":async ctx =>{
+        const res =  await editAdress(ctx.request.body);
+        if(res){
+            ctx.body = new SuccessModel('操作成功')
+            return
+        }
+        ctx.body = new ErrorModel('操作失败')
+    },
 }

@@ -14,8 +14,12 @@ const url = {
     changeStatus: base + 'api/change_status', //编辑员工
     getRecreuit: base + 'api/get_recruit', //获取招聘信息
     addMen: base + 'api/add_recruiter', //获取招聘信息
+    editMen: base + 'api/edit_recruiter', //编辑招聘信息
     adressAdmin: base + 'api/adress_list', //获取地区管理列表
     deleteAdress: base + 'api/adress_delete', //地区管理列表 删除
+    adressEnable: base + 'api/adress_enable', //地区管理列表 启用或停用
+    adressAdd: base + 'api/adress_add', //地区管理列表 添加
+    adressEdit: base + 'api/adress_edit', //地区管理列表 编辑
     getPcatBak: base + 'api/pcat_bak', //获取获取省市
     deleteRecreit: base + 'api/detelte_recreit', //删除某条招聘信息
     enable: base + 'api/enable_recreit', //启用或停用

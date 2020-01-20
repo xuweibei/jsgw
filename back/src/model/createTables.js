@@ -256,18 +256,18 @@ const Invite = db.defineModel('gw_invite_info', {
     post_name: {
         type: Sequelize.STRING(50)
     },
-    //所在地id (省级，对应城市表的id)
-    province_id: {
-        type: Sequelize.STRING(255)
-    },
-    //所在地id (市，对应城市表的id)
-    city_id: {
-        type: Sequelize.STRING(30)
-    },
-    //所在地id (县级，对应城市表的id)
-    county_id: {
-        type: Sequelize.STRING(30)
-    },
+    // //所在地id (省级，对应城市表的id)
+    // province_id: {
+    //     type: Sequelize.STRING(255)
+    // },
+    // //所在地id (市，对应城市表的id)
+    // city_id: {
+    //     type: Sequelize.STRING(30)
+    // },
+    // //所在地id (县级，对应城市表的id)
+    // county_id: {
+    //     type: Sequelize.STRING(30)
+    // },
     //地址的完整名称
     address_name: {
         type: Sequelize.STRING(30)

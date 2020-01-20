@@ -73,15 +73,15 @@ const getRecruitInfo = async ({post_name = '',job_class='',address_name='',start
     return ret
 }
 
-//添加招聘信息或者编辑招聘信息
+//添加招聘信息
 const addRecruitMen = async (data) => {
     const res = await Invite.findOrCreate({
         where: {
             post_name: data.post_name,
             job_class:data.job_class,
-            province_id:data.province_id,
-            city_id:data.city_id,
-            county_id:data.county_id,
+            // province_id:data.province_id,
+            // city_id:data.city_id,
+            // county_id:data.county_id,
             address_name:data.address_name,
             detail_address:data.detail_address,
             salary: data.salary,
@@ -95,6 +95,29 @@ const addRecruitMen = async (data) => {
             enable:1
         }
     })
+    return res;
+}
+
+//编辑招聘信息
+const editRecruitMen = async (data) => {
+    const res = await Invite.update({
+        post_name: data.post_name,
+        job_class:data.job_class,
+        // province_id:data.province_id,
+        // city_id:data.city_id,
+        // county_id:data.county_id,
+        address_name:data.address_name,
+        detail_address:data.detail_address,
+        salary: data.salary,
+        require_num: data.require_num,
+        work_content :data.work_content,
+        post_job:data.post_job,
+        start_time: data.start_time,
+        phone:data.phone,
+        sort:data.sort,
+        email:data.email,
+        enable:1
+    },{where:{id:data.id}})
     return res;
 }
 
@@ -160,15 +183,20 @@ const getRecruitList = async (limit, offset, page) => {
 
 //招聘地区管理列表
 const getAfressInfo = async()=>{
+    let ret = {};
     const res = await Adress.findAll({
         'order': [
             ['sort', 'ASC']
         ]
     });
-    return res
+    if(res && res.length > 0){
+        ret.count = res.length;
+        ret.rows = res;
+    }
+    return ret
 }
 
-//删除招聘信息
+//招聘地区删除招聘信息
 const deleteAfressInfo = async(data)=>{
     const res = await Adress.destroy({
         where:{
@@ -178,13 +206,46 @@ const deleteAfressInfo = async(data)=>{
     return res;
 }
 
+//招聘地区启用或停用
+const enableAfressInfo = async(data)=>{
+    const res = await Adress.update({
+        enable:data.enable === '0' ? 1 : 0
+    },{where:{id:data.id}})
+    return res;
+}
+
+//添加招聘信息或者编辑招聘信息
+const addAdress = async (data) => {
+    const res = await Adress.findOrCreate({
+        where: {
+            name:data.name,
+            sort:data.sort,
+            enable:1
+        }
+    })
+    return res;
+}
+
+//编辑
+const editAdress = async(data)=>{
+    const res = await Adress.update({
+        name:data.name,
+        sort:data.sort,
+        enable:data.enable
+    },{where:{id:data.id}})
+    return res;
+}
 module.exports = {
     getRecruitInfo,
     addRecruitMen,
+    editRecruitMen,
     getPcatBak,
     deleteRecruic,
     enableRecreit,
     getRecruitList,
     getAfressInfo,
-    deleteAfressInfo
+    deleteAfressInfo,
+    enableAfressInfo,
+    addAdress,
+    editAdress
 }
