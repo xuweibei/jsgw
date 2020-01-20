@@ -44,8 +44,8 @@ module.exports = {
         ctx.body = new ErrorModel( "获取讯息失败")
     },
     'get_communicate_detail': async ctx => {
-        const {id} = ctx.request.body
-        const res = await getICommunicateDetail(id)
+        const {id, is_read} = ctx.request.body
+        const res = await getICommunicateDetail(id, is_read)
         if(res) {
             ctx.body = new SuccessModel(res, "获取成功")
             return

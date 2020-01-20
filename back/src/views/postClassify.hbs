@@ -1,15 +1,15 @@
 <!--职业分类页面-->
 {{#>default}}
-<div class="container post-sort-content">
+<div class="post-sort-content job-class-container">
 <!--    头部-->
-   <div class="top-content">
+   <div class="top-content job-class-top">
        <div class="post-sort-title">职位分类</div>
        <div class="button-content">
            <button type="button" class="btn" onclick="openStfModal()">新增</button>
        </div>
    </div>
 <!-- 表格-->
- <div class="table-container">
+ <div class="table-container" style="margin-top: 24px">
      <table id="table" class="text-center table table-striped table-borderless" data-pagination="true">
      </table>
  </div>
@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="modal-footer border-top-0 dep-footer justify-content-center">
-                                <button type="button" class="btn btn-left" data-dismiss="modal">返回</button>
+                                <button type="button" class="btn btn-left" style="margin-right: 24px" data-dismiss="modal">返回</button>
                                 <button type="submit" class="btn btn-right" onclick="addClassify()">保存</button>
                             </div>
                         </div>
@@ -71,13 +71,11 @@
                 sort: $('.stf-sort').val()
             }
             if ($('#stf-title')[0]['textContent'] == '编辑') {
-                console.log('编辑')
                 data.id = classifyId;
                 $.post(url.editClassify, data, function(res) {
                     location.reload()
                 })
             }else {
-                console.log('添加')
                 $.post(url.addClassify, data, function(res) {
                     location.reload()
                 })

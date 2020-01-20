@@ -1,5 +1,18 @@
 @import "./style/index.less";
-
+body{
+    background-color: #eee;
+}
+.modal-header{
+    border-bottom: 0;
+}
+input:active, input:focus, select:active, select:focus{
+    border:1px solid rgba(10,175,222,1);
+    border-radius:2px;
+    background-color: #fff !important;
+    &::-webkit-input-placeholder {
+        background-color: #fff !important;
+    }
+}
 * {
     text-decoration: none !important;
     padding: 0;
@@ -92,6 +105,7 @@
                 //行样式
                 #table {
                     border: 0;
+                    border-radius: 4px 4px 0 0;
                 }
 
                 tbody tr {
@@ -101,13 +115,15 @@
                 }
 
                 //表头样式
-                thead tr {
-                    background-color: @tabHeader;
-                    color: @white;
-                    font-weight: normal !important;
-                    font-size: 14px;
+                thead {
+                    
+                    tr {
+                        background-color: @tabHeader;
+                        color: @white;
+                        font-weight: normal !important;
+                        font-size: 14px;
+                    }
                 }
-
                 .table-striped tbody tr:nth-of-type(odd) {
                     background-color: #F7FDFF;
                 }
@@ -155,7 +171,7 @@
                 .table-container{
                     .module_number{
                         width: 40px;
-                        background-color: rgb(225, 230, 231);
+                        background:rgba(243,246,250,1);
                         color: @lightBlack;
                         border-radius: 4px;
                         height: 32px;
@@ -163,11 +179,6 @@
                         border: 0;
                         text-align: center;
                     }
-                }
-            }
-            .job-class-container.products-center-container{
-                .job-class-top{
-                    padding: 24px 24px 0;
                 }
             }
 

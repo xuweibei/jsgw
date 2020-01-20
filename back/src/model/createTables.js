@@ -503,6 +503,11 @@ const communicate = db.defineModel('gw_communicate', {
     //发布时间
     create_time: {
         type: Sequelize.BIGINT(200)
+    },
+    //是否已读
+    is_read: {
+        type:Sequelize.BOOLEAN,
+        defaultValue: 0
     }
 })
 
