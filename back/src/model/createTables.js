@@ -503,6 +503,11 @@ const communicate = db.defineModel('gw_communicate', {
     //发布时间
     create_time: {
         type: Sequelize.BIGINT(200)
+    },
+    //是否已读
+    is_read: {
+        type:Sequelize.BOOLEAN,
+        defaultValue: 0
     }
 })
 
@@ -601,6 +606,10 @@ const Exchange = db.defineModel('gw_exchange', {
     username: Sequelize.STRING(30),
     exchange_count: {
         type: Sequelize.BIGINT,
+        defaultValue: 0
+    },
+    is_read: {
+        type: Sequelize.BOOLEAN,
         defaultValue: 0
     }
 })

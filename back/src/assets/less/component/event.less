@@ -1,9 +1,25 @@
 @import './style/index.less';
 .events {
-  padding: 24px 0 0 40px;
-
+//   padding: 24px 0 0 40px;
+    .event-header-container{
+        border-bottom: 1px solid @lightWhite;
+        padding: 24px 40px;
+    }
   .event-modal .modal-dialog-centered {
       max-width: 800px !important;
+      form{
+          padding-left: 80px;
+          padding-right: 80px;
+          margin-top: 50px;
+      }
+      .form-group{
+          margin-bottom: 20px;
+          .col-form-label{
+              text-align: right;
+              padding-left: 0;
+              padding-right: 0;
+          }
+      }
   }
 
   .btn {

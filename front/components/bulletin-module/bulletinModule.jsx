@@ -46,10 +46,12 @@ class Bulletin extends  React.PureComponent{
         if(pass === 1){
             return Y + M + D
         }else if(pass === 2){
-            return h + m + s
+            const mm = m.length === 2 ? '0' + m : m;
+            const ss = String(s).length === 1 ? '0' + s : s;
+            return h + mm + ss
         }
         return Y + M + D + h + m + s;
-    }
+    };
 
 
     sellSearch = () => {
@@ -102,10 +104,6 @@ class Bulletin extends  React.PureComponent{
         console.log(data);
         return(
             <div className="bulletin">
-                <div className="banner ">
-                    <div className="join-one">公司公告</div>
-                    <div className="join">Company announcement </div>
-                </div>
                 {/*表单搜索栏*/}
                 <div className="sizer distance">
                     <div className="screen">

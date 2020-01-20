@@ -10,14 +10,14 @@ class InfoModule extends React.PureComponent {
     state = {
         infoAns: {},  //数据
         key_val: '',
-        start_time: []
+        start_time: [],
+        focus: false
     }
     componentDidMount() {
         this.getNotice()
     }
 
     getNotice = () => {
-        console.log('執行了');
         fetch('http://localhost:8000/api/get_info', {method: 'POST',headers: {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify({
@@ -73,26 +73,41 @@ class InfoModule extends React.PureComponent {
         if (pass === 1) {
             return Y + M + D
         } else if (pass === 2) {
-            return h + m + s
+            const mm = m.length === 2 ? '0' + m : m;
+            const ss = String(s).length === 1 ? '0' + s : s;
+            return h + mm + ss
         }
         return Y + M + D + h + m + s;
-    }
+    };
 
     reception = (arr) => {
         this.setState({
             infoAns: arr
         })
+    };
+
+    getFocus = (e) => {
+        console.log(e);
+        this.setState({
+            focus: e
+        })
     }
 
     render() {
-        const {infoAns, key_val, start_time} = this.state;
+        const {infoAns, key_val, start_time, focus} = this.state;
         return (
             <div>
                 {/*表单搜索栏*/}
                 <div className="sizer distance">
                     <div className="screen">
                         <div>
-                            <Input className="fill" value={key_val} onChange={(res)=>this.setState({key_val:res.target.value})} placeholder="输入关键字" />
+                            <Input
+                                className={`fill ${focus ? 'focus' : ''}`}
+                                value={key_val}
+                                onChange={(res)=>this.setState({key_val:res.target.value})} placeholder="输入关键字"
+                                onBlur={() => this.getFocus(false)}
+                                onFocus={() => this.getFocus(true)}
+                            />
                             <RangePicker
                                 placeholder={['发布开始时间','发布结束时间']}
                                 onChange={(res)=>this.setState({start_time:res})}
@@ -101,7 +116,8 @@ class InfoModule extends React.PureComponent {
                         </div>
                         <div className="empty-select">
                             <div className="empty" onClick={() => this.getNotice()}>清空筛选条件</div>
-                            <Button type="primary" onClick={this.getSelect}>搜索</Button>
+                            <div className="search" onClick={this.getSelect}>搜索</div>
+                            {/*<Button type="primary" >搜索</Button>*/}
                         </div>
                     </div>
                 </div>

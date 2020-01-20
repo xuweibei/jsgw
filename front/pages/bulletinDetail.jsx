@@ -21,7 +21,7 @@ class BulletinDetails extends React.Component {
         const id = window.location.search.substr(1).split('=')[1]
         fetch('http://localhost:8000/api/get_communicate_detail',{method:'POST',
         headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({id})
+        body: JSON.stringify({id, is_read: 1})
         }).then(res => {
             return res.json()
         }).then(ret => {
@@ -40,17 +40,17 @@ class BulletinDetails extends React.Component {
             <Layout>
                 <div className="exchangeDetails distance">
                     <div className="headline-box">
-                        <div className="headline">{info && info[0].title}</div>
+                        <div className="headline">{info && info.title}</div>
                     </div>
                     <div className="time-preview">
                         <div className="time">
-                            <span>{info && info[0].create_time}</span>
+                            <span>{info && info.create_time}</span>
                             <span>11:11</span>
                             <span>产品组：庄宇坤</span>
                         </div>
                     </div>
                     {/* <div className="consult-img"><img src="./consult.png" alt=""/></div> */}
-                    <div className="content" dangerouslySetInnerHTML={{__html: info && info[0].describe}}></div>
+                    <div className="content" dangerouslySetInnerHTML={{__html: info && info.describe}}></div>
                 </div>
             </Layout>
         )

@@ -152,7 +152,7 @@
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss="modal">返回</button>
+            <button type="button" class="btn btn-info" data-dismiss="modal" style="margin-right: 24px">返回</button>
             <button type="submit" class="btn btn-primary" onclick="addRecruit()">保存</button>
           </div>
         </div>
@@ -595,6 +595,8 @@
             pagination: true,
             sortable: true,
             pageSize: 5,
+            paginationPreText: "上一页",
+            paginationNextText: "下一页",
             theadClasses: "thead-blue",
             pageList: [10, 25],
             formatLoadingMessage: function () {
@@ -779,7 +781,7 @@
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+                  <button type="button" class="btn btn-primary" data-dismiss="modal" style="background: #0aafde">关闭</button>
                 </div>
               </div>
             </div>`

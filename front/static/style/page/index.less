@@ -12,12 +12,18 @@
         font-size: 26px;
         color: #25608D;
         margin-bottom: 80px;
+        font-family:Source Han Sans CN;
+        font-weight:500;
+    }
+    .index-synopsis {
+        margin-bottom: 120px;
     }
     //最新动态
     .dynamic {
         position: relative;
         width: 1000px;
         margin:0 auto;
+        margin-bottom: 120px;
         .carousel-wrap{
             position: relative;
             width: 1000px;
@@ -128,7 +134,7 @@
     }
 
     //加入我们
-    .product {
+    .index-product {
         margin-bottom: 120px;
         .product-list {
             display: flex;
@@ -154,47 +160,52 @@
         display: flex;
         padding: 0 180px;
         text-align: center;
-        font-size: 20px;
+        font-size: 26px;
         color: #333;
-        margin-bottom: 80px;
+        margin-bottom: 120px;
+        font-family:Source Han Sans CN;
         .possess-box {
-            width: 43%;
+            width: 490px;
             .possess {
                 width: 100%;
-                height: 386px;
-                padding: 10% 5%;
+                height: 486px;
+                padding-top: 46px;
                 background: #58C5CE;
+                img {
+                    width: 460px;
+                    height: 404px;
+                }
             }
         }
         .computers-box {
-            width: 35%;
+            width: 408px;
             .computers {
                 width: 100%;
-                height: 200px;
+                height: 265px;
                 background: #EC4F70;
-                padding: 7% 10% 0;
+                display: flex;
+                //padding: 7% 10% 0;
+                img {
+                    margin: auto auto 0;
+                }
             }
         }
         .manage-box {
-            width: 22%;
+            width: 306px;
             .manage {
                 width: 100%;
-                height: 280px;
+                height: 380px;
                 background: #F4B43C;
-                padding: 0 45px 48px;
                 display: flex;
                 .manage-img {
-                    margin-top: auto;
-                    height: 120px;
+                    margin: auto auto 48px;
+                    width: 246px;
+                    height: 201px;
                 }
             }
         }
         .possess, .computers, .manage {
             margin-bottom: 5%;
-        }
-        img {
-            width: 100%;
-            height: 100%;
         }
     }
 

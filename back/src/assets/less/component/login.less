@@ -1,6 +1,11 @@
 @import "./style/index.less";
 .login {
     padding: 0 !important;
+    input:active, input:focus{
+        border:1px solid rgba(10,175,222,1);
+        border-radius:2px;
+        background-color: #fff !important;
+    }
     .form-control::placeholder {
         color: @lightGray !important;
         font-size: 12px !important;
