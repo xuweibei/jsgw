@@ -54,7 +54,7 @@ class ExchangeDetails extends React.PureComponent {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ id })
+            body: JSON.stringify({ id, is_read: 1 })
         }).then(responst => responst.json())
             .then(res => {
                 if (res && res.status === 0) {
