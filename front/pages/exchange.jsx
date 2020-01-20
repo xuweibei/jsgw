@@ -169,10 +169,13 @@ class Exchange extends React.PureComponent {
     //筛选按钮
     getSelect = () => {
         const {key_val, start_time, start_job} = this.state;
+        if(!key_val && start_time && start_time.length < 1 && !start_job) {
+            return
+        }
         const timeArr = []
         if(start_time && start_time.length > 1){
-            timeArr.push(start_time[0].format('YYYY-MM-DD'))
-            timeArr.push(start_time[1].format('YYYY-MM-DD'))
+            timeArr.push(new Date(start_time[0]).getTime())
+            timeArr.push(new Date(start_time[1]).getTime())
         }
         const datas = {
             key_val,
@@ -371,11 +374,15 @@ class Exchange extends React.PureComponent {
                         </Form>
                     </Modal>
                 </div>
-                <Paging
-                    pageChange={this.reception.bind(this)}
-                    total={talk.total}
-                    port="re_talk"
-                />
+                {
+                    talk.total && (
+                        <Paging
+                            pageChange={this.reception.bind(this)}
+                            total={talk.total}
+                            port="re_talk"
+                        />
+                    )
+                }
             </Layout>
         )
     }

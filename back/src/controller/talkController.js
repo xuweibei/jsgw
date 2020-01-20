@@ -29,7 +29,7 @@ const reTalk = async (limit, page, key_val, job, timeArr) => {
         // const ret = await Exchange.findAll({
         //     attributes: { exclude: ['exchange_content', 'exchange_pic'] }
         // });
-    
+
         const ret = await sequelize.query(sql, {
             replacements: ['active'],
             type: sequelize.QueryTypes.SELECT
@@ -61,12 +61,12 @@ const reTalk = async (limit, page, key_val, job, timeArr) => {
         const sql = `select * from gw_exchange where ${where_l}`
         const ret = await sequelize.query(sql)
         console.log(ret, 'retret')
-        const total = await Exchange.count()
+        // const total = await Exchange.count()
         const arr = []
         ret && ret[0] && ret[0].forEach(item => {
             arr.push(item)
         })
-        return {arr, total}
+        return {arr}
         // const Op = Sequelize.Op;
         // const ret = await Exchange.findAll({
         //     where: {

@@ -43,7 +43,7 @@ const getCommunicateInfo = async ({title = '',create_time = '',end_time = ''}) =
             type: sequelize.QueryTypes.SELECT
         });
         if(res && res.length > 0){
-            ret.count = res.length;
+            // ret.count = res.length;
             ret.rows = res
         }
     } else {

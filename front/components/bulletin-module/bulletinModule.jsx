@@ -22,9 +22,7 @@ class Bulletin extends  React.PureComponent{
                 if (datal && datal.status === 0) {
                     this.setState({
                         data: datal.data,
-                        gross: datal.data,
-                        keyWord: '',
-                        create_time: '',
+                        gross: datal.data
                     })
                 }
             })
@@ -55,6 +53,9 @@ class Bulletin extends  React.PureComponent{
 
     sellSearch = () => {
         const{keyWord,create_time} = this.state;
+        if(!keyWord && !create_time) {
+            return
+        }
         const keyArr = ['title','create_time','end_time'];
         const arr = [keyWord];
         const datas = new FormData();
@@ -106,6 +107,14 @@ class Bulletin extends  React.PureComponent{
         })
     }
 
+    //清除筛选条件
+    clearSearch = () => {
+        this.setState({
+            keyWord: '',
+            create_time: '',
+        });
+    }
+
     render(){
         const {data, create_time, gross, keyWord, focus} = this.state;
         console.log(data);
@@ -129,7 +138,7 @@ class Bulletin extends  React.PureComponent{
                             />
                         </div>
                         <div className="empty-select">
-                            <div className="empty" onClick={() => this.getNotice()}>清空筛选条件</div>
+                            <div className="empty" onClick={() => this.clearSearch()}>清空筛选条件</div>
                             {/*<Button type="primary" onClick={() => this.sellSearch()}>搜索</Button>*/}
                             <div className="search" onClick={this.sellSearch}>搜索</div>
                         </div>
@@ -152,11 +161,15 @@ class Bulletin extends  React.PureComponent{
                     }
                 </div>
                 {/*分页器*/}
-                <Paging
-                    pageChange={this.reception.bind(this)}
-                    total={gross.total}
-                    port="get_communicate_list"
-                />
+                {
+                    data.total && (
+                        <Paging
+                            pageChange={this.reception.bind(this)}
+                            total={gross.total}
+                            port="get_communicate_list"
+                        />
+                    )
+                }
             </div>
         )
     }
