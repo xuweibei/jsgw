@@ -78,6 +78,7 @@ class Exchange extends React.PureComponent {
 
     //时间格式更改
     formatDate = (timestamp, pass) => {
+        console.log(timestamp);
         const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
         const Y = date.getFullYear() + '-';
         const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
@@ -86,9 +87,13 @@ class Exchange extends React.PureComponent {
         const m = date.getMinutes() + ':';
         const s = date.getSeconds();
         if (pass === 1) {
-            return Y + M + D
+            const DD = D.length === 2 ? '0' + D : D;
+            return Y + M + DD
         } else if (pass === 2) {
-            return h + m + s
+            const hh = h.length === 2 ? '0' + h : h;
+            const mm = m.length === 2 ? '0' + m : m;
+            const ss = s < 10 ? '0' + s : s;
+            return hh + mm + ss
         }
         return Y + M + D + h + m + s;
     }
