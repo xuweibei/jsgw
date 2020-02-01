@@ -13,15 +13,15 @@ import fetch from 'isomorphic-unfetch';
 
 function beforeUpload(file) {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
     const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
+    if (!isJpgOrPng) {
+        message.error('您上传的图片格式不是JPG或PNG');
+    } else if (!isLt2M) {
+        message.error('您上传的图片大小不得超过2MB');
     }
     return isJpgOrPng && isLt2M;
 }
+
 class Exchange extends React.PureComponent {
     componentDidMount() {
         this.getTalk();
@@ -78,7 +78,6 @@ class Exchange extends React.PureComponent {
 
     //时间格式更改
     formatDate = (timestamp, pass) => {
-        console.log(timestamp);
         const date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
         const Y = date.getFullYear() + '-';
         const M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1) + '-';
@@ -117,24 +116,28 @@ class Exchange extends React.PureComponent {
     };
 
     handleChange = info => {
+        console.log(info.file.type);
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
         }
         const formData = new FormData();
-        formData.append("files", info.file.originFileObj, info.file.originFileObj.name)
-        fetch('http://localhost:8000/api/talk_pic', {
-            method: 'POST',
-            // headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
-            body: formData,
-        }).then(response => response.json())
-            .then(res => {
-                if (res && res.status === 0) {
-                    this.setState({
-                        imageUrl: res.data.pic
-                    })
-                }
-            })
+        console.log(formData);
+        if (info && info.file.type === 'image/png' || info.file.type === 'image/jpeg') {
+            formData.append("files", info.file.originFileObj, info.file.originFileObj.name);
+            fetch('http://localhost:8000/api/talk_pic', {
+                method: 'POST',
+                // headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+                body: formData,
+            }).then(response => response.json())
+                .then(res => {
+                    if (res && res.status === 0) {
+                        this.setState({
+                            imageUrl: res.data.pic
+                        })
+                    }
+                })
+        }
     };
 
     handleSubmit = (e) => {
@@ -143,7 +146,7 @@ class Exchange extends React.PureComponent {
         const userinfo = JSON.parse(sessionStorage.getItem('statusCode'));
         // console.log(userinfo)
         if (!userinfo) {
-            Message.error('用户未登录')
+            message.error('用户未登录')
             return
         }
         console.log(userinfo)
@@ -195,7 +198,6 @@ class Exchange extends React.PureComponent {
             }, body: JSON.stringify(datas)}).then(res => {
             res.json().then(datal => {
                 if (datal && datal.status === 0) {
-                    console.log(datal, 'dddddddddddddd');
                     this.setState({
                         talk: datal.data
                     })
@@ -214,7 +216,6 @@ class Exchange extends React.PureComponent {
     render() {
         const { products, imageUrl, dep, talk, key_val, start_time, start_job, focus} = this.state;
         const { getFieldDecorator } = this.props.form;
-        console.log(talk)
         const uploadButton = (
             <div>
                 <Icon type={this.state.loading ? 'loading' : 'plus'} />

@@ -124,13 +124,32 @@
 }
 .enter-window {
     width: 375px !important;
+    .ant-modal-body {
+        padding-top: 12px;
+    }
     .ant-form-item {
         text-align: center;
         .login-form-button {
             width: 100%;
         }
     }
-
+    .close {
+        position: relative;
+        left: 12px;
+        text-align: right;
+        margin-bottom: 24px;
+    }
+    .ant-input {
+        margin-right: 20px;
+        background: #F3F6FA;
+        border: none;
+        font-size: 12px;
+    }
+    .focus {
+        .ant-input {
+            background: #fff;
+        }
+    }
 }
 
 //底部样式

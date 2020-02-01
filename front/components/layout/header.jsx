@@ -24,7 +24,7 @@ class Header extends React.Component {
         register: false,       //账号密码弹窗
         accountName: '',        //账户名
         test: '',     //当前浏览地址
-
+        focus: false
     };
 
     componentDidMount() {
@@ -97,8 +97,15 @@ class Header extends React.Component {
         })
     };
 
+    getFocus = (e) => {
+        console.log(e);
+        this.setState({
+            focus: e
+        })
+    }
+
     render() {
-        const {visible, register, accountName, test} = this.state;
+        const {visible, register, accountName, test, focus} = this.state;
         console.log(test);
         const menu = (
             <Menu>
@@ -153,17 +160,22 @@ class Header extends React.Component {
                     visible && (
                         <Modal
                             className="enter-window"
-                            title="账号登入"
+                            // title="账号登入"
                             visible={this.state.visible}
                             onCancel={() => this.examine(false)}
                             footer={null}
+                            closable={false}
                         >
                             <Form className="login-form" onSubmit={this.handleSubmit}>
+                                <div className="close"><img onClick={() => this.examine(false)} src="/close.png" alt=""/></div>
                                 <Form.Item>
                                     <Input
+                                        className={`fill ${focus ? 'focus' : ''}`}
                                         prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         placeholder="请输入登陆账号"
                                         onChange={(e)=>this.account(e)}
+                                        onBlur={() => this.getFocus(false)}
+                                        onFocus={() => this.getFocus(true)}
                                     />
                                 </Form.Item>
                                 <Form.Item>
