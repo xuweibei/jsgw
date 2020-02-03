@@ -112,27 +112,28 @@ class Index extends React.Component {
                                                     infoAns.map(item => (
                                                         <div className="carousel-wrap-list" key={item.id}>
                                                             <img className="carousel-img" src={(item.info_content.split('src=')[1] && item.info_content.split('src=')[1].split('"')[1]) || '/hong-bg.png'} alt=""/>
-                                                            <div className="carousel-content">
-                                                                <div className="carousel-title">
-                                                                    {item.info_title}
+                                                            <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>
+                                                                <div className="carousel-content">
+                                                                    <div className="carousel-title">{item.info_title}</div>
+                                                                    <div className="carousel-time">{this.formatDate(item.createdAt, 1)}</div>
+                                                                    <div className="carousel-btn-box">
+                                                                        <div className="carousel-btn">
+                                                                            <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>立即查看</Link>
+                                                                        </div>
+                                                                        <img src="arrows.png" alt=""/>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="carousel-time">{this.formatDate(item.createdAt, 1)}</div>
-                                                                <div className="carousel-btn">
-                                                                    <Link href={{pathname: '/infoDetail', query: {id: item.id}}}>立即查看</Link>
-                                                                </div>
-                                                            </div>
+                                                            </Link>
                                                         </div>
                                                     ))
                                                 }
                                             </div>
                                         </div>
                                         <div className="arrow-left" onClick={() => this.removal('left')}>
-                                            <div className="arrow-lines"/>
-                                            <div className="arrow-line"/>
+                                            <img src="/left.png" alt=""/>
                                         </div>
                                         <div className="arrow-right" onClick={() => this.removal('right')}>
-                                            <div className="arrow-line"/>
-                                            <div className="arrow-lines"/>
+                                            <img src="/right.png" alt=""/>
                                         </div>
                                     </div>
                                 )

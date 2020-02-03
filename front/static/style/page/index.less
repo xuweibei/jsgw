@@ -53,6 +53,7 @@
                         width: 100%;
                         padding: 20px 40px;
                         box-sizing: border-box;
+                        cursor:pointer;
                         .carousel-title{
                             color: #25608D;
                             font-size: 16px;
@@ -72,8 +73,8 @@
                             width: 100px;
                             height: 32px;
                             padding: 6px;
-                            margin:0 auto;
-                            margin-top: 20px;
+                            //margin:20px auto 0;
+                            //margin-top: 20px;
                             cursor: pointer;
                             border-radius: 4px;
                             display: flex;
@@ -83,53 +84,49 @@
                             color: #4FCAFF;
                             background: rgba(79, 202, 255, 0.1);
                         }
+                        .carousel-btn-box {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            margin-top: 20px;
+
+                            img {
+                                height: 12px;
+                                display: none;
+                            }
+                        }
+                    }
+                }
+                .carousel-wrap-list:hover {
+                    .carousel-content {
+                        .carousel-title {
+                            text-decoration: underline;
+                            color: #F4B43C;
+                            //box-shadow:8px 8px 20px rgba(235,241,245,1);
+                        }
+                        .carousel-btn-box {
+                            justify-content: space-between;
+                            img {
+                                display: block;
+                            }
+                        }
                     }
                 }
             }
         }
-        .arrow-right{
+        .arrow-left, .arrow-right {
             position: absolute;
             top: 310px;
-            right: -55px;
+
             cursor: pointer;
             width: 25px;
-            .arrow-line{
-                width: 20px;
-                height:5.6px;
-                border-top:2px solid #999999;
-                display: inline-block;
-            }
-            .arrow-lines{
-                width: 10px;
-                height: 10px;
-                border-top: 2px solid #999999;
-                border-left: 2px solid #999999;
-                display: inline-block;
-                transform:rotate(135deg);
-                margin-left: -10px;
-            }
+        }
+        .arrow-right{
+            right: -55px;
+
         }
         .arrow-left{
-            position: absolute;
-            top: 310px;
             left: -55px;
-            cursor: pointer;
-            width: 25px;
-            .arrow-line{
-                width: 20px;
-                height:5.6px;
-                border-top:2px solid #999999;
-                display: inline-block;
-            }
-            .arrow-lines{
-                width: 10px;
-                height: 10px;
-                border-top: 2px solid #999999;
-                border-left: 2px solid #999999;
-                display: inline-block;
-                transform:rotate(-45deg);
-                margin-right: -10px;
-            }
         }
     }
 
