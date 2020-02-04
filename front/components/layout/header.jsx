@@ -24,7 +24,8 @@ class Header extends React.Component {
         register: false,       //账号密码弹窗
         accountName: '',        //账户名
         test: '',     //当前浏览地址
-        focus: false
+        focus: false,
+        coded: false
     };
 
     componentDidMount() {
@@ -104,8 +105,15 @@ class Header extends React.Component {
         })
     }
 
+    getCoded = (e) => {
+        console.log(e);
+        this.setState({
+            coded: e
+        })
+    }
+
     render() {
-        const {visible, register, accountName, test, focus} = this.state;
+        const {visible, register, accountName, test, focus, coded} = this.state;
         console.log(test);
         const menu = (
             <Menu>
@@ -180,10 +188,13 @@ class Header extends React.Component {
                                 </Form.Item>
                                 <Form.Item>
                                     <Input
+                                        className={`fill ${coded ? 'focus' : ''}`}
                                         prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                                         type="password"
                                         placeholder="请输入密码"
                                         onChange={(e)=>this.password(e)}
+                                        onBlur={() => this.getCoded(false)}
+                                        onFocus={() => this.getCoded(true)}
                                     />
                                 </Form.Item>
                                 <Form.Item>

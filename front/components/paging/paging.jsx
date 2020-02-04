@@ -29,7 +29,6 @@ class Paging extends React.PureComponent {
         const {total} = this.props;
         const {whichPage} = this.state;
         return (
-
                 <div className="sorter distance">
                     {/*分页器*/}
                     <div className="present">当前第{whichPage}页</div>
@@ -42,7 +41,6 @@ class Paging extends React.PureComponent {
                     />
                     <div className="total">{total}<span>条数据</span></div>
                 </div>
-
         )
     }
 }

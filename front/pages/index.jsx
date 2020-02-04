@@ -32,26 +32,47 @@ class Index extends React.Component {
             infoAns,
             spaceNum: 0, //偏移距离
             spaceAmount: 0, //点击数量
-            module: []
+            module: [],
+            leftClick: false,
+            rightClick: false,
         }
     }
 
     removal = (site) => {
         const {spaceNum, spaceAmount, infoAns} = this.state;
         console.log(infoAns + 'infoAns');
-        console.log(spaceAmount);
+        console.log(spaceAmount, infoAns, 'zzzzzzzzzzzzzzzzzzzzzzzzz');
         if (site === 'left') {
             if (spaceNum >= 0) return;
             this.setState(prevState => ({
                 spaceNum: prevState.spaceNum + 335,
                 spaceAmount: prevState.spaceAmount - 1,
-            }));
+
+            }), () => {
+                if (spaceNum === -335) {
+                    this.setState({
+                        leftClick: false
+                    });
+                }
+                if (spaceAmount < infoAns.length - 2) {
+                    this.setState({
+                        rightClick: false
+                    })
+                }
+            });
         } else {
             if (spaceAmount >= infoAns.length - 3) return;
             this.setState(prevState => ({
                 spaceNum: prevState.spaceNum - 335,
                 spaceAmount: prevState.spaceAmount + 1,
-            }));
+                leftClick: true
+            }), () => {
+                if (spaceAmount === infoAns.length - 4) {
+                    this.setState({
+                        rightClick: true
+                    })
+                }
+            });
         }
     };
 
@@ -94,7 +115,7 @@ class Index extends React.Component {
     };
 
     render() {
-        const {spaceNum, products, infoAns, module} = this.state;
+        const {spaceNum, products, infoAns, module, leftClick, rightClick} = this.state;
         return(
             <Layout>
                 <div className="home">
@@ -129,11 +150,13 @@ class Index extends React.Component {
                                                 }
                                             </div>
                                         </div>
+                                        {/*leftClick*/}
                                         <div className="arrow-left" onClick={() => this.removal('left')}>
-                                            <img src="/left.png" alt=""/>
+                                            <div className={`icon left ${leftClick ? 'left-may' : ''}`}/>
                                         </div>
                                         <div className="arrow-right" onClick={() => this.removal('right')}>
-                                            <img src="/right.png" alt=""/>
+                                            {/*<div className="icon right"/>*/}
+                                            <div className={`icon right ${rightClick ? 'right-may' : ''}`}/>
                                         </div>
                                     </div>
                                 )
@@ -171,30 +194,30 @@ class Index extends React.Component {
                                 <div>
                                     <div className="headline">加入我们</div>
                                     <div className="participate">
-                                        <Link href="/join">
-                                            <div className="possess-box">
+                                        <div className="possess-box">
+                                            <Link href="/join">
                                                 <div className="possess">
                                                     <img src="possess.png" alt=""/>
                                                 </div>
-                                                <div>全部岗位</div>
-                                            </div>
-                                        </Link>
-                                        <Link href={{pathname: '/join', query: {jobType: '研发类'}}}>
-                                            <div className="computers-box">
+                                            </Link>
+                                            <div>全部岗位</div>
+                                        </div>
+                                        <div className="computers-box">
+                                            <Link href={{pathname: '/join', query: {jobType: '研发类'}}}>
                                                 <div className="computers">
                                                     <img src="computers.png" alt=""/>
                                                 </div>
-                                                <div>研发岗位</div>
-                                            </div>
-                                        </Link>
-                                        <Link href={{pathname: '/join', query: {jobType: '行政岗位'}}}>
-                                            <div className="manage-box">
+                                            </Link>
+                                            <div>研发岗位</div>
+                                        </div>
+                                        <div className="manage-box">
+                                            <Link href={{pathname: '/join', query: {jobType: '行政岗位'}}}>
                                                 <div className="manage">
                                                     <img className="manage-img" src="product.png" alt=""/>
                                                 </div>
-                                                <div>行政岗位</div>
-                                            </div>
-                                        </Link>
+                                            </Link>
+                                            <div>行政岗位</div>
+                                        </div>
                                     </div>
                                 </div>
                             )

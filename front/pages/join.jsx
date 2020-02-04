@@ -70,8 +70,7 @@ export default class Join extends React.Component{
             dataJob,//职位分类
             workData: [],//工作地点
             detail:false, // 是否显示详情
-            focus: false,
-            pagingShow: 10
+            focus: false
         }
     }
 

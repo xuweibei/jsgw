@@ -117,9 +117,24 @@
         .arrow-left, .arrow-right {
             position: absolute;
             top: 310px;
-
             cursor: pointer;
             width: 25px;
+            .left:before {
+                content: '\e6a1';
+                font-size: 26px;
+                color: #e6e6e6;
+            }
+            .left-may:before {
+                color: #999;
+            }
+            .right:before {
+                content: '\e6a0';
+                font-size: 26px;
+                color: #999;
+            }
+            .right-may:before {
+                color:  #e6e6e6;
+            }
         }
         .arrow-right{
             right: -55px;
@@ -168,6 +183,7 @@
                 height: 486px;
                 padding-top: 46px;
                 background: #58C5CE;
+                cursor:pointer;
                 img {
                     width: 460px;
                     height: 404px;
@@ -181,6 +197,7 @@
                 height: 265px;
                 background: #EC4F70;
                 display: flex;
+                cursor:pointer;
                 //padding: 7% 10% 0;
                 img {
                     margin: auto auto 0;
@@ -194,6 +211,7 @@
                 height: 380px;
                 background: #F4B43C;
                 display: flex;
+                cursor:pointer;
                 .manage-img {
                     margin: auto auto 48px;
                     width: 246px;
@@ -260,3 +278,4 @@
 //        }
 //    }
 //}
+
