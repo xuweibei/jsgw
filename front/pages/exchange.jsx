@@ -1,6 +1,6 @@
 //首页
 import Layout from "../components/layout/layout";
-import { Button, DatePicker, Input, Select, Pagination, Modal, Upload, Form, Icon, message } from 'antd';
+import { Button, DatePicker, Input, Select, Pagination, Modal, Upload, Form, Icon, message, Empty} from 'antd';
 import React from "react";
 import ExchangeDetails from "./exchangeDetails";
 
@@ -269,27 +269,34 @@ class Exchange extends React.PureComponent {
 
                     {/*公告栏*/}
                     {
-                        talk && talk.arr.length > 0 && talk.arr.map(item => (
+                        talk && talk.arr && talk.arr.length > 0 ? (
                             <div>
-                                <Link href={{
-                                    pathname: '/exchangeDetails', query: {
-                                        id: item.id
-                                    }
-                                }}>
-                                    <div key={item.id} className="bulletin-board">
-                                        <div className={`explain ${item.is_read ? 'name-read' : ''}`} >{item.exchange_title}</div>
-                                        <div className="time-date">
-                                            <div className="issuer">
-                                                {item.username}
-                                            </div>
-                                            <div className="data">{this.formatDate(item.create_time, 1)}</div>
-                                            <div className="time">{this.formatDate(item.create_time, 2)}</div>
+                                {
+                                    talk && talk.arr.length > 0 && talk.arr.map(item => (
+                                        <div>
+                                            <Link href={{
+                                                pathname: '/exchangeDetails', query: {
+                                                    id: item.id
+                                                }
+                                            }}>
+                                                <div key={item.id} className="bulletin-board">
+                                                    <div className={`explain ${item.is_read ? 'name-read' : ''}`} >{item.exchange_title}</div>
+                                                    <div className="time-date">
+                                                        <div className="issuer">
+                                                            {item.username}
+                                                        </div>
+                                                        <div className="data">{this.formatDate(item.create_time, 1)}</div>
+                                                        <div className="time">{this.formatDate(item.create_time, 2)}</div>
+                                                    </div>
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </div>
-                                </Link>
+                                    ))
+                                }
                             </div>
-                        ))
+                        ) : (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)
                     }
+
 
 
                     {/*分页器*/}

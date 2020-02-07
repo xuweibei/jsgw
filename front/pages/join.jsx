@@ -1,7 +1,7 @@
 //加入我们
 import Layout from "../components/layout/layout";
 import fetch from 'isomorphic-unfetch';
-import {Button, DatePicker, Input, Pagination, Select,Modal} from "antd";
+import {Button, DatePicker, Input, Pagination, Select,Modal, Empty} from "antd";
 import Paging from '../components/paging/paging'
 import React from "react";
 const { Option } = Select;
@@ -215,26 +215,33 @@ export default class Join extends React.Component{
                     {/*每项数据内容*/}
                     <div>
                         {
-                            data && data.rows &&  data.rows.length >0 && data.rows.map(item=>{
-                                return  <div className="each" key={item.start_time}>
-                                    <div className="datum">
-                                        <div className="position">
-                                            <div>{item.post_name}</div>
-                                            <div>{item.salary}k</div>
-                                        </div>
-                                        <div className="specification">
-                                            <div>{item.job_class}</div>
-                                            <div>{item.detail_address}</div>
-                                            <div>{item.require_num || 0}人</div>
-                                        </div>
-                                        <div className="time">
-                                            <div>{this.formatDate(item.start_time)}</div>
-                                        </div>
-                                    </div>
-                                    <div className="details" onClick={()=>this.seeDetail(item)}>查看详细<img src={"/arrows.png"} alt=""/></div>
+                            data && data.rows ? (
+                                <div>
+                                    {
+                                        data && data.rows && data.rows.length >0 && data.rows.map(item=>{
+                                            return  <div className="each" key={item.start_time}>
+                                                <div className="datum">
+                                                    <div className="position">
+                                                        <div>{item.post_name}</div>
+                                                        <div>{item.salary}k</div>
+                                                    </div>
+                                                    <div className="specification">
+                                                        <div>{item.job_class}</div>
+                                                        <div>{item.detail_address}</div>
+                                                        <div>{item.require_num || 0}人</div>
+                                                    </div>
+                                                    <div className="time">
+                                                        <div>{this.formatDate(item.start_time)}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="details" onClick={()=>this.seeDetail(item)}>查看详细<img src={"/arrows.png"} alt=""/></div>
+                                            </div>
+                                        })
+                                    }
                                 </div>
-                            })
+                            ) : (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)
                         }
+
                         {
                             data.total && (
                                 <Paging

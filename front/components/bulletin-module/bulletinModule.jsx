@@ -2,7 +2,7 @@
 
 import Paging from '../../components/paging/paging'
 import fetch from 'isomorphic-unfetch';
-import {Input, DatePicker, Button} from 'antd';
+import {Input, DatePicker, Button, Empty} from 'antd';
 import React from "react";
 import Link from 'next/link';
 const {RangePicker} = DatePicker;
@@ -147,18 +147,25 @@ class Bulletin extends  React.PureComponent{
                 {/*公告栏*/}
                 <div>
                     {
-                        data.rows && data.rows.length > 0 && data.rows.map(item=>(
-                            <Link href={{pathname: '/bulletinDetail', query: {id: item.id}}}>
-                                <div key={item.create_time} className="bulletin-board distance">
-                                    <div className={`explain ${item.is_read ? 'name-read' : ''}`}>{item.title}</div>
-                                    <div className="time-date">
-                                        <div className="data">{this.formatDate(item.create_time,1)}</div>
-                                        <div className="time">{this.formatDate(item.create_time,2)}</div>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))
+                        data && data.rows ? (
+                            <div>
+                                {
+                                    data.rows && data.rows.length > 0 && data.rows.map(item=>(
+                                        <Link href={{pathname: '/bulletinDetail', query: {id: item.id}}}>
+                                            <div key={item.create_time} className="bulletin-board distance">
+                                                <div className={`explain ${item.is_read ? 'name-read' : ''}`}>{item.title}</div>
+                                                <div className="time-date">
+                                                    <div className="data">{this.formatDate(item.create_time,1)}</div>
+                                                    <div className="time">{this.formatDate(item.create_time,2)}</div>
+                                                </div>
+                                            </div>
+                                        </Link>
+                                    ))
+                                }
+                            </div>
+                        ) : (<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />)
                     }
+
                 </div>
                 {/*分页器*/}
                 {
