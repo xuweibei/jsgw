@@ -1,109 +1,113 @@
 /*
- * åå°ç¨‹åºå…¥å£æ–‡ä»¶ // 18760660507
+ * ºóÌ¨³ÌĞòÈë¿ÚÎÄ¼ş // 18760660507
  * */
-const Koa = require('koa');
-const path = require('path')
-const fs = require('fs')
-const views = require('koa-views'); // æ¨¡æ¿æ’ä»¶
-const json = require('koa-json'); // jsonæ ¼å¼å¤„ç†ä¸­é—´ä»¶
-const onerror = require('koa-onerror'); // å¤„ç†koaç¨‹åºé”™è¯¯
-const koaBody = require('koa-body'); // è§£æbodyä¼ è¾“æ•°æ®
-const passport = require('./middleware/passport');
-const session = require('koa-session')
-const cors = require('koa2-cors'); // è·¨åŸŸä¸­é—´ä»¶
-const logger = require('koa-logger'); // æ—¥å¿—ç”Ÿæˆä¸­é—´ä»¶
-const koaMinify = require('@chuchur/koa-minify'); // lessæ’ä»¶
-const morgan = require('koa-morgan')
-// åˆ›å»ºåº”ç”¨
+const Koa = require("koa");
+const path = require("path");
+const fs = require("fs");
+const views = require("koa-views"); // Ä£°å²å¼ş
+const json = require("koa-json"); // json¸ñÊ½´¦ÀíÖĞ¼ä¼ş
+const onerror = require("koa-onerror"); // ´¦Àíkoa³ÌĞò´íÎó
+const koaBody = require("koa-body"); // ½âÎöbody´«ÊäÊı¾İ
+const passport = require("./middleware/passport");
+const session = require("koa-session");
+const cors = require("koa2-cors"); // ¿çÓòÖĞ¼ä¼ş
+const logger = require("koa-logger"); // ÈÕÖ¾Éú³ÉÖĞ¼ä¼ş
+const koaMinify = require("@chuchur/koa-minify"); // less²å¼ş
+const morgan = require("koa-morgan");
+// ´´½¨Ó¦ÓÃ
 const app = new Koa();
-// ä»£æ›¿koaé»˜è®¤é”™è¯¯æç¤º
-app.keys = ['zzkj_@123'];
+// ´úÌækoaÄ¬ÈÏ´íÎóÌáÊ¾
+app.keys = ["zzkj_@123"];
 
 const CONFIG = {
-    key: 'koa:sess', // åŠ å¯†key
-    // maxAge: 100, // è¿™ä¸ªæ˜¯ç¡®å®šcookieçš„æœ‰æ•ˆæœŸï¼Œé»˜è®¤æ˜¯ä¸€å¤©ã€‚
+    key: "koa:sess", // ¼ÓÃÜkey
+    // maxAge: 100, // Õâ¸öÊÇÈ·¶¨cookieµÄÓĞĞ§ÆÚ£¬Ä¬ÈÏÊÇÒ»Ìì¡£
     autoCommit: true,
-    /** (boolean è‡ªå®šä¹‰æäº¤å¤´ */
+    /** (boolean ×Ô¶¨ÒåÌá½»Í· */
     overwrite: true,
     /** (boolean) can overwrite or not (default true) */
-    httpOnly: true, // è¡¨ç¤ºæ˜¯å¦å¯ä»¥é€šè¿‡javascriptæ¥ä¿®æ”¹ï¼Œè®¾æˆtrueä¼šæ›´åŠ å®‰å…¨
+    httpOnly: true, // ±íÊ¾ÊÇ·ñ¿ÉÒÔÍ¨¹ıjavascriptÀ´ĞŞ¸Ä£¬Éè³Étrue»á¸ü¼Ó°²È«
     signed: true,
     /** (boolean) signed or not (default true) */
-    rolling: false, // (boolean) å¼ºåˆ¶åœ¨æ¯ä¸ªå“åº”ä¸Šè®¾ç½®ä¼šè¯æ ‡è¯†ç¬¦cookieã€‚è¿‡æœŸå°†é‡ç½®ä¸ºåŸå§‹maxAgeï¼Œé‡æ–°è®¾ç½®è¿‡æœŸå€’è®¡æ—¶
-    renew: false, // (boolean) å½“ä¼šè¯å¿«è¿‡æœŸæ—¶ç»­è®¢ä¼šè¯ï¼Œè¿™æ ·æˆ‘ä»¬å¯ä»¥å§‹ç»ˆä¿æŒç”¨æˆ·ç™»å½•
-}
-onerror(app)
-// è§£æsession
+    rolling: false, // (boolean) Ç¿ÖÆÔÚÃ¿¸öÏìÓ¦ÉÏÉèÖÃ»á»°±êÊ¶·ûcookie¡£¹ıÆÚ½«ÖØÖÃÎªÔ­Ê¼maxAge£¬ÖØĞÂÉèÖÃ¹ıÆÚµ¹¼ÆÊ±
+    renew: false // (boolean) µ±»á»°¿ì¹ıÆÚÊ±Ğø¶©»á»°£¬ÕâÑùÎÒÃÇ¿ÉÒÔÊ¼ÖÕ±£³ÖÓÃ»§µÇÂ¼
+};
+onerror(app);
+// ½âÎösession
 app.use(session(CONFIG, app));
 
-
-app.use(passport.initialize())
-app.use(passport.session())
-//è®¾ç½®è·¨åŸŸè¯·æ±‚
-app.use(cors({
-    origin: function (ctx) {
-        if (ctx.url === '/') { // è¿™è¾¹è®¾ç½®åœ¨è¿™ä¸ªurlä¸‹ä¸å…è®¸è·¨åŸŸ
-            return false;
-        }
-        return '*'; // è¿™è¾¹è®¾ç½®åªå…è®¸æŸä¸ªåŸŸåè¿›è¡Œè®¿é—®
-    },
-    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-    maxAge: 5,
-    credentials: true,
-    allowMethods: ['PUT, POST, GET, DELETE, OPTIONS'],
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept']
-}))
-
-// è§£æpostè¯·æ±‚bodyæºå¸¦å†…å®¹ è§£ææˆkey:valueå½¢å¼
-app.use(koaBody({
-    multipart: true,
-    formidable: {
-        maxFileSize: 200 * 1024 * 1024 // è®¾ç½®ä¸Šä¼ æ–‡ä»¶å¤§å°æœ€å¤§é™åˆ¶ï¼Œé»˜è®¤2M
-    }
-}));
-app.use(json())
-app.use(logger())
-console.log(process.env.NODE_ENV)
-if (process.env.NODE_ENV.indexOf('dev') > -1 ) {
-    // console.log("è¨ç§‘æŠ€å¤§å“ˆè¨å…‹è®²å¾—å¥½")
-    require('events').EventEmitter.defaultMaxListeners = 0; // è§£å†³lessæ–‡ä»¶æ ˆæº¢å‡º
-    app.use(morgan('dev'));
-    // lessè½¬åŒ–css
-    koaMinify(__dirname + '/assets', {
-        entry: __dirname + '/assets/less/main.less',
-        output: __dirname + '/assets/css/main.css'
+app.use(passport.initialize());
+app.use(passport.session());
+//ÉèÖÃ¿çÓòÇëÇó
+app.use(
+    cors({
+        origin: function(ctx) {
+            if (ctx.url === "/") {
+                // Õâ±ßÉèÖÃÔÚÕâ¸öurlÏÂ²»ÔÊĞí¿çÓò
+                return false;
+            }
+            return "*"; // Õâ±ßÉèÖÃÖ»ÔÊĞíÄ³¸öÓòÃû½øĞĞ·ÃÎÊ
+        },
+        exposeHeaders: ["WWW-Authenticate", "Server-Authorization"],
+        maxAge: 5,
+        credentials: true,
+        allowMethods: ["PUT, POST, GET, DELETE, OPTIONS"],
+        allowHeaders: ["Content-Type", "Authorization", "Accept"]
     })
+);
+
+// ½âÎöpostÇëÇóbodyĞ¯´øÄÚÈİ ½âÎö³Ékey:valueĞÎÊ½
+app.use(
+    koaBody({
+        multipart: true,
+        formidable: {
+            maxFileSize: 200 * 1024 * 1024 // ÉèÖÃÉÏ´«ÎÄ¼ş´óĞ¡×î´óÏŞÖÆ£¬Ä¬ÈÏ2M
+        }
+    })
+);
+app.use(json());
+app.use(logger());
+// console.log(process.env.NODE_ENV)
+if (process.env.NODE_ENV.indexOf("dev") > -1) {
+    // console.log("Èø¿Æ¼¼´ó¹şÈø¿Ë½²µÃºÃ")
+    require("events").EventEmitter.defaultMaxListeners = 0; // ½â¾ölessÎÄ¼şÕ»Òç³ö
+    app.use(morgan("dev"));
+    // less×ª»¯css
+    koaMinify(__dirname + "/assets", {
+        entry: __dirname + "/assets/less/main.less",
+        output: __dirname + "/assets/css/main.css"
+    });
 
     // logger
     app.use(async (ctx, next) => {
         const start = new Date();
         await next();
         const ms = new Date() - start;
-        console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
-    })
-    // console.log("å¼€å‘ç¯å¢ƒ")
+        console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
+    });
+    // console.log("¿ª·¢»·¾³")
 } else {
-    console.log("çº¿ä¸Šç¯å¢ƒ")
-    const logFileName = path.join(__dirname, 'logs', 'access.log')
+    console.log("ÏßÉÏ»·¾³");
+    const logFileName = path.join(__dirname, "logs", "access.log");
     const writeStream = fs.createWriteStream(logFileName, {
-        flags: 'a'
-    })
-    // console.log(logFileName, "æ’’å³å¯åˆ°å“ˆè¨å…‹æ¥å•å·æ˜¯")
-    app.use(morgan('combined', {
-        stream: writeStream
-    }));
+        flags: "a"
+    });
+    // console.log(logFileName, "Èö¼´¿Éµ½¹şÈø¿Ë½Óµ¥ºÅÊÇ")
+    app.use(
+        morgan("combined", {
+            stream: writeStream
+        })
+    );
 }
 
-app.use(require('koa-static')(__dirname, '/assets'))
+app.use(require("koa-static")(__dirname, "/assets"));
 
-// handlebars æ¨¡æ¿å‚æ•°è®¾ç½®
-const viewsParam = require('./views/index');
-app.use(views(__dirname + '/views', viewsParam));
+// handlebars Ä£°å²ÎÊıÉèÖÃ
+const viewsParam = require("./views/index");
+app.use(views(__dirname + "/views", viewsParam));
 
 // routes
-const router = require('./routes/index');
-app.use(router.routes())
-    .use(router.allowedMethods());
-
+const router = require("./routes/index");
+app.use(router.routes()).use(router.allowedMethods());
 
 module.exports = app;

@@ -2,7 +2,7 @@ const {getProducts, delProduct, showItem, newProduct, previewProduct, modifyProd
 const {SuccessModel, ErrorModel} = require('../config/model')
 const path = require('path');
 const fs = require('fs');
-
+const { base } = require("../utils/constant");
 module.exports = {
     'productsCenter': async (ctx, next) => {
         await ctx.render('productsCenter')
@@ -51,7 +51,7 @@ module.exports = {
             readStream.pipe(writeStream);
             // console.log(readStream.pipe(writeStream).path.split('\\'));
             const red = readStream.pipe(writeStream).path.split('\\');
-            const redPath = 'http://localhost:8000/'+ 'assets/' + 'img/' + red[red.length - 1];
+            const redPath = base + 'assets/' + 'img/' + red[red.length - 1];
             arr.push(redPath)
         })
         ctx.request.body.logo = arr[0]
@@ -89,7 +89,7 @@ module.exports = {
             readStream.pipe(writeStream);
             // console.log(readStream.pipe(writeStream).path.split('\\'));
             const red = readStream.pipe(writeStream).path.split('\\');
-            const redPath = 'http://localhost:8000/'+ 'assets/' + 'img/' + red[red.length - 1];
+            const redPath = base + 'assets/' + 'img/' + red[red.length - 1];
             if(item==='logo'){
                 arr['logo'] = redPath
             } else {

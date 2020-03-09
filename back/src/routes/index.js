@@ -40,15 +40,12 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/emp_info', department["emp_info"])
     .post('/api/change_status', department["change_status"])
     .post('/api/get_recruit', resuirc["get_recruit"]) //获取招聘信息
-    .post('/api/pcat_bak', resuirc["pcat_bak"]) //获取省市级信息
-    .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
+    .post('/api/pcat_bak', resuirc["pcat_bak"]) //获取省市级信�?    .post('/api/add_recruiter', resuirc["add_recruiter"]) //添加招聘信息
     .post('/api/edit_recruiter', resuirc["edit_recruiter"]) //编辑招聘信息
     .post('/api/detelte_recreit', resuirc["detelte_recreit"]) //删除招聘信息
-    .post('/api/enable_recreit', resuirc["enable_recreit"]) //启用或停用
-    .post('/api/adress_list', resuirc["adress_list"]) //获取地区管理列表
+    .post('/api/enable_recreit', resuirc["enable_recreit"]) //启用或停�?    .post('/api/adress_list', resuirc["adress_list"]) //获取地区管理列表
     .post('/api/adress_delete', resuirc["adress_delete"]) //地区管理 删除
-    .post('/api/adress_enable', resuirc["adress_enable"]) //地区管理 启用或停用
-    .post('/api/adress_add', resuirc["adress_add"]) //地区管理 添加
+    .post('/api/adress_enable', resuirc["adress_enable"]) //地区管理 启用或停�?    .post('/api/adress_add', resuirc["adress_add"]) //地区管理 添加
     .post('/api/adress_edit', resuirc["adress_edit"]) //地区管理 编辑
     .post('/api/get_recruit_List', resuirc['get_recruit_List'])//招聘信息分页
     .post('/api/get_classify', postApi["get_classify"])
@@ -62,24 +59,18 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/show_item', product['show_item']) //设置产品是否展示
     .post('/api/new_product', product['new_product']) //新增产品
     .get('/api/get_module', home['indexModule']) //模块管理
-    .get('/api/carousel_manage', carousel['carousel_manage']) //获取轮播图
-    .post('/api/change_module_number', home['changeModuleNumber']) //修改模块排序
-    .post('/api/change_module_status', home['changeModuleStatus']) //修改模块展示状态
-    .post('/api/set_carousel_link', carousel['set_carousel_link']) //设置轮播图跳转链接
-    .post('/api/set_carousel_timer', carousel['set_carousel_timer']) //设置轮播时间
-    .post('/api/del_carousel', carousel['del_carousel']) //删除轮播图
-    .post('/api/new_carousel', carousel['new_carousel']) //新增轮播图
-    .post('/api/preview_product', product['preview_product']) //预览产品
+    .get('/api/carousel_manage', carousel['carousel_manage']) //获取轮播�?    .post('/api/change_module_number', home['changeModuleNumber']) //修改模块排序
+    .post('/api/change_module_status', home['changeModuleStatus']) //修改模块展示状�?    .post('/api/set_carousel_link', carousel['set_carousel_link']) //设置轮播图跳转链�?    .post('/api/set_carousel_timer', carousel['set_carousel_timer']) //设置轮播时间
+    .post('/api/del_carousel', carousel['del_carousel']) //删除轮播�?    .post('/api/new_carousel', carousel['new_carousel']) //新增轮播�?    .post('/api/preview_product', product['preview_product']) //预览产品
     .post('/api/commit_modify',product['modify_product'])//修改产品
     .post('/api/communicate_list',communicate['communicate_list'])//公司交流列表
     .post('/api/edit_communicate_list',communicate['edit_communicate_list'])//编辑公司交流列表
     .post('/api/del_communicate_list',communicate['del_communicate_list'])//删除公司交流列表
-    .post('/api/enable_commu',communicate['enable_commu'])//隐藏或显示公司交流列表
-    .post('/api/get_communicate_list', communicate['get_communicate_list'])//分页展示公告列表
+    .post('/api/enable_commu',communicate['enable_commu'])//隐藏或显示公司交流列�?    .post('/api/get_communicate_list', communicate['get_communicate_list'])//分页展示公告列表
     .post('/api/get_communicate_detail', communicate['get_communicate_detail'])//公告详情
     // 招聘信息管理
     .get('/delivery/invite', invite['invite'])
-    // 公司简介
+    // 公司简�?    
     .get('/delivery/intro', intro['intro'])
     //企业文化
     .get('/delivery/culture', intro['intro'])
@@ -87,8 +78,7 @@ router.get('/delivery/*', async (ctx, next) => {
     .post('/api/get_rich', intro['get_rich'])
     .post('/api/insert_intro', intro['insert_intro'])
     .post('/api/render_html', intro['render_html'])
-    // 獲取展示首页状态
-    .get('/api/get_checked', intro['get_checked'])
+    // 獲取展示首页状�?    .get('/api/get_checked', intro['get_checked'])
     // 职位分类
     .get('/delivery/job', job['jobClass'])
     // 首页展示
@@ -115,12 +105,11 @@ router.get('/delivery/*', async (ctx, next) => {
     //产品中心[志强]
     .get('/delivery/helpContent', helpContent['helpContent'])
     .post('/api/get_products', product['get_products']) //获取产品信息
-    // 大事件
+    // 大事�?    
     .get('/delivery/events', events['events'])
     .post('/api/insert_event', events['insert_event']) // 插入事件
     .post('/api/del_event', events['del_event']) // 删除事件
-    .post('/api/get_events', events['get_events'])//获取大事记
-    // 公司交流 上传分享
+    .post('/api/get_events', events['get_events'])//获取大事�?    // 公司交流 上传分享
     .post('/api/up_talk', talk['up_talk'])
     .post('/api/talk_pic', talk['talk_pic'])
     .post('/api/re_talk', talk['re_talk'])
